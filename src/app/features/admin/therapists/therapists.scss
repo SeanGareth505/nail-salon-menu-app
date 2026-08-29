@@ -1,5 +1,67 @@
 td button { margin-right: 6px; }
-.pin-block { margin-top: var(--sf-space-4); padding-top: var(--sf-space-4); border-top: 1px solid var(--sf-border); }
-.pin-help { font-size: 0.85rem; color: var(--sf-ink-muted); margin-bottom: var(--sf-space-3); }
+
+.table-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--sf-space-3);
+}
+
+.admin-btn.small {
+  padding: 8px 14px;
+  font-size: 0.82rem;
+}
+
+.pin-block {
+  margin-top: var(--sf-space-4);
+  padding-top: var(--sf-space-4);
+  border-top: 1px solid var(--sf-border);
+}
+
+.pin-help {
+  font-size: 0.85rem;
+  color: var(--sf-ink-muted);
+  margin-bottom: var(--sf-space-3);
+  line-height: 1.55;
+}
+
+.pin-input-row {
+  display: flex;
+  gap: var(--sf-space-2);
+}
+
+.pin-input-row input {
+  flex: 1;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.2em;
+}
+
 .pin-action { display: flex; flex-direction: column; justify-content: flex-end; }
+
+.pin-note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--sf-ink-muted);
+  padding-top: 10px;
+}
+
 .pin-error { color: #a3453a; font-size: 0.85rem; margin-top: var(--sf-space-2); }
+
+.danger-text { color: #a3453a; margin-top: var(--sf-space-3); }
+
+.pin-cell { font-family: ui-monospace, monospace; }
+
+.pin-code {
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  color: var(--sf-forest);
+}
+
+.pin-mask {
+  letter-spacing: 0.12em;
+  color: var(--sf-ink-muted);
+}
+
+.pin-empty {
+  color: var(--sf-ink-muted);
+  font-size: 0.82rem;
+}

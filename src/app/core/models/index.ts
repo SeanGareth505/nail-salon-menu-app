@@ -3,6 +3,7 @@ export * from './salon-settings.model';
 export * from './category.model';
 export * from './treatment.model';
 export * from './therapist.model';
+export * from './therapist-staff-access.model';
 export * from './special.model';
 export * from './consent-field.model';
 export * from './consent-template.model';

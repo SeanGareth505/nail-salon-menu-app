@@ -45,6 +45,10 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /therapistStaffAccess/{therapistId} {
+      allow read, write: if isAdmin();
+    }
+
     match /specials/{docId} {
       allow read: if true;
       allow write: if isAdmin();
