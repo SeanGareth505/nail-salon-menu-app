@@ -15,7 +15,8 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { demoMeta } from './demo-catalogue.mjs';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD7oAK5uqxY6xueecZbp4AZiupp3ZT9-3w',
@@ -64,6 +65,7 @@ async function main() {
       { day: 'public_holiday', label: 'Public holidays', open: null, close: null, byAppointmentOnly: true },
     ],
     vatIncluded: true,
+    catalogueSource: 'demo',
   });
 
   await setDoc(doc(db, 'branding/default'), {
@@ -75,6 +77,7 @@ async function main() {
     surface: '#fffdf9',
     text: '#333333',
     logoUrl: '/assets/salonflow-logo.png',
+    ...demoMeta(),
   });
 
   const categories = [
@@ -84,7 +87,7 @@ async function main() {
     { id: 'waxing', name: 'Waxing', slug: 'waxing', icon: 'scissors', tint: 'sand', sortOrder: 4 },
   ];
   for (const c of categories) {
-    await setDoc(doc(db, 'categories', c.id), { ...c, active: true, ...aud(uid) });
+    await setDoc(doc(db, 'categories', c.id), { ...c, active: true, ...demoMeta(), ...aud(uid) });
   }
   console.log('Seeded categories');
 
@@ -115,7 +118,7 @@ async function main() {
     },
   ];
   for (const t of therapists) {
-    await setDoc(doc(db, 'therapists', t.id), { ...t, userId: null, pinEnabled: false, active: true, ...aud(uid) });
+    await setDoc(doc(db, 'therapists', t.id), { ...t, userId: null, pinEnabled: false, active: true, ...demoMeta(), ...aud(uid) });
   }
   console.log('Seeded therapists');
 
@@ -164,7 +167,7 @@ async function main() {
   for (const t of treatments) {
     await setDoc(doc(db, 'treatments', t.id), {
       ...t, slug: t.id, onSpecial: false, specialId: null, relatedTreatmentIds: [],
-      consentTemplateId: 'health-safety', active: true, sortOrder: 1, ...aud(uid),
+      consentTemplateId: 'health-safety', active: true, sortOrder: 1, ...demoMeta(), ...aud(uid),
     });
   }
   console.log('Seeded treatments');
@@ -180,7 +183,7 @@ async function main() {
       therapistIds: ['anja'], finePrint: 'One per client. Cannot be combined with other offers.', state: 'live' },
   ];
   for (const s of specials) {
-    await setDoc(doc(db, 'specials', s.id), { ...s, ...aud(uid) });
+    await setDoc(doc(db, 'specials', s.id), { ...s, ...demoMeta(), ...aud(uid) });
   }
   console.log('Seeded specials');
 
@@ -193,6 +196,7 @@ async function main() {
     currentPublishedVersionId: 'health-safety-v1',
     draftVersionId: null,
     active: true,
+    ...demoMeta(),
     ...aud(uid),
   });
 
@@ -222,11 +226,12 @@ async function main() {
       { key: 'skin_condition', type: 'yes_no', label: 'Do you currently have any rash, infection, inflammation or broken skin in the treatment area?', required: true, step: 'health_safety', sortOrder: 7 },
       { key: 'aftercare_ack', type: 'acknowledgement', label: 'Aftercare acknowledgement', bodyText: 'I understand and will follow the aftercare advice given by my therapist.', required: true, step: 'treatment_questions', sortOrder: 1 },
     ],
+    ...demoMeta(),
     ...aud(uid),
   });
   console.log('Seeded consent template + published v1');
 
-  console.log('\nDone. Sign in to /admin or /therapist with', ADMIN_EMAIL);
+  console.log('\nDone. Demo catalogue is ready — clear it from Admin › Salon details when you want to start from scratch.');
   process.exit(0);
 }
 

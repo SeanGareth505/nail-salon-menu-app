@@ -1,0 +1,20 @@
+{
+  "seedSource": "demo",
+  "categories": ["nails", "facials", "massage", "waxing"],
+  "therapists": ["lerato", "anja", "thandi", "zanele"],
+  "treatments": [
+    "gel-manicure",
+    "gel-pedicure",
+    "acrylic-full-set",
+    "acrylic-fill",
+    "hydrating-facial",
+    "full-body-swedish",
+    "aromatherapy-massage",
+    "hot-stone-massage",
+    "half-leg-wax",
+    "full-leg-wax"
+  ],
+  "specials": ["winter-glow", "gel-mani-pedi-duo"],
+  "consentTemplates": ["health-safety"],
+  "consentTemplateVersions": ["health-safety-v1"]
+}

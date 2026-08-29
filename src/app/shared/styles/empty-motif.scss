@@ -1,0 +1,38 @@
+.empty-motif {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7.5rem;
+  height: 7.5rem;
+  color: var(--sf-sage);
+  animation: sf-empty-motif-float 3.2s ease-in-out infinite;
+}
+
+.empty-motif__ring {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--sf-champagne-light);
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+.empty-motif__ring::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid var(--sf-sage-light);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+@keyframes sf-empty-motif-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty-motif {
+    animation: none;
+  }
+}

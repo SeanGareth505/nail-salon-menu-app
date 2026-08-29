@@ -42,11 +42,19 @@ npm run deploy
 ## First-time data setup
 
 1. Create your admin in Firebase Console → Authentication → Add user
-2. Seed demo catalogue data:
+2. Load the **demo catalogue** (sample menu, therapists, specials) to explore the app:
 
 ```bash
-ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=your-password npm run seed
+ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=your-password npm run seed:demo
 ```
+
+3. When you are ready to use your real salon data, open **Admin › Salon details** and click **Start from scratch**, or run:
+
+```bash
+ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=your-password npm run reset:demo
+```
+
+Demo seed is safe to re-run — it refreshes the sample catalogue. Reset removes demo items and clears salon details so you can build your own menu.
 
 ## Routes
 

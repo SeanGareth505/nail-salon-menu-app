@@ -21,4 +21,5 @@ export interface SalonSettings {
   mapLng?: number;
   hours: SalonHours[];
   vatIncluded: boolean;
+  catalogueSource?: 'demo' | 'custom';
 }

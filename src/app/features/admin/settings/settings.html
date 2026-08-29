@@ -1,6 +1,26 @@
 <div class="admin-page">
   <header class="admin-head"><div><h1>Salon details</h1><p>Shown across the public site and consultation flows</p></div></header>
 
+  @if (isDemoCatalogue()) {
+    <section class="demo-banner">
+      <div>
+        <p class="demo-label">Demo catalogue active</p>
+        <p class="demo-copy">Sample treatments, therapists, and specials are loaded so you can explore SalonFlow. When you are ready, start from scratch and add your own menu.</p>
+      </div>
+      <button type="button" class="admin-btn danger" [disabled]="resetting()" (click)="startFromScratch()">
+        {{ resetting() ? 'Clearing…' : 'Start from scratch' }}
+      </button>
+    </section>
+  } @else {
+    <section class="demo-banner custom">
+      <p class="demo-copy">Your catalogue is yours to build. Add categories, treatments, therapists, and specials from the admin menu.</p>
+    </section>
+  }
+
+  @if (resetError()) {
+    <p class="reset-error">{{ resetError() }}</p>
+  }
+
   <div class="admin-form">
     <h2>Identity</h2>
     <div class="admin-row-2">

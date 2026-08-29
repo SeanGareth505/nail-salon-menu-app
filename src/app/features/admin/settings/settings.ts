@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { SalonSettingsService } from '../../../core/services/salon-settings.service';
+import { DemoDataService } from '../../../core/services/demo-data.service';
+import { BLANK_SALON_HOURS, BLANK_SALON_SETTINGS } from '../../../core/demo/demo-catalogue.constants';
 import { SalonHours, SalonSettings } from '../../../core/models';
 import {
   DEFAULT_SALON_CITY,
@@ -9,13 +11,6 @@ import {
   DEFAULT_SALON_SUBTEXT,
   DEFAULT_SALON_TAGLINE,
 } from '../../../core/services/salon-identity.service';
-
-const DEFAULT_HOURS: SalonHours[] = [
-  { day: 'monday', label: 'Monday – Friday', open: '09:00', close: '18:00' },
-  { day: 'saturday', label: 'Saturday', open: '09:00', close: '16:00' },
-  { day: 'sunday', label: 'Sunday', open: '10:00', close: '14:00' },
-  { day: 'public_holiday', label: 'Public holidays', open: null, close: null, byAppointmentOnly: true },
-];
 
 @Component({
   selector: 'app-settings',
@@ -27,6 +22,7 @@ const DEFAULT_HOURS: SalonHours[] = [
 })
 export class Settings {
   private readonly settingsSvc = inject(SalonSettingsService);
+  private readonly demoDataSvc = inject(DemoDataService);
   private readonly remote = toSignal(this.settingsSvc.get(), { initialValue: undefined });
 
   readonly form = signal<Partial<SalonSettings>>({
@@ -34,10 +30,13 @@ export class Settings {
     tagline: DEFAULT_SALON_TAGLINE,
     subtext: DEFAULT_SALON_SUBTEXT,
     city: DEFAULT_SALON_CITY,
-    hours: DEFAULT_HOURS,
+    hours: BLANK_SALON_HOURS,
     vatIncluded: true,
   });
   readonly saved = signal(false);
+  readonly resetting = signal(false);
+  readonly resetError = signal('');
+  readonly isDemoCatalogue = computed(() => this.remote()?.catalogueSource === 'demo');
   private loaded = false;
 
   constructor() {
@@ -45,7 +44,7 @@ export class Settings {
       const s = this.remote();
       if (s && !this.loaded) {
         this.loaded = true;
-        this.form.set({ ...s, hours: s.hours?.length ? s.hours : DEFAULT_HOURS });
+        this.form.set({ ...s, hours: s.hours?.length ? s.hours : BLANK_SALON_HOURS });
       }
     });
   }
@@ -66,5 +65,24 @@ export class Settings {
     await this.settingsSvc.save(value);
     this.saved.set(true);
     setTimeout(() => this.saved.set(false), 2500);
+  }
+
+  async startFromScratch(): Promise<void> {
+    const confirmed = confirm(
+      'Remove all demo treatments, therapists, specials, and sample salon details? You can then add your own menu from scratch.',
+    );
+    if (!confirmed) return;
+
+    this.resetError.set('');
+    this.resetting.set(true);
+    try {
+      await this.demoDataSvc.clearDemoCatalogueAndStartFresh();
+      this.loaded = false;
+      this.form.set({ ...BLANK_SALON_SETTINGS });
+    } catch {
+      this.resetError.set('Could not clear demo data. Check your connection and try again.');
+    } finally {
+      this.resetting.set(false);
+    }
   }
 }

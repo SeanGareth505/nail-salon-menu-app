@@ -1,15 +1,29 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { EMPTY_MOTIF_ASSET, LottieAssetKey } from '../../../core/motion/lottie-assets';
-import { SfLottiePlayer } from '../lottie-player/lottie-player';
+import { SfIcon } from '../icon/icon';
+
+const MOTIF_ICONS: Record<string, string> = {
+  specials: 'specials',
+  treatments: 'treatments',
+  droplet: 'droplet',
+  records: 'records',
+  calendar: 'calendar',
+  clients: 'clients',
+  team: 'team',
+  search: 'search',
+  check: 'check',
+};
 
 @Component({
   selector: 'sf-empty-state',
   standalone: true,
-  imports: [SfLottiePlayer],
+  imports: [SfIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="empty">
-      <sf-lottie [asset]="asset()" width="160px" height="160px" [loop]="true" [speed]="0.85" />
+      <div class="empty-motif" aria-hidden="true">
+        <span class="empty-motif__ring"></span>
+        <sf-icon [name]="iconName()" [size]="44" />
+      </div>
       <h3>{{ title() }}</h3>
       @if (message()) {
         <p>{{ message() }}</p>
@@ -17,6 +31,7 @@ import { SfLottiePlayer } from '../lottie-player/lottie-player';
       <ng-content />
     </div>
   `,
+  styleUrls: ['../../styles/empty-motif.scss'],
   styles: [`
     .empty {
       display: flex;
@@ -41,13 +56,5 @@ export class SfEmptyState {
   readonly title = input<string>('Nothing here yet');
   readonly message = input<string>('');
 
-  readonly asset = computed<LottieAssetKey>(() => {
-    const icon = this.icon();
-    if (icon === 'specials') return 'emptySpecials';
-    if (icon === 'treatments' || icon === 'droplet') return 'emptyTreatments';
-    if (icon === 'records' || icon === 'calendar') return 'emptyConsultations';
-    if (icon === 'clients' || icon === 'team') return 'emptyGeneric';
-    if (icon === 'search') return 'emptySearch';
-    return EMPTY_MOTIF_ASSET[icon] ?? 'emptyGeneric';
-  });
+  readonly iconName = computed(() => MOTIF_ICONS[this.icon()] ?? 'leaf');
 }

@@ -8,6 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "seed": "node scripts/seed.mjs",
+    "seed:demo": "node scripts/seed.mjs",
+    "reset:demo": "node scripts/reset-demo-catalogue.mjs",
     "lottie:theme": "node scripts/themed-lottie.mjs",
     "lottie:salon-loader": "node scripts/generate-salon-loader.mjs",
     "firebase:rules": "npx firebase-tools deploy --only firestore:rules,firestore:indexes,storage",

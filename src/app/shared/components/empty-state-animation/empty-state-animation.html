@@ -1,5 +1,8 @@
 <div class="empty-animated">
-  <sf-lottie [asset]="asset()" width="200px" height="200px" [loop]="true" [speed]="0.85" />
+  <div class="empty-motif" aria-hidden="true">
+    <span class="empty-motif__ring"></span>
+    <sf-icon [name]="iconName()" [size]="48" />
+  </div>
   <h3>{{ title() }}</h3>
   @if (message()) {
     <p>{{ message() }}</p>
