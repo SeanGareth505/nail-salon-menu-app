@@ -1,0 +1,8 @@
+<div class="empty-animated">
+  <sf-lottie [asset]="asset()" width="200px" height="200px" [loop]="true" [speed]="0.85" />
+  <h3>{{ title() }}</h3>
+  @if (message()) {
+    <p>{{ message() }}</p>
+  }
+  <ng-content />
+</div>

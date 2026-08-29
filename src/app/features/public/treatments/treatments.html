@@ -1,0 +1,59 @@
+<section class="sf-page-hero sf-motion-fade-in">
+  <h1>Treatments</h1>
+  <p class="sub">{{ filtered().length }} treatments · prices include VAT</p>
+</section>
+
+<div class="sf-container sf-public-page page">
+  <div class="search-row">
+    <div class="search-box">
+      <sf-icon name="search" [size]="18" />
+      <input type="search" placeholder="Search treatments…" [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
+    </div>
+    <button type="button" class="filter-toggle" (click)="toggleRefine()" [class.active]="showRefine()">
+      <sf-icon name="sliders" [size]="18" />
+    </button>
+  </div>
+
+  <div class="chip-row">
+    <button type="button" class="chip" [class.active]="activeCategorySlug() === 'all'" (click)="selectCategory('all')">All</button>
+    @for (c of categories(); track c.id) {
+      <button type="button" class="chip" [class.active]="activeCategorySlug() === c.slug" (click)="selectCategory(c.slug)">{{ c.name }}</button>
+    }
+  </div>
+
+  @if (showRefine()) {
+    <div class="refine" @expandCollapse>
+      <p class="sf-eyebrow">Refine</p>
+      <div class="refine-row">
+        <button type="button" class="chip" [class.active]="durationFilter() === 'any'" (click)="durationFilter.set('any'); onFilterChange()">Any duration</button>
+        <button type="button" class="chip" [class.active]="durationFilter() === 'under45'" (click)="durationFilter.set('under45'); onFilterChange()">Under 45 min</button>
+      </div>
+      <div class="refine-row">
+        <button type="button" class="chip" [class.active]="priceFilter()" (click)="priceFilter.set(!priceFilter()); onFilterChange()">Under R500</button>
+        <button type="button" class="chip" [class.active]="specialFilter()" (click)="specialFilter.set(!specialFilter()); onFilterChange()">On special</button>
+      </div>
+    </div>
+  }
+
+  @if (!treatments().length && !categories().length) {
+    <sf-skeleton variant="treatment-card" [count]="5" />
+  } @else {
+    <div class="sf-list-swap" [attr.data-list-key]="listKey()">
+      @for (group of grouped(); track group.name) {
+        <section class="group">
+          <div class="group-head">
+            <p class="group-label">{{ group.name }}</p>
+            <div class="group-line"></div>
+          </div>
+          <div class="list-plain">
+            @for (t of group.items; track t.id) {
+              <sf-treatment-card [treatment]="t" layout="menu" />
+            }
+          </div>
+        </section>
+      } @empty {
+        <sf-empty-state-animation motif="search" title="No treatments match" message="Try a different search term or clear the filters." />
+      }
+    </div>
+  }
+</div>

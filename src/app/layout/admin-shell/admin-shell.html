@@ -1,0 +1,26 @@
+<div class="shell">
+  <sf-admin-sidebar />
+  <div class="main">
+    <header class="topbar">
+      <h1>{{ pageTitle() }}</h1>
+      @if (isDashboard()) {
+        <div class="search">
+          <sf-icon name="search" [size]="16" />
+          <input type="search" placeholder="Search clients, consultations…" aria-label="Search" />
+        </div>
+        <div class="actions">
+          <select aria-label="Date range">
+            <option>This month</option>
+            <option>Last 7 days</option>
+            <option>This week</option>
+          </select>
+          <select aria-label="Therapist">
+            <option>All therapists</option>
+          </select>
+          <button type="button" class="export">Export</button>
+        </div>
+      }
+    </header>
+    <main class="content"><router-outlet /></main>
+  </div>
+</div>

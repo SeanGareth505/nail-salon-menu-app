@@ -1,0 +1,10 @@
+.stats-row { display: grid; grid-template-columns: repeat(2, 1fr); margin-bottom: var(--sf-space-5); }
+.stats-row > * { border-right: 1px solid var(--sf-border); border-bottom: 1px solid var(--sf-border); }
+.breakdown { padding: var(--sf-space-5); }
+.breakdown h2 { font-size: 1rem; margin-bottom: var(--sf-space-4); }
+.bar-row { display: grid; grid-template-columns: 160px 1fr 40px; align-items: center; gap: var(--sf-space-3); padding: var(--sf-space-2) 0; }
+.name { font-size: 0.88rem; }
+.track { height: 8px; background: var(--sf-sand); border-radius: 4px; overflow: hidden; }
+.fill { display: block; height: 100%; background: var(--sf-sage); }
+.count { text-align: right; font-weight: 600; font-size: 0.85rem; }
+@media (min-width: 900px) { .stats-row { grid-template-columns: repeat(4, 1fr); } }

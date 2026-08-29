@@ -1,0 +1,10 @@
+<div class="offline-banner" role="status" aria-live="polite">
+  <sf-lottie asset="offline" width="56px" height="56px" [loop]="true" [speed]="0.8" />
+  <div class="copy">
+    <strong>{{ title() }}</strong>
+    <span>{{ reconnecting() ? 'We\'ll retry automatically.' : message() }}</span>
+  </div>
+  @if (!reconnecting()) {
+    <button type="button" class="retry" (click)="retry.emit()">Retry</button>
+  }
+</div>

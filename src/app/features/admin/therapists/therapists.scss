@@ -1,0 +1,5 @@
+td button { margin-right: 6px; }
+.pin-block { margin-top: var(--sf-space-4); padding-top: var(--sf-space-4); border-top: 1px solid var(--sf-border); }
+.pin-help { font-size: 0.85rem; color: var(--sf-ink-muted); margin-bottom: var(--sf-space-3); }
+.pin-action { display: flex; flex-direction: column; justify-content: flex-end; }
+.pin-error { color: #a3453a; font-size: 0.85rem; margin-top: var(--sf-space-2); }

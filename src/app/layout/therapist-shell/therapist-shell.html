@@ -1,0 +1,8 @@
+<div class="shell" [class.wizard]="isWizard()">
+  @if (!isWizard()) {
+    <sf-therapist-rail />
+  }
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

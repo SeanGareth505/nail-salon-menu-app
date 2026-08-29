@@ -1,0 +1,66 @@
+@if (client(); as c) {
+  <div class="page" [class.admin-page]="isAdminView()">
+    <header class="page-head">
+      <a [routerLink]="backLink()" class="back-link">← Back</a>
+      <div class="head-main">
+        <span class="avatar">{{ c.fullName.charAt(0) }}</span>
+        <div>
+          <h1>{{ c.fullName }}</h1>
+          <p class="meta">{{ c.phone }} @if (c.email) { · {{ c.email }} }</p>
+          @if (c.lastConsultationAt) {
+            <p class="meta subtle">Last visit {{ c.lastConsultationAt | date: 'MMM d, y' }} · {{ c.totalConsultations }} consultation(s)</p>
+          }
+        </div>
+      </div>
+      @if (!isAdminView()) {
+        <a [routerLink]="['/therapist/consultations/new']" class="cta">New consultation</a>
+      }
+    </header>
+
+    @if (c.notes) {
+      <div class="sf-card notes"><p class="sf-eyebrow">Notes</p><p>{{ c.notes }}</p></div>
+    }
+
+    <section>
+      <h2>Consultation history</h2>
+      <div class="sf-card list">
+        @for (con of consultations(); track con.id) {
+          <div class="row">
+            <span class="body">
+              <span class="name">{{ con.treatmentName }}</span>
+              <span class="sub">{{ con.startedAt | date: 'MMM d, y · HH:mm' }} · {{ con.therapistName }}</span>
+            </span>
+            <sf-state-pill [tone]="pillTone(con.status)">{{ con.status.replace('_',' ') }}</sf-state-pill>
+          </div>
+        } @empty {
+          <sf-empty-state icon="records" title="No consultations yet" [message]="isAdminView() ? 'This client has no recorded consultations.' : 'Start this client\'s first consultation from the button above.'" />
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>Consent records</h2>
+      <div class="sf-card list">
+        @for (sub of submissions(); track sub.id) {
+          <div class="row">
+            <span class="body">
+              <span class="name">Version {{ sub.templateVersionNumber }} · {{ sub.status }}</span>
+              <span class="sub">
+                @if (formatWhen(sub.createdAt); as when) {
+                  {{ when | date: 'MMM d, y · HH:mm' }} ·
+                }
+                {{ sub.answers.length }} answer(s)
+              </span>
+              @if (sub.requiresTherapistReview) { <span class="flag">Review required</span> }
+            </span>
+            <sf-state-pill [tone]="pillTone(sub.status)">{{ sub.status }}</sf-state-pill>
+          </div>
+        } @empty {
+          <sf-empty-state icon="records" title="No consent forms" message="Signed consent submissions will appear here." />
+        }
+      </div>
+    </section>
+  </div>
+} @else {
+  <div class="page"><p>Loading…</p></div>
+}

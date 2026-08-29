@@ -1,0 +1,68 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div><h1>Therapists</h1><p>{{ therapists().length }} therapists</p></div>
+    <button type="button" class="admin-btn" (click)="startNew()">Add therapist</button>
+  </header>
+
+  @if (editing(); as d) {
+    <div class="admin-form">
+      <h2>{{ isNew() ? 'New therapist' : 'Edit therapist' }}</h2>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
+        <div class="admin-field"><label>Role</label><input [(ngModel)]="d.role" placeholder="e.g. Senior Therapist" /></div>
+      </div>
+      <div class="admin-field"><label>Bio</label><textarea rows="3" [(ngModel)]="d.bio"></textarea></div>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Experience (years)</label><input type="number" [(ngModel)]="d.experienceYears" /></div>
+        <div class="admin-field"><label>Qualification</label><input [(ngModel)]="d.qualification" /></div>
+      </div>
+      <div class="admin-field"><label>Expertise (comma separated)</label><input [ngModel]="expertiseInput()" (ngModelChange)="expertiseInput.set($event)" /></div>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Tint</label>
+          <select [(ngModel)]="d.tint">@for (t of tints; track t) { <option [value]="t">{{ t }}</option> }</select>
+        </div>
+        <div class="admin-field"><label>Avatar initial</label><input [(ngModel)]="d.initial" maxlength="2" /></div>
+      </div>
+      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active</label>
+      @if (!isNew() && d.id) {
+        <div class="pin-block">
+          <p class="pin-help">Therapist sign-in — set a 6-digit PIN for the therapist area (<code>/login/therapist</code>).</p>
+          <div class="admin-row-2">
+            <div class="admin-field">
+              <label>{{ d.pinEnabled ? 'New PIN (6 digits)' : 'Set PIN (6 digits)' }}</label>
+              <input type="password" inputmode="numeric" maxlength="6" [ngModel]="tabletPin()" (ngModelChange)="tabletPin.set($event)" />
+            </div>
+            <div class="admin-field pin-action">
+              <label>&nbsp;</label>
+              <button type="button" class="admin-btn" [disabled]="pinSaving()" (click)="enableTabletAccess(d.id!, tabletPin())">
+                {{ d.pinEnabled ? 'Update PIN' : 'Enable PIN sign-in' }}
+              </button>
+            </div>
+          </div>
+          @if (d.pinEnabled) { <span class="admin-badge on">PIN active</span> }
+          @if (pinError()) { <p class="pin-error">{{ pinError() }}</p> }
+        </div>
+      }
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        <button type="button" class="admin-btn" (click)="save()">Save</button>
+      </div>
+    </div>
+  }
+
+  <table class="admin-table">
+    <thead><tr><th>Name</th><th>Role</th><th>Experience</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      @for (t of therapists(); track t.id) {
+        <tr>
+          <td>{{ t.name }}</td><td>{{ t.role }}</td><td>{{ t.experienceYears }} yrs</td>
+          <td>
+            <span class="admin-badge" [class.on]="t.active" [class.off]="!t.active">{{ t.active ? 'Active' : 'Hidden' }}</span>
+            @if (t.pinEnabled) { <span class="admin-badge on">PIN</span> }
+          </td>
+          <td><button type="button" class="admin-btn ghost" (click)="edit(t)">Edit</button><button type="button" class="admin-btn danger" (click)="remove(t)">Delete</button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

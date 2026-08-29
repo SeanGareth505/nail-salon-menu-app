@@ -1,0 +1,31 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div><h1>Consultations</h1><p>{{ filtered().length }} shown</p></div>
+    <select [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event)" class="filter-select">
+      <option value="all">All</option>
+      <option value="flagged">Flagged</option>
+      <option value="incomplete">Incomplete</option>
+      <option value="complete">Complete</option>
+    </select>
+  </header>
+
+  <table class="admin-table">
+    <thead><tr><th>Client</th><th>Treatment</th><th>Therapist</th><th>Date</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      @for (c of filtered(); track c.id) {
+        <tr>
+          <td><a [routerLink]="['/admin/clients', c.clientId]">{{ c.clientName }}</a></td>
+          <td>{{ c.treatmentName }}</td>
+          <td>{{ c.therapistName }}</td>
+          <td>{{ c.startedAt | date: 'MMM d, y HH:mm' }}</td>
+          <td><span class="admin-badge" [class.on]="c.status === 'complete'" [class.off]="c.status !== 'complete'">{{ c.status.replace('_',' ') }}</span></td>
+          <td>
+            @if (c.status === 'flagged') {
+              <button type="button" class="admin-btn ghost" (click)="markReviewed(c.id, c.consentSubmissionId)">Mark reviewed</button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

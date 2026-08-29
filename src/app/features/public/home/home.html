@@ -1,0 +1,82 @@
+<section class="hero">
+  <div class="hero-panel" sfReveal>
+    <div class="hero-frame"></div>
+    <span class="sf-eyebrow hero-kicker">Welcome to</span>
+  </div>
+  <div class="hero-card sf-card" sfReveal [sfRevealDelay]="1">
+    <div class="logo-mark">
+      <img [src]="identity.logoUrl()" [alt]="identity.name()" class="logo-img" />
+    </div>
+    <p class="sf-script tagline sf-motion-fade-in" style="animation-delay: 140ms">{{ identity.tagline() }}</p>
+    <p class="welcome-copy sf-motion-fade-in" style="animation-delay: 200ms">
+      Welcome in. Browse the full treatment menu, this week's specials and the team looking after you today.
+    </p>
+    <a routerLink="/treatments" class="cta-primary sf-motion-rise-in" style="animation-delay: 260ms">Explore Treatments <sf-icon name="arrow-right" [size]="16" /></a>
+    <a routerLink="/specials" class="cta-secondary sf-motion-fade-in" style="animation-delay: 320ms">View Specials</a>
+  </div>
+</section>
+
+<section class="section" sfReveal [sfRevealDelay]="2">
+  <div class="section-head">
+    <h2>Browse by category</h2>
+  </div>
+  <div class="categories">
+    @for (category of categories(); track category.id; let i = $index) {
+      <div sfReveal [sfRevealDelay]="i + 3"><sf-category-tile [category]="category" /></div>
+    }
+  </div>
+</section>
+
+@if (liveSpecial(); as special) {
+  <section class="section" sfReveal [sfRevealDelay]="3">
+    <div class="section-head">
+      <h2>On this week</h2>
+      <a routerLink="/specials" class="link">All specials <sf-icon name="arrow-right" [size]="14" /></a>
+    </div>
+    <sf-special-card [special]="special" />
+  </section>
+}
+
+<section class="section" sfReveal [sfRevealDelay]="4">
+  <div class="section-head">
+    <h2>Featured treatments</h2>
+  </div>
+  <div class="list-plain">
+    @for (t of featuredTreatments(); track t.id) {
+      <sf-treatment-card [treatment]="t" layout="featured" tint="blush" icon="droplet" />
+    } @empty {
+      <sf-empty-state-animation motif="treatments" title="Menu coming soon" message="Treatments will appear here once they're added." />
+    }
+  </div>
+</section>
+
+<section class="section" sfReveal [sfRevealDelay]="5">
+  <div class="section-head">
+    <h2>Meet our therapists</h2>
+    <a routerLink="/therapists" class="link">The team <sf-icon name="arrow-right" [size]="14" /></a>
+  </div>
+  <div class="avatar-row">
+    @for (t of featuredTherapists(); track t.id; let i = $index) {
+      <a class="avatar sf-motion-rise-in" [style.animation-delay]="(i * 60) + 'ms'" [routerLink]="['/therapists', t.id]" [class]="'tint-' + t.tint">
+        <span>{{ t.initial }}</span>
+        <span class="name">{{ t.name.split(' ')[0] }}</span>
+        <span class="role">{{ t.role }}</span>
+      </a>
+    }
+  </div>
+</section>
+
+@if (settings(); as s) {
+  <section class="section location-section" sfReveal [sfRevealDelay]="6">
+    <div class="location-card">
+      <h3>{{ s.name || identity.name() }} {{ (s.city || identity.city()) ? '· ' + (s.city || identity.city()) : '' }}</h3>
+      <p>{{ s.addressLine1 }}<br />{{ s.addressLine2 }}</p>
+      <p class="open"><span class="dot"></span> {{ openStatusLabel() }}</p>
+      <div class="actions">
+        <a class="action call" [href]="'tel:' + s.phone"><sf-icon name="phone" [size]="18" />Call</a>
+        <a class="action whatsapp" [href]="'https://wa.me/' + s.whatsapp"><sf-icon name="whatsapp" [size]="18" />WhatsApp</a>
+        <a class="action directions" routerLink="/contact"><sf-icon name="map-pin" [size]="18" />Directions</a>
+      </div>
+    </div>
+  </section>
+}

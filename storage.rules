@@ -1,0 +1,51 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isTherapistAuth() {
+      return isSignedIn()
+        && request.auth.token.email.matches('^t-.+@staff\\.salonflow\\.internal$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && !isTherapistAuth();
+    }
+
+    function isStaff() {
+      return isAdmin() || isTherapistAuth();
+    }
+
+    match /signatures/{fileName} {
+      allow read: if isStaff();
+      allow write: if isStaff()
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /consultation-images/{consultationId}/{fileName} {
+      allow read: if isStaff();
+      allow write: if isStaff()
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /branding/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /catalogue/{path=**} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

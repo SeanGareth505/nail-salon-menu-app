@@ -1,0 +1,116 @@
+// SalonFlow motion system — durations, easings and shared keyframes.
+// Everything animatable in the app should reference these tokens rather
+// than hard-coding a duration/easing, so motion stays consistent and a
+// single place controls the whole app's "feel".
+//
+// Timing scale (per product spec):
+//   fast    120-180ms  micro-interactions (press, toggle, small icon state)
+//   normal  180-280ms  standard UI transitions (hover, filter swap, reveal)
+//   slow    220-320ms  dialog / sheet / navigation transitions
+//   brand   up to ~1100ms  branded/success moments (splash, consultation complete)
+
+:root {
+  --sf-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --sf-ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --sf-ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  --sf-dur-fast: 150ms;
+  --sf-dur-normal: 220ms;
+  --sf-dur-slow: 280ms;
+  --sf-dur-brand: 900ms;
+  --sf-stagger-delay: 60ms;
+
+  // Small, consistent entrance offset -- never large enough to feel like a
+  // "slide", just enough to read as a gentle lift.
+  --sf-lift: 10px;
+}
+
+// Respect the user's OS-level motion preference everywhere. This collapses
+// every duration to effectively-instant so JS-timed sequences (splash,
+// reveal, stagger) fall back to a plain, immediate state change rather
+// than skipping visibility entirely.
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sf-dur-fast: 1ms;
+    --sf-dur-normal: 1ms;
+    --sf-dur-slow: 1ms;
+    --sf-dur-brand: 1ms;
+    --sf-lift: 0px;
+    --sf-stagger-delay: 0ms;
+  }
+}
+
+@keyframes sf-shimmer {
+  0% { background-position: -140% 0; }
+  100% { background-position: 140% 0; }
+}
+
+@keyframes sf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sf-rise-in {
+  from { opacity: 0; transform: translateY(var(--sf-lift)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sf-scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes sf-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sf-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+// Utility classes -- used from component templates where a full Angular
+// animation trigger would be overkill (a one-off reveal, a spinner, etc).
+.sf-motion-fade-in {
+  animation: sf-fade-in var(--sf-dur-normal) var(--sf-ease-enter) both;
+}
+.sf-motion-rise-in {
+  animation: sf-rise-in var(--sf-dur-normal) var(--sf-ease-enter) both;
+}
+.sf-motion-scale-in {
+  animation: sf-scale-in var(--sf-dur-normal) var(--sf-ease-enter) both;
+}
+
+.sf-motion-card {
+  transition: transform var(--sf-dur-fast) var(--sf-ease-standard), box-shadow var(--sf-dur-fast) var(--sf-ease-standard);
+}
+
+.sf-field-error {
+  color: #a3453a;
+  font-size: 0.82rem;
+  margin-top: var(--sf-space-1);
+  animation: sf-motion-rise-in var(--sf-dur-fast) var(--sf-ease-enter) both;
+}
+
+.sf-btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.sf-btn-loading::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  display: inline-block;
+  vertical-align: -2px;
+  animation: sf-spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-motion-fade-in, .sf-motion-rise-in, .sf-motion-scale-in {
+    animation: none;
+  }
+}

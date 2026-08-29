@@ -1,0 +1,12 @@
+.page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--sf-ivory); padding: var(--sf-space-4); }
+.card { width: 100%; max-width: 380px; padding: var(--sf-space-6); text-align: center; }
+.mark { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--sf-champagne); color: var(--sf-champagne); display: flex; align-items: center; justify-content: center; font-family: var(--sf-font-display); margin: 0 auto var(--sf-space-3); }
+.subtitle { color: var(--sf-ink-muted); margin-bottom: var(--sf-space-5); }
+.field { text-align: left; margin-bottom: var(--sf-space-3); }
+.field label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px; }
+.field input { width: 100%; padding: 12px 14px; border-radius: var(--sf-radius-sm); border: 1.5px solid var(--sf-border); font-family: var(--sf-font-body); }
+.error { color: #a3453a; font-size: 0.85rem; margin-bottom: var(--sf-space-2); }
+.submit { width: 100%; background: var(--sf-forest); color: #fff; border: none; padding: 13px; border-radius: var(--sf-radius-pill); font-weight: 600; cursor: pointer; margin-top: var(--sf-space-2); }
+.submit:disabled { opacity: 0.6; }
+.therapist-link { display: inline-block; margin-top: var(--sf-space-3); color: var(--sf-forest); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+.back { display: inline-block; margin-top: var(--sf-space-4); color: var(--sf-ink-muted); text-decoration: none; font-size: 0.85rem; }

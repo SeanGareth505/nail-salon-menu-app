@@ -1,0 +1,8 @@
+<sf-branded-splash />
+@if (!online()) {
+  <div class="offline-shell">
+    <sf-offline-state />
+  </div>
+}
+<router-outlet />
+<sf-pwa-update-banner />

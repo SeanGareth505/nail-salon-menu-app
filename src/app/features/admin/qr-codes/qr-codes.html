@@ -1,0 +1,22 @@
+<div class="admin-page">
+  <header class="admin-head"><div><h1>QR codes</h1><p>Print these at reception, on treatment cards, or in the window</p></div></header>
+
+  <div class="admin-form">
+    <div class="admin-field"><label>Site URL</label><input [ngModel]="baseUrl()" (ngModelChange)="baseUrl.set($event)" (blur)="regenerateAll()" /></div>
+  </div>
+
+  <div class="grid">
+    @for (p of presets; track p.path) {
+      <div class="qr-card sf-card">
+        @if (imageFor(p.path); as img) {
+          <img [src]="img" [alt]="p.label" />
+        }
+        <p class="label">{{ p.label }}</p>
+        <p class="url">{{ fullUrl(p.path) }}</p>
+        @if (imageFor(p.path); as img) {
+          <button type="button" class="admin-btn ghost" (click)="download(img, p.label.toLowerCase() + '-qr.png')">Download PNG</button>
+        }
+      </div>
+    }
+  </div>
+</div>

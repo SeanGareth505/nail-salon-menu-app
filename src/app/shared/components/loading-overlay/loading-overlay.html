@@ -1,0 +1,11 @@
+<div class="overlay" [class.inline]="inline()" role="status" aria-live="polite">
+  <div class="panel sf-motion-scale-in">
+    <sf-salon-loader size="overlay" />
+    <p>{{ message() }}</p>
+    @if (progress() !== null) {
+      <div class="progress-track">
+        <span class="progress-fill" [style.width.%]="progress()"></span>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="skeleton-wrap" role="status" [attr.aria-label]="ariaLabel()">
+  @switch (variant()) {
+    @case ('treatment-card') {
+      @for (i of repeat(); track i) {
+        <div class="treatment-row">
+          <span class="sf-skeleton-surface icon"></span>
+          <span class="body">
+            <span class="sf-skeleton-surface line w-70"></span>
+            <span class="sf-skeleton-surface line w-45"></span>
+          </span>
+          <span class="sf-skeleton-surface price"></span>
+        </div>
+      }
+    }
+    @case ('treatment-detail') {
+      <span class="sf-skeleton-surface hero"></span>
+      <span class="sf-skeleton-surface line w-30"></span>
+      <span class="sf-skeleton-surface line w-60"></span>
+      <span class="sf-skeleton-surface line w-90"></span>
+      <span class="sf-skeleton-surface line w-80"></span>
+    }
+    @case ('therapist-card') {
+      @for (i of repeat(); track i) {
+        <div class="therapist-card">
+          <span class="sf-skeleton-surface portrait"></span>
+          <span class="sf-skeleton-surface line w-50"></span>
+          <span class="sf-skeleton-surface line w-80"></span>
+        </div>
+      }
+    }
+    @case ('special') {
+      <div class="special-card">
+        <span class="sf-skeleton-surface panel"></span>
+        <span class="sf-skeleton-surface line w-55"></span>
+        <span class="sf-skeleton-surface line w-90"></span>
+        <span class="sf-skeleton-surface line w-35"></span>
+      </div>
+    }
+    @case ('admin-stat') {
+      @for (i of repeat(); track i) {
+        <div class="stat">
+          <span class="sf-skeleton-surface line w-60"></span>
+          <span class="sf-skeleton-surface value"></span>
+        </div>
+      }
+    }
+    @case ('table-row') {
+      @for (i of repeat(); track i) {
+        <div class="table-row">
+          <span class="sf-skeleton-surface cell w-25"></span>
+          <span class="sf-skeleton-surface cell w-20"></span>
+          <span class="sf-skeleton-surface cell w-15"></span>
+          <span class="sf-skeleton-surface cell w-20"></span>
+        </div>
+      }
+    }
+    @case ('consent-row') {
+      @for (i of repeat(); track i) {
+        <div class="consent-row">
+          <span class="sf-skeleton-surface line w-40"></span>
+          <span class="sf-skeleton-surface line w-25"></span>
+          <span class="sf-skeleton-surface pill"></span>
+        </div>
+      }
+    }
+    @case ('avatar') {
+      <span class="sf-skeleton-surface avatar"></span>
+    }
+    @case ('text') {
+      @for (i of repeat(); track i) {
+        <span class="sf-skeleton-surface line" [class]="'w-' + (i % 2 === 0 ? '80' : '55')"></span>
+      }
+    }
+    @default {
+      <span class="sf-skeleton-surface block"></span>
+    }
+  }
+</div>

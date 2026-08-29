@@ -1,0 +1,5 @@
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--sf-space-4); }
+.qr-card { padding: var(--sf-space-4); text-align: center; }
+.qr-card img { width: 100%; border-radius: var(--sf-radius-sm); margin-bottom: var(--sf-space-2); }
+.label { font-weight: 600; }
+.url { font-size: 0.78rem; color: var(--sf-ink-muted); margin-bottom: var(--sf-space-3); word-break: break-all; }

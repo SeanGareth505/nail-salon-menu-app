@@ -1,0 +1,5 @@
+@if (logoUrl(); as url) {
+  <img class="logo-img" [class]="sizeClass()" [src]="url" [alt]="initial()" />
+} @else {
+  <span class="ring" [class]="sizeClass() + ' ' + toneClass()">{{ initial() }}</span>
+}

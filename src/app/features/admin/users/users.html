@@ -1,0 +1,31 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div>
+      <h1>Users</h1>
+      <p>Any account in Firebase Authentication is an admin automatically — no Firestore profile required.</p>
+    </div>
+  </header>
+
+  <div class="admin-form note-card">
+    <h2>How access works</h2>
+    <ul>
+      <li><strong>Admins</strong> — sign in at <code>/login</code> with email &amp; password (Firebase Auth).</li>
+      <li><strong>Therapists</strong> — managed on the Therapists screen with a 6-digit tablet PIN, not here.</li>
+    </ul>
+    <p>Add new admins in Firebase Console → Authentication → Add user, then they can sign in immediately.</p>
+  </div>
+
+  @if (users().length) {
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead>
+      <tbody>
+        @for (u of users(); track u.id) {
+          <tr>
+            <td>{{ u.displayName }}</td><td>{{ u.email }}</td><td>{{ u.role }}</td>
+            <td><span class="admin-badge" [class.on]="u.active" [class.off]="!u.active">{{ u.active ? 'Active' : 'Disabled' }}</span></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

@@ -1,0 +1,27 @@
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/">
+      <img class="brand-logo" [src]="identity.logoUrl()" [alt]="identity.name()" />
+      <span class="wordmark">{{ identity.wordmarkUpper() }}</span>
+    </a>
+    <nav class="desktop-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/treatments" routerLinkActive="active">Treatments</a>
+      <a routerLink="/specials" routerLinkActive="active">Specials</a>
+      <a routerLink="/therapists" routerLinkActive="active">Team</a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+
+  <footer class="site-footer">
+    <div class="sf-container footer-inner">
+      <span>© {{ year }} {{ identity.name() }}</span>
+    </div>
+  </footer>
+
+  <sf-mobile-nav class="mobile-only" />
+</div>

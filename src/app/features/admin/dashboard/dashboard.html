@@ -1,0 +1,76 @@
+<div class="page">
+  <div class="stats-grid">
+    <sf-stat-tile label="Consultations today" [value]="todayCount()" hint="Across {{ therapists().length }} therapists" />
+    <sf-stat-tile label="This week" [value]="weekCount()" hint="Last 7 days" />
+    <sf-stat-tile label="This month" [value]="monthCount()" hint="Rolling 30 days" />
+    <sf-stat-tile label="Active therapists" [value]="therapists().length" hint="On roster" />
+    <sf-stat-tile label="Requiring review" [value]="flagged().length" hint="Flagged answers" accent="var(--sf-champagne-ink)" />
+    <sf-stat-tile label="Consent expiring" [value]="consentExpiring()" hint="Next 12 months" />
+  </div>
+
+  <div class="columns">
+    <section class="panel chart-panel">
+      <div class="panel-head">
+        <h2>Consultations, last 8 weeks</h2>
+        <span class="meta">{{ weekCount() }} this week</span>
+      </div>
+      <div class="chart">
+        @for (b of weeklyBuckets(); track b.label) {
+          <div class="bar-col">
+            <span class="value">{{ b.count }}</span>
+            <span class="bar" [style.height.%]="b.pct" [class.current]="$last"></span>
+            <span class="label">{{ b.label }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <aside class="panel review-panel">
+      <h2>Requires review</h2>
+      @for (f of flagged(); track f.id) {
+        <div class="review-row">
+          <span class="diamond"></span>
+          <span class="body">
+            <strong>{{ f.clientId.slice(0, 8) }}</strong>
+            <small>{{ f.answers.length }} answer(s) flagged</small>
+          </span>
+        </div>
+      } @empty {
+        <sf-empty-state icon="check" title="Nothing pending" message="No consultations currently need review." />
+      }
+      @if (flagged().length) {
+        <a routerLink="/admin/consultations" class="review-btn">Open review queue</a>
+      }
+    </aside>
+  </div>
+
+  <section class="panel activity-panel">
+    <h2>Therapist activity</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Therapist</th>
+          <th class="num">This month</th>
+          <th class="num">Last consent</th>
+          <th class="num">Avg / week</th>
+          <th class="num">Flagged</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of therapistActivity(); track row.therapist.id) {
+          <tr>
+            <td>
+              <span class="avatar" [class]="'tint-' + row.therapist.tint">{{ row.therapist.initial }}</span>
+              <span class="name">{{ row.therapist.name }}</span>
+              <small>{{ row.therapist.role }}</small>
+            </td>
+            <td class="num">{{ row.thisMonth }}</td>
+            <td class="num">{{ row.last ? (row.last | date: 'MMM d, HH:mm') : '—' }}</td>
+            <td class="num">{{ row.avgPerWeek }}</td>
+            <td class="num flagged">{{ row.flaggedCount || '—' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

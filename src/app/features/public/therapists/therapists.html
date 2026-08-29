@@ -1,0 +1,15 @@
+<section class="sf-page-hero sf-motion-fade-in">
+  <p class="sf-script">Meet the</p>
+  <h1>People behind the work</h1>
+  <p class="sub">Experienced therapists, one thoughtful appointment at a time</p>
+</section>
+
+<div class="sf-container sf-public-page page">
+  <div class="team-list">
+    @for (t of therapists(); track t.id) {
+      <sf-therapist-card [therapist]="t" [full]="true" />
+    } @empty {
+      <sf-empty-state-animation motif="clients" title="Team profiles coming soon" message="Therapist profiles will appear here once they're added." />
+    }
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="admin-page">
+  <header class="admin-head"><div><h1>Branding</h1><p>Changes apply live across the whole app — public site, therapist and admin views</p></div></header>
+
+  <div class="layout">
+    <div class="admin-form swatches">
+      <h2>Colours</h2>
+      @for (s of swatches; track s.key) {
+        <div class="swatch-row">
+          <label>{{ s.label }}</label>
+          <input type="color" [ngModel]="form()[s.key]" (ngModelChange)="set(s.key, $event)" />
+          <input type="text" class="hex" [ngModel]="form()[s.key]" (ngModelChange)="set(s.key, $event)" />
+        </div>
+      }
+      <div class="admin-field">
+        <label>Logo</label>
+        @if (form().logoUrl) {
+          <img class="logo-preview" [src]="form().logoUrl!" alt="Salon logo preview" />
+        }
+        <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" (change)="onLogoSelected($event)" />
+        <input [ngModel]="form().logoUrl" (ngModelChange)="set('logoUrl', $event)" placeholder="https://… or upload above" />
+        @if (uploading()) { <p class="upload-msg">Uploading…</p> }
+        @if (uploadError()) { <p class="upload-error">{{ uploadError() }}</p> }
+      </div>
+      <div class="admin-field">
+        <label>Mark initials</label>
+        <input [ngModel]="form().markInitial" (ngModelChange)="set('markInitial', $event)" maxlength="2" placeholder="SF" />
+        <p class="field-hint">Shown when no logo is uploaded — header, splash screen and sign-in pages.</p>
+      </div>
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn ghost" (click)="resetToDefault()">Reset to default</button>
+        @if (saved()) { <span class="saved-msg">Saved</span> }
+        <button type="button" class="admin-btn" (click)="save()">Save & apply</button>
+      </div>
+    </div>
+
+    <aside class="preview sf-card">
+      <p class="sf-eyebrow">Live preview</p>
+      <div class="mini-hero" [style.background]="form().primary">
+        @if (form().logoUrl) {
+          <img class="mini-logo" [src]="form().logoUrl!" alt="" />
+        } @else {
+          <span class="mini-mark" [style.border-color]="form().accent" [style.color]="form().accent">{{ form().markInitial }}</span>
+        }
+      </div>
+      <div class="mini-card" [style.background]="form().surface">
+        <p class="mini-title" [style.color]="form().text">{{ identity.name() }}</p>
+        <button class="mini-btn" [style.background]="form().primary">Explore Treatments</button>
+        <button class="mini-btn outline" [style.border-color]="form().accent" [style.color]="form().accent">View Specials</button>
+      </div>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="success" [class.compact]="compact()">
+  <sf-lottie
+    [asset]="compact() ? 'successCompact' : 'success'"
+    [width]="compact() ? '96px' : '160px'"
+    [height]="compact() ? '96px' : '160px'"
+    [loop]="false"
+    [speed]="0.95"
+  />
+  <h2>{{ title() }}</h2>
+  @if (message()) {
+    <p>{{ message() }}</p>
+  }
+  <ng-content />
+</div>

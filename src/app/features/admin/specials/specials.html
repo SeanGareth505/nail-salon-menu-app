@@ -1,0 +1,54 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div><h1>Specials</h1><p>{{ specials().length }} specials</p></div>
+    <button type="button" class="admin-btn" (click)="startNew()">Add special</button>
+  </header>
+
+  @if (editing(); as d) {
+    <div class="admin-form">
+      <h2>{{ isNew() ? 'New special' : 'Edit special' }}</h2>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Title</label><input [(ngModel)]="d.title" /></div>
+        <div class="admin-field"><label>Script title (shown on card)</label><input [(ngModel)]="d.scriptTitle" /></div>
+      </div>
+      <div class="admin-field"><label>Description</label><textarea rows="2" [(ngModel)]="d.description"></textarea></div>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
+        <div class="admin-field"><label>Original price (R)</label><input type="number" [(ngModel)]="d.originalPrice" /></div>
+      </div>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Starts</label><input type="date" [(ngModel)]="d.startsAt" /></div>
+        <div class="admin-field"><label>Ends</label><input type="date" [(ngModel)]="d.endsAt" /></div>
+      </div>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Linked treatment</label>
+          <select [(ngModel)]="d.treatmentId">
+            <option [ngValue]="null">None</option>
+            @for (t of treatments(); track t.id) { <option [ngValue]="t.id">{{ t.name }}</option> }
+          </select>
+        </div>
+        <div class="admin-field"><label>State</label>
+          <select [(ngModel)]="d.state">@for (s of states; track s) { <option [value]="s">{{ s }}</option> }</select>
+        </div>
+      </div>
+      <div class="admin-field"><label>Fine print</label><input [(ngModel)]="d.finePrint" /></div>
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        <button type="button" class="admin-btn" (click)="save()">Save</button>
+      </div>
+    </div>
+  }
+
+  <table class="admin-table">
+    <thead><tr><th>Title</th><th>Price</th><th>Ends</th><th>State</th><th></th></tr></thead>
+    <tbody>
+      @for (s of specials(); track s.id) {
+        <tr>
+          <td>{{ s.title }}</td><td>R{{ s.price }} <span class="strike">R{{ s.originalPrice }}</span></td><td>{{ s.endsAt }}</td>
+          <td><span class="admin-badge" [class.on]="s.state === 'live'" [class.off]="s.state !== 'live'">{{ s.state }}</span></td>
+          <td><button type="button" class="admin-btn ghost" (click)="edit(s)">Edit</button><button type="button" class="admin-btn danger" (click)="remove(s)">Delete</button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

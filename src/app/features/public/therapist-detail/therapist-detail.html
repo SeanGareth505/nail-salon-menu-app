@@ -1,0 +1,18 @@
+@if (therapist(); as t) {
+  <div class="hero" [class]="'tint-' + t.tint">
+    <button type="button" class="back" (click)="back()"><sf-icon name="chevron-left" [size]="20" /></button>
+    <span class="initial">{{ t.initial }}</span>
+  </div>
+  <div class="sf-container body">
+    <h1>{{ t.name }}</h1>
+    <p class="role">{{ t.role }}</p>
+    <p class="bio">{{ t.bio }}</p>
+    <div class="facts">
+      <div><span class="sf-eyebrow">Experience</span><span>{{ t.experienceYears }} years</span></div>
+      <div><span class="sf-eyebrow">Qualification</span><span>{{ t.qualification }}</span></div>
+    </div>
+    <div class="chips">
+      @for (skill of t.expertise; track skill) { <span class="chip">{{ skill }}</span> }
+    </div>
+  </div>
+}

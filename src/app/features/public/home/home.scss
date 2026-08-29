@@ -1,0 +1,83 @@
+.hero { position: relative; }
+.hero-panel {
+  position: relative;
+  background: var(--sf-forest-dark);
+  height: min(430px, 52vh);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: var(--sf-space-6);
+}
+.hero-frame {
+  position: absolute;
+  inset: 22px;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  pointer-events: none;
+}
+.hero-kicker { color: var(--sf-on-forest-muted); letter-spacing: 0.34em; }
+
+.hero-card {
+  max-width: 480px;
+  margin: -96px auto 0;
+  padding: 26px 24px 24px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  border-radius: var(--sf-radius-sm);
+}
+.logo-mark { display: flex; justify-content: center; margin-bottom: 2px; }
+.logo-img { height: 96px; width: auto; max-width: 220px; object-fit: contain; }
+.tagline { font-size: 1.55rem; margin: 0 0 20px; }
+.welcome-copy { color: var(--sf-ink-muted); margin-bottom: var(--sf-space-4); font-weight: 300; font-size: 0.9rem; line-height: 1.6; }
+
+.cta-primary, .cta-secondary {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; height: 52px; border-radius: var(--sf-radius-pill);
+  text-decoration: none; font-weight: 500; margin-bottom: 10px; font-size: 0.95rem;
+}
+.cta-primary { background: var(--sf-forest); color: var(--sf-on-forest); border: 0; }
+.cta-secondary { border: 1px solid var(--sf-champagne); color: var(--sf-champagne-ink); background: transparent; }
+
+.section { padding: 34px 20px 0; max-width: 1180px; margin: 0 auto; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+.section-head h2 { margin: 0; font-size: 1.3rem; font-weight: 400; }
+.link { font-size: 0.82rem; color: var(--sf-champagne-ink); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+
+.categories { display: flex; gap: 14px; overflow-x: auto; padding: 2px 0 4px; }
+
+.list-plain { display: flex; flex-direction: column; }
+
+.avatar-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 4px; }
+.avatar { flex: none; width: 96px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; color: var(--sf-ink); text-align: center; }
+.avatar > span:first-child {
+  width: 96px; height: 96px; border-radius: 50%;
+  border: 1px solid rgba(201, 169, 110, 0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--sf-font-display); font-size: 2rem; color: var(--sf-forest);
+}
+.tint-blush > span:first-child { background: var(--sf-blush); }
+.tint-sage > span:first-child { background: var(--sf-sage-light); }
+.tint-sky > span:first-child { background: var(--sf-sky); }
+.tint-sand > span:first-child { background: var(--sf-sand); }
+.avatar .name { font-weight: 400; font-family: var(--sf-font-display); font-size: 0.9rem; }
+.avatar .role { font-size: 0.72rem; color: var(--sf-ink-muted); font-weight: 300; }
+
+.location-section { padding-bottom: var(--sf-space-7); }
+.location-card { padding: 22px 20px; background: var(--sf-sand); }
+.location-card h3 { margin-bottom: var(--sf-space-2); font-size: 1.25rem; font-weight: 400; }
+.location-card p { font-weight: 300; color: var(--sf-ink-muted); }
+.open { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--sf-forest); font-weight: 400; margin: var(--sf-space-2) 0 18px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sf-sage); }
+.actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.action {
+  height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px;
+  border-radius: var(--sf-radius-pill); text-decoration: none; font-size: 0.82rem; font-weight: 500;
+}
+.action.call { background: var(--sf-forest); color: var(--sf-on-forest); }
+.action.whatsapp { background: var(--sf-sky); color: var(--sf-sky-fg); }
+.action.directions { border: 1px solid rgba(74, 107, 87, 0.35); color: var(--sf-forest); background: transparent; }
+
+@media (min-width: 900px) {
+  .hero-panel { height: 340px; }
+  .section { padding-left: var(--sf-space-5); padding-right: var(--sf-space-5); }
+}

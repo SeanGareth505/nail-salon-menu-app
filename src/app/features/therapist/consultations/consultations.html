@@ -1,0 +1,47 @@
+<div class="page">
+  <header class="page-head">
+    <h1>Clients & consultations</h1>
+    <a routerLink="/therapist/consultations/new" class="cta">New consultation <sf-icon name="arrow-right" [size]="16" /></a>
+  </header>
+
+  <div class="search-box sf-card">
+    <sf-icon name="search" [size]="18" />
+    <input type="search" placeholder="Search clients by name or phone…" [(ngModel)]="search" />
+  </div>
+
+  <div class="columns">
+    <section class="col">
+      <h2>Clients</h2>
+      <div class="sf-card list">
+        @for (c of filteredClients(); track c.id) {
+          <a class="row" [routerLink]="['/therapist/clients', c.id]">
+            <span class="avatar">{{ c.fullName.charAt(0) }}</span>
+            <span class="body">
+              <span class="name">{{ c.fullName }}</span>
+              <span class="meta">{{ c.phone }} · {{ c.totalConsultations }} visit{{ c.totalConsultations === 1 ? '' : 's' }}</span>
+            </span>
+          </a>
+        } @empty {
+          <sf-empty-state icon="clients" title="No clients yet" message="Clients appear here once you start a consultation." />
+        }
+      </div>
+    </section>
+
+    <section class="col">
+      <h2>Recent consultations</h2>
+      <div class="sf-card list">
+        @for (c of consultations(); track c.id) {
+          <a class="row" [routerLink]="['/therapist/clients', c.clientId]">
+            <span class="body">
+              <span class="name">{{ c.clientName }}</span>
+              <span class="meta">{{ c.treatmentName }} · {{ c.startedAt | date: 'MMM d, HH:mm' }}</span>
+            </span>
+            <sf-state-pill [tone]="pillTone(c.status)">{{ c.status.replace('_',' ') }}</sf-state-pill>
+          </a>
+        } @empty {
+          <sf-empty-state icon="records" title="No consultations yet" message="" />
+        }
+      </div>
+    </section>
+  </div>
+</div>

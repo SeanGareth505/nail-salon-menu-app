@@ -1,0 +1,12 @@
+<section class="sf-page-hero sf-motion-fade-in">
+  <h1>Specials</h1>
+  <p class="sub">Limited offers, in salon only</p>
+</section>
+
+<div class="sf-container sf-public-page page">
+  @for (special of visible(); track special.id) {
+    <sf-special-card [special]="special" [therapistNames]="therapistNamesFor(special.therapistIds)" />
+  } @empty {
+    <sf-empty-state-animation motif="specials" title="No active specials" message="Check back soon for new offers." />
+  }
+</div>

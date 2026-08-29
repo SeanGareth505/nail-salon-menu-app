@@ -1,0 +1,40 @@
+<div class="admin-page">
+  <header class="admin-head"><div><h1>Salon details</h1><p>Shown across the public site and consultation flows</p></div></header>
+
+  <div class="admin-form">
+    <h2>Identity</h2>
+    <div class="admin-row-2">
+      <div class="admin-field"><label>Salon name</label><input [ngModel]="form().name" (ngModelChange)="setField('name', $event)" /></div>
+      <div class="admin-field"><label>City</label><input [ngModel]="form().city" (ngModelChange)="setField('city', $event)" /></div>
+    </div>
+    <div class="admin-field"><label>Tagline (script font)</label><input [ngModel]="form().tagline" (ngModelChange)="setField('tagline', $event)" placeholder="Your Escape, Our Passion." /></div>
+    <div class="admin-field"><label>Subtext</label><input [ngModel]="form().subtext" (ngModelChange)="setField('subtext', $event)" placeholder="Beauty · Wellness · Confidence" /></div>
+
+    <h2>Contact</h2>
+    <div class="admin-row-3">
+      <div class="admin-field"><label>Phone</label><input [ngModel]="form().phone" (ngModelChange)="setField('phone', $event)" /></div>
+      <div class="admin-field"><label>WhatsApp (intl format)</label><input [ngModel]="form().whatsapp" (ngModelChange)="setField('whatsapp', $event)" placeholder="27821234567" /></div>
+      <div class="admin-field"><label>Email</label><input [ngModel]="form().email" (ngModelChange)="setField('email', $event)" /></div>
+    </div>
+    <div class="admin-row-2">
+      <div class="admin-field"><label>Address line 1</label><input [ngModel]="form().addressLine1" (ngModelChange)="setField('addressLine1', $event)" /></div>
+      <div class="admin-field"><label>Address line 2</label><input [ngModel]="form().addressLine2" (ngModelChange)="setField('addressLine2', $event)" /></div>
+    </div>
+
+    <h2>Opening hours</h2>
+    @for (h of form().hours; track h.day) {
+      <div class="hours-row">
+        <span class="day-label">{{ h.label }}</span>
+        <input type="time" [ngModel]="h.open" (ngModelChange)="updateHour(h.day, { open: $event })" [disabled]="!!h.byAppointmentOnly" />
+        <span>–</span>
+        <input type="time" [ngModel]="h.close" (ngModelChange)="updateHour(h.day, { close: $event })" [disabled]="!!h.byAppointmentOnly" />
+        <label class="admin-toggle-row"><input type="checkbox" [ngModel]="h.byAppointmentOnly" (ngModelChange)="updateHour(h.day, { byAppointmentOnly: $event })" /> By appointment only</label>
+      </div>
+    }
+
+    <div class="admin-form-actions">
+      @if (saved()) { <span class="saved-msg">Saved</span> }
+      <button type="button" class="admin-btn" (click)="save()">Save changes</button>
+    </div>
+  </div>
+</div>

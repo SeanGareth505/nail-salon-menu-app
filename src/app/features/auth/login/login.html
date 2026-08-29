@@ -1,0 +1,22 @@
+<div class="page">
+  <div class="card sf-card">
+    <sf-brand-mark size="lg" />
+    <h1>Admin sign in</h1>
+    <p class="subtitle">Email and password for salon owners and managers.</p>
+
+    <form (ngSubmit)="submit()">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" required />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" [ngModel]="password()" (ngModelChange)="password.set($event)" name="password" required />
+      </div>
+      @if (error()) { <p class="error">{{ error() }}</p> }
+      <button type="submit" class="submit" [disabled]="loading()">{{ loading() ? 'Signing in…' : 'Sign in' }}</button>
+    </form>
+
+    <a routerLink="/" class="back">Back to the menu</a>
+  </div>
+</div>

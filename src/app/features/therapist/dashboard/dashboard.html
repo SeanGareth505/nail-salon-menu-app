@@ -1,0 +1,70 @@
+<div class="page">
+  <header class="page-head">
+    <div>
+      <p class="date">{{ today | date: 'EEEE, d MMMM y' }}</p>
+      <h1>Good morning, {{ displayName() }}</h1>
+    </div>
+    <a routerLink="/therapist/consultations/new" class="cta">
+      Start consultation <span class="arrow">→</span>
+    </a>
+  </header>
+
+  <div class="stats-grid">
+    <sf-stat-tile label="Today" [value]="todayCount()" hint="consultations logged" />
+    <sf-stat-tile label="This week" [value]="weekCount()" hint="last 8 shown below" />
+    <sf-stat-tile label="Needs review" [value]="needsReview().length" hint="flagged answers" />
+    <sf-stat-tile label="Incomplete" [value]="incomplete().length" hint="signature pending" />
+  </div>
+
+  <div class="columns">
+    <section class="main-col">
+      <h2>Recent consultations</h2>
+      <div class="list">
+        @for (c of recent(); track c.id) {
+          <div class="row">
+            <span class="avatar">{{ c.clientName.charAt(0) }}</span>
+            <span class="body">
+              <span class="name">{{ c.clientName }}</span>
+              <span class="meta">{{ c.treatmentName }} · {{ c.startedAt | date: 'shortTime' }}</span>
+            </span>
+            <sf-state-pill [tone]="pillTone(c.status)">{{ c.status }}</sf-state-pill>
+            <a class="open" [routerLink]="['/therapist/clients', c.clientId]">Open</a>
+          </div>
+        } @empty {
+          <sf-empty-state icon="calendar" title="No consultations yet" message="Start your first consultation from the button above." />
+        }
+      </div>
+    </section>
+
+    <aside class="side-col">
+      @if (needsReview().length) {
+        <h2 class="side-title">Needs your attention</h2>
+        <div class="attention-card">
+          <h3>{{ needsReview().length }} consultation{{ needsReview().length === 1 ? '' : 's' }} flagged</h3>
+          <p>Therapist review required before treatment can proceed.</p>
+          <a routerLink="/therapist/consultations" class="review-btn">Review now</a>
+        </div>
+      }
+      @if (incomplete(); as items) {
+        @if (items.length) {
+          <div class="attention-card muted">
+            <h3>{{ items.length }} consultation{{ items.length === 1 ? '' : 's' }} incomplete</h3>
+            <p>{{ items[0].clientName }} — signature not captured. Started {{ items[0].startedAt | date: 'shortTime' }}.</p>
+          </div>
+        }
+      }
+
+      @if (todaySchedule().length) {
+        <div class="schedule">
+          <p class="schedule-label">Today's schedule</p>
+          @for (s of todaySchedule(); track s.id) {
+            <div class="schedule-row">
+              <span class="time">{{ s.startedAt | date: 'HH:mm' }}</span>
+              <span>{{ s.clientName }} · {{ s.treatmentName }}</span>
+            </div>
+          }
+        </div>
+      }
+    </aside>
+  </div>
+</div>

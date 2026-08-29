@@ -1,0 +1,218 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--sf-forest);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sf-space-6) var(--sf-space-4);
+}
+
+.mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--sf-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sf-font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin: 0 auto var(--sf-space-4);
+}
+
+h1 {
+  color: #fff;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-bottom: var(--sf-space-6);
+}
+
+// ---- therapist picker ---------------------------------------------------
+
+.picker {
+  width: 100%;
+  max-width: 720px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--sf-space-4);
+  margin-bottom: var(--sf-space-6);
+}
+
+.empty {
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  padding: var(--sf-space-5);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sf-space-3);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--sf-radius-lg);
+  padding: var(--sf-space-4);
+  cursor: pointer;
+  min-height: 44px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.tile:hover,
+.tile:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+}
+.tile:active {
+  transform: scale(0.97);
+}
+
+.portrait {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.portrait.lg {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto var(--sf-space-3);
+}
+.tint-blush { background: var(--sf-blush); }
+.tint-sage { background: var(--sf-sage-light); }
+.tint-sky { background: var(--sf-sky); }
+.tint-sand { background: var(--sf-sand); }
+.initial { font-family: var(--sf-font-display); font-size: 1.8rem; color: var(--sf-forest); }
+.portrait.lg .initial { font-size: 2.2rem; }
+
+.tile .name {
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+.alt {
+  display: block;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+
+// ---- PIN pad --------------------------------------------------------------
+
+.pad-wrap {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.change {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: var(--sf-space-2);
+  margin-bottom: var(--sf-space-3);
+  font-size: 0.9rem;
+}
+
+.dots {
+  display: flex;
+  gap: var(--sf-space-3);
+  margin: var(--sf-space-2) 0 var(--sf-space-4);
+}
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: background 0.1s ease;
+}
+.dot.filled {
+  background: var(--sf-champagne);
+  border-color: var(--sf-champagne);
+}
+.dots.shake {
+  animation: shake 0.35s ease;
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-4px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+
+.error {
+  color: var(--sf-champagne-light);
+  font-size: 0.85rem;
+  margin-bottom: var(--sf-space-3);
+}
+
+.status {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: var(--sf-space-4);
+  font-size: 0.85rem;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sf-space-3);
+  width: 100%;
+}
+
+.key {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: var(--sf-font-display);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 44px;
+}
+.key:active {
+  background: rgba(255, 255, 255, 0.18);
+}
+.key:disabled {
+  opacity: 0.5;
+}
+.key-spacer {
+  visibility: hidden;
+}
+.key-back {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (min-width: 720px) {
+  h1 { font-size: 2.2rem; }
+  .key { font-size: 1.7rem; }
+}

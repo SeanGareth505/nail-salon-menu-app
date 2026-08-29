@@ -1,0 +1,89 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--sf-surface);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 34px;
+  border-bottom: 1px solid rgba(74, 107, 87, 0.13);
+  position: sticky;
+  top: 0;
+  background: rgba(255, 253, 249, 0.96);
+  backdrop-filter: blur(10px);
+  z-index: 5;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 16px;
+  background: var(--sf-sand);
+  border-radius: var(--sf-radius-pill);
+  width: min(300px, 100%);
+  margin-left: 20px;
+  color: rgba(51, 51, 51, 0.45);
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: 300 0.84rem/1 var(--sf-font-body);
+  color: var(--sf-ink);
+  outline: none;
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actions select {
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(74, 107, 87, 0.28);
+  background: var(--sf-surface);
+  font: 400 0.82rem/1 var(--sf-font-body);
+  color: var(--sf-forest);
+  border-radius: var(--sf-radius-sm);
+}
+
+.export {
+  height: 42px;
+  padding: 0 20px;
+  border: 0;
+  background: var(--sf-forest);
+  color: var(--sf-on-forest);
+  font: 500 0.82rem/1 var(--sf-font-body);
+  border-radius: var(--sf-radius-pill);
+  cursor: pointer;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}

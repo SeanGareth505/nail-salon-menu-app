@@ -1,0 +1,60 @@
+@if (treatment(); as t) {
+  <div class="hero sf-motion-fade-in" [class]="'tint-' + heroTint()">
+    <div class="hero-frame"></div>
+    <button type="button" class="back" (click)="back()"><sf-icon name="chevron-left" [size]="20" /></button>
+    <sf-icon class="hero-icon" [name]="heroIcon()" [size]="96" />
+  </div>
+
+  <div class="sf-container detail-body sf-motion-rise-in">
+    <p class="category-label">{{ t.categoryName }}</p>
+    <h1 class="title">{{ t.name }}</h1>
+    <div class="stats">
+      <div><span class="stat-label">Duration</span><span class="stat-value">{{ t.durationMinutes }} min</span></div>
+      <div class="stat-divider"></div>
+      <div><span class="stat-label">Price</span><span class="stat-value">R{{ t.price }}</span></div>
+    </div>
+
+    <p class="description">{{ t.description }}</p>
+
+    @if (performedBy(); as therapist) {
+      <section class="performer-block">
+        <p class="block-label">Performed by</p>
+        <a class="performer" [routerLink]="['/therapists', therapist.id]">
+          <span class="avatar" [class]="'tint-' + therapist.tint">{{ therapist.initial }}</span>
+          <span>
+            <span class="name">{{ therapist.name }}</span>
+            <span class="role">{{ therapist.role }} · {{ therapist.experienceYears }} years</span>
+          </span>
+        </a>
+      </section>
+    }
+
+    @if (t.beforeAppointment.length) {
+      <sf-info-block title="Before your appointment" tone="sky">
+        <ul>
+          @for (item of t.beforeAppointment; track item) { <li>{{ item }}</li> }
+        </ul>
+      </sf-info-block>
+    }
+
+    @if (related().length) {
+      <section class="related">
+        <p class="block-label">You may also like</p>
+        @for (r of related(); track r.id) {
+          <a class="related-row sf-motion-card" [routerLink]="['/treatments', r.id]">
+            <span>{{ r.name }}<br /><span class="muted">{{ r.durationMinutes }} min</span></span>
+            <span class="price">R{{ r.price }}</span>
+          </a>
+        }
+      </section>
+    }
+  </div>
+
+  <div class="book-bar">
+    <a routerLink="/contact" class="book-btn">Book this treatment <sf-icon name="arrow-right" [size]="16" /></a>
+  </div>
+} @else {
+  <div class="sf-container detail-loading">
+    <sf-skeleton variant="treatment-detail" />
+  </div>
+}

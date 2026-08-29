@@ -1,0 +1,19 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--sf-surface);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.shell.wizard {
+  background: var(--sf-surface);
+}
+
+.shell.wizard .content {
+  display: flex;
+  flex-direction: column;
+}

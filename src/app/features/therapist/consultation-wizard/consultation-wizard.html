@@ -1,0 +1,164 @@
+@switch (phase()) {
+
+  @case ('setup') {
+    <div class="page setup sf-motion-rise-in">
+      <header class="page-head">
+        <a routerLink="/therapist" class="back-link"><sf-icon name="chevron-left" [size]="18" />Cancel</a>
+        <h1>New consultation</h1>
+      </header>
+
+      <section class="setup-section">
+        <p class="sf-eyebrow">Client</p>
+        <input
+          type="search"
+          class="text-input"
+          placeholder="Search existing clients…"
+          [ngModel]="clientSearch()"
+          (ngModelChange)="clientSearch.set($event)"
+        />
+        <div class="client-list">
+          @for (c of filteredClients(); track c.id) {
+            <button type="button" class="client-row" [class.active]="selectedClientId() === c.id" (click)="selectedClientId.set(c.id)">
+              <span class="avatar">{{ c.fullName.charAt(0) }}</span>
+              <span class="body"><span class="name">{{ c.fullName }}</span><span class="meta">{{ c.phone }}</span></span>
+              @if (selectedClientId() === c.id) { <sf-icon name="check" [size]="18" /> }
+            </button>
+          }
+          <button type="button" class="client-row new" [class.active]="selectedClientId() === 'new'" (click)="selectedClientId.set('new')">
+            <span class="avatar new">+</span>
+            <span class="body"><span class="name">New client</span></span>
+          </button>
+        </div>
+
+        @if (selectedClientId() === 'new') {
+          <div class="new-client-form" @expandCollapse>
+            <input class="text-input" placeholder="Full name" [ngModel]="newClientName()" (ngModelChange)="newClientName.set($event)" />
+            <input class="text-input" placeholder="Phone" [ngModel]="newClientPhone()" (ngModelChange)="newClientPhone.set($event)" />
+            <input class="text-input" placeholder="Email (optional)" [ngModel]="newClientEmail()" (ngModelChange)="newClientEmail.set($event)" />
+          </div>
+        }
+
+        @if (isNextExistingClient()) {
+          <p class="prefill-note sf-motion-fade-in"><sf-icon name="refresh" [size]="14" /> Their last saved details will prefill the form — you'll confirm or update everything before signing.</p>
+        }
+      </section>
+
+      <section class="setup-section">
+        <p class="sf-eyebrow">Treatment</p>
+        <select class="text-input" [ngModel]="selectedTreatmentId()" (ngModelChange)="selectedTreatmentId.set($event)">
+          <option [ngValue]="null" disabled>Select a treatment…</option>
+          @for (t of treatments(); track t.id) {
+            <option [ngValue]="t.id">{{ t.name }} · {{ t.durationMinutes }} min</option>
+          }
+        </select>
+      </section>
+
+      @if (setupError()) { <p class="error sf-field-error">{{ setupError() }}</p> }
+
+      <button type="button" class="cta full" (click)="beginConsultation()">
+        Begin consultation <sf-icon name="arrow-right" [size]="16" />
+      </button>
+    </div>
+  }
+
+  @case ('wizard') {
+    <div class="page wizard">
+      <header class="wizard-head">
+        <span class="mode-badge"><span class="dot"></span> Client form mode</span>
+        <span class="breadcrumb">{{ selectedTreatment()?.name }} · {{ auth.displayName() }} · {{ client()?.fullName }}</span>
+        <a routerLink="/therapist" class="exit-btn">Exit (PIN)</a>
+      </header>
+
+      <nav class="progress">
+        @for (step of steps(); track step.key; let i = $index) {
+          <button
+            type="button"
+            class="step"
+            [class.active]="i === stepIndex()"
+            [class.done]="i < stepIndex()"
+            (click)="goToStep(i)"
+          >
+            <span class="bar" [class.filled]="i <= stepIndex()"></span>
+            <span class="label">{{ i + 1 }}. {{ stepLabel(step) }}</span>
+          </button>
+        }
+      </nav>
+
+      <div class="step-content" [@wizardStep]="stepIndex()">
+        @if (currentStep(); as step) {
+          @if (step.key !== 'review' && step.key !== 'signature') {
+            <h1>{{ step.title }}</h1>
+            @if (step.subtitle) { <p class="step-subtitle">{{ step.subtitle }}</p> }
+
+            <div class="fields">
+              @for (field of currentFields(); track field.key) {
+                <sf-dynamic-field [field]="field" [value]="fieldValue(field.key)" (valueChange)="setFieldValue(field.key, $event)" />
+              }
+            </div>
+          }
+
+          @if (step.key === 'review') {
+            <h1>Review</h1>
+            <p class="step-subtitle">Confirm everything is correct before moving to consent & signature.</p>
+            <div class="review-list">
+              @for (field of allDataFields(); track field.key) {
+                @if (fieldValue(field.key) !== null && fieldValue(field.key) !== '') {
+                  <div class="review-row">
+                    <span class="review-label">{{ field.label }}</span>
+                    <span class="review-value">{{ fieldValue(field.key) }}</span>
+                  </div>
+                }
+              }
+            </div>
+            @if (flaggedFields().length) {
+              <div class="flag-summary sf-motion-rise-in">
+                <sf-icon name="warning" [size]="18" />
+                <div>
+                  <p class="warning-label">Therapist review required</p>
+                  @for (f of flaggedFields(); track f.key) { <p>{{ f.bodyText }}</p> }
+                </div>
+              </div>
+            }
+          }
+
+          @if (step.key === 'signature') {
+            <h1>Signature</h1>
+            <p class="step-subtitle">Sign with your finger in the space below.</p>
+            <div class="signature-wrap sf-motion-scale-in">
+              <sf-signature-pad (signatureChange)="onSignature($event)" />
+            </div>
+            <p class="signature-caption">Client signature</p>
+            @if (saveError()) { <p class="error sf-field-error">{{ saveError() }}</p> }
+          }
+        }
+      </div>
+
+      <footer class="wizard-footer">
+        <button type="button" class="ghost" (click)="back()" [disabled]="stepIndex() === 0">Back</button>
+        <span class="step-note">Step {{ stepIndex() + 1 }} of {{ steps().length }} · answers save as you go</span>
+        @if (currentStep(); as step) {
+          @if (step.key === 'signature') {
+            <button type="button" class="cta" [disabled]="!canContinue()" (click)="submit()">Submit consultation</button>
+          } @else {
+            <button type="button" class="cta" [disabled]="!canContinue()" (click)="next()">Continue</button>
+          }
+        }
+      </footer>
+    </div>
+  }
+
+  @case ('saving') {
+    <sf-loading-overlay message="Submitting consultation…" />
+  }
+
+  @case ('complete') {
+    <div class="page centered complete">
+      <sf-success-animation
+        title="Consultation complete"
+        [message]="client()?.fullName + '\'s consent and signature have been saved' + (flaggedFields().length ? ' and flagged for review' : ' successfully.') + ''"
+      >
+        <button type="button" class="cta" (click)="goToClient()">View client</button>
+      </sf-success-animation>
+    </div>
+  }
+}

@@ -1,0 +1,35 @@
+@if (submission(); as sub) {
+  <div class="card-view">
+    <header class="card-view-head">
+      <span>Signed version {{ sub.templateVersionNumber }}</span>
+      @if (sub.signature) { <span>Signed {{ sub.signature.signedAt | date: 'MMM d, y · HH:mm' }}</span> }
+    </header>
+
+    @for (group of groups(); track group.key) {
+      <section class="group">
+        <h4>{{ group.title }}</h4>
+        <div class="rows">
+          @for (row of group.rows; track row.key) {
+            <div class="row" [class.flagged]="row.flagged">
+              <span class="label">{{ row.label }}</span>
+              <span class="value">{{ formatValue(row.value) }}</span>
+              @if (row.flagged) {
+                <span class="flag-note"><sf-icon name="warning" [size]="14" /> {{ row.flagReason || 'Flagged for review' }}</span>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    @if (sub.signature) {
+      <section class="group signature-block">
+        <h4>Signature</h4>
+        <img [src]="sub.signature.dataUrl" [alt]="'Signature of ' + sub.signature.signedByName" />
+        <p class="signed-by">Signed by {{ sub.signature.signedByName }}</p>
+      </section>
+    }
+  </div>
+} @else {
+  <p class="loading">Loading card…</p>
+}

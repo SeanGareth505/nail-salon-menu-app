@@ -1,0 +1,4 @@
+.hours-row { display: flex; align-items: center; gap: var(--sf-space-3); padding: var(--sf-space-2) 0; border-bottom: 1px solid var(--sf-border); flex-wrap: wrap; }
+.day-label { flex: 1; min-width: 140px; font-weight: 600; }
+.hours-row input[type=time] { padding: 6px 8px; border-radius: var(--sf-radius-sm); border: 1.5px solid var(--sf-border); }
+.saved-msg { color: var(--sf-forest); font-weight: 600; align-self: center; margin-right: var(--sf-space-2); }

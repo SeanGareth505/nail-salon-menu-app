@@ -1,0 +1,54 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div><h1>Treatments</h1><p>{{ treatments().length }} treatments</p></div>
+    <button type="button" class="admin-btn" (click)="startNew()">Add treatment</button>
+  </header>
+
+  @if (editing(); as d) {
+    <div class="admin-form">
+      <h2>{{ isNew() ? 'New treatment' : 'Edit treatment' }}</h2>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
+        <div class="admin-field">
+          <label>Category</label>
+          <select [ngModel]="d.categoryId" (ngModelChange)="onCategoryChange($event)">
+            <option value="" disabled>Select…</option>
+            @for (c of categories(); track c.id) { <option [value]="c.id">{{ c.name }}</option> }
+          </select>
+        </div>
+      </div>
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Duration (minutes)</label><input type="number" [(ngModel)]="d.durationMinutes" /></div>
+        <div class="admin-field"><label>Price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
+      </div>
+      <div class="admin-field"><label>Short description</label><input [(ngModel)]="d.shortDescription" /></div>
+      <div class="admin-field"><label>Full description</label><textarea rows="3" [(ngModel)]="d.description"></textarea></div>
+      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active (visible on the public menu)</label>
+      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.onSpecial" /> Currently on special</label>
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        <button type="button" class="admin-btn" (click)="save()">Save</button>
+      </div>
+    </div>
+  }
+
+  <table class="admin-table">
+    <thead><tr><th>Name</th><th>Category</th><th>Duration</th><th>Price</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      @for (t of treatments(); track t.id) {
+        <tr>
+          <td>{{ t.name }}</td>
+          <td>{{ t.categoryName }}</td>
+          <td>{{ t.durationMinutes }} min</td>
+          <td>R{{ t.price }}</td>
+          <td><span class="admin-badge" [class.on]="t.active" [class.off]="!t.active">{{ t.active ? 'Active' : 'Hidden' }}</span></td>
+          <td>
+            <button type="button" class="admin-btn ghost" (click)="edit(t)">Edit</button>
+            <button type="button" class="admin-btn ghost" (click)="toggleActive(t)">{{ t.active ? 'Hide' : 'Show' }}</button>
+            <button type="button" class="admin-btn danger" (click)="remove(t)">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

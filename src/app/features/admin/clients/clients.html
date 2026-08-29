@@ -1,0 +1,35 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div>
+      <h1>Clients</h1>
+      <p>{{ filtered().length }} client record(s)</p>
+    </div>
+    <input
+      type="search"
+      class="search"
+      placeholder="Search by name, phone or email…"
+      [ngModel]="search()"
+      (ngModelChange)="search.set($event)"
+    />
+  </header>
+
+  <table class="admin-table">
+    <thead>
+      <tr><th>Name</th><th>Phone</th><th>Email</th><th>Last visit</th><th>Total</th><th></th></tr>
+    </thead>
+    <tbody>
+      @for (c of filtered(); track c.id) {
+        <tr>
+          <td><a [routerLink]="['/admin/clients', c.id]">{{ c.fullName }}</a></td>
+          <td>{{ c.phone }}</td>
+          <td>{{ c.email || '—' }}</td>
+          <td>{{ lastVisit(c.id) ? (lastVisit(c.id)! | date: 'MMM d, y') : '—' }}</td>
+          <td>{{ c.totalConsultations }}</td>
+          <td><a [routerLink]="['/admin/clients', c.id]" class="admin-btn ghost">View history</a></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6">No clients yet — they are created when therapists run consultations.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,97 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isTherapistAuth() {
+      return isSignedIn()
+        && request.auth.token.email.matches('^t-.+@staff\\.salonflow\\.internal$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && !isTherapistAuth();
+    }
+
+    function isStaff() {
+      return isAdmin() || isTherapistAuth();
+    }
+
+    match /salonSettings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /branding/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /categories/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /treatments/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /therapists/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /specials/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /consentTemplates/{docId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+
+    match /consentTemplateVersions/{docId} {
+      allow read: if isStaff();
+      allow create: if isAdmin();
+      allow update: if isAdmin() && (
+        resource.data.status != 'published' ||
+        (request.resource.data.steps == resource.data.steps &&
+         request.resource.data.fields == resource.data.fields)
+      );
+      allow delete: if false;
+    }
+
+    match /clients/{docId} {
+      allow read, write: if isStaff();
+    }
+
+    match /consultations/{docId} {
+      allow read, write: if isStaff();
+    }
+
+    match /consentSubmissions/{docId} {
+      allow read: if isStaff();
+      allow create: if isStaff();
+      allow update: if isStaff() &&
+        request.resource.data.answers == resource.data.answers &&
+        request.resource.data.signature == resource.data.signature;
+      allow delete: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /auditEvents/{docId} {
+      allow read: if isAdmin();
+      allow create: if isStaff();
+      allow update, delete: if false;
+    }
+  }
+}

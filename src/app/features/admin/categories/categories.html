@@ -1,0 +1,39 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div><h1>Categories</h1><p>{{ categories().length }} categories</p></div>
+    <button type="button" class="admin-btn" (click)="startNew()">Add category</button>
+  </header>
+
+  @if (editing(); as d) {
+    <div class="admin-form">
+      <h2>{{ isNew() ? 'New category' : 'Edit category' }}</h2>
+      <div class="admin-row-3">
+        <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
+        <div class="admin-field"><label>Icon</label>
+          <select [(ngModel)]="d.icon">@for (i of icons; track i) { <option [value]="i">{{ i }}</option> }</select>
+        </div>
+        <div class="admin-field"><label>Tint</label>
+          <select [(ngModel)]="d.tint">@for (t of tints; track t) { <option [value]="t">{{ t }}</option> }</select>
+        </div>
+      </div>
+      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active</label>
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        <button type="button" class="admin-btn" (click)="save()">Save</button>
+      </div>
+    </div>
+  }
+
+  <table class="admin-table">
+    <thead><tr><th>Name</th><th>Icon</th><th>Tint</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      @for (c of categories(); track c.id) {
+        <tr>
+          <td>{{ c.name }}</td><td>{{ c.icon }}</td><td>{{ c.tint }}</td>
+          <td><span class="admin-badge" [class.on]="c.active" [class.off]="!c.active">{{ c.active ? 'Active' : 'Hidden' }}</span></td>
+          <td><button type="button" class="admin-btn ghost" (click)="edit(c)">Edit</button><button type="button" class="admin-btn danger" (click)="remove(c)">Delete</button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

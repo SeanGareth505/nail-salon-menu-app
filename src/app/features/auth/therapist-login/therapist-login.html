@@ -1,0 +1,54 @@
+<div class="page">
+  @if (!selected()) {
+    <div class="picker">
+      <sf-brand-mark size="lg" />
+      <h1>Who’s signing in?</h1>
+      <p class="subtitle">Tap your name, then enter your PIN.</p>
+
+      <div class="grid">
+        @for (t of therapists(); track t.id) {
+          <button type="button" class="tile" (click)="choose(t)">
+            <span class="portrait" [class]="'tint-' + t.tint"><span class="initial">{{ t.initial }}</span></span>
+            <span class="name">{{ t.name }}</span>
+          </button>
+        } @empty {
+          <p class="empty">No therapist PINs have been set up yet. An admin can enable them under Admin › Therapists.</p>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="pad-wrap">
+      <button type="button" class="change" (click)="back()">
+        <sf-icon name="chevron-left" [size]="16" /> Not {{ selected()!.name.split(' ')[0] }}?
+      </button>
+
+      <span class="portrait lg" [class]="'tint-' + selected()!.tint"><span class="initial">{{ selected()!.initial }}</span></span>
+      <h1>Hi, {{ selected()!.name.split(' ')[0] }}</h1>
+      <p class="subtitle">Enter your PIN</p>
+
+      <div class="dots" [class.shake]="error()">
+        @for (i of [0, 1, 2, 3, 4, 5]; track i) {
+          <span class="dot" [class.filled]="pin().length > i"></span>
+        }
+      </div>
+
+      @if (error()) { <p class="error">{{ error() }}</p> }
+
+      <div class="pad">
+        @for (key of padKeys; track $index) {
+          @if (key === 'back') {
+            <button type="button" class="key key-back" (click)="press(key)" [disabled]="loading()" aria-label="Backspace">
+              <sf-icon name="close" [size]="18" />
+            </button>
+          } @else if (key) {
+            <button type="button" class="key" (click)="press(key)" [disabled]="loading()">{{ key }}</button>
+          } @else {
+            <span class="key key-spacer"></span>
+          }
+        }
+      </div>
+
+      @if (loading()) { <p class="status">Signing in…</p> }
+    </div>
+  }
+</div>
