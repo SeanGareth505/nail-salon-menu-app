@@ -7,4 +7,5 @@ export interface ConsentTemplate extends WithId, AuditFields {
   currentPublishedVersionId: string | null;
   draftVersionId: string | null;
   active: boolean;
+  isSystemDefault?: boolean;
 }

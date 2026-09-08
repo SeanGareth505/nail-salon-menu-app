@@ -1,0 +1,33 @@
+<aside class="sidebar">
+  <div class="brand">
+    <sf-brand-mark size="xs" tone="inverse" />
+    <span class="brand-text">
+      <strong>{{ identity.name() }}</strong>
+      <small>{{ identity.city() }}</small>
+    </span>
+  </div>
+  <nav>
+    @for (item of items; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact }"
+        (click)="onNav()"
+      >
+        <sf-icon [name]="item.icon" [size]="18" />
+        <span class="label-full">{{ item.label }}</span>
+        <span class="label-short">{{ item.shortLabel }}</span>
+      </a>
+    }
+  </nav>
+  <div class="footer">
+    <span class="avatar">{{ initials() }}</span>
+    <span class="footer-body">
+      <strong>{{ displayName() }}</strong>
+      <small>Owner</small>
+    </span>
+    <button type="button" class="sign-out" (click)="signOut()" title="Sign out" aria-label="Sign out">
+      <sf-icon name="logout" [size]="16" />
+    </button>
+  </div>
+</aside>

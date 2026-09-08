@@ -1,0 +1,50 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.toggle.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.track {
+  width: 46px;
+  height: 26px;
+  flex: none;
+  border-radius: 100px;
+  background: rgba(74, 107, 87, 0.25);
+  position: relative;
+  display: block;
+}
+
+.toggle.on .track {
+  background: var(--sf-forest);
+}
+
+.knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--sf-ivory);
+  display: block;
+  transition: left 0.15s ease;
+}
+
+.toggle.on .knob {
+  left: 23px;
+}
+
+.label {
+  font: 400 0.88rem/1.4 var(--sf-font-body);
+  color: var(--sf-ink);
+}

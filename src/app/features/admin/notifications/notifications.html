@@ -1,0 +1,62 @@
+<div class="admin-page" [sfPageAction]="pageAction">
+  <header class="admin-head">
+    <div>
+      <h1>Notifications</h1>
+      <p>Choose when SalonFlow alerts you in the app and via browser push</p>
+    </div>
+  </header>
+
+  <p class="page-intro">In-app alerts appear in the bell menu across admin pages. Enable browser push to get notified when SalonFlow is in the background.</p>
+
+  @if (error()) {
+    <p class="error-msg">{{ error() }}</p>
+  }
+
+  <div class="admin-form">
+    <h2>Delivery</h2>
+    <label class="admin-toggle-row main-toggle">
+      <input type="checkbox" [ngModel]="form().enabled" (ngModelChange)="setEnabled($event)" />
+      Enable notifications
+    </label>
+    <p class="hint">In-app alerts appear in the bell menu across admin pages.</p>
+
+    <label class="admin-toggle-row main-toggle" [class.disabled]="!form().enabled || !pushSupported">
+      <input
+        type="checkbox"
+        [disabled]="!form().enabled || !pushSupported"
+        [ngModel]="form().pushEnabled"
+        (ngModelChange)="setPushEnabled($event)"
+      />
+      Browser push notifications
+    </label>
+    @if (!pushSupported) {
+      <p class="hint">Push is not supported in this browser.</p>
+    } @else if (pushPermission() === 'denied') {
+      <p class="hint">Push permission is blocked in your browser settings.</p>
+    } @else {
+      <p class="hint">Get alerts even when SalonFlow is in the background.</p>
+    }
+
+    <h2>Notify me when</h2>
+    <div class="event-list" [class.disabled]="!form().enabled">
+      @for (type of eventTypes; track type) {
+        <label class="admin-toggle-row">
+          <input
+            type="checkbox"
+            [disabled]="!form().enabled"
+            [ngModel]="form().events[type]"
+            (ngModelChange)="setEvent(type, $event)"
+          />
+          {{ eventLabels[type] }}
+        </label>
+      }
+    </div>
+
+    <div class="admin-form-actions">
+      @if (saved()) { <span class="saved-msg">Saved</span> }
+      <button type="button" class="admin-btn" [disabled]="saving()" (click)="save()">
+        {{ saving() ? 'Saving…' : 'Save changes' }}
+      </button>
+    </div>
+  </div>
+</div>

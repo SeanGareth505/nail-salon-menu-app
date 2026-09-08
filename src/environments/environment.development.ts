@@ -10,7 +10,8 @@ export const environment = {
     measurementId: 'G-Z6GVKLWT4D',
   },
   appCheckSiteKey: '',
-  appCheckDebugToken: 'fa320f1e-5a0f-47a9-8c5a-202b6bccc721',
+  appCheckDebugToken: '',
   // Point the Firebase SDKs at local emulators when running `firebase emulators:start`.
   useEmulators: false,
+  firebaseVapidKey: 'BH3uFI3zDpSK9P_M5fQ29ATYAXhOaXae9Ar_t-_DoVnsd_7J_Dw4zCX5QfP6SMBq4IKIiyJt3XPZ5fQH0XY_EM4',
 };

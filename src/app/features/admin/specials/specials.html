@@ -1,54 +1,181 @@
-<div class="admin-page">
-  <header class="admin-head">
-    <div><h1>Specials</h1><p>{{ specials().length }} specials</p></div>
-    <button type="button" class="admin-btn" (click)="startNew()">Add special</button>
-  </header>
-
+<div class="admin-page specials-page" [sfPageAction]="pageAction">
   @if (editing(); as d) {
-    <div class="admin-form">
+    <div class="admin-form editor">
       <h2>{{ isNew() ? 'New special' : 'Edit special' }}</h2>
+
+      <div class="type-row">
+        @for (kind of kinds; track kind) {
+          <button type="button" class="type-btn" [class.active]="d.kind === kind" (click)="setKind(kind)">{{ kindLabel(kind) }}</button>
+        }
+      </div>
+
       <div class="admin-row-2">
         <div class="admin-field"><label>Title</label><input [(ngModel)]="d.title" /></div>
         <div class="admin-field"><label>Script title (shown on card)</label><input [(ngModel)]="d.scriptTitle" /></div>
       </div>
+
       <div class="admin-field"><label>Description</label><textarea rows="2" [(ngModel)]="d.description"></textarea></div>
-      <div class="admin-row-2">
-        <div class="admin-field"><label>Price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
-        <div class="admin-field"><label>Original price (R)</label><input type="number" [(ngModel)]="d.originalPrice" /></div>
-      </div>
-      <div class="admin-row-2">
-        <div class="admin-field"><label>Starts</label><input type="date" [(ngModel)]="d.startsAt" /></div>
-        <div class="admin-field"><label>Ends</label><input type="date" [(ngModel)]="d.endsAt" /></div>
-      </div>
-      <div class="admin-row-2">
-        <div class="admin-field"><label>Linked treatment</label>
-          <select [(ngModel)]="d.treatmentId">
-            <option [ngValue]="null">None</option>
-            @for (t of treatments(); track t.id) { <option [ngValue]="t.id">{{ t.name }}</option> }
-          </select>
+
+      @if (d.kind !== 'promo') {
+        <div class="admin-field">
+          <label>Treatments</label>
+          <div class="check-grid">
+            @for (t of treatments(); track t.id) {
+              <label class="check-item">
+                <input type="checkbox" [checked]="isTreatmentSelected(t.id)" (change)="toggleTreatment(t.id)" />
+                <span>{{ t.name }} · {{ t.price | formatRand }}</span>
+              </label>
+            }
+          </div>
         </div>
-        <div class="admin-field"><label>State</label>
-          <select [(ngModel)]="d.state">@for (s of states; track s) { <option [value]="s">{{ s }}</option> }</select>
+      }
+
+      @if (d.kind === 'single') {
+        <div class="admin-field">
+          <label>Discount type</label>
+          <div class="type-row">
+            @for (dt of discountTypes; track dt) {
+              <button type="button" class="type-btn small" [class.active]="d.discountType === dt" (click)="d.discountType = dt">
+                {{ dt === 'fixed' ? 'Fixed price' : dt === 'percent' ? 'Percent off' : 'Amount off' }}
+              </button>
+            }
+          </div>
+        </div>
+        @if (d.discountType === 'fixed') {
+          <div class="admin-row-2">
+            <div class="admin-field"><label>Special price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
+            <div class="admin-field"><label>Original price (R)</label><input type="number" [ngModel]="computedOriginal()" disabled /></div>
+          </div>
+        } @else if (d.discountType === 'percent') {
+          <div class="admin-row-2">
+            <div class="admin-field"><label>Percent off</label><input type="number" [(ngModel)]="d.percentOff" /></div>
+            <div class="admin-field"><label>Resulting price (R)</label><input type="number" [ngModel]="computedPrice()" disabled /></div>
+          </div>
+        } @else {
+          <div class="admin-row-2">
+            <div class="admin-field"><label>Amount off (R)</label><input type="number" [(ngModel)]="d.amountOff" /></div>
+            <div class="admin-field"><label>Resulting price (R)</label><input type="number" [ngModel]="computedPrice()" disabled /></div>
+          </div>
+        }
+      }
+
+      @if (d.kind === 'bundle') {
+        <div class="admin-row-2">
+          <div class="admin-field"><label>Bundle price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field"><label>Combined price (R)</label><input type="number" [ngModel]="computedOriginal()" disabled /></div>
+        </div>
+      }
+
+      @if (d.kind === 'promo') {
+        <div class="admin-row-2">
+          <div class="admin-field"><label>Display price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field"><label>Compare-at price (R)</label><input type="number" [(ngModel)]="d.originalPrice" /></div>
+        </div>
+      }
+
+      <div class="schedule-block">
+        <p class="sf-eyebrow">Schedule</p>
+        <div class="preset-row">
+          <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-week')">This week</button>
+          <button type="button" class="admin-btn ghost small" (click)="applyPreset('next-week')">Next week</button>
+          <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-month')">This month</button>
+        </div>
+        <div class="admin-row-2">
+          <div class="admin-field"><label>Starts</label><input type="date" [(ngModel)]="d.startsAt" /></div>
+          <div class="admin-field"><label>Ends</label><input type="date" [(ngModel)]="d.endsAt" /></div>
+        </div>
+        <p class="schedule-line">{{ scheduleLine() }}</p>
+      </div>
+
+      <div class="admin-field">
+        <label>Therapists</label>
+        <div class="check-grid">
+          @for (t of therapists(); track t.id) {
+            <label class="check-item">
+              <input type="checkbox" [checked]="isTherapistSelected(t.id)" (change)="toggleTherapist(t.id)" />
+              <span>{{ t.name }}</span>
+            </label>
+          }
         </div>
       </div>
-      <div class="admin-field"><label>Fine print</label><input [(ngModel)]="d.finePrint" /></div>
+
+      <div class="admin-row-2">
+        <div class="admin-field"><label>Fine print</label><input [(ngModel)]="d.finePrint" /></div>
+        <div class="admin-field"><label>Sort order</label><input type="number" [(ngModel)]="d.sortOrder" /></div>
+      </div>
+
+      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.featured" /> Featured on home</label>
+      <label class="admin-toggle-row"><input type="checkbox" [ngModel]="saveAsDraft()" (ngModelChange)="saveAsDraft.set($event)" /> Save as draft</label>
+
+      @if (formErrors().length) {
+        <ul class="form-errors">
+          @for (err of formErrors(); track err) { <li>{{ err }}</li> }
+        </ul>
+      }
+
+      @if (previewSpecial(); as preview) {
+        <div class="preview-block">
+          <p class="sf-eyebrow">Preview</p>
+          <sf-special-card [special]="preview" [therapistNames]="therapistNamesFor(d.therapistIds ?? [])" [treatmentNames]="treatmentNamesFor(d.treatmentIds ?? [])" [effectiveState]="effectiveStateFor(preview)" />
+        </div>
+      }
+
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
-        <button type="button" class="admin-btn" (click)="save()">Save</button>
+        <button type="button" class="admin-btn" (click)="save()">{{ saveAsDraft() ? 'Save draft' : 'Publish' }}</button>
       </div>
     </div>
   }
 
-  <table class="admin-table">
-    <thead><tr><th>Title</th><th>Price</th><th>Ends</th><th>State</th><th></th></tr></thead>
-    <tbody>
-      @for (s of specials(); track s.id) {
-        <tr>
-          <td>{{ s.title }}</td><td>R{{ s.price }} <span class="strike">R{{ s.originalPrice }}</span></td><td>{{ s.endsAt }}</td>
-          <td><span class="admin-badge" [class.on]="s.state === 'live'" [class.off]="s.state !== 'live'">{{ s.state }}</span></td>
-          <td><button type="button" class="admin-btn ghost" (click)="edit(s)">Edit</button><button type="button" class="admin-btn danger" (click)="remove(s)">Delete</button></td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  <div class="lifecycle-filters">
+    @for (tab of lifecycleFilters(); track tab.id) {
+      <button type="button" class="chip" [class.active]="filter() === tab.id" (click)="filter.set(tab.id)">
+        {{ tab.label }} <span class="count">{{ tab.count }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="special-list">
+    @for (s of filtered(); track s.id; let i = $index) {
+      <article class="special-row">
+        <div class="special-panel" [class]="'tint-' + rowTint(i)">
+          <div class="panel-frame"></div>
+          <div class="script-title">{{ s.scriptTitle || s.title }}</div>
+        </div>
+        <div class="special-body">
+          <div class="badge-row">
+            <span class="state-pill" [class]="stateClass(s)">{{ stateLabel(s) }}</span>
+            <span class="kind-pill">{{ kindLabel(s.kind) }}</span>
+            <span class="discount-pill">{{ discountLabel(s) }}</span>
+          </div>
+          <h2>{{ s.title }}</h2>
+          <p class="special-desc">{{ s.description }}</p>
+          <div class="special-meta">
+            <div>
+              <span class="meta-label">Pricing</span>
+              <span class="meta-value">{{ pricingLabel(s) }}</span>
+            </div>
+            <div>
+              <span class="meta-label">Runs</span>
+              <span class="meta-value">{{ stateHint(s) }}</span>
+            </div>
+            <div>
+              <span class="meta-label">Applies to</span>
+              <span class="meta-value">{{ appliesLabel(s) }}</span>
+            </div>
+            <div class="row-actions">
+              <button type="button" class="pill-btn outline" (click)="edit(s)">Edit</button>
+              <button type="button" class="pill-btn" [class.primary]="rowActionPrimary(s)" [class.gold]="!rowActionPrimary(s)" (click)="rowAction(s)">
+                {{ rowActionLabel(s) }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+
+  <p class="specials-footnote">
+    Expired specials drop off the client app automatically at midnight on the end date. Scheduled specials appear the moment their start date is reached — no manual publishing needed.
+  </p>
 </div>

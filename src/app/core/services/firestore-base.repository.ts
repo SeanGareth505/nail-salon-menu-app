@@ -18,6 +18,7 @@ import {
 import { Observable } from 'rxjs';
 import { AuditFields, WithId } from '../models';
 import { AuthService } from '../auth/auth.service';
+import { LoadingService } from './loading.service';
 
 /**
  * Thin Firestore CRUD base every domain repository extends. Keeps direct
@@ -28,6 +29,7 @@ import { AuthService } from '../auth/auth.service';
 export abstract class FirestoreBaseRepository<T extends WithId & Partial<AuditFields>> {
   protected readonly firestore = inject(Firestore);
   protected readonly auth = inject(AuthService);
+  protected readonly loading = inject(LoadingService);
 
   protected abstract readonly path: string;
 
@@ -49,39 +51,47 @@ export abstract class FirestoreBaseRepository<T extends WithId & Partial<AuditFi
   }
 
   async create(value: Omit<T, 'id' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>): Promise<string> {
-    const uid = this.auth.currentUid();
-    const ref = await addDoc(this.collectionRef(), {
-      ...value,
-      createdAt: serverTimestamp(),
-      createdBy: uid,
-      updatedAt: serverTimestamp(),
-      updatedBy: uid,
-    });
-    return ref.id;
+    return this.loading.run(async () => {
+      const uid = this.auth.currentUid();
+      const ref = await addDoc(this.collectionRef(), {
+        ...value,
+        createdAt: serverTimestamp(),
+        createdBy: uid,
+        updatedAt: serverTimestamp(),
+        updatedBy: uid,
+      });
+      return ref.id;
+    }, 'Saving…');
   }
 
   async createWithId(id: string, value: Omit<T, 'id' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>): Promise<void> {
-    const uid = this.auth.currentUid();
-    await setDoc(this.docRef(id), {
-      ...value,
-      createdAt: serverTimestamp(),
-      createdBy: uid,
-      updatedAt: serverTimestamp(),
-      updatedBy: uid,
-    });
+    return this.loading.run(async () => {
+      const uid = this.auth.currentUid();
+      await setDoc(this.docRef(id), {
+        ...value,
+        createdAt: serverTimestamp(),
+        createdBy: uid,
+        updatedAt: serverTimestamp(),
+        updatedBy: uid,
+      });
+    }, 'Saving…');
   }
 
   async update(id: string, value: Partial<T>): Promise<void> {
-    const uid = this.auth.currentUid();
-    const { id: _drop, ...rest } = value as any;
-    await updateDoc(this.docRef(id), {
-      ...rest,
-      updatedAt: serverTimestamp(),
-      updatedBy: uid,
-    });
+    return this.loading.run(async () => {
+      const uid = this.auth.currentUid();
+      const { id: _drop, ...rest } = value as any;
+      await updateDoc(this.docRef(id), {
+        ...rest,
+        updatedAt: serverTimestamp(),
+        updatedBy: uid,
+      });
+    }, 'Saving…');
   }
 
   async remove(id: string): Promise<void> {
-    await deleteDoc(this.docRef(id));
+    return this.loading.run(async () => {
+      await deleteDoc(this.docRef(id));
+    }, 'Saving…');
   }
 }

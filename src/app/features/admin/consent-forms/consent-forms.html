@@ -1,7 +1,9 @@
-<div class="admin-page wide">
+<div class="admin-page wide consent-forms-page" [sfPageAction]="pageAction">
   <header class="admin-head">
-    <div><h1>Consent forms</h1><p>Treatment → Consent Template → Version → Submission</p></div>
+    <div><h1>Consent forms</h1><p>Default salon form + optional treatment templates</p></div>
   </header>
+
+  <p class="page-intro">Edit the default salon consent form clients sign on the tablet. Treatment-specific templates can still be assigned for reporting, but sign-in always uses the default form.</p>
 
   <div class="layout">
     <aside class="template-list sf-card">
@@ -9,9 +11,12 @@
         <input placeholder="New template name…" [ngModel]="newTemplateName()" (ngModelChange)="newTemplateName.set($event)" />
         <button type="button" class="admin-btn" (click)="createTemplate()">Add</button>
       </div>
-      @for (t of templates(); track t.id) {
+      @for (t of sortedTemplates(); track t.id) {
         <button type="button" class="template-row" [class.active]="selectedTemplateId() === t.id" (click)="select(t)">
           <span>{{ t.name }}</span>
+          @if (t.isSystemDefault) {
+            <span class="admin-badge on">Default</span>
+          }
           <span class="admin-badge" [class.on]="t.currentPublishedVersionId" [class.off]="!t.currentPublishedVersionId">
             {{ t.currentPublishedVersionId ? 'Published' : 'Draft only' }}
           </span>
@@ -54,7 +59,7 @@
                 <div class="field-row">
                   <input class="field-label" [ngModel]="field.label" (ngModelChange)="updateField(field.key, { label: $event })" placeholder="Question label" />
                   <select [ngModel]="field.type" (ngModelChange)="updateField(field.key, { type: $event })">
-                    @for (ft of fieldTypes; track ft) { <option [value]="ft">{{ ft }}</option> }
+                    @for (ft of fieldTypes; track ft) { <option [value]="ft">{{ fieldTypeLabel(ft) }}</option> }
                   </select>
                   <label class="req-toggle"><input type="checkbox" [ngModel]="field.required" (ngModelChange)="updateField(field.key, { required: $event })" /> Required</label>
                   <button type="button" class="admin-btn danger small" (click)="removeField(field.key)">Remove</button>

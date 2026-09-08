@@ -1,9 +1,4 @@
-<div class="admin-page">
-  <header class="admin-head">
-    <div><h1>Therapists</h1><p>{{ therapists().length }} therapists · PIN sign-in at /login/therapist</p></div>
-    <button type="button" class="admin-btn" (click)="startNew()">Add therapist</button>
-  </header>
-
+<div class="admin-page therapists-page" [sfPageAction]="pageAction">
   @if (editing(); as d) {
     <div class="admin-form">
       <h2>{{ isNew() ? 'New therapist' : 'Edit therapist' }}</h2>
@@ -25,76 +20,45 @@
       </div>
       <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active on public site</label>
 
-      <div class="pin-block">
-        <p class="pin-help">Set a 6-digit PIN for the salon iPad. Therapists pick their name at <code>/login/therapist</code> and enter this code.</p>
-        <div class="admin-row-2 pin-row">
-          <div class="admin-field">
-            <label>{{ isNew() ? 'PIN (6 digits)' : (d.pinEnabled ? 'PIN' : 'Set PIN (6 digits)') }}</label>
-            <div class="pin-input-row">
-              <input type="text" inputmode="numeric" maxlength="6" [ngModel]="tabletPin()" (ngModelChange)="tabletPin.set($event)" />
-              <button type="button" class="admin-btn ghost" (click)="generatePin()">Generate</button>
-            </div>
-          </div>
-          <div class="admin-field pin-action">
-            <label>&nbsp;</label>
-            @if (!isNew() && d.id) {
-              <button type="button" class="admin-btn" [disabled]="pinSaving()" (click)="enableTabletAccess(d.id!, tabletPin())">
-                {{ pinSaving() ? 'Saving…' : (d.pinEnabled ? 'Update PIN' : 'Save PIN') }}
-              </button>
-            } @else {
-              <p class="pin-note">PIN is saved when you click Save below.</p>
-            }
-          </div>
-        </div>
-        @if (d.pinEnabled) { <span class="admin-badge on">PIN active on login screen</span> }
-        @if (!isNew() && d.id && d.pinEnabled) {
-          <button type="button" class="admin-btn ghost danger-text" (click)="revokeEditingPin()">Remove PIN access</button>
-        }
-        @if (pinError()) { <p class="pin-error">{{ pinError() }}</p> }
-      </div>
-
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
-        <button type="button" class="admin-btn" (click)="save()">Save therapist</button>
+        <button type="button" class="admin-btn" [disabled]="saving()" (click)="save()">
+          {{ saving() ? 'Saving…' : 'Save therapist' }}
+        </button>
       </div>
     </div>
   }
 
-  <div class="table-toolbar">
-    <button type="button" class="admin-btn ghost small" (click)="showPins.set(!showPins())">
-      {{ showPins() ? 'Hide PINs' : 'Show PINs' }}
+  <div class="therapist-grid">
+    @for (t of therapists(); track t.id) {
+      <article class="therapist-card">
+        <div class="card-top">
+          <span class="avatar" [class]="'tint-' + t.tint">{{ t.initial }}</span>
+          <div class="identity">
+            <h3>{{ t.name }}</h3>
+            <p class="role">{{ t.role }} · {{ t.experienceYears }} years</p>
+          </div>
+          <span class="status-pill" [class.active]="t.active">{{ t.active ? 'Active' : 'Inactive' }}</span>
+        </div>
+        <div class="skills">
+          @for (skill of t.expertise.slice(0, 4); track skill) {
+            <span class="skill">{{ skill }}</span>
+          }
+        </div>
+        <div class="meta-row">
+          <div>
+            <span class="meta-label">Treatments</span>
+            <span class="meta-value">{{ treatmentCount(t.id) }}</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="pill-btn outline" (click)="edit(t)">Edit profile</button>
+        </div>
+      </article>
+    }
+    <button type="button" class="new-card" (click)="startNew()">
+      <span class="plus">+</span>
+      <span>Add therapist</span>
     </button>
   </div>
-
-  <table class="admin-table">
-    <thead><tr><th>Name</th><th>Role</th><th>Experience</th><th>PIN</th><th>Status</th><th></th></tr></thead>
-    <tbody>
-      @for (t of therapists(); track t.id) {
-        <tr>
-          <td>{{ t.name }}</td>
-          <td>{{ t.role }}</td>
-          <td>{{ t.experienceYears }} yrs</td>
-          <td class="pin-cell">
-            @if (t.pinEnabled && pinFor(t.id); as pin) {
-              @if (showPins()) {
-                <code class="pin-code">{{ pin }}</code>
-              } @else {
-                <span class="pin-mask">••••••</span>
-              }
-            } @else {
-              <span class="pin-empty">Not set</span>
-            }
-          </td>
-          <td>
-            <span class="admin-badge" [class.on]="t.active" [class.off]="!t.active">{{ t.active ? 'Active' : 'Hidden' }}</span>
-            @if (t.pinEnabled) { <span class="admin-badge on">PIN</span> }
-          </td>
-          <td>
-            <button type="button" class="admin-btn ghost" (click)="edit(t)">Edit</button>
-            <button type="button" class="admin-btn danger" (click)="remove(t)">Delete</button>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
 </div>

@@ -1,0 +1,43 @@
+:root {
+  --sf-bp-tablet: 768px;
+  --sf-bp-tablet-wide: 834px;
+  --sf-bp-desktop: 1100px;
+  --sf-bp-wide: 1400px;
+  --sf-client-max: 100%;
+  --sf-client-pad-x: 20px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --sf-client-max: min(1200px, calc(100% - 64px));
+    --sf-client-pad-x: 40px;
+  }
+}
+
+@media (min-width: 1100px) {
+  :root {
+    --sf-client-max: min(1440px, calc(100% - 96px));
+    --sf-client-pad-x: 72px;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --sf-client-max: min(1440px, calc(100% - 120px));
+    --sf-client-pad-x: 56px;
+  }
+}
+
+.sf-client-page {
+  width: 100%;
+  padding-left: var(--sf-client-pad-x);
+  padding-right: var(--sf-client-pad-x);
+}
+
+.sf-client-section {
+  padding-top: 34px;
+}
+
+.sf-client-section:first-child {
+  padding-top: 0;
+}

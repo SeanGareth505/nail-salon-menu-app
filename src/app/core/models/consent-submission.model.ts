@@ -2,27 +2,26 @@ import { AuditFields, WithId } from './common.model';
 
 export interface ConsentAnswer {
   fieldKey: string;
-  /** raw captured value — string | string[] | boolean | number depending on field type */
   value: string | string[] | boolean | number | null;
-  flagged?: boolean;       // set true when this answer triggered a warning/review rule
+  flagged?: boolean;
   flagReason?: string;
 }
 
 export interface ConsentSignature {
-  dataUrl: string;         // stored in Firebase Storage; this holds the download URL, not raw base64
-  signedAt: string;        // ISO timestamp
+  dataUrl: string;
+  signedAt: string;
   signedByName: string;
 }
 
-export type ConsentSubmissionStatus = 'incomplete' | 'flagged' | 'complete';
+export type ConsentSubmissionStatus = 'pending' | 'complete';
 
 export interface ConsentSubmission extends WithId, AuditFields {
   consultationId: string;
   clientId: string;
-  treatmentId: string;
-  therapistId: string;
+  treatmentId: string | null;
+  therapistId: string | null;
   templateId: string;
-  templateVersionId: string;   // exact immutable version signed against
+  templateVersionId: string;
   templateVersionNumber: number;
   answers: ConsentAnswer[];
   signature: ConsentSignature | null;

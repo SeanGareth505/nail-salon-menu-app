@@ -7,12 +7,12 @@
 .template-row.active { background: var(--sf-sage-light); }
 
 .editor { flex: 1; padding: var(--sf-space-5); min-width: 0; }
-.editor-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--sf-space-3); gap: var(--sf-space-3); flex-wrap: wrap; }
+.editor-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--sf-space-4); gap: var(--sf-space-3); flex-wrap: wrap; }
 .editor-actions { display: flex; gap: var(--sf-space-2); }
 .draft-note { color: var(--sf-ink-muted); font-size: 0.85rem; margin-bottom: var(--sf-space-4); }
 .empty-note { color: var(--sf-ink-muted); }
 
-.step-block { border: 1px solid var(--sf-border); border-radius: var(--sf-radius-md); padding: var(--sf-space-4); margin-bottom: var(--sf-space-4); }
+.step-block { border: 1px solid var(--sf-border); border-radius: var(--sf-radius-md); padding: var(--sf-space-4); margin-bottom: var(--sf-space-4); background: var(--sf-surface); }
 .step-block-head { display: flex; align-items: center; gap: var(--sf-space-2); margin-bottom: var(--sf-space-3); }
 .step-title { flex: 1; font-family: var(--sf-font-display); font-size: 1.05rem; border: none; border-bottom: 1px solid var(--sf-border); padding: 4px 0; background: transparent; }
 .admin-btn.small { padding: 6px 12px; font-size: 0.78rem; }

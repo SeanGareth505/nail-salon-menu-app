@@ -2,49 +2,95 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { DatePipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/auth/auth.service';
 import { ConsultationsService } from '../../../core/services/consultations.service';
-import { SfStatTile } from '../../../shared/components/stat-tile/stat-tile';
+import { ConsultationStatus } from '../../../core/models';
 import { SfStatePill } from '../../../shared/components/state-pill/state-pill';
 import { SfEmptyState } from '../../../shared/components/empty-state/empty-state';
+
+const AVATAR_PALETTES = [
+  { bg: '#F7E9E3', fg: '#8A5A5A' },
+  { bg: '#FDF3E7', fg: '#8A6A2E' },
+  { bg: '#F0F4F0', fg: '#4A6B57' },
+];
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, DatePipe, SfStatTile, SfStatePill, SfEmptyState],
+  imports: [RouterLink, DatePipe, SfStatePill, SfEmptyState],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {
-  private readonly auth = inject(AuthService);
   private readonly consultationsSvc = inject(ConsultationsService);
 
   readonly today = new Date();
-  readonly displayName = computed(() => this.auth.displayName().split(' ')[0] || 'there');
+  readonly greeting = computed(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  });
 
-  readonly recent = toSignal(this.consultationsSvc.listRecent(8), { initialValue: [] });
+  readonly pending = toSignal(this.consultationsSvc.listPending(8), { initialValue: [] });
 
-  readonly todayCount = computed(() => this.recent().filter((c) => this.isToday(c.startedAt)).length);
-  readonly weekCount = computed(() => this.recent().length);
-  readonly needsReview = computed(() => this.recent().filter((c) => c.status === 'flagged'));
-  readonly incomplete = computed(() => this.recent().filter((c) => c.status === 'incomplete'));
-  readonly todaySchedule = computed(() =>
-    this.recent()
-      .filter((c) => this.isToday(c.startedAt))
-      .slice(0, 4),
-  );
-
-  private isToday(iso: string): boolean {
-    const d = new Date(iso);
-    const now = new Date();
-    return d.toDateString() === now.toDateString();
+  avatarBg(name: string): string {
+    return AVATAR_PALETTES[this.paletteIndex(name)].bg;
   }
 
-  pillTone(status: string): 'complete' | 'flagged' | 'incomplete' | 'neutral' {
-    if (status === 'complete') return 'complete';
-    if (status === 'flagged') return 'flagged';
-    if (status === 'incomplete') return 'incomplete';
-    return 'neutral';
+  avatarFg(name: string): string {
+    return AVATAR_PALETTES[this.paletteIndex(name)].fg;
+  }
+
+  whenLabel(iso: string | null): string {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    const now = new Date();
+    if (d.toDateString() === now.toDateString()) {
+      return `${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} today`;
+    }
+    return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+  }
+
+  statusLabel(status: ConsultationStatus): string {
+    switch (status) {
+      case 'pending':
+      case 'in_progress':
+      case 'incomplete':
+      case 'flagged':
+        return 'Pending';
+      case 'complete':
+        return 'Complete';
+      case 'abandoned':
+        return 'Abandoned';
+      default: {
+        const _exhaustive: never = status;
+        return _exhaustive;
+      }
+    }
+  }
+
+  pillTone(status: ConsultationStatus): 'complete' | 'flagged' | 'incomplete' | 'neutral' {
+    switch (status) {
+      case 'complete':
+        return 'complete';
+      case 'pending':
+      case 'in_progress':
+      case 'incomplete':
+      case 'flagged':
+        return 'incomplete';
+      case 'abandoned':
+        return 'neutral';
+      default: {
+        const _exhaustive: never = status;
+        return _exhaustive;
+      }
+    }
+  }
+
+  private paletteIndex(name: string): number {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash = (hash + name.charCodeAt(i)) % AVATAR_PALETTES.length;
+    return hash;
   }
 }

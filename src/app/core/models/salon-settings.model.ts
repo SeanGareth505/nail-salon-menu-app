@@ -19,7 +19,9 @@ export interface SalonSettings {
   email: string;
   mapLat?: number;
   mapLng?: number;
+  locationNote?: string;
   hours: SalonHours[];
   vatIncluded: boolean;
   catalogueSource?: 'demo' | 'custom';
+  defaultConsentTemplateId?: string;
 }

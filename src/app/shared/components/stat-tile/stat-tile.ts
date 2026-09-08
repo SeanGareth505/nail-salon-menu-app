@@ -12,28 +12,35 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     </div>
   `,
   styles: [`
-    .tile { display: flex; flex-direction: column; gap: 0; padding: 20px 24px; }
+    .tile { display: flex; flex-direction: column; gap: 0; padding: 18px 20px; }
     .label {
-      font-size: 0.66rem;
+      font-size: 0.625rem;
       font-weight: 400;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       color: rgba(51, 51, 51, 0.45);
       min-height: 26px;
+      line-height: 1.3;
     }
     .value {
       font-family: var(--sf-font-display);
-      font-size: 2.375rem;
+      font-size: 2rem;
       font-weight: 400;
       color: var(--sf-ink);
       line-height: 1;
-      margin-top: 14px;
+      margin-top: 10px;
     }
     .hint {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 300;
       color: rgba(51, 51, 51, 0.5);
-      margin-top: 9px;
+      margin-top: 8px;
+    }
+    @media (min-width: 768px) {
+      .value { font-size: 1.875rem; margin-top: 10px; }
+    }
+    @media (min-width: 1100px) {
+      .value { font-size: 2rem; }
     }
   `],
 })

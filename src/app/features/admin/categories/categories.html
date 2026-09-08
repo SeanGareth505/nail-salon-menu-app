@@ -1,19 +1,24 @@
-<div class="admin-page">
-  <header class="admin-head">
-    <div><h1>Categories</h1><p>{{ categories().length }} categories</p></div>
-    <button type="button" class="admin-btn" (click)="startNew()">Add category</button>
-  </header>
-
+<div class="admin-page categories-page" [sfPageAction]="pageAction">
   @if (editing(); as d) {
-    <div class="admin-form">
+    <div class="admin-form editor-modal">
       <h2>{{ isNew() ? 'New category' : 'Edit category' }}</h2>
       <div class="admin-row-3">
         <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
-        <div class="admin-field"><label>Icon</label>
-          <select [(ngModel)]="d.icon">@for (i of icons; track i) { <option [value]="i">{{ i }}</option> }</select>
+        <div class="admin-field">
+          <label>Icon</label>
+          <select [(ngModel)]="d.icon">
+            @for (i of icons; track i) {
+              <option [value]="i">{{ i }}</option>
+            }
+          </select>
         </div>
-        <div class="admin-field"><label>Tint</label>
-          <select [(ngModel)]="d.tint">@for (t of tints; track t) { <option [value]="t">{{ t }}</option> }</select>
+        <div class="admin-field">
+          <label>Tint</label>
+          <select [(ngModel)]="d.tint">
+            @for (t of tints; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
         </div>
       </div>
       <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active</label>
@@ -24,16 +29,31 @@
     </div>
   }
 
-  <table class="admin-table">
-    <thead><tr><th>Name</th><th>Icon</th><th>Tint</th><th>Status</th><th></th></tr></thead>
-    <tbody>
-      @for (c of categories(); track c.id) {
-        <tr>
-          <td>{{ c.name }}</td><td>{{ c.icon }}</td><td>{{ c.tint }}</td>
-          <td><span class="admin-badge" [class.on]="c.active" [class.off]="!c.active">{{ c.active ? 'Active' : 'Hidden' }}</span></td>
-          <td><button type="button" class="admin-btn ghost" (click)="edit(c)">Edit</button><button type="button" class="admin-btn danger" (click)="remove(c)">Delete</button></td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  <p class="intro">
+    Categories drive the client home screen tiles and the menu grouping. Order, tint and mark are all editable; the slug is used in QR links.
+  </p>
+
+  <div class="card-grid">
+    @for (c of categories(); track c.id) {
+      <article class="cat-card">
+        <div class="cat-banner" [class]="'tint-' + c.tint">
+          <span class="order">Order {{ c.sortOrder }}</span>
+          <sf-icon class="watermark" [name]="iconFor(c.icon)" [size]="80" />
+          <sf-icon class="mark" [name]="iconFor(c.icon)" [size]="26" />
+        </div>
+        <div class="cat-body">
+          <h3>{{ c.name }}</h3>
+          <p class="slug">/{{ c.slug }} · {{ treatmentCount(c.id) }} treatments</p>
+          <div class="cat-footer">
+            <span class="status-pill" [class.active]="c.active">{{ c.active ? 'Active' : 'Draft' }}</span>
+            <button type="button" class="edit-link" (click)="edit(c)">Edit</button>
+          </div>
+        </div>
+      </article>
+    }
+    <button type="button" class="new-card" (click)="startNew()">
+      <span class="plus">+</span>
+      <span>New category</span>
+    </button>
+  </div>
 </div>

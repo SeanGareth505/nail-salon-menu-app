@@ -1,54 +1,182 @@
-<div class="admin-page">
-  <header class="admin-head">
-    <div><h1>Treatments</h1><p>{{ treatments().length }} treatments</p></div>
-    <button type="button" class="admin-btn" (click)="startNew()">Add treatment</button>
-  </header>
+<div class="treatments-page" [sfPageAction]="pageAction">
+  <div class="treatments-layout" [class.has-editor]="!!editing()">
+    <div class="list-pane">
+      <div class="cat-chips">
+        @for (chip of categoryFilters(); track chip.name) {
+          <button
+            type="button"
+            class="chip"
+            [class.active]="catFilter() === chip.name"
+            (click)="catFilter.set(chip.name)"
+          >
+            {{ chip.name }}
+          </button>
+        }
+      </div>
 
-  @if (editing(); as d) {
-    <div class="admin-form">
-      <h2>{{ isNew() ? 'New treatment' : 'Edit treatment' }}</h2>
-      <div class="admin-row-2">
-        <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
+      <div class="list-header">
+        <span class="col-order">#</span>
+        <span class="col-name">Treatment</span>
+        <span class="col-dur hide-sm">Duration</span>
+        <span class="col-price">Price</span>
+        <span class="col-status">Status</span>
+      </div>
+
+      <div
+        class="list-body"
+        cdkDropList
+        [cdkDropListDisabled]="reordering()"
+        (cdkDropListDropped)="onReorder($event)"
+      >
+        @for (t of filteredTreatments(); track t.id) {
+          <button
+            type="button"
+            class="list-row"
+            cdkDrag
+            [cdkDragData]="t"
+            [class.selected]="editing()?.id === t.id || (isNew() && editing()?.name === t.name)"
+            (click)="edit(t)"
+          >
+            <span class="col-order drag-handle" cdkDragHandle>{{ t.sortOrder }}</span>
+            <span class="col-name">
+              <span class="name-line">
+                <span class="name">{{ t.name }}</span>
+                @if (t.featured) {
+                  <span class="badge featured">Featured</span>
+                }
+                @if (t.onSpecial || linkedSpecial(t.id)) {
+                  <span class="badge special">Special</span>
+                }
+              </span>
+              <span class="sub">{{ t.categoryName }} · {{ consentLabel(t) }}</span>
+            </span>
+            <span class="col-dur hide-sm">{{ t.durationMinutes }} min</span>
+            <span class="col-price" [class.special-price]="t.onSpecial || linkedSpecial(t.id)">
+              {{ specialPriceLabel(t.id) ?? formatPrice(t.price) }}
+            </span>
+            <span class="col-status">
+              <span class="status-pill" [class.active]="t.active">{{ t.active ? 'Active' : 'Inactive' }}</span>
+            </span>
+          </button>
+        }
+      </div>
+
+      <p class="list-hint">Drag rows to change display order. Inactive treatments stay hidden from clients.</p>
+    </div>
+
+    @if (editing(); as d) {
+      <aside class="editor-pane">
+        <div class="editor-eyebrow">Editing</div>
+        <h2>{{ isNew() ? 'New treatment' : d.name }}</h2>
+        <div class="admin-field"><label>Treatment name</label><input [(ngModel)]="d.name" /></div>
+        <div class="admin-field">
+          <label>Description</label>
+          <textarea rows="3" [(ngModel)]="d.description"></textarea>
+        </div>
+        <div class="admin-row-2">
+          <div class="admin-field"><label>Price</label><input type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field">
+            <label>Special price</label>
+            <input
+              type="text"
+              [value]="d.id ? (specialPriceLabel(d.id) ?? '—') : '—'"
+              readonly
+              class="special-input"
+            />
+          </div>
+        </div>
+        <div class="admin-row-2">
+          <div class="admin-field"><label>Duration (min)</label><input type="number" [(ngModel)]="d.durationMinutes" /></div>
+          <div class="admin-field"><label>Display order</label><input type="number" [(ngModel)]="d.sortOrder" /></div>
+        </div>
         <div class="admin-field">
           <label>Category</label>
           <select [ngModel]="d.categoryId" (ngModelChange)="onCategoryChange($event)">
             <option value="" disabled>Select…</option>
-            @for (c of categories(); track c.id) { <option [value]="c.id">{{ c.name }}</option> }
+            @for (c of categories(); track c.id) {
+              <option [value]="c.id">{{ c.name }}</option>
+            }
           </select>
         </div>
-      </div>
-      <div class="admin-row-2">
-        <div class="admin-field"><label>Duration (minutes)</label><input type="number" [(ngModel)]="d.durationMinutes" /></div>
-        <div class="admin-field"><label>Price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
-      </div>
-      <div class="admin-field"><label>Short description</label><input [(ngModel)]="d.shortDescription" /></div>
-      <div class="admin-field"><label>Full description</label><textarea rows="3" [(ngModel)]="d.description"></textarea></div>
-      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active (visible on the public menu)</label>
-      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.onSpecial" /> Currently on special</label>
-      <div class="admin-form-actions">
-        <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
-        <button type="button" class="admin-btn" (click)="save()">Save</button>
-      </div>
-    </div>
-  }
-
-  <table class="admin-table">
-    <thead><tr><th>Name</th><th>Category</th><th>Duration</th><th>Price</th><th>Status</th><th></th></tr></thead>
-    <tbody>
-      @for (t of treatments(); track t.id) {
-        <tr>
-          <td>{{ t.name }}</td>
-          <td>{{ t.categoryName }}</td>
-          <td>{{ t.durationMinutes }} min</td>
-          <td>R{{ t.price }}</td>
-          <td><span class="admin-badge" [class.on]="t.active" [class.off]="!t.active">{{ t.active ? 'Active' : 'Hidden' }}</span></td>
-          <td>
-            <button type="button" class="admin-btn ghost" (click)="edit(t)">Edit</button>
-            <button type="button" class="admin-btn ghost" (click)="toggleActive(t)">{{ t.active ? 'Hide' : 'Show' }}</button>
-            <button type="button" class="admin-btn danger" (click)="remove(t)">Delete</button>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+        <div class="admin-field">
+          <label>Consent form</label>
+          <select [ngModel]="d.consentTemplateId" (ngModelChange)="d.consentTemplateId = $event">
+            <option [ngValue]="null">None</option>
+            @for (tpl of consentTemplates(); track tpl.id) {
+              <option [ngValue]="tpl.id">{{ tpl.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="admin-field">
+          <label>Assigned therapists</label>
+          <div class="therapist-chips">
+            @for (therapist of therapists(); track therapist.id) {
+              <button
+                type="button"
+                class="therapist-chip"
+                [class.active]="isTherapistAssigned(therapist.id)"
+                (click)="toggleTherapist(therapist.id)"
+              >
+                {{ therapistChipName(therapist.id) }}
+              </button>
+            }
+          </div>
+        </div>
+        <div class="admin-field">
+          <label>Image</label>
+          <div class="image-upload">
+            @if (d.imageUrl) {
+              <img class="image-preview" [src]="d.imageUrl" alt="" />
+            } @else {
+              <div class="image-placeholder" [style.background]="categoryTintBg()">
+                <sf-icon [name]="categoryIconName()" [size]="21" [style.color]="categoryMarkColor()" />
+              </div>
+            }
+            <div class="image-copy">
+              @if (d.imageUrl) {
+                Treatment image set
+              } @else {
+                No image set — the category mark is used
+              }
+            </div>
+            @if (d.id) {
+              <label class="upload-btn">
+                {{ uploadingImage() ? 'Uploading…' : 'Upload' }}
+                <input type="file" accept="image/png,image/jpeg,image/webp" [disabled]="uploadingImage()" (change)="onImageSelected($event)" hidden />
+              </label>
+            } @else {
+              <span class="upload-hint">Save first to upload</span>
+            }
+          </div>
+          @if (uploadError()) {
+            <p class="upload-error">{{ uploadError() }}</p>
+          }
+        </div>
+        <div class="toggle-group">
+          <sf-admin-toggle
+            label="Active — visible to clients"
+            [checked]="!!d.active"
+            (checkedChange)="setToggle('active', $event)"
+          />
+          <sf-admin-toggle
+            label="Featured on home screen"
+            [checked]="!!d.featured"
+            (checkedChange)="setToggle('featured', $event)"
+          />
+          <sf-admin-toggle
+            label="Special price currently applied"
+            [checked]="isOnSpecial(d.id)"
+            [disabled]="true"
+          />
+        </div>
+        <div class="editor-footer">
+          <button type="button" class="admin-btn" (click)="save()">Save changes</button>
+          <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+          @if (!isNew() && d.id) {
+            <button type="button" class="delete-btn" (click)="removeEditing()">Delete</button>
+          }
+        </div>
+      </aside>
+    }
+  </div>
 </div>

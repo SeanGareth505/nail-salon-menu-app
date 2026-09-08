@@ -1,19 +1,11 @@
-.shell {
-  display: flex;
+:host {
+  display: block;
   min-height: 100vh;
-  background: var(--sf-surface);
 }
 
-.content {
-  flex: 1;
-  min-width: 0;
-}
-
-.shell.wizard {
-  background: var(--sf-surface);
-}
-
-.shell.wizard .content {
+.wizard-content {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--sf-ivory);
 }

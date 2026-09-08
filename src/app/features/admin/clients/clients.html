@@ -1,35 +1,63 @@
-<div class="admin-page">
+<div class="admin-page" [sfPageAction]="pageAction">
   <header class="admin-head">
     <div>
       <h1>Clients</h1>
       <p>{{ filtered().length }} client record(s)</p>
     </div>
-    <input
-      type="search"
-      class="search"
-      placeholder="Search by name, phone or email…"
-      [ngModel]="search()"
-      (ngModelChange)="search.set($event)"
-    />
+    <label class="search-pill">
+      <sf-icon name="search" [size]="16" />
+      <input
+        type="search"
+        placeholder="Search by name, phone or email…"
+        aria-label="Search clients"
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+      />
+    </label>
   </header>
 
-  <table class="admin-table">
-    <thead>
-      <tr><th>Name</th><th>Phone</th><th>Email</th><th>Last visit</th><th>Total</th><th></th></tr>
-    </thead>
-    <tbody>
-      @for (c of filtered(); track c.id) {
-        <tr>
-          <td><a [routerLink]="['/admin/clients', c.id]">{{ c.fullName }}</a></td>
-          <td>{{ c.phone }}</td>
-          <td>{{ c.email || '—' }}</td>
-          <td>{{ lastVisit(c.id) ? (lastVisit(c.id)! | date: 'MMM d, y') : '—' }}</td>
-          <td>{{ c.totalConsultations }}</td>
-          <td><a [routerLink]="['/admin/clients', c.id]" class="admin-btn ghost">View history</a></td>
-        </tr>
-      } @empty {
-        <tr><td colspan="6">No clients yet — they are created when therapists run consultations.</td></tr>
+  <p class="page-intro">Client records are created when therapists run consent forms. You can also add walk-in clients here before their first visit.</p>
+
+  @if (adding()) {
+    <div class="admin-form add-form">
+      <h2>Add client</h2>
+      <div class="admin-row-3">
+        <div class="admin-field"><label>First name *</label><input [ngModel]="newFirstName()" (ngModelChange)="newFirstName.set($event)" /></div>
+        <div class="admin-field"><label>Last name *</label><input [ngModel]="newLastName()" (ngModelChange)="newLastName.set($event)" /></div>
+        <div class="admin-field"><label>Phone *</label><input type="tel" sfPhoneMask [ngModel]="newPhone()" (ngModelChange)="newPhone.set(formatPhoneInput($event))" /></div>
+      </div>
+      <div class="admin-row-3">
+        <div class="admin-field"><label>Email</label><input type="email" sfEmailMask [ngModel]="newEmail()" (ngModelChange)="newEmail.set(formatEmailInput($event))" /></div>
+      </div>
+      @if (validationError()) {
+        <p class="form-error" role="alert">{{ validationError() }}</p>
       }
-    </tbody>
-  </table>
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn ghost" (click)="cancelAdd()">Cancel</button>
+        <button type="button" class="admin-btn" [disabled]="saving()" (click)="saveClient()">{{ saving() ? 'Saving…' : 'Save client' }}</button>
+      </div>
+    </div>
+  }
+
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr><th>Name</th><th>Phone</th><th>Email</th><th>Last visit</th><th>Total</th><th></th></tr>
+      </thead>
+      <tbody>
+        @for (c of filtered(); track c.id) {
+          <tr>
+            <td><a [routerLink]="['/admin/clients', c.id]">{{ c.fullName }}</a></td>
+            <td>{{ c.phone }}</td>
+            <td>{{ c.email || '—' }}</td>
+            <td>{{ lastVisit(c.id) ? (lastVisit(c.id)! | date: 'MMM d, y') : '—' }}</td>
+            <td>{{ c.totalConsultations }}</td>
+            <td><a [routerLink]="['/admin/clients', c.id]" class="admin-btn ghost">View history</a></td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6">No clients yet — they are created when therapists run consent forms.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

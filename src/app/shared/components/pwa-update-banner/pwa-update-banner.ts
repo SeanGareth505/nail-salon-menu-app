@@ -11,17 +11,15 @@ import { overlayEnter } from '../../animations/motion.animations';
   template: `
     @if (pwa.updateAvailable()) {
       <div class="banner" role="status" @overlayEnter>
-        <span>A fresh version of {{ identity.name() }} is available.</span>
+        <div class="banner-mark">{{ identity.markInitial() }}</div>
+        <div class="banner-copy">
+          <span class="banner-title">A fresh version is available</span>
+          <span class="banner-sub">Update {{ identity.name() }} to the latest build</span>
+        </div>
         <div class="actions">
           <button type="button" class="primary" (click)="pwa.activateUpdate()">Update now</button>
           <button type="button" class="ghost" (click)="pwa.dismissUpdate()">Later</button>
         </div>
-      </div>
-    }
-    @if (pwa.canInstall()) {
-      <div class="banner install" role="status" @overlayEnter>
-        <span>Install {{ identity.name() }} for quick access on this device.</span>
-        <button type="button" class="primary" (click)="install()">Install</button>
       </div>
     }
   `,
@@ -34,36 +32,81 @@ import { overlayEnter } from '../../animations/motion.animations';
       z-index: 1000;
       display: flex;
       align-items: center;
-      gap: var(--sf-space-3);
+      gap: 14px;
       padding: 14px 16px;
-      border-radius: var(--sf-radius-lg);
-      background: var(--sf-forest);
-      color: #fff;
-      box-shadow: var(--sf-shadow-raised);
-      font-size: 0.85rem;
+      border: 1px solid rgba(201, 169, 110, 0.4);
+      border-radius: var(--sf-radius-sm);
+      background: var(--sf-surface);
+      box-shadow: var(--sf-shadow-card);
       max-width: min(92vw, 520px);
       flex-wrap: wrap;
     }
-    .banner.install { bottom: calc(var(--sf-space-4) + env(safe-area-inset-bottom) + 72px); }
-    .actions { display: flex; gap: var(--sf-space-2); margin-left: auto; }
+
+    .banner-mark {
+      width: 38px;
+      height: 38px;
+      flex: none;
+      border-radius: 9px;
+      background: var(--sf-forest);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sf-on-forest);
+      font-family: var(--sf-font-display);
+      font-weight: 600;
+      font-size: 0.9375rem;
+    }
+
+    .banner-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .banner-title {
+      display: block;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      color: var(--sf-ink);
+    }
+
+    .banner-sub {
+      display: block;
+      font-weight: 300;
+      font-size: 0.719rem;
+      color: rgba(51, 51, 51, 0.55);
+      margin-top: 2px;
+    }
+
+    .actions {
+      display: flex;
+      gap: var(--sf-space-2);
+      margin-left: auto;
+    }
+
     button {
       border: none;
       border-radius: var(--sf-radius-pill);
-      padding: 8px 14px;
-      font-weight: 600;
+      padding: 10px 14px;
+      font-weight: 500;
       cursor: pointer;
       white-space: nowrap;
-      font-size: 0.82rem;
+      font-size: 0.75rem;
+      font-family: var(--sf-font-body);
     }
-    .primary { background: #fff; color: var(--sf-forest); }
-    .ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); }
+
+    .primary {
+      background: var(--sf-champagne);
+      color: #fff;
+    }
+
+    .ghost {
+      background: transparent;
+      color: var(--sf-forest);
+      border: 1px solid rgba(74, 107, 87, 0.35);
+    }
   `],
 })
 export class SfPwaUpdateBanner {
   readonly pwa = inject(PwaService);
   readonly identity = inject(SalonIdentityService);
-
-  install(): void {
-    void this.pwa.promptInstall();
-  }
 }

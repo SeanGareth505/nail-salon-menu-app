@@ -1,7 +1,9 @@
-.search {
-  min-width: 260px;
-  padding: 10px 14px;
-  border-radius: var(--sf-radius-sm);
-  border: 1.5px solid var(--sf-border);
-  font-family: var(--sf-font-body);
+.add-form {
+  margin-bottom: var(--sf-space-5);
+}
+
+.form-error {
+  margin: 0 0 var(--sf-space-4);
+  color: #9b3b3b;
+  font-size: 0.875rem;
 }

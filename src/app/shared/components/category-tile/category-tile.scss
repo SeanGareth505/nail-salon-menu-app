@@ -1,0 +1,98 @@
+.tile {
+  position: relative;
+  border: 1px solid rgba(74, 107, 87, 0.14);
+  padding: 16px 16px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  width: 100%;
+  background: var(--sf-sand);
+  border-radius: 0;
+}
+
+.watermark {
+  position: absolute;
+  right: -16px;
+  bottom: -18px;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.icon {
+  position: relative;
+  flex: none;
+}
+
+.copy {
+  position: relative;
+  text-align: left;
+}
+
+.name {
+  display: block;
+  font-family: var(--sf-font-display);
+  font-size: 1.0625rem;
+  line-height: 1.15;
+  font-weight: 400;
+  color: var(--sf-ink);
+}
+
+.count {
+  display: block;
+  font-size: 0.656rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(51, 51, 51, 0.48);
+  margin-top: 7px;
+  font-weight: 400;
+}
+
+.tint-blush {
+  background: var(--sf-blush);
+  color: var(--sf-champagne);
+}
+
+.tint-sage {
+  background: var(--sf-sage-light);
+  color: var(--sf-sage);
+}
+
+.tint-sky {
+  background: var(--sf-sky);
+  color: #8fb4ce;
+}
+
+.tint-sand {
+  background: var(--sf-sand);
+  color: var(--sf-champagne);
+}
+
+@media (min-width: 768px) {
+  .tile {
+    padding: 20px 18px 18px;
+    gap: 30px;
+  }
+
+  .watermark {
+    right: -20px;
+    bottom: -22px;
+    width: 110px;
+    height: 110px;
+    opacity: 0.15;
+  }
+
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .count {
+    margin-top: 8px;
+    font-size: 0.625rem;
+  }
+}

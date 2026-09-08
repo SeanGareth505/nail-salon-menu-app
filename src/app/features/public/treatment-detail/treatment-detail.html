@@ -1,60 +1,95 @@
 @if (treatment(); as t) {
-  <div class="hero sf-motion-fade-in" [class]="'tint-' + heroTint()">
-    <div class="hero-frame"></div>
-    <button type="button" class="back" (click)="back()"><sf-icon name="chevron-left" [size]="20" /></button>
-    <sf-icon class="hero-icon" [name]="heroIcon()" [size]="96" />
-  </div>
+  <div class="detail-page">
+    <button type="button" class="back-link desktop-only" (click)="back()">← All treatments</button>
 
-  <div class="sf-container detail-body sf-motion-rise-in">
-    <p class="category-label">{{ t.categoryName }}</p>
-    <h1 class="title">{{ t.name }}</h1>
-    <div class="stats">
-      <div><span class="stat-label">Duration</span><span class="stat-value">{{ t.durationMinutes }} min</span></div>
-      <div class="stat-divider"></div>
-      <div><span class="stat-label">Price</span><span class="stat-value">R{{ t.price }}</span></div>
+    <div class="hero mobile-only sf-motion-fade-in" [class]="'tint-' + heroTint()">
+      <div class="hero-frame"></div>
+      <button type="button" class="back" (click)="back()" aria-label="Back"><sf-icon name="chevron-left" [size]="20" /></button>
+      <sf-icon class="hero-icon" [name]="heroIcon()" [size]="96" />
     </div>
 
-    <p class="description">{{ t.description }}</p>
+    <div class="detail-body sf-motion-rise-in">
+      <div class="detail-layout">
+        <div class="detail-visual desktop-only" [class]="'tint-' + heroTint()">
+          <div class="hero-frame"></div>
+          <sf-icon class="hero-icon" [name]="heroIcon()" [size]="120" />
+        </div>
 
-    @if (performedBy(); as therapist) {
-      <section class="performer-block">
-        <p class="block-label">Performed by</p>
-        <a class="performer" [routerLink]="['/therapists', therapist.id]">
-          <span class="avatar" [class]="'tint-' + therapist.tint">{{ therapist.initial }}</span>
-          <span>
-            <span class="name">{{ therapist.name }}</span>
-            <span class="role">{{ therapist.role }} · {{ therapist.experienceYears }} years</span>
-          </span>
-        </a>
-      </section>
-    }
+        <div class="detail-main">
+          <p class="category-label">{{ t.categoryName }}</p>
+          <h1 class="title">{{ t.name }}</h1>
+          <div class="stats">
+            <div><span class="stat-label">Duration</span><span class="stat-value">{{ t.durationMinutes }} min</span></div>
+            <div class="stat-divider"></div>
+            <div>
+              <span class="stat-label">Price</span>
+              @if (specialView()?.badge === 'special' && specialView()?.displayPrice != null) {
+                <span class="stat-value special-price">{{ specialView()!.displayPrice | formatRand }}</span>
+                <span class="stat-value original-price">{{ specialView()!.originalPrice | formatRand }}</span>
+              } @else {
+                <span class="stat-value">{{ t.price | formatRand }}</span>
+              }
+            </div>
+            <button type="button" class="reception-cta desktop-only">Ask at reception</button>
+          </div>
 
-    @if (t.beforeAppointment.length) {
-      <sf-info-block title="Before your appointment" tone="sky">
-        <ul>
-          @for (item of t.beforeAppointment; track item) { <li>{{ item }}</li> }
-        </ul>
-      </sf-info-block>
-    }
+          @if (specialView()?.badge === 'bundle') {
+            <a class="bundle-callout sf-motion-card" routerLink="/specials">
+              <span class="bundle-pill">Bundle offer</span>
+              <span class="bundle-copy">This treatment is part of <strong>{{ specialView()!.specialTitle }}</strong>. See the full bundle on our specials page.</span>
+              <sf-icon name="arrow-right" [size]="16" />
+            </a>
+          }
 
-    @if (related().length) {
-      <section class="related">
-        <p class="block-label">You may also like</p>
-        @for (r of related(); track r.id) {
-          <a class="related-row sf-motion-card" [routerLink]="['/treatments', r.id]">
-            <span>{{ r.name }}<br /><span class="muted">{{ r.durationMinutes }} min</span></span>
-            <span class="price">R{{ r.price }}</span>
-          </a>
-        }
-      </section>
-    }
-  </div>
+          <p class="description">{{ t.description }}</p>
 
-  <div class="book-bar">
-    <a routerLink="/contact" class="book-btn">Book this treatment <sf-icon name="arrow-right" [size]="16" /></a>
+          @if (performedBy().length) {
+            <section class="performer-block">
+              <p class="block-label">Performed by</p>
+              <div class="performer-list">
+                @for (therapist of performedBy(); track therapist.id) {
+                  <a class="performer" [routerLink]="['/therapists', therapist.id]">
+                    <span class="avatar tint-sage">{{ therapist.initial }}</span>
+                    <span>
+                      <span class="name">{{ therapist.name }}</span>
+                      <span class="role">{{ therapist.role }} · {{ therapist.experienceYears }} years</span>
+                    </span>
+                  </a>
+                }
+              </div>
+            </section>
+          }
+
+          @if (t.beforeAppointment.length) {
+            <sf-info-block title="Before your appointment" tone="sky">
+              <ul>
+                @for (item of t.beforeAppointment; track item) { <li>{{ item }}</li> }
+              </ul>
+            </sf-info-block>
+          }
+        </div>
+      </div>
+
+      @if (related().length) {
+        <section class="related">
+          <p class="block-label">You may also like</p>
+          <div class="related-grid">
+            @for (r of related(); track r.id) {
+              <a class="related-row sf-motion-card" [routerLink]="['/treatments', r.id]">
+                <span class="related-icon" [class]="'tint-' + relatedTint(r)">
+                  <sf-icon [name]="relatedIcon(r)" [size]="21" />
+                </span>
+                <span class="related-copy">{{ r.name }}<br /><span class="muted">{{ r.durationMinutes }} min</span></span>
+                <span class="price">{{ r.price | formatRand }}</span>
+              </a>
+            }
+          </div>
+        </section>
+      }
+    </div>
   </div>
 } @else {
-  <div class="sf-container detail-loading">
+  <div class="detail-loading">
     <sf-skeleton variant="treatment-detail" />
   </div>
 }

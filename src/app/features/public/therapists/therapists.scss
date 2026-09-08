@@ -1,2 +1,57 @@
-.page { max-width: 640px; margin: 0 auto; }
-.team-list { display: flex; flex-direction: column; gap: 0; }
+.page-intro {
+  padding: 66px 20px 0;
+}
+
+.intro-script {
+  margin: 0 0 2px;
+  font-size: 1.375rem;
+  line-height: 1;
+}
+
+.page-intro h1 {
+  margin: 0 0 26px;
+  font-family: var(--sf-font-display);
+  font-size: 2.125rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--sf-ink);
+}
+
+.page {
+  padding: 0 20px 34px;
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .page-intro {
+    padding: 38px var(--sf-client-pad-x) 0;
+  }
+
+  .intro-script {
+    font-size: 1.5rem;
+  }
+
+  .page-intro h1 {
+    margin-bottom: 32px;
+    font-size: 2.125rem;
+  }
+
+  .page {
+    padding: 0 var(--sf-client-pad-x) 48px;
+  }
+
+  .team-list {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .page-intro h1 {
+    font-size: 2.75rem;
+  }
+}

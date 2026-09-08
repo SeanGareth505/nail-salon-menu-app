@@ -1,0 +1,35 @@
+<div class="bell-wrap">
+  <button type="button" class="bell-btn" (click)="toggle()" aria-label="Notifications" [class.active]="open()">
+    <sf-icon name="bell" [size]="19" />
+    @if (unreadCount() > 0) {
+      <span class="badge">{{ unreadCount() > 9 ? '9+' : unreadCount() }}</span>
+    }
+  </button>
+
+  @if (open()) {
+    <div class="backdrop" (click)="close()"></div>
+    <section class="panel">
+      <header>
+        <h2>Notifications</h2>
+        <button type="button" class="mark-all" (click)="markAllRead()">Mark all read</button>
+      </header>
+      @if (!items().length) {
+        <p class="empty">No notifications yet.</p>
+      } @else {
+        <ul>
+          @for (item of items(); track item.id) {
+            <li>
+              <button type="button" class="item" [class.unread]="!item.read" (click)="openItem(item)">
+                <span class="dot"></span>
+                <span class="copy">
+                  <strong>{{ item.title }}</strong>
+                  <span class="body">{{ item.body }}</span>
+                </span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</div>

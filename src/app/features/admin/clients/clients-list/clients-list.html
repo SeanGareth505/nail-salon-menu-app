@@ -1,0 +1,30 @@
+<div class="admin-page">
+  <header class="admin-head">
+    <div><h1>Clients</h1><p>{{ filtered().length }} of {{ clients().length }} clients</p></div>
+    <input
+      class="search-input"
+      type="search"
+      placeholder="Search name, phone or email…"
+      [ngModel]="search()"
+      (ngModelChange)="search.set($event)"
+    />
+  </header>
+
+  <table class="admin-table">
+    <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Last visit</th><th>Consultations</th><th></th></tr></thead>
+    <tbody>
+      @for (c of filtered(); track c.id) {
+        <tr>
+          <td>{{ c.fullName }}</td>
+          <td>{{ c.phone || '—' }}</td>
+          <td>{{ c.email || '—' }}</td>
+          <td>{{ c.lastConsultationAt ? (c.lastConsultationAt | date: 'MMM d, y') : 'Never' }}</td>
+          <td>{{ c.totalConsultations }}</td>
+          <td><a [routerLink]="['/admin/clients', c.id]" class="admin-btn ghost">View card history</a></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6" class="empty-cell">No clients match your search.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

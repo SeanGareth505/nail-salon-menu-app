@@ -3,7 +3,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { CategoriesService } from '../../../core/services/categories.service';
 import { TreatmentsService } from '../../../core/services/treatments.service';
-import { Treatment } from '../../../core/models';
+import { SpecialPricingService } from '../../../core/services/special-pricing.service';
+import { categorySfIcon } from '../../../shared/utils/category-icon.util';
+import { Category, Treatment } from '../../../core/models';
+import { TreatmentSpecialView } from '../../../core/specials/special-pricing.util';
 import { SfIcon } from '../../../shared/components/icon/icon';
 import { SfTreatmentCard } from '../../../shared/components/treatment-card/treatment-card';
 import { SfEmptyStateAnimation } from '../../../shared/components/empty-state-animation/empty-state-animation';
@@ -23,6 +26,7 @@ import { expandCollapse } from '../../../shared/animations/motion.animations';
 export class Treatments {
   private readonly categoriesSvc = inject(CategoriesService);
   private readonly treatmentsSvc = inject(TreatmentsService);
+  private readonly pricingSvc = inject(SpecialPricingService);
   private readonly route = inject(ActivatedRoute);
 
   readonly categories = toSignal(this.categoriesSvc.listActive(), { initialValue: [] });
@@ -35,6 +39,10 @@ export class Treatments {
   readonly priceFilter = signal(false);
   readonly specialFilter = signal(false);
   readonly listKey = signal(0);
+
+  readonly hasActiveRefine = computed(
+    () => this.durationFilter() !== 'any' || this.priceFilter() || this.specialFilter(),
+  );
 
   constructor() {
     this.route.queryParamMap.subscribe((params) => {
@@ -59,19 +67,36 @@ export class Treatments {
       if (term && !t.name.toLowerCase().includes(term) && !t.shortDescription.toLowerCase().includes(term)) return false;
       if (duration === 'under45' && t.durationMinutes >= 45) return false;
       if (underPrice && t.price >= 500) return false;
-      if (onSpecial && !t.onSpecial) return false;
+      if (onSpecial && !this.pricingSvc.isOnSpecialFilter(t.id)) return false;
       return true;
     });
   });
 
   readonly grouped = computed(() => {
-    const groups = new Map<string, Treatment[]>();
+    const cats = this.categories();
+    const byCategory = new Map<string, Treatment[]>();
+
     for (const t of this.filtered()) {
-      const list = groups.get(t.categoryName) ?? [];
+      const key = t.categoryId || t.categoryName;
+      const list = byCategory.get(key) ?? [];
       list.push(t);
-      groups.set(t.categoryName, list);
+      byCategory.set(key, list);
     }
-    return Array.from(groups.entries()).map(([name, items]) => ({ name, items }));
+
+    return Array.from(byCategory.entries())
+      .map(([categoryId, items]) => {
+        const category = cats.find((c) => c.id === categoryId || c.name === items[0]?.categoryName);
+        return {
+          key: categoryId,
+          name: category?.name ?? items[0]?.categoryName ?? 'Treatments',
+          tint: category?.tint ?? ('blush' as const),
+          icon: categorySfIcon(category?.slug ?? '', category?.icon ?? ''),
+          count: items.length,
+          items,
+          sortOrder: category?.sortOrder ?? 999,
+        };
+      })
+      .sort((a, b) => a.sortOrder - b.sortOrder);
   });
 
   selectCategory(slug: string): void {
@@ -85,5 +110,31 @@ export class Treatments {
 
   onFilterChange(): void {
     this.listKey.update((k) => k + 1);
+  }
+
+  clearSearch(): void {
+    this.search.set('');
+    this.durationFilter.set('any');
+    this.priceFilter.set(false);
+    this.specialFilter.set(false);
+    this.showRefine.set(false);
+    this.onFilterChange();
+  }
+
+  specialViewFor(treatmentId: string): TreatmentSpecialView | null {
+    return this.pricingSvc.getTreatmentView(treatmentId);
+  }
+
+  categoryFor(treatment: Treatment): Category | undefined {
+    return this.categories().find((c) => c.id === treatment.categoryId);
+  }
+
+  cardTint(treatment: Treatment): 'blush' | 'sage' | 'sky' | 'sand' {
+    return this.categoryFor(treatment)?.tint ?? 'blush';
+  }
+
+  cardIcon(treatment: Treatment): string {
+    const cat = this.categoryFor(treatment);
+    return categorySfIcon(cat?.slug ?? '', cat?.icon ?? '');
   }
 }

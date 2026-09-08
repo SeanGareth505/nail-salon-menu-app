@@ -1,12 +1,58 @@
 <section class="sf-page-hero sf-motion-fade-in">
-  <h1>Specials</h1>
-  <p class="sub">Limited offers, in salon only</p>
+  <div class="page-intro">
+    <p class="page-eyebrow">Offers</p>
+    <h1>Specials</h1>
+    <p class="sub">Limited offers, in salon only</p>
+  </div>
 </section>
 
-<div class="sf-container sf-public-page page">
-  @for (special of visible(); track special.id) {
-    <sf-special-card [special]="special" [therapistNames]="therapistNamesFor(special.therapistIds)" />
-  } @empty {
+<div class="sf-public-page page">
+  @if (hasAny()) {
+    <section class="group">
+      <div class="group-head">
+        <p class="group-label">On now</p>
+        <div class="group-line"></div>
+      </div>
+
+      @if (currentSpecials().length) {
+        <div class="list-plain">
+          @for (special of currentSpecials(); track special.id) {
+            <sf-special-row
+              [special]="special"
+              [effectiveState]="effectiveStateFor(special)"
+              [therapistNames]="therapistNamesFor(special.therapistIds)"
+              [treatmentNames]="treatmentNamesFor(special.treatmentIds)"
+            />
+          }
+        </div>
+      } @else {
+        <p class="section-empty">No specials running right now.</p>
+      }
+    </section>
+
+    <section class="group group-upcoming">
+      <div class="group-head">
+        <p class="group-label">Coming soon</p>
+        <div class="group-line"></div>
+      </div>
+
+      @if (upcomingSpecials().length) {
+        <div class="list-plain">
+          @for (special of upcomingSpecials(); track special.id) {
+            <sf-special-row
+              [special]="special"
+              [effectiveState]="effectiveStateFor(special)"
+              [therapistNames]="therapistNamesFor(special.therapistIds)"
+              [treatmentNames]="treatmentNamesFor(special.treatmentIds)"
+              [upcoming]="true"
+            />
+          }
+        </div>
+      } @else {
+        <p class="section-empty">Nothing scheduled yet — check back for new offers.</p>
+      }
+    </section>
+  } @else {
     <sf-empty-state-animation motif="specials" title="No active specials" message="Check back soon for new offers." />
   }
 </div>

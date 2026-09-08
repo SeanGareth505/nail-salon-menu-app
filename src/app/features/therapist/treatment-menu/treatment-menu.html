@@ -1,0 +1,41 @@
+<div class="page">
+  <header class="page-head">
+    <h1>Treatment menu</h1>
+    <p class="sub">Live prices and the consent form assigned to each treatment</p>
+  </header>
+
+  <div class="filters">
+    @for (cat of categories(); track cat.id) {
+      <button
+        type="button"
+        class="filter"
+        [class.active]="selectedCategoryId() === cat.id"
+        (click)="selectedCategoryId.set(cat.id)"
+      >
+        {{ cat.name }}
+      </button>
+    }
+  </div>
+
+  @if (selectedCategory(); as cat) {
+    <div class="form-banner">
+      <sf-icon name="records" [size]="18" />
+      <span>Consent form for this category: {{ consentLabel(cat) }}</span>
+    </div>
+  }
+
+  <div class="list">
+    @for (t of categoryTreatments(); track t.id) {
+      <div class="row">
+        <div class="body">
+          <div class="name">{{ t.name }}</div>
+          <div class="meta">{{ t.durationMinutes }} minutes</div>
+        </div>
+        <div class="price">{{ formatPrice(t.price) }}</div>
+        <a [routerLink]="['/therapist/consent-forms/new']" [queryParams]="{ treatment: t.id }" class="consult-btn">Consent form</a>
+      </div>
+    } @empty {
+      <sf-empty-state icon="leaf" title="No treatments" message="Active treatments for this category will appear here." />
+    }
+  </div>
+</div>

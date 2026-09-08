@@ -13,6 +13,7 @@ import {
 import { ConsentField, ConsentStepDefinition, ConsentTemplateVersion } from '../models';
 import { FirestoreBaseRepository } from './firestore-base.repository';
 import { AuditService } from './audit.service';
+import { NotificationDispatcherService } from './notification-dispatcher.service';
 
 /**
  * Consent template versions are append-only: a published version's `steps`
@@ -25,6 +26,7 @@ import { AuditService } from './audit.service';
 export class ConsentTemplateVersionsService extends FirestoreBaseRepository<ConsentTemplateVersion> {
   protected readonly path = 'consentTemplateVersions';
   private readonly audit = inject(AuditService);
+  private readonly dispatcher = inject(NotificationDispatcherService);
 
   listForTemplate(templateId: string) {
     return this.list(where('templateId', '==', templateId), orderBy('versionNumber', 'asc'));
@@ -82,5 +84,13 @@ export class ConsentTemplateVersionsService extends FirestoreBaseRepository<Cons
       });
     });
     await this.audit.log('publish', 'consentTemplateVersion', versionId, `Published consent form version for template ${templateId}`);
+    void this.dispatcher.notifyAdmins({
+      type: 'consent_form_published',
+      title: 'Consent form published',
+      body: `A consent form version was published for template ${templateId}.`,
+      link: `/admin/consent-forms?template=${templateId}`,
+      entityType: 'consentTemplate',
+      entityId: templateId,
+    }).catch(() => undefined);
   }
 }

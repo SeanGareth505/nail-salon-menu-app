@@ -1,59 +1,113 @@
 <section class="sf-page-hero sf-motion-fade-in">
-  <h1>Treatments</h1>
-  <p class="sub">{{ filtered().length }} treatments · prices include VAT</p>
+  <div class="page-intro mobile-only">
+    <h1>Treatments</h1>
+    <p class="sub">{{ filtered().length }} treatments · prices include VAT</p>
+    <div class="search-row">
+      <div class="search-box">
+        <sf-icon name="search" [size]="18" />
+        <input type="search" placeholder="Search treatments…" [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
+      </div>
+      <button type="button" class="filter-toggle" (click)="toggleRefine()" [class.active]="showRefine() || hasActiveRefine()" aria-label="Filters">
+        <sf-icon name="sliders" [size]="21" />
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-card desktop-only">
+    <div class="hero-toolbar">
+      <div class="hero-copy">
+        <h1>Treatments</h1>
+        <p class="sub">{{ filtered().length }} treatments · prices include VAT</p>
+      </div>
+      <div class="search-box desktop-search">
+        <sf-icon name="search" [size]="18" />
+        <input type="search" placeholder="Search treatments…" [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
+      </div>
+    </div>
+  </div>
 </section>
 
-<div class="sf-container sf-public-page page">
-  <div class="search-row">
-    <div class="search-box">
-      <sf-icon name="search" [size]="18" />
-      <input type="search" placeholder="Search treatments…" [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
-    </div>
-    <button type="button" class="filter-toggle" (click)="toggleRefine()" [class.active]="showRefine()">
-      <sf-icon name="sliders" [size]="18" />
-    </button>
-  </div>
-
-  <div class="chip-row">
-    <button type="button" class="chip" [class.active]="activeCategorySlug() === 'all'" (click)="selectCategory('all')">All</button>
-    @for (c of categories(); track c.id) {
-      <button type="button" class="chip" [class.active]="activeCategorySlug() === c.slug" (click)="selectCategory(c.slug)">{{ c.name }}</button>
-    }
-  </div>
-
-  @if (showRefine()) {
-    <div class="refine" @expandCollapse>
-      <p class="sf-eyebrow">Refine</p>
-      <div class="refine-row">
-        <button type="button" class="chip" [class.active]="durationFilter() === 'any'" (click)="durationFilter.set('any'); onFilterChange()">Any duration</button>
-        <button type="button" class="chip" [class.active]="durationFilter() === 'under45'" (click)="durationFilter.set('under45'); onFilterChange()">Under 45 min</button>
-      </div>
-      <div class="refine-row">
-        <button type="button" class="chip" [class.active]="priceFilter()" (click)="priceFilter.set(!priceFilter()); onFilterChange()">Under R500</button>
-        <button type="button" class="chip" [class.active]="specialFilter()" (click)="specialFilter.set(!specialFilter()); onFilterChange()">On special</button>
-      </div>
-    </div>
+<div class="chip-scroll mobile-only">
+  <button type="button" class="chip" [class.active]="activeCategorySlug() === 'all'" (click)="selectCategory('all')">All</button>
+  @for (c of categories(); track c.id) {
+    <button type="button" class="chip" [class.active]="activeCategorySlug() === c.slug" (click)="selectCategory(c.slug)">{{ c.name }}</button>
   }
+</div>
 
-  @if (!treatments().length && !categories().length) {
-    <sf-skeleton variant="treatment-card" [count]="5" />
-  } @else {
-    <div class="sf-list-swap" [attr.data-list-key]="listKey()">
-      @for (group of grouped(); track group.name) {
-        <section class="group">
-          <div class="group-head">
-            <p class="group-label">{{ group.name }}</p>
-            <div class="group-line"></div>
+@if (showRefine() || hasActiveRefine()) {
+  <div class="refine-panel mobile-only">
+    <p class="refine-label">Refine</p>
+    <div class="refine-chips">
+      <button type="button" class="chip" [class.active]="durationFilter() === 'any'" (click)="durationFilter.set('any'); onFilterChange()">Any duration</button>
+      <button type="button" class="chip" [class.active]="durationFilter() === 'under45'" (click)="durationFilter.set('under45'); onFilterChange()">Under 45 min</button>
+      <button type="button" class="chip" [class.active]="priceFilter()" (click)="priceFilter.set(!priceFilter()); onFilterChange()">Under R500</button>
+      <button type="button" class="chip" [class.active]="specialFilter()" (click)="specialFilter.set(!specialFilter()); onFilterChange()">On special</button>
+    </div>
+  </div>
+}
+
+<div class="sf-public-page page">
+  <div class="page-layout">
+    <aside class="filters desktop-only" aria-label="Filter treatments">
+      <div class="filters-card">
+        <p class="sf-eyebrow">Category</p>
+        <div class="chip-row category-chips">
+          <button type="button" class="chip rail" [class.active]="activeCategorySlug() === 'all'" (click)="selectCategory('all')">All</button>
+          @for (c of categories(); track c.id) {
+            <button type="button" class="chip rail" [class.active]="activeCategorySlug() === c.slug" (click)="selectCategory(c.slug)">{{ c.name }}</button>
+          }
+        </div>
+
+        <div class="refine">
+          <p class="sf-eyebrow">Refine</p>
+          <div class="chip-row">
+            <button type="button" class="chip rail" [class.active]="durationFilter() === 'any'" (click)="durationFilter.set('any'); onFilterChange()">Any duration</button>
+            <button type="button" class="chip rail" [class.active]="durationFilter() === 'under45'" (click)="durationFilter.set('under45'); onFilterChange()">Under 45 min</button>
+            <button type="button" class="chip rail" [class.active]="priceFilter()" (click)="priceFilter.set(!priceFilter()); onFilterChange()">Under R500</button>
+            <button type="button" class="chip rail" [class.active]="specialFilter()" (click)="specialFilter.set(!specialFilter()); onFilterChange()">On special</button>
           </div>
-          <div class="list-plain">
-            @for (t of group.items; track t.id) {
-              <sf-treatment-card [treatment]="t" layout="menu" />
-            }
-          </div>
-        </section>
-      } @empty {
-        <sf-empty-state-animation motif="search" title="No treatments match" message="Try a different search term or clear the filters." />
+        </div>
+      </div>
+    </aside>
+
+    <div class="menu-panel">
+      @if (!treatments().length && !categories().length) {
+        <sf-skeleton variant="treatment-card" [count]="5" />
+      } @else {
+        <div class="sf-list-swap menu-body" [attr.data-list-key]="listKey()">
+          @for (group of grouped(); track group.key) {
+            <section class="group" [class]="'group-tint-' + group.tint">
+              <header class="group-header">
+                <span class="group-icon mobile-only" [class]="'tint-' + group.tint">
+                  <sf-icon [name]="group.icon" [size]="20" />
+                </span>
+                <div class="group-title">
+                  <p class="group-label">{{ group.name }}</p>
+                  <span class="group-count mobile-only">{{ group.count }} {{ group.count === 1 ? 'treatment' : 'treatments' }}</span>
+                </div>
+                <div class="group-line desktop-only"></div>
+              </header>
+              <div class="group-body">
+                <div class="list-plain">
+                  @for (t of group.items; track t.id) {
+                    <sf-treatment-card
+                      [treatment]="t"
+                      layout="menu"
+                      [tint]="cardTint(t)"
+                      [icon]="cardIcon(t)"
+                      [specialView]="specialViewFor(t.id)"
+                    />
+                  }
+                </div>
+              </div>
+            </section>
+          } @empty {
+            <sf-empty-state-animation motif="search" title="Nothing matches that" message="Try a different word, or ask at reception — we may still be able to help.">
+              <button type="button" class="clear-search" (click)="clearSearch()">Clear search</button>
+            </sf-empty-state-animation>
+          }
+        </div>
       }
     </div>
-  }
+  </div>
 </div>

@@ -11,16 +11,10 @@ function waitUntilReady(auth: AuthService) {
   );
 }
 
-export const therapistAreaGuard: CanActivateFn = (_route, state) => {
+export const tabletKioskGuard: CanActivateFn = async () => {
   const auth = inject(AuthService);
-  const router = inject(Router);
-  return waitUntilReady(auth).pipe(
-    map(() => {
-      if (auth.isSignedIn() && auth.isTherapist()) return true;
-      if (auth.isSignedIn() && auth.isAdmin()) return router.createUrlTree(['/admin']);
-      return router.createUrlTree(['/login/therapist'], { queryParams: { to: state.url } });
-    }),
-  );
+  await auth.ensureTabletKioskSession();
+  return true;
 };
 
 export const adminAreaGuard: CanActivateFn = () => {
@@ -29,7 +23,6 @@ export const adminAreaGuard: CanActivateFn = () => {
   return waitUntilReady(auth).pipe(
     map(() => {
       if (auth.isSignedIn() && auth.isAdmin()) return true;
-      if (auth.isSignedIn() && auth.isTherapist()) return router.createUrlTree(['/therapist']);
       return router.createUrlTree(['/login'], { queryParams: { redirect: 'admin' } });
     }),
   );

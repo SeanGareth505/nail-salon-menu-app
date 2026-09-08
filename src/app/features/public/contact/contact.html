@@ -1,37 +1,32 @@
-<section class="sf-page-hero sf-motion-fade-in">
+<div class="contact-page sf-motion-fade-in">
   <h1>Visit us</h1>
-</section>
 
-<div class="sf-container sf-public-page page">
   @if (settings(); as s) {
     <div class="tile-grid">
       <a class="tile call" [href]="'tel:' + s.phone"><sf-icon name="phone" [size]="22" /><span>Call</span></a>
       <a class="tile whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener"><sf-icon name="whatsapp" [size]="22" /><span>WhatsApp</span></a>
-      <a class="tile directions" [href]="'https://maps.google.com/?q=' + s.addressLine1 + ' ' + s.city" target="_blank" rel="noopener"><sf-icon name="map-pin" [size]="22" /><span>Directions</span></a>
+      <a class="tile directions" [href]="mapsUrl(s)" target="_blank" rel="noopener"><sf-icon name="map-pin" [size]="22" /><span>Directions</span></a>
       <a class="tile email" [href]="'mailto:' + s.email"><sf-icon name="mail" [size]="22" /><span>Email</span></a>
     </div>
 
     <section class="hours">
-      <p class="hours-label">Opening hours</p>
+      <h2 class="hours-label">Opening hours</h2>
       @for (h of s.hours; track h.day) {
-        <div class="hours-row">
+        <div class="hours-row" [class.weekday]="isWeekdayRow(h)">
           <span>{{ h.label }}</span>
-          <span>{{ h.byAppointmentOnly ? 'By appointment' : (h.open ? h.open + ' – ' + h.close : 'Closed') }}</span>
+          <span>{{ hoursLabel(h) }}</span>
         </div>
       }
     </section>
 
     <section class="map-block">
-      <div class="map-art" aria-hidden="true">
-        <div class="road-h"></div>
-        <div class="road-v"></div>
-        <div class="block"></div>
-        <div class="pin-wrap">
-          <span class="pin"></span>
-          <span class="pin-label">The Zone</span>
-        </div>
-      </div>
-      <p class="address">{{ s.addressLine1 }}, {{ s.addressLine2 }}<br />{{ s.city }}</p>
+      <sf-salon-map [settings]="s" title="Salon location map" />
+      <p class="address">
+        {{ addressText(s) }}
+        <span class="desktop-only"> Tap the map for directions.</span>
+      </p>
     </section>
+  } @else {
+    <sf-empty-state-animation motif="generic" title="Contact details coming soon" message="Salon contact information will appear here once it's added." />
   }
 </div>

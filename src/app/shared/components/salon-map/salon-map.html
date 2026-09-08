@@ -1,0 +1,25 @@
+@if (hasMap()) {
+  <div class="map-wrap">
+    <iframe
+      class="map-frame"
+      [src]="embedUrl()"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"
+      [title]="title()"
+    ></iframe>
+    <a
+      class="map-open"
+      [href]="directionsUrl()"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open directions in Google Maps"
+    >
+      Open in Google Maps
+    </a>
+  </div>
+} @else {
+  <div class="map-placeholder">
+    <p>Add an address or map coordinates in salon settings to show your location.</p>
+  </div>
+}

@@ -1,5 +1,7 @@
-<div class="admin-page">
+<div class="admin-page" [sfPageAction]="pageAction">
   <header class="admin-head"><div><h1>Salon details</h1><p>Shown across the public site and consultation flows</p></div></header>
+
+  <p class="page-intro">Your salon identity, contact details and opening hours appear on the public site and in consultation flows.</p>
 
   @if (isDemoCatalogue()) {
     <section class="demo-banner">
@@ -39,6 +41,40 @@
     <div class="admin-row-2">
       <div class="admin-field"><label>Address line 1</label><input [ngModel]="form().addressLine1" (ngModelChange)="setField('addressLine1', $event)" /></div>
       <div class="admin-field"><label>Address line 2</label><input [ngModel]="form().addressLine2" (ngModelChange)="setField('addressLine2', $event)" /></div>
+    </div>
+    <div class="admin-field">
+      <label>Directions note</label>
+      <input
+        [ngModel]="form().locationNote"
+        (ngModelChange)="setField('locationNote', $event)"
+        placeholder="Parking on level P2, lift access to the first floor"
+      />
+    </div>
+    <div class="admin-row-2">
+      <div class="admin-field">
+        <label>Map latitude</label>
+        <input
+          type="number"
+          step="any"
+          [ngModel]="form().mapLat"
+          (ngModelChange)="setMapCoordinate('mapLat', $event)"
+          placeholder="-26.1456"
+        />
+      </div>
+      <div class="admin-field">
+        <label>Map longitude</label>
+        <input
+          type="number"
+          step="any"
+          [ngModel]="form().mapLng"
+          (ngModelChange)="setMapCoordinate('mapLng', $event)"
+          placeholder="28.0436"
+        />
+      </div>
+    </div>
+    <p class="map-hint">Right-click your salon on Google Maps and copy the coordinates for a precise pin. Leave blank to use the address above.</p>
+    <div class="map-preview">
+      <sf-salon-map [settings]="form()" title="Salon location preview" />
     </div>
 
     <h2>Opening hours</h2>

@@ -1,0 +1,119 @@
+.pin-boxes {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: var(--sf-space-2) 0 var(--sf-space-4);
+  width: 100%;
+}
+
+.pin-box {
+  flex: 1;
+  max-width: 48px;
+  height: 54px;
+  border-radius: var(--sf-radius-sm);
+  border: 1.5px solid var(--sf-border-strong);
+  background: var(--sf-sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.1s ease, background 0.1s ease;
+}
+
+.pin-box.filled {
+  border-color: var(--sf-forest);
+  background: var(--sf-ivory);
+}
+
+.pin-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sf-forest);
+}
+
+.pin-boxes.shake {
+  animation: pin-shake 0.35s ease;
+}
+
+@keyframes pin-shake {
+  10%, 90% { transform: translateX(-4px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+
+.pin-error {
+  color: var(--sf-status-flagged-fg);
+  font-size: 0.84rem;
+  margin: 0 0 var(--sf-space-3);
+  background: var(--sf-status-flagged-bg);
+  padding: 10px 14px;
+  border-radius: var(--sf-radius-sm);
+  border-left: 3px solid var(--sf-champagne);
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sf-space-3);
+  width: 100%;
+}
+
+.key {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background: var(--sf-forest);
+  color: var(--sf-ivory);
+  font-size: 1.4rem;
+  font-family: var(--sf-font-display);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.key:hover,
+.key:focus-visible {
+  background: var(--sf-forest-dark);
+}
+
+.key:active {
+  transform: scale(0.96);
+}
+
+.key:disabled {
+  opacity: 0.5;
+}
+
+.key-spacer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.key-back {
+  background: transparent;
+  border: 1px solid rgba(74, 107, 87, 0.35);
+  color: var(--sf-forest);
+}
+
+.key-back:hover,
+.key-back:focus-visible {
+  background: var(--sf-sage-light);
+}
+
+@media (min-width: 768px) {
+  .key {
+    font-size: 1.55rem;
+  }
+
+  .pin-box {
+    max-width: 52px;
+    height: 58px;
+  }
+}

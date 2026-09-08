@@ -5,6 +5,8 @@ import { SalonSettingsService } from '../../../core/services/salon-settings.serv
 import { DemoDataService } from '../../../core/services/demo-data.service';
 import { BLANK_SALON_HOURS, BLANK_SALON_SETTINGS } from '../../../core/demo/demo-catalogue.constants';
 import { SalonHours, SalonSettings } from '../../../core/models';
+import { SfPageActionDirective } from '../../../shared/directives/page-action.directive';
+import { SfSalonMap } from '../../../shared/components/salon-map/salon-map';
 import {
   DEFAULT_SALON_CITY,
   DEFAULT_SALON_NAME,
@@ -15,7 +17,7 @@ import {
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SfPageActionDirective, SfSalonMap],
   templateUrl: './settings.html',
   styleUrl: './settings.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +25,9 @@ import {
 export class Settings {
   private readonly settingsSvc = inject(SalonSettingsService);
   private readonly demoDataSvc = inject(DemoDataService);
+  readonly pageAction = (): void => {
+    void this.save();
+  };
   private readonly remote = toSignal(this.settingsSvc.get(), { initialValue: undefined });
 
   readonly form = signal<Partial<SalonSettings>>({
@@ -51,6 +56,16 @@ export class Settings {
 
   setField<K extends keyof SalonSettings>(key: K, value: SalonSettings[K]): void {
     this.form.update((f) => ({ ...f, [key]: value }));
+  }
+
+  setMapCoordinate(key: 'mapLat' | 'mapLng', raw: string | number | null): void {
+    if (raw === '' || raw === null) {
+      this.setField(key, undefined);
+      return;
+    }
+
+    const value = typeof raw === 'number' ? raw : Number(raw);
+    this.setField(key, Number.isFinite(value) ? value : undefined);
   }
 
   updateHour(day: string, patch: Partial<SalonHours>): void {

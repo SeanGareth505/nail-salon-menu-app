@@ -1,0 +1,82 @@
+{
+  "templateId": "general-health-safety",
+  "versionId": "general-health-safety-v1",
+  "name": "General Health & Safety",
+  "description": "Standard pre-treatment health and safety consent for beauty, nail, facial, massage, and waxing services.",
+  "steps": [
+    { "key": "details", "title": "Your details", "sortOrder": 1 },
+    { "key": "health_safety", "title": "Health & safety", "sortOrder": 2 },
+    { "key": "consent_notes", "title": "Additional notes", "sortOrder": 3 },
+    { "key": "treatment_questions", "title": "Treatment questions", "sortOrder": 4 }
+  ],
+  "fields": [
+    { "key": "first_name", "type": "text", "label": "Name", "required": true, "step": "details", "sortOrder": 1 },
+    { "key": "last_name", "type": "text", "label": "Surname", "required": true, "step": "details", "sortOrder": 2 },
+    { "key": "phone", "type": "phone", "label": "Phone number", "required": true, "step": "details", "sortOrder": 3 },
+    { "key": "email", "type": "email", "label": "Email", "required": true, "step": "details", "sortOrder": 4 },
+    { "key": "allergies", "type": "yes_no_unsure", "label": "Do you have any known allergies?", "required": true, "step": "health_safety", "sortOrder": 1 },
+    {
+      "key": "allergies_detail",
+      "type": "text",
+      "label": "Please list your allergies",
+      "required": true,
+      "step": "health_safety",
+      "sortOrder": 2,
+      "conditions": [{ "dependsOn": "allergies", "operator": "one_of", "value": ["yes", "unsure"] }]
+    },
+    { "key": "medication", "type": "yes_no", "label": "Are you currently taking any medication?", "required": true, "step": "health_safety", "sortOrder": 3 },
+    {
+      "key": "retinoid_use",
+      "type": "yes_no_unsure",
+      "label": "Have you used retinol or a retinoid in the last 7 days?",
+      "required": true,
+      "step": "health_safety",
+      "sortOrder": 4
+    },
+    {
+      "key": "retinoid_warning",
+      "type": "warning",
+      "label": "Therapist review required",
+      "bodyText": "Waxing over retinoid-treated skin risks lifting. Your therapist must review this before treatment can proceed.",
+      "required": false,
+      "step": "health_safety",
+      "sortOrder": 5,
+      "conditions": [{ "dependsOn": "retinoid_use", "operator": "one_of", "value": ["yes", "unsure"] }]
+    },
+    {
+      "key": "pregnant_breastfeeding",
+      "type": "yes_no",
+      "label": "Are you pregnant or breastfeeding?",
+      "required": true,
+      "step": "health_safety",
+      "sortOrder": 6
+    },
+    {
+      "key": "skin_condition",
+      "type": "yes_no",
+      "label": "Do you currently have any rash, infection, inflammation or broken skin in the treatment area?",
+      "required": true,
+      "step": "health_safety",
+      "sortOrder": 7
+    },
+    {
+      "key": "consent_notes",
+      "type": "textarea",
+      "label": "Anything we should know?",
+      "helpText": "e.g. pregnancy, allergies, recent treatments, or other health information",
+      "placeholder": "Add any notes for your therapist…",
+      "required": false,
+      "step": "consent_notes",
+      "sortOrder": 1
+    },
+    {
+      "key": "aftercare_ack",
+      "type": "acknowledgement",
+      "label": "Aftercare acknowledgement",
+      "bodyText": "I understand and will follow the aftercare advice given by my therapist.",
+      "required": true,
+      "step": "treatment_questions",
+      "sortOrder": 1
+    }
+  ]
+}

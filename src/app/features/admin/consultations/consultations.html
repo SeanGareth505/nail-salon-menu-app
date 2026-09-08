@@ -15,7 +15,7 @@
       @for (c of filtered(); track c.id) {
         <tr>
           <td><a [routerLink]="['/admin/clients', c.clientId]">{{ c.clientName }}</a></td>
-          <td>{{ c.treatmentName }}</td>
+          <td>{{ treatmentLabel(c) }}</td>
           <td>{{ c.therapistName }}</td>
           <td>{{ c.startedAt | date: 'MMM d, y HH:mm' }}</td>
           <td><span class="admin-badge" [class.on]="c.status === 'complete'" [class.off]="c.status !== 'complete'">{{ c.status.replace('_',' ') }}</span></td>

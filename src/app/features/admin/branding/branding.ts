@@ -6,15 +6,16 @@ import { StorageUploadService } from '../../../core/services/storage-upload.serv
 import { SalonIdentityService } from '../../../core/services/salon-identity.service';
 import { BrandingTokens } from '../../../core/models';
 import { DEFAULT_MARK_INITIAL } from '../../../core/services/salon-identity.service';
+import { SfPageActionDirective } from '../../../shared/directives/page-action.directive';
 
 const DEFAULTS: BrandingTokens = {
   id: 'default',
-  primary: '#3e5341',
-  secondary: '#93ab94',
-  accent: '#c7a05e',
-  background: '#faf6ef',
-  surface: '#ffffff',
-  text: '#262620',
+  primary: '#4a6b57',
+  secondary: '#8baa8e',
+  accent: '#c9a96e',
+  background: '#e9e6e0',
+  surface: '#fffdf9',
+  text: '#333333',
   logoUrl: null,
   markInitial: DEFAULT_MARK_INITIAL,
 };
@@ -22,7 +23,7 @@ const DEFAULTS: BrandingTokens = {
 @Component({
   selector: 'app-branding',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SfPageActionDirective],
   templateUrl: './branding.html',
   styleUrl: './branding.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +33,10 @@ export class Branding {
   private readonly uploadSvc = inject(StorageUploadService);
   readonly identity = inject(SalonIdentityService);
   private readonly remote = toSignal(this.brandingSvc.get(), { initialValue: undefined });
+
+  readonly pageAction = (): void => {
+    void this.save();
+  };
 
   readonly form = signal<BrandingTokens>({ ...DEFAULTS });
   readonly saved = signal(false);

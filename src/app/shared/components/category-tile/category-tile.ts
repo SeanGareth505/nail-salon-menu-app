@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Category } from '../../../core/models';
+import { categorySfIcon } from '../../utils/category-icon.util';
 import { SfIcon } from '../icon/icon';
 
 @Component({
@@ -9,27 +10,28 @@ import { SfIcon } from '../icon/icon';
   imports: [RouterLink, SfIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a class="tile" [routerLink]="['/treatments']" [queryParams]="{ category: category().slug }">
-      <span class="circle" [class]="'tint-' + category().tint">
-        <sf-icon [name]="category().icon" [size]="22" />
+    <a
+      class="tile"
+      [class]="'tint-' + category().tint"
+      [routerLink]="['/treatments']"
+      [queryParams]="{ category: category().slug }"
+      [attr.aria-label]="'Browse ' + category().name + ' treatments'"
+    >
+      <sf-icon class="watermark" [name]="iconName()" [size]="88" [strokeWidth]="0.7" />
+      <sf-icon class="icon" [name]="iconName()" [size]="24" [strokeWidth]="1.3" />
+      <span class="copy">
+        <span class="name">{{ category().name }}</span>
+        <span class="count">{{ treatmentCount() }} treatments</span>
       </span>
-      <span class="label">{{ category().name }}</span>
     </a>
   `,
-  styles: [`
-    .tile { display: flex; flex-direction: column; align-items: center; gap: var(--sf-space-2); text-decoration: none; color: var(--sf-ink); }
-    .circle { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(201, 169, 110, 0.28); }
-    .tint-blush { background: var(--sf-blush); color: var(--sf-blush-fg); }
-    .tint-sage { background: var(--sf-sage-light); color: var(--sf-forest); }
-    .tint-sky { background: var(--sf-sky); color: var(--sf-sky-fg); }
-    .tint-sand { background: var(--sf-sand); color: var(--sf-sand-fg); }
-    .tile { transition: transform var(--sf-dur-fast) var(--sf-ease-standard); }
-    @media (hover: hover) {
-      .tile:hover { transform: translateY(-2px); }
-    }
-    .label { font-size: 0.72rem; font-weight: 400; color: rgba(51, 51, 51, 0.72); text-align: center; line-height: 1.3; }
-  `],
+  styleUrl: './category-tile.scss',
 })
 export class SfCategoryTile {
   readonly category = input.required<Category>();
+  readonly treatmentCount = input(0);
+
+  readonly iconName = computed(() =>
+    categorySfIcon(this.category().slug, this.category().icon),
+  );
 }

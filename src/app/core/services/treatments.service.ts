@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { orderBy, where } from '@angular/fire/firestore';
+import { orderBy, serverTimestamp, where, writeBatch } from '@angular/fire/firestore';
 import { Treatment } from '../models';
 import { FirestoreBaseRepository } from './firestore-base.repository';
 
@@ -17,5 +17,20 @@ export class TreatmentsService extends FirestoreBaseRepository<Treatment> {
 
   listByCategory(categoryId: string) {
     return this.list(where('categoryId', '==', categoryId), where('active', '==', true));
+  }
+
+  async reorder(updates: { id: string; sortOrder: number }[]): Promise<void> {
+    return this.loading.run(async () => {
+      const uid = this.auth.currentUid();
+      const batch = writeBatch(this.firestore);
+      for (const { id, sortOrder } of updates) {
+        batch.update(this.docRef(id), {
+          sortOrder,
+          updatedAt: serverTimestamp(),
+          updatedBy: uid,
+        });
+      }
+      await batch.commit();
+    }, 'Saving order…');
   }
 }

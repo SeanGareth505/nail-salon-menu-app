@@ -12,24 +12,35 @@ service firebase.storage {
         && request.auth.token.email.matches('^t-.+@staff\\.salonflow\\.internal$');
     }
 
+    function isKiosk() {
+      return isSignedIn() && (
+        request.auth.token.firebase.sign_in_provider == 'anonymous' ||
+        request.auth.token.kiosk == true
+      );
+    }
+
     function isAdmin() {
-      return isSignedIn() && !isTherapistAuth();
+      return isSignedIn() && !isTherapistAuth() && !isKiosk();
     }
 
     function isStaff() {
       return isAdmin() || isTherapistAuth();
     }
 
+    function isStaffOrKiosk() {
+      return isStaff() || isKiosk();
+    }
+
     match /signatures/{fileName} {
-      allow read: if isStaff();
-      allow write: if isStaff()
+      allow read: if isStaffOrKiosk();
+      allow write: if isStaffOrKiosk()
         && request.resource.size < 2 * 1024 * 1024
         && request.resource.contentType.matches('image/.*');
     }
 
     match /consultation-images/{consultationId}/{fileName} {
-      allow read: if isStaff();
-      allow write: if isStaff()
+      allow read: if isStaffOrKiosk();
+      allow write: if isStaffOrKiosk()
         && request.resource.size < 8 * 1024 * 1024
         && request.resource.contentType.matches('image/.*');
     }

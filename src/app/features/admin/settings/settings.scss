@@ -1,3 +1,19 @@
+.map-hint {
+  margin: 0 0 var(--sf-space-4);
+  color: var(--sf-ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.map-preview {
+  margin-bottom: var(--sf-space-5);
+  max-width: 720px;
+}
+
+.map-preview sf-salon-map {
+  display: block;
+}
+
 .demo-banner {
   display: flex;
   align-items: center;

@@ -1,4 +1,4 @@
-<div class="admin-page">
+<div class="admin-page" [sfPageAction]="pageAction">
   <header class="admin-head">
     <div>
       <h1>Users</h1>
@@ -6,26 +6,35 @@
     </div>
   </header>
 
+  <p class="page-intro">Admins sign in at <code>/login</code> with email and password. The salon tablet opens consent forms at <code>/therapist</code> — no therapist sign-in required.</p>
+
   <div class="admin-form note-card">
     <h2>How access works</h2>
     <ul>
       <li><strong>Admins</strong> — sign in at <code>/login</code> with email &amp; password (Firebase Auth).</li>
-      <li><strong>Therapists</strong> — managed on the Therapists screen with a 6-digit tablet PIN, not here.</li>
+      <li><strong>Tablet</strong> — open <code>/therapist</code> on the salon iPad for consent forms. Therapists are selected during each form, not at login.</li>
     </ul>
     <p>Add new admins in Firebase Console → Authentication → Add user, then they can sign in immediately.</p>
+    <button type="button" class="admin-btn" (click)="pageAction()">Open Firebase Authentication</button>
   </div>
 
   @if (users().length) {
-    <table class="admin-table">
-      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead>
-      <tbody>
-        @for (u of users(); track u.id) {
-          <tr>
-            <td>{{ u.displayName }}</td><td>{{ u.email }}</td><td>{{ u.role }}</td>
-            <td><span class="admin-badge" [class.on]="u.active" [class.off]="!u.active">{{ u.active ? 'Active' : 'Disabled' }}</span></td>
-          </tr>
-        }
-      </tbody>
-    </table>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead>
+        <tbody>
+          @for (u of users(); track u.id) {
+            <tr>
+              <td>{{ u.displayName }}</td><td>{{ u.email }}</td><td>{{ u.role }}</td>
+              <td><span class="admin-badge" [class.on]="u.active" [class.off]="!u.active">{{ u.active ? 'Active' : 'Disabled' }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="admin-form empty-card">
+      <p>No user profiles in Firestore yet. Firebase Authentication accounts still have admin access once created.</p>
+    </div>
   }
 </div>

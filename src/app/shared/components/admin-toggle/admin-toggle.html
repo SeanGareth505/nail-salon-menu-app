@@ -1,0 +1,13 @@
+<button
+  type="button"
+  class="toggle"
+  [class.on]="checked()"
+  [class.disabled]="disabled()"
+  [disabled]="disabled()"
+  (click)="toggle()"
+>
+  <span class="track">
+    <span class="knob"></span>
+  </span>
+  <span class="label">{{ label() }}</span>
+</button>

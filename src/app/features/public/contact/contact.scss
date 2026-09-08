@@ -1,5 +1,23 @@
-.page { max-width: 640px; margin: 0 auto; }
-.tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 26px; }
+.contact-page {
+  padding: 66px 20px 40px;
+}
+
+h1 {
+  margin: 0 0 22px;
+  font-family: var(--sf-font-display);
+  font-size: 2.125rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--sf-ink);
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
 .tile {
   height: 82px;
   display: flex;
@@ -7,24 +25,54 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: var(--sf-radius-sm);
+  border-radius: 0;
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
+  font-family: var(--sf-font-body);
 }
-.tile.call { background: var(--sf-forest); color: var(--sf-on-forest); }
-.tile.whatsapp { background: var(--sf-sky); color: var(--sf-sky-fg); }
-.tile.directions { background: var(--sf-sand); color: var(--sf-forest); }
-.tile.email { border: 1px solid rgba(74, 107, 87, 0.3); color: var(--sf-forest); background: var(--sf-surface); }
 
-.hours { margin-bottom: 26px; }
+.tile.call {
+  background: var(--sf-forest);
+  color: var(--sf-on-forest);
+}
+
+.tile.call:hover { color: var(--sf-on-forest); }
+
+.tile.whatsapp {
+  background: var(--sf-sky);
+  color: var(--sf-sky-fg);
+}
+
+.tile.whatsapp:hover { color: var(--sf-sky-fg); }
+
+.tile.directions {
+  background: var(--sf-sand);
+  color: var(--sf-forest);
+}
+
+.tile.directions:hover { color: var(--sf-forest); }
+
+.tile.email {
+  border: 1px solid rgba(74, 107, 87, 0.3);
+  color: var(--sf-forest);
+  background: var(--sf-surface);
+}
+
+.tile.email:hover { color: var(--sf-forest); }
+
+.hours { margin-bottom: 0; }
+
 .hours-label {
   margin: 0 0 12px;
+  font-family: var(--sf-font-body);
   font-size: 0.75rem;
+  font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--sf-forest);
 }
+
 .hours-row {
   display: flex;
   justify-content: space-between;
@@ -32,30 +80,73 @@
   border-bottom: 1px solid rgba(74, 107, 87, 0.11);
   font-weight: 300;
   font-size: 0.88rem;
+  color: rgba(51, 51, 51, 0.7);
 }
-.hours-row:last-child { border-bottom: none; }
 
-.map-block { margin-top: 26px; }
-.map-art {
-  position: relative;
-  height: 170px;
-  background: var(--sf-sage-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.road-h { position: absolute; left: -20px; top: 52px; right: -20px; height: 14px; background: rgba(255, 253, 249, 0.9); }
-.road-v { position: absolute; left: 112px; top: -20px; bottom: -20px; width: 10px; background: rgba(255, 253, 249, 0.9); }
-.block { position: absolute; left: 0; bottom: 0; width: 150px; height: 78px; background: rgba(201, 169, 110, 0.16); }
-.pin-wrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 1; }
-.pin { width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--sf-forest); background: var(--sf-surface); display: block; }
-.pin-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.hours-row.weekday {
   color: var(--sf-forest);
-  background: var(--sf-surface);
-  padding: 6px 10px;
+  font-weight: 400;
 }
-.address { margin: 16px 0 0; color: var(--sf-ink-muted); font-weight: 300; line-height: 1.7; font-size: 0.88rem; }
+
+.hours-row:last-child {
+  border-bottom: none;
+}
+
+.map-block {
+  margin-top: 26px;
+}
+
+.address {
+  margin: 16px 0 0;
+  color: rgba(51, 51, 51, 0.65);
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: 0.84rem;
+}
+
+@media (min-width: 768px) {
+  .contact-page {
+    padding: 38px var(--sf-client-pad-x) 48px;
+  }
+
+  .desktop-only {
+    display: inline;
+  }
+}
+
+@media (min-width: 834px) {
+  .contact-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .contact-page > h1 {
+    grid-column: 1 / -1;
+    margin-bottom: 30px;
+    font-size: 2.75rem;
+  }
+
+  .tile-grid {
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .tile {
+    height: 92px;
+    font-size: 0.906rem;
+    gap: 11px;
+  }
+
+  .hours-row {
+    padding: 14px 0;
+    font-size: 0.906rem;
+  }
+
+  .address {
+    margin-top: 20px;
+    font-size: 0.906rem;
+    line-height: 1.75;
+  }
+}

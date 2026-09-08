@@ -1,6 +1,7 @@
 import manifest from '../../../assets/demo-catalogue.manifest.json';
 import { BrandingTokens } from '../models';
 import { SalonHours, SalonSettings } from '../models/salon-settings.model';
+import { DEFAULT_CONSENT_TEMPLATE_ID } from '../consent/default-consent-template';
 
 import { DEFAULT_MARK_INITIAL } from '../services/salon-identity.service';
 
@@ -28,6 +29,7 @@ export const BLANK_SALON_SETTINGS: SalonSettings = {
   hours: BLANK_SALON_HOURS,
   vatIncluded: true,
   catalogueSource: 'custom',
+  defaultConsentTemplateId: DEFAULT_CONSENT_TEMPLATE_ID,
 };
 
 export const STARTER_BRANDING: BrandingTokens = {

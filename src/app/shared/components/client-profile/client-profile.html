@@ -1,66 +1,103 @@
 @if (client(); as c) {
-  <div class="page" [class.admin-page]="isAdminView()">
+  <div class="page" [class.admin-page]="isAdminView()" [class.therapist-page]="!isAdminView()">
+    <a [routerLink]="backNav().link" [queryParams]="backNav().queryParams ?? {}" class="back-link">{{ backNav().label }}</a>
+
     <header class="page-head">
-      <a [routerLink]="backLink()" class="back-link">← Back</a>
-      <div class="head-main">
-        <span class="avatar">{{ c.fullName.charAt(0) }}</span>
-        <div>
-          <h1>{{ c.fullName }}</h1>
-          <p class="meta">{{ c.phone }} @if (c.email) { · {{ c.email }} }</p>
-          @if (c.lastConsultationAt) {
-            <p class="meta subtle">Last visit {{ c.lastConsultationAt | date: 'MMM d, y' }} · {{ c.totalConsultations }} consultation(s)</p>
-          }
+      <span class="avatar" [style.background]="avatarBg(c.fullName)" [style.color]="avatarFg(c.fullName)">{{ c.fullName.charAt(0) }}</span>
+      <div class="identity">
+        <h1>{{ c.fullName }}</h1>
+        <div class="meta-row">
+          <span>{{ c.phone }}</span>
+          @if (c.email) { <span>{{ c.email }}</span> }
+          @if (clientSince(c); as since) { <span>Client since {{ since }}</span> }
         </div>
       </div>
       @if (!isAdminView()) {
-        <a [routerLink]="['/therapist/consultations/new']" class="cta">New consultation</a>
+        <a [routerLink]="['/therapist/consent-forms/new']" [queryParams]="{ client: c.id }" class="cta">New consent form</a>
       }
     </header>
 
-    @if (c.notes) {
+    @if (!isAdminView() && showReviewBanner(c)) {
+      <div class="review-banner">
+        <div class="banner-label">Review recommended</div>
+        <p>Last consent form was {{ c.lastConsultationAt | date: 'd MMMM y' }} against form v{{ lastSignedVersion() }}. The current published form is v{{ currentPublishedVersion() }}, so a full health review is required at the next visit rather than a confirmation.</p>
+      </div>
+    }
+
+    @if (c.notes && isAdminView()) {
       <div class="sf-card notes"><p class="sf-eyebrow">Notes</p><p>{{ c.notes }}</p></div>
     }
 
-    <section>
-      <h2>Consultation history</h2>
-      <div class="sf-card list">
+    <div class="columns">
+      <section class="history-col">
+        <h2>Consent form history</h2>
         @for (con of consultations(); track con.id) {
-          <div class="row">
+          <div class="history-row">
+            <span class="date-col">{{ (con.signedAt ?? con.startedAt) | date: 'd MMM y' }}</span>
             <span class="body">
-              <span class="name">{{ con.treatmentName }}</span>
-              <span class="sub">{{ con.startedAt | date: 'MMM d, y · HH:mm' }} · {{ con.therapistName }}</span>
+              <span class="name">{{ consultationFormVersion(con) }}</span>
+              <span class="sub">{{ con.performingTherapistName ?? con.intendedTherapistName ?? con.therapistName ?? 'Therapist not recorded' }} · {{ (con.signedAt ?? con.startedAt) | date: 'd MMM y' }}</span>
             </span>
-            <sf-state-pill [tone]="pillTone(con.status)">{{ con.status.replace('_',' ') }}</sf-state-pill>
+            <sf-state-pill [tone]="pillTone(con.status)">{{ statusLabel(con.status) }}</sf-state-pill>
+            <button type="button" class="open-btn" (click)="openConsultation(con)">
+              {{ con.status === 'complete' || con.status === 'abandoned' ? 'View' : 'Complete' }}
+            </button>
           </div>
         } @empty {
-          <sf-empty-state icon="records" title="No consultations yet" [message]="isAdminView() ? 'This client has no recorded consultations.' : 'Start this client\'s first consultation from the button above.'" />
+          <sf-empty-state icon="records" title="No consent forms yet" [message]="isAdminView() ? 'This client has no recorded consent forms.' : 'Start this client\'s first consent form from the button above.'" />
         }
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Consent records</h2>
-      <div class="sf-card list">
-        @for (sub of submissions(); track sub.id) {
-          <div class="row">
-            <span class="body">
-              <span class="name">Version {{ sub.templateVersionNumber }} · {{ sub.status }}</span>
-              <span class="sub">
-                @if (formatWhen(sub.createdAt); as when) {
-                  {{ when | date: 'MMM d, y · HH:mm' }} ·
-                }
-                {{ sub.answers.length }} answer(s)
-              </span>
-              @if (sub.requiresTherapistReview) { <span class="flag">Review required</span> }
-            </span>
-            <sf-state-pill [tone]="pillTone(sub.status)">{{ sub.status }}</sf-state-pill>
+      @if (!isAdminView()) {
+        <aside class="declared-col">
+          <h2>Declared on record</h2>
+          <div class="declared-list">
+            @for (item of declaredItems(c); track item.what) {
+              <div class="declared-item" [style.background]="item.bg">
+                <span class="diamond" [style.background]="item.dot"></span>
+                <div>
+                  <div class="declared-what">{{ item.what }}</div>
+                  <div class="declared-when">{{ item.when }}</div>
+                </div>
+              </div>
+            }
           </div>
-        } @empty {
-          <sf-empty-state icon="records" title="No consent forms" message="Signed consent submissions will appear here." />
-        }
-      </div>
-    </section>
+          <p class="declared-note">Health answers are never carried over silently. Each visit the client confirms or re-answers.</p>
+        </aside>
+      } @else {
+        <section>
+          <h2>Consent forms</h2>
+          <div class="sf-card list">
+            @for (sub of submissions(); track sub.id) {
+              <div class="row">
+                <span class="body">
+                  <span class="name">Version {{ sub.templateVersionNumber }} · {{ sub.status }}</span>
+                  <span class="sub">
+                    @if (formatWhen(sub.createdAt); as when) {
+                      {{ when | date: 'MMM d, y · HH:mm' }} ·
+                    }
+                    {{ sub.answers.length }} answer(s)
+                  </span>
+                </span>
+                <sf-state-pill [tone]="pillTone(sub.status)">{{ sub.status }}</sf-state-pill>
+              </div>
+            } @empty {
+              <sf-empty-state icon="records" title="No consent forms" message="Signed consent submissions will appear here." />
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+} @else if (clientLoading()) {
+  <div class="page" [class.admin-page]="isAdminView()">
+    <sf-skeleton variant="avatar" />
+    <sf-skeleton variant="text" [count]="3" />
+    <sf-skeleton variant="consent-row" [count]="2" />
   </div>
 } @else {
-  <div class="page"><p>Loading…</p></div>
+  <div class="page">
+    <sf-empty-state icon="records" title="Client not found" message="This client record may have been removed or the link is incorrect." />
+    <a [routerLink]="backNav().link" [queryParams]="backNav().queryParams ?? {}" class="back-link">{{ backNav().label }}</a>
+  </div>
 }

@@ -22,16 +22,17 @@
 .size-xl.ring { width: 88px; height: 88px; font-size: 1.75rem; border-width: 2.5px; }
 .size-overlay.ring { width: 44px; height: 44px; font-size: 0.95rem; }
 .size-rail.ring {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  font-size: 1.06rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  border-width: 0;
 }
 
 .size-rail.ring.inverse {
-  background: var(--sf-surface);
-  color: var(--sf-forest);
-  border-color: transparent;
+  background: transparent;
+  color: var(--sf-champagne);
+  box-shadow: none;
 }
 
 .logo-img {
@@ -45,4 +46,8 @@
 .size-lg.logo-img { max-height: 72px; max-width: 200px; }
 .size-xl.logo-img { max-height: 88px; max-width: 220px; }
 .size-overlay.logo-img { max-height: 44px; max-width: 120px; }
-.size-rail.logo-img { max-height: 48px; max-width: 48px; border-radius: 12px; }
+.size-rail.logo-img {
+  max-height: 44px;
+  max-width: 44px;
+  object-fit: contain;
+}

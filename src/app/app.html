@@ -5,4 +5,7 @@
   </div>
 }
 <router-outlet />
+@if (loading.active()) {
+  <sf-loading-overlay [message]="loading.message()" />
+}
 <sf-pwa-update-banner />

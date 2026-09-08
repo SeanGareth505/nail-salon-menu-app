@@ -1,0 +1,136 @@
+<div class="page">
+  <a routerLink="/therapist/consent-forms" class="back-link">← Pending consent forms</a>
+
+  @if (recordLoading()) {
+    <sf-skeleton variant="text" [count]="2" />
+    <div class="layout">
+      <sf-skeleton variant="block" />
+      <sf-skeleton variant="block" />
+    </div>
+  } @else if (consultation(); as record) {
+    <header class="page-head">
+      <div class="head-copy">
+        <div class="head-top">
+          <h1>Complete consent form</h1>
+          <sf-state-pill tone="incomplete">Pending review</sf-state-pill>
+        </div>
+        <p class="sub">Review the signed answers, then record who reviewed this form and mark it complete.</p>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="main-col">
+        <section class="client-card">
+          <span
+            class="avatar"
+            [style.background]="avatarBg(record.clientName)"
+            [style.color]="avatarFg(record.clientName)"
+          >
+            {{ record.clientName.charAt(0) }}
+          </span>
+
+          <div class="client-body">
+            <p class="eyebrow">Client</p>
+            <h2 class="client-name">{{ record.clientName }}</h2>
+            @if (client(); as c) {
+              <div class="client-meta">
+                <span>{{ c.phone }}</span>
+                @if (c.email) {
+                  <span>{{ c.email }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <a
+            class="client-link"
+            [routerLink]="['/therapist/clients', record.clientId]"
+            [queryParams]="{ return: 'consent-forms' }"
+          >
+            View client
+          </a>
+        </section>
+
+        <section class="meta-grid">
+          <div class="meta-card">
+            <span class="meta-label">Signed</span>
+            <span class="meta-value">{{ record.signedAt | date: 'd MMM y' }}</span>
+            <span class="meta-sub">{{ record.signedAt | date: 'HH:mm' }}</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Form version</span>
+            <span class="meta-value">{{ formVersionLabel() }}</span>
+            <span class="meta-sub">Exact version signed</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Reviewing therapist</span>
+            <span class="meta-value">{{ record.intendedTherapistName ?? 'Not recorded' }}</span>
+            <span class="meta-sub">Recorded at sign-in</span>
+          </div>
+        </section>
+
+        @if (record.consentNotes) {
+          <section class="notes-card">
+            <p class="eyebrow">Client notes</p>
+            <p class="notes-copy">{{ record.consentNotes }}</p>
+          </section>
+        }
+
+        @if (flaggedReviewCount() > 0) {
+          <section class="alert-card">
+            <div class="alert-head">
+              <span class="alert-diamond"></span>
+              <span>{{ flaggedReviewCount() }} flagged answer{{ flaggedReviewCount() === 1 ? '' : 's' }}</span>
+            </div>
+            <p>These answers were flagged when the client signed. Review them before marking this form complete.</p>
+          </section>
+        }
+
+        @if (reviewGroups().length) {
+          <section class="answers-section">
+            <div class="section-head">
+              <h2>Signed answers</h2>
+              <p>Captured from the consent form the client signed today.</p>
+            </div>
+
+            <div class="review-list">
+              @for (group of reviewGroups(); track group.key) {
+                <article class="review-card">
+                  <h3>{{ group.name }}</h3>
+                  @for (row of group.rows; track row.label) {
+                    <div class="review-row">
+                      <span class="review-label">{{ row.label }}</span>
+                      <span class="review-value" [class.flagged]="row.flagged">{{ row.value }}</span>
+                    </div>
+                  }
+                </article>
+              }
+            </div>
+          </section>
+        }
+
+        @if (submission()?.signature; as signature) {
+          <section class="signature-card">
+            <div class="section-head">
+              <h2>Client signature</h2>
+              <p>Signed by {{ signature.signedByName }} on {{ signature.signedAt | date: 'd MMM y, HH:mm' }}</p>
+            </div>
+            <div class="signature-frame">
+              <img [src]="signature.dataUrl" alt="Client signature" />
+            </div>
+          </section>
+        }
+      </div>
+
+      <aside class="side-col">
+        <sf-consent-form-complete-panel
+          [consultationId]="record.id"
+          [intendedTherapistId]="record.intendedTherapistId"
+          (completed)="onCompleted()"
+        />
+      </aside>
+    </div>
+  } @else {
+    <sf-empty-state icon="records" title="Consent form not found" message="This record may have been removed or already completed." />
+  }
+</div>

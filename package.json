@@ -12,6 +12,8 @@
     "reset:demo": "node scripts/reset-demo-catalogue.mjs",
     "lottie:theme": "node scripts/themed-lottie.mjs",
     "lottie:salon-loader": "node scripts/generate-salon-loader.mjs",
+    "lottie:categories": "node scripts/generate-category-lotties.mjs",
+    "icons:generate": "node scripts/generate-icons.mjs",
     "firebase:rules": "npx firebase-tools deploy --only firestore:rules,firestore:indexes,storage",
     "deploy": "npx firebase-tools deploy --only hosting"
   },

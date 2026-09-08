@@ -39,8 +39,11 @@ const MOTIF_ICONS: Record<string, string> = {
       align-items: center;
       text-align: center;
       gap: var(--sf-space-2);
-      padding: var(--sf-space-6) var(--sf-space-4);
+      padding: var(--sf-space-5) var(--sf-space-4);
       color: var(--sf-ink-muted);
+      border: 1px solid rgba(201, 169, 110, 0.4);
+      border-radius: var(--sf-radius-sm);
+      background: var(--sf-surface);
     }
     h3 {
       color: var(--sf-ink);

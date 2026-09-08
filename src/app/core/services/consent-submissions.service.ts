@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { orderBy, where } from '@angular/fire/firestore';
+import { limit, orderBy, where } from '@angular/fire/firestore';
 import { ConsentSubmission } from '../models';
 import { FirestoreBaseRepository } from './firestore-base.repository';
 
@@ -11,11 +11,15 @@ export class ConsentSubmissionsService extends FirestoreBaseRepository<ConsentSu
     return this.list(where('clientId', '==', clientId), orderBy('createdAt', 'desc'));
   }
 
-  listFlagged() {
-    return this.list(where('status', '==', 'flagged'), orderBy('createdAt', 'desc'));
+  listPending() {
+    return this.list(where('status', '==', 'pending'), orderBy('createdAt', 'desc'));
   }
 
   listComplete() {
     return this.list(where('status', '==', 'complete'), orderBy('createdAt', 'desc'));
+  }
+
+  listRecent(max = 100) {
+    return this.list(orderBy('createdAt', 'desc'), limit(max));
   }
 }

@@ -13,4 +13,5 @@ export const environment = {
   appCheckSiteKey: '',
   appCheckDebugToken: '',
   useEmulators: false,
+  firebaseVapidKey: 'BH3uFI3zDpSK9P_M5fQ29ATYAXhOaXae9Ar_t-_DoVnsd_7J_Dw4zCX5QfP6SMBq4IKIiyJt3XPZ5fQH0XY_EM4',
 };

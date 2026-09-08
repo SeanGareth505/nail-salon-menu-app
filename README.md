@@ -37,7 +37,7 @@ npm run deploy
 ## Access model
 
 - **Admins** — any Firebase Authentication email/password user. Sign in at `/login`. No Firestore `users` doc required.
-- **Therapists** — salon iPad PIN at `/login/therapist`. Set a 6-digit PIN on **Admin › Therapists**.
+- **Tablet** — open `/therapist` on the salon iPad for consent forms. Therapists are selected during each form; no sign-in required.
 
 ## First-time data setup
 
@@ -61,10 +61,10 @@ Demo seed is safe to re-run — it refreshes the sample catalogue. Reset removes
 | Area | Paths |
 |------|-------|
 | Public | `/`, `/treatments`, `/treatments/:id`, `/specials`, `/therapists`, `/therapists/:id`, `/contact` |
-| Therapist | `/therapist`, `/therapist/consultations`, `/therapist/consultations/new`, `/therapist/clients/:id` |
+| Therapist | `/therapist`, `/therapist/consent-forms`, `/therapist/consent-forms/new`, `/therapist/clients/:id` |
 | Admin | `/admin`, `/admin/treatments`, `/admin/categories`, `/admin/therapists`, `/admin/specials`, `/admin/consent-forms`, `/admin/consultations`, `/admin/analytics`, `/admin/settings`, `/admin/branding`, `/admin/qr-codes`, `/admin/users` |
 
-Staff sign-in: `/login` (email) · Therapist PIN: `/login/therapist`
+Staff sign-in: `/login` (admin) · Tablet consent forms: `/therapist`
 
 ## App Check (production)
 

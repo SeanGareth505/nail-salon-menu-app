@@ -58,6 +58,9 @@ async function main() {
     phone: '+27 11 123 4567',
     whatsapp: '27821234567',
     email: 'hello@salonflow.co.za',
+    mapLat: -26.1456,
+    mapLng: 28.0436,
+    locationNote: 'Parking on level P2, lift access to the first floor',
     hours: [
       { day: 'monday', label: 'Monday – Friday', open: '09:00', close: '18:00' },
       { day: 'saturday', label: 'Saturday', open: '09:00', close: '16:00' },
@@ -66,6 +69,7 @@ async function main() {
     ],
     vatIncluded: true,
     catalogueSource: 'demo',
+    defaultConsentTemplateId: 'health-safety',
   });
 
   await setDoc(doc(db, 'branding/default'), {
@@ -81,10 +85,10 @@ async function main() {
   });
 
   const categories = [
-    { id: 'nails', name: 'Nails', slug: 'nails', icon: 'droplet', tint: 'blush', sortOrder: 1 },
-    { id: 'facials', name: 'Facials', slug: 'facials', icon: 'leaf', tint: 'sage', sortOrder: 2 },
-    { id: 'massage', name: 'Massage', slug: 'massage', icon: 'droplet', tint: 'sky', sortOrder: 3 },
-    { id: 'waxing', name: 'Waxing', slug: 'waxing', icon: 'scissors', tint: 'sand', sortOrder: 4 },
+    { id: 'nails', name: 'Nails', slug: 'nails', icon: 'brush', tint: 'blush', sortOrder: 1 },
+    { id: 'facials', name: 'Facials', slug: 'facials', icon: 'face_retouching_natural', tint: 'sage', sortOrder: 2 },
+    { id: 'massage', name: 'Massage', slug: 'massage', icon: 'self_improvement', tint: 'sky', sortOrder: 3 },
+    { id: 'waxing', name: 'Waxing', slug: 'waxing', icon: 'content_cut', tint: 'sand', sortOrder: 4 },
   ];
   for (const c of categories) {
     await setDoc(doc(db, 'categories', c.id), { ...c, active: true, ...demoMeta(), ...aud(uid) });
@@ -167,25 +171,90 @@ async function main() {
   for (const t of treatments) {
     await setDoc(doc(db, 'treatments', t.id), {
       ...t, slug: t.id, onSpecial: false, specialId: null, relatedTreatmentIds: [],
+      featured: ['gel-manicure', 'hydrating-facial', 'aromatherapy-massage'].includes(t.id),
+      imageUrl: null,
       consentTemplateId: 'health-safety', active: true, sortOrder: 1, ...demoMeta(), ...aud(uid),
     });
   }
   console.log('Seeded treatments');
 
   const specials = [
-    { id: 'winter-glow', title: 'Winter Glow Facial Ritual', scriptTitle: 'Winter Glow', treatmentId: 'hydrating-facial',
-      description: 'Hydrating Facial paired with LED light therapy — 105 minutes of layered hydration and calm.',
-      price: 890, originalPrice: 1170, startsAt: '2026-08-01', endsAt: '2026-09-30',
-      therapistIds: ['lerato'], finePrint: 'One per client. Cannot be combined with other offers.', state: 'live' },
-    { id: 'gel-mani-pedi-duo', title: 'Gel Mani + Pedi Duo', scriptTitle: 'Gel Mani + Pedi Duo', treatmentId: 'gel-manicure',
+    {
+      id: 'winter-glow',
+      kind: 'single',
+      title: 'Winter Glow Facial Ritual',
+      scriptTitle: 'Winter Glow',
+      treatmentIds: ['hydrating-facial'],
+      discountType: 'fixed',
+      description: 'Hydrating Facial paired with LED light therapy — 75 minutes of layered hydration and calm.',
+      price: 650,
+      originalPrice: 780,
+      startsAt: '2026-08-01',
+      endsAt: '2026-09-30',
+      therapistIds: ['lerato'],
+      finePrint: 'One per client. Cannot be combined with other offers.',
+      isDraft: false,
+      sortOrder: 1,
+      featured: true,
+    },
+    {
+      id: 'gel-mani-pedi-duo',
+      kind: 'bundle',
+      title: 'Gel Mani + Pedi Duo',
+      scriptTitle: 'Gel Mani + Pedi Duo',
+      treatmentIds: ['gel-manicure', 'gel-pedicure'],
+      discountType: 'fixed',
       description: 'A gel manicure and gel pedicure together in one relaxed appointment.',
-      price: 650, originalPrice: 770, startsAt: '2026-08-01', endsAt: '2026-09-05',
-      therapistIds: ['anja'], finePrint: 'One per client. Cannot be combined with other offers.', state: 'live' },
+      price: 650,
+      originalPrice: 770,
+      startsAt: '2026-08-01',
+      endsAt: '2026-09-30',
+      therapistIds: ['anja'],
+      finePrint: 'One per client. Cannot be combined with other offers.',
+      isDraft: false,
+      sortOrder: 2,
+      featured: false,
+    },
+    {
+      id: 'spring-refresh',
+      kind: 'single',
+      title: 'Spring Refresh Massage',
+      scriptTitle: 'Spring Refresh',
+      treatmentIds: ['full-body-swedish'],
+      discountType: 'percent',
+      percentOff: 15,
+      description: '15% off a full body Swedish massage — book ahead for our spring launch.',
+      price: 587,
+      originalPrice: 690,
+      startsAt: '2026-09-12',
+      endsAt: '2026-09-30',
+      therapistIds: ['thandi'],
+      finePrint: 'Valid for one booking per client during the promotional period.',
+      isDraft: false,
+      sortOrder: 3,
+      featured: false,
+    },
   ];
   for (const s of specials) {
     await setDoc(doc(db, 'specials', s.id), { ...s, ...demoMeta(), ...aud(uid) });
   }
   console.log('Seeded specials');
+
+  const liveSpecialTreatmentMap = {
+    'hydrating-facial': 'winter-glow',
+    'gel-manicure': 'gel-mani-pedi-duo',
+    'gel-pedicure': 'gel-mani-pedi-duo',
+  };
+  for (const t of treatments) {
+    const specialId = liveSpecialTreatmentMap[t.id] ?? null;
+    await updateDoc(doc(db, 'treatments', t.id), {
+      onSpecial: !!specialId,
+      specialId,
+      updatedAt: now(),
+      updatedBy: uid,
+    });
+  }
+  console.log('Synced treatment special flags');
 
   // Consent architecture: one template covering the general health & safety
   // + treatment questions used across the demo treatments, published as v1.

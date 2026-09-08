@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,13 +56,14 @@ input:focus-visible,button:focus-visible{outline:2px solid #8BAA8E;outline-offse
 
         <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
         <div>
-          <div style="position:relative;height:430px">
+          <div style="position:relative;height:248px">
             <div style="position:absolute;inset:0;background:#3E5A4A"></div>
-            <div style="position:absolute;inset:22px;border:1px solid rgba(201,169,110,.4)"></div>
-            <div style="position:absolute;top:74px;left:0;right:0;text-align:center;font:400 12px/1 Inter,sans-serif;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,253,249,.72)">Welcome to</div>
+            <div style="position:absolute;left:16px;right:16px;top:16px;bottom:88px;border:1px solid rgba(201,169,110,.38)"></div>
+            <div style="position:absolute;top:96px;left:0;right:0;text-align:center;font:400 11.5px/1 Inter,sans-serif;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,253,249,.78)">Welcome to</div>
+            <div style="position:absolute;top:132px;left:0;right:0;text-align:center"><span style="display:inline-block;width:44px;height:1px;background:rgba(201,169,110,.75)"></span></div>
           </div>
 
-          <div style="margin:-96px 20px 0;position:relative;z-index:10;background:#FFFDF9;border-radius:4px;padding:26px 24px 24px;text-align:center;box-shadow:0 18px 40px -18px rgba(60,72,64,.35)">
+          <div style="margin:-88px 20px 0;position:relative;z-index:10;background:#FFFDF9;border-radius:4px;padding:26px 24px 24px;text-align:center;box-shadow:0 18px 40px -18px rgba(60,72,64,.35)">
             <img src="assets/salonflow-logo.png" alt="SalonFlow" style="height:96px;width:auto;display:block;margin:0 auto 2px">
             <p style="margin:0 0 4px;font:400 25px/1.2 Allura,cursive;color:#C9A96E">Your Escape, Our Passion.</p>
             <p style="margin:0 0 20px;font:300 13.5px/1.6 Inter,sans-serif;color:rgba(51,51,51,.62);text-wrap:pretty">Welcome in. Browse the full treatment menu, this week's specials and the team looking after you today.</p>
@@ -75,13 +77,15 @@ input:focus-visible,button:focus-visible{outline:2px solid #8BAA8E;outline-offse
             <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 20px 14px">
               <h2 style="margin:0;font:400 21px/1 'Playfair Display',serif;color:#333">Browse by category</h2>
             </div>
-            <div class="sfscroll" style="display:flex;gap:14px;overflow-x:auto;padding:2px 20px 4px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px">
               <sc-for list="{{ categories }}" as="c" hint-placeholder-count="6">
-                <button onClick="{{ c.go }}" style="flex:none;width:78px;border:0;background:transparent;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:9px">
-                  <div style="width:70px;height:70px;border-radius:50%;background:{{ c.tint }};display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,169,110,.28)">
-                    <div style="width:22px;height:22px;border-radius:{{ c.shape }};background:{{ c.mark }};opacity:.85"></div>
-                  </div>
-                  <span style="font:400 11.5px/1.3 Inter,sans-serif;color:rgba(51,51,51,.72);text-align:center">{{ c.name }}</span>
+                <button onClick="{{ c.go }}" style="position:relative;border:1px solid rgba(74,107,87,.14);background:{{ c.tint }};padding:16px 16px 15px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:22px;overflow:hidden">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="{{ c.mark }}" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position:absolute;right:-16px;bottom:-18px;width:88px;height:88px;opacity:.16"><path d="{{ c.icon }}"></path></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="{{ c.mark }}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:24px;height:24px;position:relative"><path d="{{ c.icon }}"></path></svg>
+                  <span style="position:relative;text-align:left">
+                    <span style="display:block;font:400 17px/1.15 'Playfair Display',serif;color:#333">{{ c.name }}</span>
+                    <span style="display:block;font:400 10.5px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(51,51,51,.48);margin-top:7px">{{ c.count }} treatments</span>
+                  </span>
                 </button>
               </sc-for>
             </div>
@@ -422,17 +426,386 @@ input:focus-visible,button:focus-visible{outline:2px solid #8BAA8E;outline-offse
 
       </div>
 
-      <div style="flex:none;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid rgba(74,107,87,.13);background:rgba(255,253,249,.96);backdrop-filter:blur(10px);padding-bottom:18px">
+      <div style="flex:none;position:relative;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;border-top:1px solid rgba(74,107,87,.14);background:rgba(255,253,249,.97);backdrop-filter:blur(10px);padding-bottom:20px;box-shadow:0 -1px 14px rgba(62,90,74,.06)">
         <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
-          <button onClick="{{ n.go }}" style="height:58px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0">
-            <svg viewBox="0 0 24 24" fill="none" stroke="{{ n.color }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:22px;height:22px;display:block"><path d="{{ n.icon }}"></path></svg>
-            <span style="font:400 10.5px/1 Inter,sans-serif;color:{{ n.color }}">{{ n.label }}</span>
-          </button>
+          <sc-if value="{{ n.isSide }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ n.go }}" style="height:60px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="{{ n.color }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:21px;height:21px;display:block"><path d="{{ n.icon }}"></path></svg>
+              <span style="font:{{ n.font }};color:{{ n.color }};letter-spacing:.01em">{{ n.label }}</span>
+            </button>
+          </sc-if>
+          <sc-if value="{{ n.isCenter }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ n.go }}" aria-label="Treatments" style="height:60px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;padding:0;position:relative">
+              <span style="position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:68px;height:68px;border-radius:50%;background:#FFFDF9;display:block"></span>
+              <span style="position:absolute;top:-24px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:{{ n.centerBg }};border:1px solid rgba(168,135,76,.5);box-shadow:0 8px 18px -6px rgba(168,135,76,.55);display:flex;align-items:center;justify-content:center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#FFFDF9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:25px;height:25px;display:block"><path d="{{ n.icon }}"></path></svg>
+              </span>
+              <span style="font:{{ n.font }};color:{{ n.color }};letter-spacing:.01em;padding-bottom:2px">{{ n.label }}</span>
+            </button>
+          </sc-if>
         </sc-for>
       </div>
 
     </div>
   </div>
+
+  <sc-for list="{{ wideFrames }}" as="f" hint-placeholder-count="2">
+  <div style="width:{{ f.outerW }};flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">{{ f.label }}</div>
+    <div style="padding:{{ f.bezel }};background:#26282A;border-radius:{{ f.bezelR }};box-shadow:0 26px 60px -22px rgba(40,50,44,.42)">
+      <div class="sfscroll" style="width:{{ f.w }};height:{{ f.h }};border-radius:{{ f.radius }};overflow:hidden;background:#FFFDF9;position:relative;overflow-y:auto">
+        <div style="position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:20px;padding:16px {{ f.pad }};background:rgba(255,253,249,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(74,107,87,.13)">
+          <img src="assets/salonflow-logo.png" alt="SalonFlow" style="height:{{ f.logoH }};width:auto;display:block">
+          <div style="display:flex;gap:4px;margin-left:8px">
+            <sc-for list="{{ wideNav }}" as="n" hint-placeholder-count="5">
+              <button onClick="{{ n.go }}" style="height:42px;padding:0 16px;border:0;border-radius:100px;background:{{ n.bg }};color:{{ n.fg }};font:{{ n.font }};cursor:pointer">{{ n.label }}</button>
+            </sc-for>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <a href="tel:+27115550134" style="height:42px;padding:0 18px;display:flex;align-items:center;gap:9px;background:#4A6B57;color:#FFFDF9;font:500 13px/1 Inter,sans-serif;border-radius:100px;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="{{ ico.phone }}"></path></svg>Call</a>
+            <a href="https://wa.me/27115550134" style="height:42px;padding:0 18px;display:flex;align-items:center;gap:9px;background:#E3F0F9;color:#37627E;font:500 13px/1 Inter,sans-serif;border-radius:100px;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="{{ ico.message }}"></path></svg>WhatsApp</a>
+          </div>
+        </div>
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="position:relative;height:{{ f.heroH }};background:#3E5A4A;display:flex;align-items:center;justify-content:center">
+            <div style="position:absolute;left:22px;right:22px;top:22px;bottom:22px;border:1px solid rgba(201,169,110,.38)"></div>
+            <div style="position:relative;text-align:center">
+              <div style="font:400 11.5px/1 Inter,sans-serif;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,253,249,.78)">Welcome to</div>
+              <div style="margin:16px auto 0;width:44px;height:1px;background:rgba(201,169,110,.75)"></div>
+              <div style="margin-top:20px;font:400 {{ f.heroType }};color:#FFFDF9;letter-spacing:.02em">SalonFlow</div>
+              <div style="margin-top:10px;font:400 30px/1 Allura,cursive;color:#D8BE8B">Your Escape, Our Passion.</div>
+            </div>
+          </div>
+          <div style="margin:-46px {{ f.pad }} 0;position:relative;z-index:5;background:#FFFDF9;padding:26px 32px;display:flex;align-items:center;gap:26px;box-shadow:0 16px 36px -18px rgba(60,72,64,.3)">
+            <p style="margin:0;flex:1;font:300 14.5px/1.65 Inter,sans-serif;color:rgba(51,51,51,.68);text-wrap:pretty">Welcome in. Browse the full treatment menu, this week's specials and the team looking after you today.</p>
+            <button onClick="{{ goMenu }}" style="flex:none;height:54px;padding:0 28px;border:0;border-radius:100px;background:#4A6B57;color:#FFFDF9;font:500 15px/1 Inter,sans-serif;cursor:pointer">Explore Treatments →</button>
+            <button onClick="{{ goSpecials }}" style="flex:none;height:54px;padding:0 26px;border:1px solid #C9A96E;border-radius:100px;background:transparent;color:#A8874C;font:500 15px/1 Inter,sans-serif;cursor:pointer">View Specials</button>
+          </div>
+          <div style="padding:40px {{ f.pad }} 0">
+            <h2 style="margin:0 0 18px;font:400 {{ f.h2 }};color:#333">Browse by category</h2>
+            <div style="display:grid;grid-template-columns:{{ f.catCols }};gap:14px">
+              <sc-for list="{{ categories }}" as="c" hint-placeholder-count="6">
+                <button onClick="{{ c.go }}" style="position:relative;border:1px solid rgba(74,107,87,.14);background:{{ c.tint }};padding:20px 18px 18px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:30px;overflow:hidden">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="{{ c.mark }}" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position:absolute;right:-20px;bottom:-22px;width:110px;height:110px;opacity:.15"><path d="{{ c.icon }}"></path></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="{{ c.mark }}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:26px;height:26px;position:relative"><path d="{{ c.icon }}"></path></svg>
+                  <span style="position:relative;text-align:left">
+                    <span style="display:block;font:400 17px/1.15 'Playfair Display',serif;color:#333">{{ c.name }}</span>
+                    <span style="display:block;font:400 10px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(51,51,51,.48);margin-top:8px">{{ c.count }} treatments</span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:40px {{ f.pad }} 0;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start">
+            <div>
+              <h2 style="margin:0 0 18px;font:400 24px/1 'Playfair Display',serif;color:#333">On this week</h2>
+              <div style="border:1px solid rgba(201,169,110,.32)">
+                <div style="position:relative;height:180px;background:#F0F4F0;display:flex;align-items:center;justify-content:center">
+                  <div style="position:absolute;inset:14px;border:1px solid rgba(201,169,110,.35)"></div>
+                  <div style="font:400 34px/1 Allura,cursive;color:rgba(74,107,87,.55)">Winter Glow</div>
+                  <span style="position:absolute;top:12px;left:12px;background:#C9A96E;color:#fff;font:600 10px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px">Save R280</span>
+                </div>
+                <div style="padding:20px 22px">
+                  <h3 style="margin:0 0 6px;font:400 21px/1.2 'Playfair Display',serif;color:#333">Winter Glow Facial Ritual</h3>
+                  <p style="margin:0 0 14px;font:300 13.5px/1.6 Inter,sans-serif;color:rgba(51,51,51,.6)">Hydrating Facial paired with LED light therapy. 105 minutes of quiet.</p>
+                  <div style="display:flex;align-items:baseline;gap:10px">
+                    <span style="font:500 22px/1 Inter,sans-serif;color:#4A6B57">R890</span>
+                    <span style="font:300 15px/1 Inter,sans-serif;color:rgba(51,51,51,.4);text-decoration:line-through">R1 170</span>
+                    <span style="margin-left:auto;font:400 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">Ends 30 Sep</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h2 style="margin:0 0 18px;font:400 24px/1 'Playfair Display',serif;color:#333">Featured</h2>
+              <sc-for list="{{ featured }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.go }}" style="display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 0;border:0;border-bottom:1px solid rgba(74,107,87,.12);background:transparent;cursor:pointer">
+                  <div style="width:52px;height:52px;flex:none;background:{{ t.tint }};display:flex;align-items:center;justify-content:center">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="{{ t.mark }}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:21px;height:21px"><path d="{{ t.icon }}"></path></svg>
+                  </div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font:400 16px/1.3 'Playfair Display',serif;color:#333">{{ t.name }}</div>
+                    <div style="font:300 12.5px/1.4 Inter,sans-serif;color:rgba(51,51,51,.55);margin-top:3px">{{ t.dur }} min</div>
+                  </div>
+                  <div style="font:500 15px/1 Inter,sans-serif;color:#4A6B57">{{ t.price }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:40px {{ f.pad }} 0">
+            <h2 style="margin:0 0 18px;font:400 {{ f.h2 }};color:#333">Meet our therapists</h2>
+            <div style="display:grid;grid-template-columns:{{ f.teamCols }};gap:18px">
+              <sc-for list="{{ therapists }}" as="p" hint-placeholder-count="4">
+                <button onClick="{{ goTeam }}" style="border:1px solid rgba(74,107,87,.14);background:transparent;padding:24px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px">
+                  <div style="width:82px;height:82px;border-radius:50%;background:{{ p.tint }};border:1px solid rgba(201,169,110,.35);display:flex;align-items:center;justify-content:center;font:400 28px/1 'Playfair Display',serif;color:#4A6B57">{{ p.initial }}</div>
+                  <div style="font:400 16px/1.2 'Playfair Display',serif;color:#333">{{ p.first }}</div>
+                  <div style="font:300 11.5px/1.3 Inter,sans-serif;color:rgba(51,51,51,.55);text-align:center">{{ p.role }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="margin:40px {{ f.pad }} 0;background:#F5EFE7;padding:28px 32px;display:flex;align-items:center;gap:32px">
+            <div style="flex:1">
+              <h2 style="margin:0 0 4px;font:400 22px/1.2 'Playfair Display',serif;color:#333">SalonFlow Rosebank</h2>
+              <p style="margin:0;font:300 13.5px/1.6 Inter,sans-serif;color:rgba(51,51,51,.62)">Shop 42, The Zone @ Rosebank, Oxford Road, Johannesburg · Open now until 18:00</p>
+            </div>
+            <a href="https://maps.google.com" style="flex:none;height:50px;padding:0 24px;display:flex;align-items:center;gap:9px;border:1px solid rgba(74,107,87,.35);color:#4A6B57;font:500 14px/1 Inter,sans-serif;border-radius:100px;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:17px;height:17px"><path d="{{ ico.pin }}"></path></svg>Directions</a>
+          </div>
+          <div style="height:44px"></div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isMenu }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:38px {{ f.pad }} 44px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px">
+            <div>
+              <h1 style="margin:0 0 5px;font:400 {{ f.h1 }};color:#333">Treatments</h1>
+              <p style="margin:0;font:300 14px/1.5 Inter,sans-serif;color:rgba(51,51,51,.55)">{{ menuCount }} treatments · prices include VAT</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;height:52px;padding:0 20px;background:#F5EFE7;border-radius:100px;width:340px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="rgba(51,51,51,.45)" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" style="width:18px;height:18px;flex:none"><path d="{{ ico.search }}"></path></svg>
+              <input value="{{ q }}" onInput="{{ onSearch }}" placeholder="Search treatments…" aria-label="Search treatments" style="flex:1;min-width:0;border:0;background:transparent;font:400 14.5px/1 Inter,sans-serif;color:#333;outline:none">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:216px 1fr;gap:36px;align-items:start">
+            <div style="position:sticky;top:96px">
+              <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(51,51,51,.45);margin-bottom:14px">Category</div>
+              <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:28px">
+                <sc-for list="{{ chips }}" as="c" hint-placeholder-count="7">
+                  <button onClick="{{ c.go }}" style="height:44px;padding:0 16px;border:0;border-left:2px solid {{ c.railBar }};background:{{ c.railBg }};color:{{ c.railFg }};font:{{ c.railFont }};text-align:left;cursor:pointer">{{ c.name }}</button>
+                </sc-for>
+              </div>
+              <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(51,51,51,.45);margin-bottom:14px">Refine</div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <sc-for list="{{ refinements }}" as="r" hint-placeholder-count="4">
+                  <button onClick="{{ r.go }}" style="height:44px;padding:0 16px;border:0;border-left:2px solid {{ r.railBar }};background:{{ r.railBg }};color:{{ r.railFg }};font:{{ r.railFont }};text-align:left;cursor:pointer">{{ r.name }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div>
+              <sc-for list="{{ sections }}" as="s" hint-placeholder-count="3">
+                <div style="margin-bottom:34px">
+                  <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+                    <h2 style="margin:0;font:400 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4A6B57">{{ s.name }}</h2>
+                    <div style="flex:1;height:1px;background:rgba(201,169,110,.4)"></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:{{ f.cardCols }};gap:18px">
+                    <sc-for list="{{ s.items }}" as="t" hint-placeholder-count="4">
+                      <button onClick="{{ t.go }}" style="display:flex;flex-direction:column;align-items:stretch;text-align:left;border:1px solid rgba(74,107,87,.15);background:transparent;padding:0;cursor:pointer">
+                        <div style="height:96px;background:{{ t.tint }};display:flex;align-items:center;justify-content:center;position:relative">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="{{ t.mark }}" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:34px;height:34px;opacity:.85"><path d="{{ t.icon }}"></path></svg>
+                          <sc-if value="{{ t.hasSpecial }}" hint-placeholder-val="{{ false }}">
+                            <span style="position:absolute;top:10px;left:10px;background:#C9A96E;color:#fff;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:6px 8px">Special</span>
+                          </sc-if>
+                        </div>
+                        <div style="padding:16px 18px 18px">
+                          <div style="font:400 18px/1.25 'Playfair Display',serif;color:#333">{{ t.name }}</div>
+                          <div style="font:300 13px/1.55 Inter,sans-serif;color:rgba(51,51,51,.58);margin-top:6px;text-wrap:pretty">{{ t.blurb }}</div>
+                          <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px;padding-top:13px;border-top:1px solid rgba(74,107,87,.12)">
+                            <span style="font:400 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">{{ t.dur }} min</span>
+                            <span style="margin-left:auto;font:500 17px/1 Inter,sans-serif;color:{{ t.priceColor }}">{{ t.shownPrice }}</span>
+                            <sc-if value="{{ t.hasSpecial }}" hint-placeholder-val="{{ false }}">
+                              <span style="font:300 13px/1 Inter,sans-serif;color:rgba(51,51,51,.4);text-decoration:line-through">{{ t.price }}</span>
+                            </sc-if>
+                          </div>
+                        </div>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ menuEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:80px 20px;text-align:center;border:1px solid rgba(74,107,87,.15)">
+                  <div style="width:58px;height:58px;border:1px solid rgba(201,169,110,.5);border-radius:50%;margin:0 auto 18px"></div>
+                  <div style="font:400 22px/1.3 'Playfair Display',serif;color:#333">Nothing matches that</div>
+                  <p style="margin:8px 0 20px;font:300 14px/1.6 Inter,sans-serif;color:rgba(51,51,51,.55)">Try a different word, or ask at reception.</p>
+                  <button onClick="{{ clearSearch }}" style="height:48px;padding:0 24px;border:1px solid #4A6B57;background:transparent;color:#4A6B57;font:500 14px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Clear search</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:34px {{ f.pad }} 48px">
+          <button onClick="{{ goMenu }}" style="display:flex;align-items:center;gap:9px;border:0;background:transparent;padding:0 0 22px;font:400 13px/1 Inter,sans-serif;color:#4A6B57;cursor:pointer">← All treatments</button>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start">
+            <div style="position:relative;height:420px;background:{{ detail.tint }};display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;inset:20px;border:1px solid rgba(201,169,110,.4)"></div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="{{ detail.mark }}" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:120px;height:120px;opacity:.8"><path d="{{ detail.icon }}"></path></svg>
+            </div>
+            <div>
+              <div style="font:400 11px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#8BAA8E;margin-bottom:11px">{{ detail.cat }}</div>
+              <h1 style="margin:0 0 16px;font:400 {{ f.h1 }};color:#333">{{ detail.name }}</h1>
+              <div style="display:flex;align-items:center;gap:24px;padding-bottom:22px;border-bottom:1px solid rgba(74,107,87,.14)">
+                <div>
+                  <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.42)">Duration</div>
+                  <div style="font:400 17px/1 Inter,sans-serif;color:#333;margin-top:8px">{{ detail.dur }} min</div>
+                </div>
+                <div style="width:1px;height:36px;background:rgba(74,107,87,.15)"></div>
+                <div>
+                  <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.42)">Price</div>
+                  <div style="font:400 17px/1 Inter,sans-serif;color:#333;margin-top:8px">{{ detail.price }}</div>
+                </div>
+                <button style="margin-left:auto;height:52px;padding:0 28px;border:0;border-radius:100px;background:#4A6B57;color:#FFFDF9;font:500 15px/1 Inter,sans-serif;cursor:pointer">Ask at reception</button>
+              </div>
+              <p style="margin:22px 0 0;font:300 15px/1.75 Inter,sans-serif;color:rgba(51,51,51,.75);text-wrap:pretty">{{ detail.body }}</p>
+              <div style="margin-top:26px">
+                <h2 style="margin:0 0 14px;font:400 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4A6B57">Performed by</h2>
+                <div style="display:flex;gap:20px;flex-wrap:wrap">
+                  <sc-for list="{{ detail.team }}" as="p" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:13px">
+                      <div style="width:48px;height:48px;flex:none;border-radius:50%;background:#F0F4F0;color:#4A6B57;font:400 18px/48px 'Playfair Display',serif;text-align:center">{{ p.initial }}</div>
+                      <div>
+                        <div style="font:400 15.5px/1.3 'Playfair Display',serif;color:#333">{{ p.name }}</div>
+                        <div style="font:300 12.5px/1.4 Inter,sans-serif;color:rgba(51,51,51,.55);margin-top:3px">{{ p.role }} · {{ p.years }} years</div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="margin-top:26px;background:#E3F0F9;padding:20px 22px">
+                <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#37627E;margin-bottom:11px">Before your appointment</div>
+                <ul style="margin:0;padding-left:18px;font:300 14px/1.75 Inter,sans-serif;color:#2F566E">
+                  <li>Arrive with clean, product-free nails where possible.</li>
+                  <li>Let us know about any allergies or recent skin treatments.</li>
+                  <li>A short consultation form is completed in salon before we begin.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:44px">
+            <h2 style="margin:0 0 18px;font:400 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4A6B57">You may also like</h2>
+            <div style="display:grid;grid-template-columns:{{ f.cardCols }};gap:18px">
+              <sc-for list="{{ detail.related }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.go }}" style="display:flex;align-items:center;gap:16px;text-align:left;border:1px solid rgba(74,107,87,.15);background:transparent;padding:18px 20px;cursor:pointer">
+                  <div style="width:52px;height:52px;flex:none;background:{{ t.tint }};display:flex;align-items:center;justify-content:center">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="{{ t.mark }}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:21px;height:21px"><path d="{{ t.icon }}"></path></svg>
+                  </div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font:400 17px/1.3 'Playfair Display',serif;color:#333">{{ t.name }}</div>
+                    <div style="font:300 12.5px/1.4 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:4px">{{ t.dur }} min</div>
+                  </div>
+                  <div style="font:500 16px/1 Inter,sans-serif;color:#4A6B57">{{ t.price }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isSpecials }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:38px {{ f.pad }} 48px">
+          <h1 style="margin:0 0 5px;font:400 {{ f.h1 }};color:#333">Specials</h1>
+          <p style="margin:0 0 30px;font:300 14px/1.5 Inter,sans-serif;color:rgba(51,51,51,.55)">Limited offers, in salon only</p>
+          <div style="display:grid;grid-template-columns:{{ f.cardCols }};gap:24px;align-items:start">
+            <sc-for list="{{ specials }}" as="s" hint-placeholder-count="3">
+              <div style="border:1px solid rgba(201,169,110,.32)">
+                <div style="position:relative;height:200px;background:{{ s.tint }};display:flex;align-items:center;justify-content:center">
+                  <div style="position:absolute;inset:14px;border:1px solid rgba(201,169,110,.35)"></div>
+                  <div style="font:400 34px/1.1 Allura,cursive;color:rgba(74,107,87,.5);max-width:72%;text-align:center">{{ s.title }}</div>
+                  <span style="position:absolute;top:12px;left:12px;background:{{ s.stateBg }};color:{{ s.stateFg }};font:600 10px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px">{{ s.state }}</span>
+                </div>
+                <div style="padding:22px">
+                  <h2 style="margin:0 0 8px;font:400 22px/1.2 'Playfair Display',serif;color:#333">{{ s.title }}</h2>
+                  <p style="margin:0 0 16px;font:300 13.5px/1.65 Inter,sans-serif;color:rgba(51,51,51,.62);text-wrap:pretty">{{ s.body }}</p>
+                  <div style="display:flex;align-items:baseline;gap:10px;padding-bottom:15px;border-bottom:1px solid rgba(74,107,87,.12)">
+                    <span style="font:500 25px/1 Inter,sans-serif;color:#4A6B57">{{ s.now }}</span>
+                    <span style="font:300 15px/1 Inter,sans-serif;color:rgba(51,51,51,.4);text-decoration:line-through">{{ s.was }}</span>
+                    <span style="margin-left:auto;font:500 12.5px/1 Inter,sans-serif;color:#A8874C">Save {{ s.save }}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;padding:14px 0 0;font:300 12.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.55)">
+                    <span>{{ s.dates }}</span><span>{{ s.applies }}</span>
+                  </div>
+                  <div style="font:300 11.5px/1.6 Inter,sans-serif;color:rgba(51,51,51,.42);margin-top:10px">{{ s.terms }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isTeam }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:38px {{ f.pad }} 48px">
+          <p style="margin:0 0 2px;font:400 24px/1 Allura,cursive;color:#C9A96E">Meet the</p>
+          <h1 style="margin:0 0 32px;font:400 {{ f.h1 }};color:#333">People behind the work</h1>
+          <div style="display:flex;flex-direction:column;gap:30px">
+            <sc-for list="{{ therapists }}" as="p" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:260px 1fr;gap:34px;align-items:start;padding-bottom:30px;border-bottom:1px solid rgba(74,107,87,.12)">
+                <div style="position:relative;height:300px;background:{{ p.tint }};display:flex;align-items:center;justify-content:center">
+                  <div style="position:absolute;inset:16px;border:1px solid rgba(201,169,110,.4)"></div>
+                  <div style="font:400 92px/1 'Playfair Display',serif;color:rgba(74,107,87,.42)">{{ p.initial }}</div>
+                </div>
+                <div>
+                  <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+                    <h2 style="margin:0;font:400 28px/1.15 'Playfair Display',serif;color:#333">{{ p.name }}</h2>
+                    <span style="font:400 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8BAA8E">{{ p.role }}</span>
+                  </div>
+                  <p style="margin:12px 0 0;font:300 15px/1.75 Inter,sans-serif;color:rgba(51,51,51,.7);max-width:640px;text-wrap:pretty">{{ p.bio }}</p>
+                  <div style="display:flex;gap:34px;margin-top:20px;padding:16px 0;border-top:1px solid rgba(74,107,87,.12);border-bottom:1px solid rgba(74,107,87,.12)">
+                    <div>
+                      <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.42)">Experience</div>
+                      <div style="font:400 16px/1 Inter,sans-serif;color:#333;margin-top:8px">{{ p.years }} years</div>
+                    </div>
+                    <div style="width:1px;background:rgba(74,107,87,.13)"></div>
+                    <div>
+                      <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.42)">Qualification</div>
+                      <div style="font:400 16px/1 Inter,sans-serif;color:#333;margin-top:8px">{{ p.qual }}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+                    <sc-for list="{{ p.skills }}" as="s" hint-placeholder-count="4">
+                      <span style="font:400 12.5px/1 Inter,sans-serif;color:#4A6B57;background:#F0F4F0;padding:10px 14px;border-radius:100px">{{ s }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isContact }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:38px {{ f.pad }} 48px">
+          <h1 style="margin:0 0 30px;font:400 {{ f.h1 }};color:#333">Visit us</h1>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start">
+            <div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px">
+                <a href="tel:+27115550134" style="height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;background:#4A6B57;color:#FFFDF9;font:500 14.5px/1 Inter,sans-serif;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:23px;height:23px"><path d="{{ ico.phone }}"></path></svg>Call</a>
+                <a href="https://wa.me/27115550134" style="height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;background:#E3F0F9;color:#37627E;font:500 14.5px/1 Inter,sans-serif;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:23px;height:23px"><path d="{{ ico.message }}"></path></svg>WhatsApp</a>
+                <a href="https://maps.google.com" style="height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;background:#F5EFE7;color:#4A6B57;font:500 14.5px/1 Inter,sans-serif;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:23px;height:23px"><path d="{{ ico.pin }}"></path></svg>Directions</a>
+                <a href="mailto:hello@salonflow.co.za" style="height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;border:1px solid rgba(74,107,87,.3);color:#4A6B57;font:500 14.5px/1 Inter,sans-serif;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:23px;height:23px"><path d="{{ ico.mail }}"></path></svg>Email</a>
+              </div>
+              <h2 style="margin:0 0 14px;font:400 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4A6B57">Opening hours</h2>
+              <sc-for list="{{ hours }}" as="h" hint-placeholder-count="4">
+                <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(74,107,87,.11);font:300 14.5px/1 Inter,sans-serif;color:{{ h.color }}">
+                  <span>{{ h.day }}</span><span>{{ h.time }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div>
+              <div style="position:relative;height:340px;background:#F0F4F0;display:flex;align-items:center;justify-content:center;overflow:hidden">
+                <div style="position:absolute;left:-20px;top:120px;right:-20px;height:20px;background:rgba(255,253,249,.9)"></div>
+                <div style="position:absolute;left:180px;top:-20px;bottom:-20px;width:14px;background:rgba(255,253,249,.9)"></div>
+                <div style="position:absolute;left:0;bottom:0;width:240px;height:150px;background:rgba(201,169,110,.16)"></div>
+                <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:9px">
+                  <span style="width:16px;height:16px;border-radius:50%;border:3px solid #4A6B57;background:#FFFDF9;display:block"></span>
+                  <span style="font:500 11.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4A6B57;background:#FFFDF9;padding:7px 12px">The Zone</span>
+                </div>
+              </div>
+              <p style="margin:20px 0 0;font:300 14.5px/1.75 Inter,sans-serif;color:rgba(51,51,51,.65)">Shop 42, The Zone @ Rosebank, Oxford Road, Johannesburg. Parking on level P2, lift access to the first floor. Look for the sage storefront beside the atrium.</p>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+  </sc-for>
 
   <div style="width:250px;padding-top:16px">
     <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:10px">{{ noteTitle }}</div>
@@ -450,323 +823,54 @@ input:focus-visible,button:focus-visible{outline:2px solid #8BAA8E;outline-offse
 </sc-if>
 
 <sc-if value="{{ isIpad }}" hint-placeholder-val="{{ true }}">
-<div style="width:1112px;padding:22px;background:#26282A;border-radius:38px;box-shadow:0 30px 70px -20px rgba(40,50,44,.45)">
-  <div style="width:1068px;height:780px;border-radius:18px;overflow:hidden;background:#FFFDF9;display:flex">
-
-    <sc-if value="{{ ipadChrome }}" hint-placeholder-val="{{ true }}">
-    <div style="width:92px;flex:none;background:#3E5A4A;display:flex;flex-direction:column;align-items:center;padding:22px 0;gap:8px">
-      <div style="width:48px;height:48px;border-radius:12px;background:#FFFDF9;display:flex;align-items:center;justify-content:center;font:600 17px/1 'Playfair Display',serif;color:#4A6B57;margin-bottom:14px">SF</div>
-      <sc-for list="{{ ipadNav }}" as="n" hint-placeholder-count="4">
-        <button onClick="{{ n.go }}" style="width:64px;height:64px;border:0;border-radius:14px;background:{{ n.bg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:{{ n.fg }}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:24px;height:24px;display:block"><path d="{{ n.icon }}"></path></svg>
-          <span style="font:400 9.5px/1 Inter,sans-serif">{{ n.label }}</span>
-        </button>
-      </sc-for>
-      <div style="margin-top:auto;text-align:center">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,253,249,.2);color:#FFFDF9;font:400 15px/44px 'Playfair Display',serif;text-align:center;margin:0 auto">L</div>
-        <div style="font:400 9.5px/1 Inter,sans-serif;color:rgba(255,253,249,.75);margin-top:8px">Lerato</div>
+<div style="display:flex;gap:34px;align-items:flex-start">
+  <div style="width:414px;flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">Mobile · 390</div>
+    <div style="padding:12px;background:#26282A;border-radius:54px;box-shadow:0 30px 70px -20px rgba(40,50,44,.45)">
+      <div style="width:390px;height:844px;border-radius:42px;overflow:hidden">
+        <dc-import name="TherapistApp" size="sm" hint-size="390px,844px" style="width:390px;height:844px"></dc-import>
       </div>
     </div>
-    </sc-if>
-
-    <div class="sfscroll" style="flex:1;min-width:0;overflow-y:auto">
-
-      <sc-if value="{{ ipadDash }}" hint-placeholder-val="{{ true }}">
-      <div style="padding:38px 42px">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:30px">
-          <div>
-            <p style="margin:0 0 5px;font:300 13.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">Thursday, 27 August 2026</p>
-            <h1 style="margin:0;font:400 34px/1.1 'Playfair Display',serif;color:#333">Good morning, Lerato</h1>
-          </div>
-          <button onClick="{{ startConsult }}" style="height:64px;padding:0 32px;border:0;border-radius:100px;background:#4A6B57;color:#FFFDF9;font:500 16px/1 Inter,sans-serif;cursor:pointer;display:flex;align-items:center;gap:12px">Start consultation <span style="font-size:19px">→</span></button>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(74,107,87,.15);border:1px solid rgba(74,107,87,.15);margin-bottom:34px">
-          <sc-for list="{{ ipadStats }}" as="s" hint-placeholder-count="4">
-            <div style="background:#FFFDF9;padding:22px 24px">
-              <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.45)">{{ s.label }}</div>
-              <div style="font:400 38px/1 'Playfair Display',serif;color:{{ s.color }};margin-top:14px">{{ s.value }}</div>
-              <div style="font:300 12px/1 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:9px">{{ s.sub }}</div>
-            </div>
-          </sc-for>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:34px">
-          <div>
-            <h2 style="margin:0 0 4px;font:400 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4A6B57">Recent consultations</h2>
-            <sc-for list="{{ recent }}" as="r" hint-placeholder-count="5">
-              <div style="display:flex;align-items:center;gap:18px;padding:18px 0;border-bottom:1px solid rgba(74,107,87,.12)">
-                <div style="width:46px;height:46px;flex:none;border-radius:50%;background:{{ r.avBg }};color:{{ r.avFg }};font:400 17px/46px 'Playfair Display',serif;text-align:center">{{ r.initial }}</div>
-                <div style="flex:1;min-width:0">
-                  <div style="font:400 17px/1.3 'Playfair Display',serif;color:#333">{{ r.client }}</div>
-                  <div style="font:300 13px/1.4 Inter,sans-serif;color:rgba(51,51,51,.55);margin-top:3px">{{ r.treatment }} · {{ r.when }}</div>
-                </div>
-                <span style="font:500 11px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:{{ r.fg }};background:{{ r.bg }};padding:9px 13px">{{ r.status }}</span>
-                <button style="height:44px;padding:0 20px;border:1px solid rgba(74,107,87,.35);background:transparent;border-radius:100px;color:#4A6B57;font:500 13px/1 Inter,sans-serif;cursor:pointer">Open</button>
-              </div>
-            </sc-for>
-          </div>
-
-          <div>
-            <h2 style="margin:0 0 16px;font:400 12px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4A6B57">Needs your attention</h2>
-            <div style="background:#FDF3E7;border-left:3px solid #C9A96E;padding:20px;margin-bottom:14px">
-              <div style="font:500 14px/1.4 Inter,sans-serif;color:#333">2 consultations flagged</div>
-              <p style="margin:7px 0 14px;font:300 13px/1.65 Inter,sans-serif;color:rgba(51,51,51,.65)">Retinoid use declared before waxing. Therapist review required before treatment can proceed.</p>
-              <button style="height:44px;padding:0 20px;border:0;background:#C9A96E;color:#fff;border-radius:100px;font:500 13px/1 Inter,sans-serif;cursor:pointer">Review now</button>
-            </div>
-            <div style="background:#F0F4F0;padding:20px">
-              <div style="font:500 14px/1.4 Inter,sans-serif;color:#333">1 consultation incomplete</div>
-              <p style="margin:7px 0 0;font:300 13px/1.65 Inter,sans-serif;color:rgba(51,51,51,.65)">Naledi Dube — signature not captured. Started 11:42.</p>
-            </div>
-            <div style="margin-top:26px;padding-top:20px;border-top:1px solid rgba(74,107,87,.13)">
-              <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.45);margin-bottom:12px">Today's schedule</div>
-              <sc-for list="{{ schedule }}" as="s" hint-placeholder-count="4">
-                <div style="display:flex;gap:16px;padding:10px 0;font:300 13.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.7)">
-                  <span style="width:46px;flex:none;color:{{ s.color }};font-weight:400">{{ s.time }}</span>
-                  <span>{{ s.what }}</span>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-        </div>
+  </div>
+  <div style="width:1156px;flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">iPad · 1024 × 768 (primary)</div>
+    <div style="padding:22px;background:#26282A;border-radius:38px;box-shadow:0 30px 70px -20px rgba(40,50,44,.45)">
+      <div style="width:1068px;height:780px;border-radius:18px;overflow:hidden">
+        <dc-import name="TherapistApp" size="md" hint-size="1068px,780px" style="width:1068px;height:780px"></dc-import>
       </div>
-      </sc-if>
-
-      <sc-if value="{{ ipadWizard }}" hint-placeholder-val="{{ false }}">
-      <div style="min-height:780px;display:flex;flex-direction:column;background:#FFFDF9">
-
-        <div style="flex:none;padding:20px 42px;background:#F0F4F0;border-bottom:1px solid rgba(74,107,87,.15);display:flex;align-items:center;gap:20px">
-          <div style="display:flex;align-items:center;gap:9px;background:#4A6B57;color:#FFFDF9;padding:9px 15px;border-radius:100px">
-            <span style="width:7px;height:7px;border-radius:50%;background:#C9A96E;display:block"></span>
-            <span style="font:500 11.5px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase">Client form mode</span>
-          </div>
-          <div style="font:300 13.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.65)">Gel Manicure · Lerato Mokoena · Naledi Dube</div>
-          <button onClick="{{ exitWizard }}" style="margin-left:auto;height:44px;padding:0 20px;border:1px solid rgba(74,107,87,.35);background:transparent;border-radius:100px;color:#4A6B57;font:500 13px/1 Inter,sans-serif;cursor:pointer">Exit (PIN)</button>
-        </div>
-
-        <div style="flex:none;padding:26px 42px 0">
-          <div style="display:flex;gap:6px;margin-bottom:22px">
-            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
-              <button onClick="{{ s.go }}" style="flex:1;border:0;background:transparent;padding:0;cursor:pointer;text-align:left">
-                <div style="height:4px;background:{{ s.bar }};margin-bottom:11px"></div>
-                <div style="font:{{ s.font }};color:{{ s.fg }}">{{ s.n }}. {{ s.label }}</div>
-              </button>
-            </sc-for>
-          </div>
-        </div>
-
-        <div class="sfscroll" style="flex:1;overflow-y:auto;padding:14px 42px 34px">
-          <div style="max-width:760px">
-
-            <sc-if value="{{ stepHealth }}" hint-placeholder-val="{{ true }}">
-            <div>
-              <h1 style="margin:0 0 6px;font:400 32px/1.15 'Playfair Display',serif;color:#333">Health &amp; safety</h1>
-              <p style="margin:0 0 30px;font:300 15px/1.7 Inter,sans-serif;color:rgba(51,51,51,.6);max-width:600px">Please answer honestly — it helps your therapist keep you safe. Nothing here is shared outside the salon.</p>
-
-              <sc-for list="{{ questions }}" as="q" hint-placeholder-count="4">
-                <div style="padding:22px 0;border-top:1px solid rgba(74,107,87,.13)">
-                  <div style="font:400 18px/1.45 Inter,sans-serif;color:#333;margin-bottom:16px;max-width:620px">{{ q.text }}</div>
-                  <div style="display:flex;gap:12px">
-                    <sc-for list="{{ q.options }}" as="o" hint-placeholder-count="2">
-                      <button onClick="{{ o.pick }}" style="min-width:132px;height:60px;padding:0 26px;border:1.5px solid {{ o.border }};background:{{ o.bg }};color:{{ o.fg }};font:500 16px/1 Inter,sans-serif;border-radius:6px;cursor:pointer">{{ o.label }}</button>
-                    </sc-for>
-                  </div>
-                  <sc-if value="{{ q.showDetail }}" hint-placeholder-val="{{ false }}">
-                    <div style="margin-top:18px;padding-left:18px;border-left:2px solid #8BAA8E">
-                      <label style="display:block;font:400 14px/1 Inter,sans-serif;color:#4A6B57;margin-bottom:10px">{{ q.detailLabel }}</label>
-                      <textarea placeholder="{{ q.detailHint }}" style="width:100%;max-width:600px;min-height:96px;padding:16px;border:1px solid rgba(74,107,87,.3);background:#fff;font:300 15px/1.6 Inter,sans-serif;color:#333;resize:vertical;border-radius:4px"></textarea>
-                    </div>
-                  </sc-if>
-                  <sc-if value="{{ q.showWarning }}" hint-placeholder-val="{{ false }}">
-                    <div style="margin-top:18px;background:#FDF3E7;border-left:3px solid #C9A96E;padding:18px 20px;max-width:620px">
-                      <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px">
-                        <span style="width:16px;height:16px;background:#C9A96E;display:block;transform:rotate(45deg)"></span>
-                        <span style="font:500 12px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8A6A2E">Therapist review required</span>
-                      </div>
-                      <p style="margin:0;font:300 14.5px/1.65 Inter,sans-serif;color:#6B542A">{{ q.warning }}</p>
-                    </div>
-                  </sc-if>
-                </div>
-              </sc-for>
-            </div>
-            </sc-if>
-
-            <sc-if value="{{ stepConsent }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <h1 style="margin:0 0 6px;font:400 32px/1.15 'Playfair Display',serif;color:#333">Consent</h1>
-              <p style="margin:0 0 28px;font:300 15px/1.7 Inter,sans-serif;color:rgba(51,51,51,.6);max-width:600px">Three separate permissions. The last one is optional and does not affect your treatment.</p>
-              <div style="display:flex;flex-direction:column;gap:16px">
-                <sc-for list="{{ consents }}" as="c" hint-placeholder-count="3">
-                  <button onClick="{{ c.toggle }}" style="display:flex;gap:20px;align-items:flex-start;text-align:left;padding:24px;border:1.5px solid {{ c.border }};background:{{ c.bg }};cursor:pointer;border-radius:6px;width:100%">
-                    <span style="width:30px;height:30px;flex:none;border:1.5px solid {{ c.boxBorder }};background:{{ c.boxBg }};border-radius:4px;color:#FFFDF9;font:600 16px/28px Inter,sans-serif;text-align:center">{{ c.tick }}</span>
-                    <span style="flex:1">
-                      <span style="display:block;font:500 17px/1.4 Inter,sans-serif;color:#333">{{ c.title }}</span>
-                      <span style="display:block;font:300 14.5px/1.7 Inter,sans-serif;color:rgba(51,51,51,.68);margin-top:8px">{{ c.body }}</span>
-                      <span style="display:block;font:400 12px/1 Inter,sans-serif;color:{{ c.reqColor }};margin-top:12px;letter-spacing:.1em;text-transform:uppercase">{{ c.req }}</span>
-                    </span>
-                  </button>
-                </sc-for>
-              </div>
-            </div>
-            </sc-if>
-
-            <sc-if value="{{ stepSign }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <h1 style="margin:0 0 6px;font:400 32px/1.15 'Playfair Display',serif;color:#333">Signature</h1>
-              <p style="margin:0 0 24px;font:300 15px/1.7 Inter,sans-serif;color:rgba(51,51,51,.6)">Sign with your finger in the space below.</p>
-              <div style="position:relative;border:1.5px solid rgba(74,107,87,.3);background:#fff;border-radius:6px;height:280px;touch-action:none;overflow:hidden" onPointerDown="{{ sigDown }}" onPointerMove="{{ sigMove }}" onPointerUp="{{ sigUp }}" onPointerLeave="{{ sigUp }}">
-                <div style="position:absolute;left:40px;right:40px;bottom:64px;height:1px;background:rgba(74,107,87,.2);pointer-events:none"></div>
-                <span style="position:absolute;left:40px;bottom:40px;font:300 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.35);pointer-events:none">Client signature</span>
-                <span style="position:absolute;left:0;right:0;top:112px;text-align:center;font:300 15px/1 Inter,sans-serif;color:{{ sigHintColor }};pointer-events:none">Sign here</span>
-                <svg viewBox="0 0 900 280" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
-                  <sc-for list="{{ sigPaths }}" as="p" hint-placeholder-count="0">
-                    <path d="{{ p.d }}" fill="none" stroke="#26282A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </sc-for>
-                </svg>
-              </div>
-              <div style="display:flex;gap:12px;margin-top:16px;align-items:center">
-                <button onClick="{{ sigUndo }}" style="height:56px;padding:0 26px;border:1px solid rgba(74,107,87,.35);background:transparent;color:#4A6B57;font:500 15px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Undo</button>
-                <button onClick="{{ sigClear }}" style="height:56px;padding:0 26px;border:1px solid rgba(74,107,87,.35);background:transparent;color:#4A6B57;font:500 15px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Clear</button>
-                <button style="margin-left:auto;height:56px;padding:0 34px;border:0;background:{{ confirmBg }};color:#FFFDF9;font:500 15.5px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Confirm signature</button>
-              </div>
-              <div style="margin-top:28px;background:#F5EFE7;padding:22px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-                <sc-for list="{{ sigMeta }}" as="m" hint-placeholder-count="6">
-                  <div>
-                    <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.45)">{{ m.k }}</div>
-                    <div style="font:400 14.5px/1.4 Inter,sans-serif;color:#333;margin-top:8px">{{ m.v }}</div>
-                  </div>
-                </sc-for>
-              </div>
-            </div>
-            </sc-if>
-
-          </div>
-        </div>
-
-        <div style="flex:none;padding:18px 42px;border-top:1px solid rgba(74,107,87,.15);background:#FFFDF9;display:flex;align-items:center;gap:16px">
-          <button onClick="{{ prevStep }}" style="height:60px;padding:0 30px;border:1px solid rgba(74,107,87,.35);background:transparent;color:#4A6B57;font:500 15px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Back</button>
-          <div style="font:300 13.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.5)">Step {{ stepNo }} of 6 · answers save as you go</div>
-          <button onClick="{{ nextStep }}" style="margin-left:auto;height:60px;padding:0 40px;border:0;background:#4A6B57;color:#FFFDF9;font:500 16px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">{{ nextLabel }}</button>
-        </div>
-      </div>
-      </sc-if>
-
+    </div>
+  </div>
+  <div style="width:1444px;flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">Desktop · 1440 × 900</div>
+    <div style="width:1440px;height:900px;border:1px solid rgba(74,107,87,.18);box-shadow:0 30px 70px -24px rgba(40,50,44,.4);overflow:hidden">
+      <dc-import name="TherapistApp" size="lg" hint-size="1440px,900px" style="width:1440px;height:900px"></dc-import>
     </div>
   </div>
 </div>
 </sc-if>
 
 <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ true }}">
-<div style="width:1440px;height:920px;background:#FFFDF9;border:1px solid rgba(74,107,87,.18);box-shadow:0 30px 70px -24px rgba(40,50,44,.4);display:flex;overflow:hidden">
-
-  <div style="width:238px;flex:none;background:#3E5A4A;padding:24px 0;display:flex;flex-direction:column">
-    <div style="display:flex;align-items:center;gap:11px;padding:0 22px 26px">
-      <div style="width:38px;height:38px;border-radius:10px;background:#FFFDF9;display:flex;align-items:center;justify-content:center;font:600 15px/1 'Playfair Display',serif;color:#4A6B57">SF</div>
-      <div>
-        <div style="font:500 13.5px/1 Inter,sans-serif;color:#FFFDF9">SalonFlow</div>
-        <div style="font:300 10.5px/1 Inter,sans-serif;color:rgba(255,253,249,.55);margin-top:4px">Rosebank</div>
-      </div>
-    </div>
-    <sc-for list="{{ adminNav }}" as="n" hint-placeholder-count="9">
-      <div style="display:flex;align-items:center;gap:12px;height:44px;padding:0 22px;background:{{ n.bg }};color:{{ n.fg }};font:{{ n.font }};cursor:pointer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:17px;height:17px;flex:none;display:block;opacity:.9"><path d="{{ n.icon }}"></path></svg>
-        {{ n.label }}
-      </div>
-    </sc-for>
-    <div style="margin-top:auto;padding:20px 22px 0;border-top:1px solid rgba(255,253,249,.12);display:flex;align-items:center;gap:11px">
-      <div style="width:34px;height:34px;flex:none;border-radius:50%;background:rgba(255,253,249,.2);color:#FFFDF9;font:400 13px/34px 'Playfair Display',serif;text-align:center">S</div>
-      <div>
-        <div style="font:400 12.5px/1 Inter,sans-serif;color:#FFFDF9">Sean Gareth</div>
-        <div style="font:300 10.5px/1 Inter,sans-serif;color:rgba(255,253,249,.55);margin-top:4px">Owner</div>
+<div style="display:flex;gap:34px;align-items:flex-start">
+  <div style="width:414px;flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">Mobile · 390</div>
+    <div style="padding:12px;background:#26282A;border-radius:54px;box-shadow:0 30px 70px -20px rgba(40,50,44,.45)">
+      <div style="width:390px;height:844px;border-radius:42px;overflow:hidden">
+        <dc-import name="AdminApp" size="sm" hint-size="390px,844px" style="width:390px;height:844px"></dc-import>
       </div>
     </div>
   </div>
-
-  <div class="sfscroll" style="flex:1;min-width:0;overflow-y:auto">
-    <div style="display:flex;align-items:center;gap:20px;padding:20px 34px;border-bottom:1px solid rgba(74,107,87,.13);position:sticky;top:0;background:rgba(255,253,249,.96);backdrop-filter:blur(10px);z-index:5">
-      <h1 style="margin:0;font:400 24px/1 'Playfair Display',serif;color:#333">Dashboard</h1>
-      <div style="display:flex;align-items:center;gap:10px;height:42px;padding:0 16px;background:#F5EFE7;border-radius:100px;width:300px;margin-left:20px">
-        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(51,51,51,.45)" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" style="width:16px;height:16px;flex:none"><path d="{{ ico.search }}"></path></svg>
-        <input placeholder="Search clients, consultations…" aria-label="Search" style="flex:1;min-width:0;border:0;background:transparent;font:300 13.5px/1 Inter,sans-serif;color:#333;outline:none">
-      </div>
-      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
-        <select aria-label="Date range" style="height:42px;padding:0 14px;border:1px solid rgba(74,107,87,.28);background:#FFFDF9;font:400 13px/1 Inter,sans-serif;color:#4A6B57;border-radius:4px"><option>This month</option><option>Last 7 days</option><option>This week</option><option>Custom range…</option></select>
-        <select aria-label="Therapist" style="height:42px;padding:0 14px;border:1px solid rgba(74,107,87,.28);background:#FFFDF9;font:400 13px/1 Inter,sans-serif;color:#4A6B57;border-radius:4px"><option>All therapists</option><option>Lerato Mokoena</option><option>Anja van Wyk</option></select>
-        <button style="height:42px;padding:0 20px;border:0;background:#4A6B57;color:#FFFDF9;font:500 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Export</button>
+  <div style="width:862px;flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">Tablet · 834 × 1112</div>
+    <div style="padding:14px;background:#26282A;border-radius:26px;box-shadow:0 26px 60px -22px rgba(40,50,44,.42)">
+      <div style="width:834px;height:1112px;border-radius:14px;overflow:hidden">
+        <dc-import name="AdminApp" size="md" hint-size="834px,1112px" style="width:834px;height:1112px"></dc-import>
       </div>
     </div>
-
-    <div style="padding:30px 34px 40px">
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(74,107,87,.15);border:1px solid rgba(74,107,87,.15);margin-bottom:30px">
-        <sc-for list="{{ adminStats }}" as="s" hint-placeholder-count="6">
-          <div style="background:#FFFDF9;padding:20px">
-            <div style="font:400 10px/1.3 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45);min-height:26px">{{ s.label }}</div>
-            <div style="font:400 34px/1 'Playfair Display',serif;color:{{ s.color }};margin-top:10px">{{ s.value }}</div>
-            <div style="font:300 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:8px">{{ s.sub }}</div>
-          </div>
-        </sc-for>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:30px;margin-bottom:32px">
-        <div style="border:1px solid rgba(74,107,87,.15);padding:24px 26px">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px">
-            <h2 style="margin:0;font:400 17px/1 'Playfair Display',serif;color:#333">Consultations, last 8 weeks</h2>
-            <span style="font:300 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">184 total · up 12% on prior period</span>
-          </div>
-          <div style="display:flex;align-items:flex-end;gap:14px;height:180px">
-            <sc-for list="{{ chart }}" as="b" hint-placeholder-count="8">
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:10px">
-                <div style="font:400 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">{{ b.value }}</div>
-                <div style="width:100%;height:{{ b.h }};background:{{ b.color }}"></div>
-                <div style="font:300 11px/1 Inter,sans-serif;color:rgba(51,51,51,.42)">{{ b.label }}</div>
-              </div>
-            </sc-for>
-          </div>
-        </div>
-
-        <div style="border:1px solid rgba(74,107,87,.15);padding:24px 26px">
-          <h2 style="margin:0 0 18px;font:400 17px/1 'Playfair Display',serif;color:#333">Requires review</h2>
-          <sc-for list="{{ flagged }}" as="f" hint-placeholder-count="3">
-            <div style="display:flex;gap:14px;padding:15px 0;border-bottom:1px solid rgba(74,107,87,.12)">
-              <span style="width:9px;height:9px;flex:none;margin-top:5px;background:{{ f.dot }};transform:rotate(45deg)"></span>
-              <div style="flex:1;min-width:0">
-                <div style="font:400 14.5px/1.4 Inter,sans-serif;color:#333">{{ f.client }}</div>
-                <div style="font:300 12.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.58);margin-top:3px">{{ f.reason }}</div>
-                <div style="font:300 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.42);margin-top:7px">{{ f.meta }}</div>
-              </div>
-            </div>
-          </sc-for>
-          <button style="width:100%;height:44px;margin-top:18px;border:1px solid rgba(74,107,87,.3);background:transparent;color:#4A6B57;font:500 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Open review queue</button>
-        </div>
-      </div>
-
-      <div style="border:1px solid rgba(74,107,87,.15)">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid rgba(74,107,87,.15)">
-          <h2 style="margin:0;font:400 17px/1 'Playfair Display',serif;color:#333">Therapist activity</h2>
-          <span style="font:300 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">August 2026</span>
-        </div>
-        <div style="display:grid;grid-template-columns:2.2fr 1fr 1.3fr 1.2fr 1fr 0.9fr;padding:0 26px;background:#F7F4EF;border-bottom:1px solid rgba(74,107,87,.13)">
-          <sc-for list="{{ tableHead }}" as="h" hint-placeholder-count="6">
-            <div style="padding:13px 0;font:500 10.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.5);text-align:{{ h.align }}">{{ h.label }}</div>
-          </sc-for>
-        </div>
-        <sc-for list="{{ tableRows }}" as="r" hint-placeholder-count="4">
-          <div style="display:grid;grid-template-columns:2.2fr 1fr 1.3fr 1.2fr 1fr 0.9fr;padding:0 26px;border-bottom:1px solid rgba(74,107,87,.1);align-items:center">
-            <div style="display:flex;align-items:center;gap:13px;padding:15px 0">
-              <div style="width:36px;height:36px;flex:none;border-radius:50%;background:#F0F4F0;color:#4A6B57;font:400 14px/36px 'Playfair Display',serif;text-align:center">{{ r.initial }}</div>
-              <div>
-                <div style="font:400 14.5px/1.3 Inter,sans-serif;color:#333">{{ r.name }}</div>
-                <div style="font:300 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:4px">{{ r.role }}</div>
-              </div>
-            </div>
-            <div style="font:400 15px/1 Inter,sans-serif;color:#333;text-align:right">{{ r.month }}</div>
-            <div style="font:300 13.5px/1 Inter,sans-serif;color:rgba(51,51,51,.65);text-align:right">{{ r.last }}</div>
-            <div style="font:300 13.5px/1 Inter,sans-serif;color:rgba(51,51,51,.65);text-align:right">{{ r.avg }}</div>
-            <div style="text-align:right"><span style="font:500 12.5px/1 Inter,sans-serif;color:{{ r.flagColor }}">{{ r.flagged }}</span></div>
-            <div style="text-align:right;font:400 12.5px/1 Inter,sans-serif;color:#4A6B57;cursor:pointer">View</div>
-          </div>
-        </sc-for>
-      </div>
+  </div>
+  <div style="width:1444px;flex:none">
+    <div style="font:500 10px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(51,51,51,.4);margin-bottom:12px">Desktop · 1440 × 920 (primary)</div>
+    <div style="width:1440px;height:920px;border:1px solid rgba(74,107,87,.18);box-shadow:0 30px 70px -24px rgba(40,50,44,.4);overflow:hidden">
+      <dc-import name="AdminApp" size="lg" hint-size="1440px,920px" style="width:1440px;height:920px"></dc-import>
     </div>
   </div>
 </div>
@@ -778,7 +882,7 @@ input:focus-visible,button:focus-visible{outline:2px solid #8BAA8E;outline-offse
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1560,&quot;height&quot;:1080}}">
-const SAGE='#8BAA8E', FOREST='#4A6B57', GOLD='#C9A96E', GOLD_INK='#A8874C', IVORY='#FFFDF9', BEIGE='#F5EFE7', BLUE='#E3F0F9', INK='#333';
+const SAGE='#8BAA8E', FOREST='#4A6B57', GOLD='#C9A96E', GOLD_INK='#A8874C', IVORY='#FFFDF9', INK='#333';
 
 const T = [
   ['Nails','Gel Manicure',60,350,null,'Soak-off gel, cuticle work and a colour of your choosing.'],
@@ -808,10 +912,10 @@ const T = [
 ];
 
 const PEOPLE = [
-  {first:'Lerato',initial:'L',name:'Lerato Mokoena',role:'Senior Therapist',years:9,qual:'CIDESCO',slot:'sf-p1',bigSlot:'sf-p1b',skills:['Facials','Advanced Skincare','Waxing','Peels'],bio:'Lerato has spent nine years reading skin. She is the person to see when nothing has worked — expect a slow, thorough consultation before anything touches your face.'},
-  {first:'Anja',initial:'A',name:'Anja van Wyk',role:'Nail Technician',years:6,qual:'ITEC Nail Tech',slot:'sf-p2',bigSlot:'sf-p2b',skills:['Gel','Acrylic','Nail Art','Pedicure'],bio:'Anja builds a set that lasts. Precise cuticle work, hand-painted detail, and a quiet chair if you would rather not talk.'},
-  {first:'Thandi',initial:'T',name:'Thandi Nkosi',role:'Massage Therapist',years:12,qual:'Dip. Somatology',slot:'sf-p3',bigSlot:'sf-p3b',skills:['Swedish','Deep Tissue','Aromatherapy','Hot Stone'],bio:'Twelve years of hands that find the knot you did not mention. Thandi trained in somatology and works pressure up gradually, never suddenly.'},
-  {first:'Chloé',initial:'C',name:'Chloé Petersen',role:'Lash & Brow Artist',years:4,qual:'Lash Perfect Cert.',slot:'sf-p4',bigSlot:'sf-p4b',skills:['Lash Lift','Extensions','Brow Lamination','Tinting'],bio:'Chloé maps every brow before she touches it. Her lash sets are deliberately understated — the kind people compliment without knowing why.'}
+  {first:'Lerato',initial:'L',name:'Lerato Mokoena',role:'Senior Therapist',years:9,qual:'CIDESCO',skills:['Facials','Advanced Skincare','Waxing','Peels'],bio:'Lerato has spent nine years reading skin. She is the person to see when nothing has worked — expect a slow, thorough consultation before anything touches your face.'},
+  {first:'Anja',initial:'A',name:'Anja van Wyk',role:'Nail Technician',years:6,qual:'ITEC Nail Tech',skills:['Gel','Acrylic','Nail Art','Pedicure'],bio:'Anja builds a set that lasts. Precise cuticle work, hand-painted detail, and a quiet chair if you would rather not talk.'},
+  {first:'Thandi',initial:'T',name:'Thandi Nkosi',role:'Massage Therapist',years:12,qual:'Dip. Somatology',skills:['Swedish','Deep Tissue','Aromatherapy','Hot Stone'],bio:'Twelve years of hands that find the knot you did not mention. Thandi trained in somatology and works pressure up gradually, never suddenly.'},
+  {first:'Chloé',initial:'C',name:'Chloé Petersen',role:'Lash & Brow Artist',years:4,qual:'Lash Perfect Cert.',skills:['Lash Lift','Extensions','Brow Lamination','Tinting'],bio:'Chloé maps every brow before she touches it. Her lash sets are deliberately understated — the kind people compliment without knowing why.'}
 ];
 
 const ICONS = {
@@ -819,14 +923,8 @@ const ICONS = {
   leaf:'M4 20C4 11.2 11.2 4 20 4c0 8.8-7.2 16-16 16Z M19 5 8.5 15.5',
   tag:'M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 2.8 12V4.8a2 2 0 0 1 2-2H12a2 2 0 0 1 1.4.6l7.2 7.2a2 2 0 0 1 0 2.8Z M7.4 7.4h.01',
   users:'M16 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H6.8A3.8 3.8 0 0 0 3 18.7v1.8 M9.5 11.2a3.8 3.8 0 1 0 0-7.7 3.8 3.8 0 0 0 0 7.7 M21 20.5v-1.8a3.8 3.8 0 0 0-2.9-3.7 M16.2 3.7a3.8 3.8 0 0 1 0 7.4',
-  user:'M19 20.5v-1.8a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v1.8 M12 10.7a3.9 3.9 0 1 0 0-7.7 3.9 3.9 0 0 0 0 7.7',
   phone:'M21.6 16.9v2.8a1.9 1.9 0 0 1-2.1 1.9 18.9 18.9 0 0 1-8.2-2.9 18.6 18.6 0 0 1-5.7-5.7A18.9 18.9 0 0 1 2.7 4.7a1.9 1.9 0 0 1 1.9-2.1h2.8a1.9 1.9 0 0 1 1.9 1.6c.1 1 .4 1.8.7 2.7a1.9 1.9 0 0 1-.5 2L8.3 10.2a15.3 15.3 0 0 0 5.7 5.7l1.3-1.2a1.9 1.9 0 0 1 2-.5c.9.3 1.7.6 2.7.7a1.9 1.9 0 0 1 1.6 2Z',
-  grid:'M3.5 3.5h7v7h-7z M13.5 3.5h7v7h-7z M3.5 13.5h7v7h-7z M13.5 13.5h7v7h-7z',
-  clipboard:'M9 3.5h6a1 1 0 0 1 1 1v1.2H8V4.5a1 1 0 0 1 1-1Z M16 5.7h2.5a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19V7.2a1.5 1.5 0 0 1 1.5-1.5H8 M8 11h8 M8 15h5',
-  doccheck:'M14 3.5H6.5A1.5 1.5 0 0 0 5 5v14a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19V8.5Z M14 3.5V8.5h5 M8.5 14.5l2 2 4-4',
-  store:'M4 9.5V19a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19V9.5 M3 9.5 5.2 4.2A1 1 0 0 1 6.1 3.5h11.8a1 1 0 0 1 .9.7L21 9.5Z M9.5 20.5v-6h5v6',
   droplet:'M12 3.2c3.2 3.4 5.4 6 5.4 8.9A5.4 5.4 0 0 1 12 17.5a5.4 5.4 0 0 1-5.4-5.4c0-2.9 2.2-5.5 5.4-8.9Z',
-  qr:'M4 4h5.5v5.5H4z M14.5 4H20v5.5h-5.5z M4 14.5h5.5V20H4z M14.5 14.5h2.5 M20 14.5v2.5 M17 20h3v-3 M14.5 17.5v2.5',
   calendar:'M6.5 4h11A1.5 1.5 0 0 1 19 5.5V19a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19V5.5A1.5 1.5 0 0 1 6.5 4Z M8.5 2.5v3 M15.5 2.5v3 M5 9.5h14',
   message:'M20.5 11.6a8.1 8.1 0 0 1-8.5 8.1 9.3 9.3 0 0 1-2.6-.4L4.5 21l1.4-4.2a8 8 0 0 1-1.4-4.5 8.1 8.1 0 0 1 8.5-8.1 8.1 8.1 0 0 1 7.5 7.4Z',
   pin:'M19 10.3c0 5-7 11.2-7 11.2s-7-6.2-7-11.2a7 7 0 0 1 14 0Z M12 12.6a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8',
@@ -838,33 +936,10 @@ const ICONS = {
 const money = n => 'R' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
 class Component extends DCLogic {
-  state = {
-    screen:'home', q:'', cat:'All', refine:'Any duration', showFilters:false,
-    detailName:'Gel Manicure',
-    ipadView:'dash', step:2,
-    ans:{}, consent:{}, sigPaths:[], drawing:false
-  };
+  state = {screen:'home', q:'', cat:'All', refine:'Any duration', showFilters:false, detailName:'Gel Manicure'};
 
   go = s => () => this.setState({screen:s});
   openDetail = name => () => this.setState({screen:'detail', detailName:name});
-
-  sigDown = e => {
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX-r.left)/r.width*900, y = (e.clientY-r.top)/r.height*280;
-    this.setState(s => ({drawing:true, sigPaths:[...s.sigPaths, {d:`M ${x.toFixed(1)} ${y.toFixed(1)}`}]}));
-  };
-  sigMove = e => {
-    if(!this.state.drawing) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX-r.left)/r.width*900, y = (e.clientY-r.top)/r.height*280;
-    this.setState(s => {
-      const p = s.sigPaths.slice(); const last = p[p.length-1];
-      if(!last) return null;
-      p[p.length-1] = {d: last.d + ` L ${x.toFixed(1)} ${y.toFixed(1)}`};
-      return {sigPaths:p};
-    });
-  };
-  sigUp = () => { if(this.state.drawing) this.setState({drawing:false}); };
 
   renderVals() {
     const S = this.state, sc = S.screen;
@@ -900,34 +975,44 @@ class Component extends DCLogic {
     const chipStyle = active => active
       ? {bg:FOREST, fg:IVORY, border:FOREST}
       : {bg:'transparent', fg:'rgba(51,51,51,.7)', border:'rgba(74,107,87,.28)'};
-
-    const chips = ['All',...catNames].map(n => ({name:n, ...chipStyle(S.cat===n), go:()=>this.setState({cat:n})}));
-    const refinements = ['Any duration','Under 45 min','Under R500','On special'].map(n => ({name:n, ...chipStyle(S.refine===n), go:()=>this.setState({refine:n})}));
+    const railStyle = active => ({
+      railBar: active ? FOREST : 'transparent',
+      railBg: active ? '#F0F4F0' : 'transparent',
+      railFg: active ? FOREST : 'rgba(51,51,51,.65)',
+      railFont: active ? '500 14px/1 Inter,sans-serif' : '400 14px/1 Inter,sans-serif'
+    });
+    const chips = ['All'].concat(catNames).map(n => Object.assign({name:n}, chipStyle(S.cat===n), railStyle(S.cat===n), {go:()=>this.setState({cat:n})}));
+    const refinements = ['Any duration','Under 45 min','Under R500','On special'].map(n => Object.assign({name:n}, chipStyle(S.refine===n), railStyle(S.refine===n), {go:()=>this.setState({refine:n})}));
 
     const dRow = T.find(r => r[1] === S.detailName) || T[0];
     const detail = {
       cat:dRow[0], name:dRow[1], dur:dRow[2], price: dRow[4]!=null ? money(dRow[4]) : money(dRow[3]),
       tint:tints[dRow[0]], mark:marks[dRow[0]], icon:catIcon[dRow[0]],
       body: dRow[5] + ' Your therapist will talk through shape, colour and aftercare before starting, and a short consultation form is completed in salon so we have your health details on record.',
-      team: PEOPLE.filter(p => p.skills.some(s => dRow[0].toLowerCase().includes(s.toLowerCase().split(' ')[0])) || (dRow[0]==='Nails' && p.role==='Nail Technician') || (dRow[0]==='Facials' && p.role==='Senior Therapist')).slice(0,2),
+      team: PEOPLE.filter(p => (dRow[0]==='Nails' && p.role==='Nail Technician') || (dRow[0]==='Massage' && p.role==='Massage Therapist') || (dRow[0]==='Brows & Lashes' && p.role==='Lash & Brow Artist') || ((dRow[0]==='Facials'||dRow[0]==='Skincare'||dRow[0]==='Waxing') && p.role==='Senior Therapist')).slice(0,2),
       related: T.filter(r => r[0]===dRow[0] && r[1]!==dRow[1]).slice(0,3).map(item)
     };
     if(detail.team.length === 0) detail.team = [PEOPLE[0]];
 
-    const navDefs = [['home','Home','home'],['menu','Treatments','leaf'],['specials','Specials','tag'],['team','Team','users'],['contact','Contact','phone']];
-    const navItems = navDefs.map(([k,label,ic]) => ({
-      label, icon:ICONS[ic],
-      color: (sc===k || (k==='menu' && sc==='detail')) ? FOREST : 'rgba(51,51,51,.42)',
-      go: this.go(k)
-    }));
+    const navDefs = [['home','Home','home'],['specials','Specials','tag'],['menu','Treatments','leaf'],['team','Team','users'],['contact','Contact','phone']];
+    const navItems = navDefs.map(function(d){ return d; }).map(([k,label,ic]) => {
+      const center = k === 'menu';
+      const active = sc === k || (center && sc === 'detail');
+      return {
+        label, icon:ICONS[ic], isCenter:center, isSide:!center,
+        color: center ? (active ? GOLD_INK : 'rgba(51,51,51,.55)') : (active ? FOREST : 'rgba(51,51,51,.42)'),
+        font: active ? '500 10.5px/1 Inter,sans-serif' : '400 10.5px/1 Inter,sans-serif',
+        centerBg: active ? GOLD_INK : GOLD,
+        go: this.go(k)
+      };
+    });
 
     const tabGroups = [
       {label:'Client', tabs:[['home','Home'],['menu','Menu'],['detail','Detail'],['specials','Specials'],['team','Team'],['contact','Contact']]},
-      {label:'Therapist', tabs:[['ipad','iPad']]},
-      {label:'Admin', tabs:[['admin','Desktop']]}
+      {label:'Therapist', tabs:[['ipad','All devices']]},
+      {label:'Admin', tabs:[['admin','All devices']]}
     ].map(g => ({label:g.label, tabs:g.tabs.map(([k,label]) => ({
-      label,
-      go:this.go(k),
+      label, go:this.go(k),
       bg: sc===k ? FOREST : 'transparent',
       fg: sc===k ? IVORY : 'rgba(51,51,51,.68)',
       border: sc===k ? FOREST : 'rgba(74,107,87,.25)'
@@ -943,184 +1028,55 @@ class Component extends DCLogic {
     };
     const note = notes[sc] || ['','',[]];
 
-    const stepDefs = [[1,'Your details'],[2,'Health & safety'],[3,'Treatment questions'],[4,'Review'],[5,'Consent'],[6,'Signature']];
-    const steps = stepDefs.map(([n,label]) => ({
-      n, label,
-      bar: n < S.step ? SAGE : (n === S.step ? FOREST : 'rgba(74,107,87,.18)'),
-      fg: n === S.step ? INK : 'rgba(51,51,51,.45)',
-      font: n === S.step ? "500 13.5px/1.3 Inter,sans-serif" : "300 13.5px/1.3 Inter,sans-serif",
-      go: () => this.setState({step:n})
-    }));
-
-    const qDefs = [
-      {id:'allergies', text:'Do you have any known allergies?', opts:['Yes','No','Unsure'], detail:'Please tell us what you react to', hint:'e.g. latex, acetone, essential oils'},
-      {id:'meds', text:'Are you currently taking any medication?', opts:['Yes','No'], detail:'Please list your medication', hint:'Including anything prescribed in the last month'},
-      {id:'retinol', text:'Have you used retinol or a retinoid in the last 7 days?', opts:['Yes','No','Unsure'], warn:'Waxing over retinoid-treated skin risks lifting. Your therapist must review this before treatment can proceed.'},
-      {id:'pregnant', text:'Are you pregnant or breastfeeding?', opts:['Yes','No']},
-      {id:'skin', text:'Do you currently have any rash, infection, inflammation or broken skin in the treatment area?', opts:['Yes','No'], detail:'Where, and for how long?', hint:'A short description is enough'}
-    ];
-    const questions = qDefs.map(qd => {
-      const val = S.ans[qd.id];
-      return {
-        text: qd.text,
-        options: qd.opts.map(o => ({
-          label:o,
-          bg: val===o ? (o==='Yes' && qd.warn ? '#FDF3E7' : '#F0F4F0') : IVORY,
-          border: val===o ? (o==='Yes' && qd.warn ? GOLD : FOREST) : 'rgba(74,107,87,.28)',
-          fg: val===o ? (o==='Yes' && qd.warn ? '#8A6A2E' : FOREST) : 'rgba(51,51,51,.7)',
-          pick: () => this.setState(s => ({ans:{...s.ans, [qd.id]:o}}))
-        })),
-        showDetail: !!qd.detail && (val==='Yes' || val==='Unsure'),
-        detailLabel: qd.detail, detailHint: qd.hint,
-        showWarning: !!qd.warn && val==='Yes',
-        warning: qd.warn
-      };
-    });
-
-    const consentDefs = [
-      ['treatment','Treatment consent','I confirm the information I have given is accurate, I understand the nature of the treatment and any risks explained to me, and I consent to it being carried out today.','Required'],
-      ['privacy','Privacy and data processing','I consent to SalonFlow storing my consultation record securely for the period required by law, and understand I may request a copy or its deletion at any time.','Required'],
-      ['photo','Photography and marketing','I am happy for before and after photographs of my treatment to be used on SalonFlow social media. This is optional and does not affect my treatment.','Optional']
-    ];
-    const consents = consentDefs.map(([id,title,body,req]) => {
-      const on = !!S.consent[id];
-      return {
-        title, body, req,
-        reqColor: req==='Required' ? GOLD_INK : 'rgba(51,51,51,.42)',
-        tick: on ? '✓' : '',
-        bg: on ? '#F0F4F0' : IVORY,
-        border: on ? FOREST : 'rgba(74,107,87,.25)',
-        boxBg: on ? FOREST : 'transparent',
-        boxBorder: on ? FOREST : 'rgba(74,107,87,.4)',
-        toggle: () => this.setState(s => ({consent:{...s.consent, [id]: !s.consent[id]}}))
-      };
-    });
-
-    const chartData = [[7,18],[8,22],[9,19],[10,26],[11,24],[12,31],[13,28],[14,34]];
-    const max = 34;
-
     return {
       isPhone:phone, isHome:sc==='home', isMenu:sc==='menu', isDetail:sc==='detail',
       isSpecials:sc==='specials', isTeam:sc==='team', isContact:sc==='contact',
       isIpad:sc==='ipad', isAdmin:sc==='admin',
       statusColor: sc==='home' ? '#FFFDF9' : INK,
-      ico: ICONS,
-      tabGroups, navItems,
+      ico: ICONS, tabGroups, navItems,
+      wideFrames: [
+        {label:'Tablet · 834 × 1112', outerW:'862px', w:'834px', h:'1112px', bezel:'14px', bezelR:'26px', radius:'14px', pad:'40px', logoH:'38px', heroH:'316px', heroType:"46px/1 'Playfair Display',serif", h1:"34px/1.1 'Playfair Display',serif", h2:"24px/1 'Playfair Display',serif", catCols:'repeat(3,1fr)', teamCols:'repeat(4,1fr)', cardCols:'repeat(2,1fr)', menuCols:'1.15fr 1fr'},
+        {label:'Desktop · 1440 × 980', outerW:'1444px', w:'1440px', h:'980px', bezel:'1px', bezelR:'3px', radius:'2px', pad:'72px', logoH:'44px', heroH:'420px', heroType:"62px/1 'Playfair Display',serif", h1:"44px/1.1 'Playfair Display',serif", h2:"28px/1 'Playfair Display',serif", catCols:'repeat(6,1fr)', teamCols:'repeat(4,1fr)', cardCols:'repeat(3,1fr)', menuCols:'1.35fr 1fr'}
+      ],
+      wideNav: navDefs.map(([k,label]) => {
+        const active = sc === k || (k === 'menu' && sc === 'detail');
+        return {
+          label, go:this.go(k),
+          bg: active ? '#F0F4F0' : 'transparent',
+          fg: active ? FOREST : 'rgba(51,51,51,.62)',
+          font: active ? '500 13.5px/1 Inter,sans-serif' : '400 13.5px/1 Inter,sans-serif'
+        };
+      }),
       goMenu:this.go('menu'), goSpecials:this.go('specials'), goTeam:this.go('team'),
-
-      categories: catNames.map(n => ({name:n, tint:tints[n], mark:marks[n], shape:shapes[n], go:()=>this.setState({screen:'menu', cat:n, q:''})})),
-      therapists: PEOPLE.map((p,i) => ({...p, tint:['#F0F4F0','#F7E9E3','#E3F0F9','#F5EFE7'][i%4]})),
+      categories: catNames.map(n => ({name:n, tint:tints[n], mark:marks[n], shape:shapes[n], icon:catIcon[n], count:T.filter(r => r[0]===n).length, go:()=>this.setState({screen:'menu', cat:n, q:''})})),
+      therapists: PEOPLE.map((p,i) => Object.assign({}, p, {tint:['#F0F4F0','#F7E9E3','#E3F0F9','#F5EFE7'][i%4]})),
       featured: [T[0], T[7], T[11]].map(item),
-
       q:S.q, onSearch: e => this.setState({q:e.target.value}),
       clearSearch: () => this.setState({q:'', cat:'All', refine:'Any duration'}),
-      menuCount: rows.length,
-      menuEmpty: rows.length === 0,
+      menuCount: rows.length, menuEmpty: rows.length === 0,
       sections, chips, refinements,
       showFilters:S.showFilters,
       toggleFilters: () => this.setState(s => ({showFilters:!s.showFilters})),
       filterBg: S.showFilters ? FOREST : 'transparent',
       filterBorder: S.showFilters ? FOREST : 'rgba(74,107,87,.28)',
       filterInk: S.showFilters ? IVORY : 'rgba(51,51,51,.6)',
-
       detail,
-
       specials: [
         {tint:'#F0F4F0', state:'Live', stateBg:SAGE, stateFg:'#fff', title:'Winter Glow Facial Ritual', body:'Hydrating Facial paired with LED light therapy — 105 minutes of layered hydration and calm.', now:'R890', was:'R1 170', save:'R280', dates:'Until 30 Sep 2026', applies:'Lerato · Chloé', terms:'One per client. Cannot be combined with other offers.'},
         {tint:'#F7E9E3', state:'Ending soon', stateBg:GOLD, stateFg:'#fff', title:'Gel Mani + Pedi Duo', body:'Gel Manicure and Gel Pedicure booked together, colour matched or deliberately not.', now:'R620', was:'R770', save:'R150', dates:'Ends 5 Sep 2026', applies:'Anja', terms:'Weekday appointments only. Subject to availability.'},
         {tint:'#E3F0F9', state:'Upcoming', stateBg:'#BFD8E6', stateFg:'#2F566E', title:'Spring Skin Reset', body:'Advanced Skin Treatment followed by dermaplaning, two weeks apart, with a home-care plan.', now:'R1 290', was:'R1 640', save:'R350', dates:'From 15 Sep 2026', applies:'Lerato', terms:'Consultation required before the first session.'}
       ],
-
       hours: [
         {day:'Monday – Friday', time:'09:00 – 18:00', color:FOREST},
         {day:'Saturday', time:'09:00 – 16:00', color:'rgba(51,51,51,.7)'},
         {day:'Sunday', time:'10:00 – 14:00', color:'rgba(51,51,51,.7)'},
         {day:'Public holidays', time:'By appointment', color:'rgba(51,51,51,.7)'}
       ],
-
-      noteTitle: note[0], noteBody: note[1], noteComponents: note[2],
-
-      ipadChrome: S.ipadView === 'dash',
-      ipadDash: S.ipadView === 'dash',
-      ipadWizard: S.ipadView === 'wizard',
-      startConsult: () => this.setState({ipadView:'wizard', step:2}),
-      exitWizard: () => this.setState({ipadView:'dash'}),
-      ipadNav: [['Today','calendar',true],['Clients','users',false],['Records','clipboard',false],['Menu','leaf',false]].map(([label,ic,active]) => ({
-        label, icon:ICONS[ic],
-        bg: active ? 'rgba(255,253,249,.16)' : 'transparent',
-        fg: active ? '#FFFDF9' : 'rgba(255,253,249,.62)',
-        go: () => {}
-      })),
-      ipadStats: [
-        {label:'Today', value:'6', sub:'2 remaining', color:INK},
-        {label:'This week', value:'24', sub:'+3 on last week', color:INK},
-        {label:'Needs review', value:'2', sub:'Flagged answers', color:GOLD_INK},
-        {label:'Incomplete', value:'1', sub:'No signature', color:'#B08A8A'}
-      ],
-      recent: [
-        {initial:'N', avBg:'#F7E9E3', avFg:'#8A5A5A', client:'Naledi Dube', treatment:'Gel Manicure', when:'11:42 today', status:'Incomplete', bg:'#F7E9E3', fg:'#8A5A5A'},
-        {initial:'J', avBg:'#FDF3E7', avFg:'#8A6A2E', client:'Jane Smith', treatment:'Full Leg Wax', when:'10:15 today', status:'Flagged', bg:'#FDF3E7', fg:'#8A6A2E'},
-        {initial:'P', avBg:'#F0F4F0', avFg:FOREST, client:'Priya Naidoo', treatment:'Hydrating Facial', when:'09:00 today', status:'Complete', bg:'#F0F4F0', fg:FOREST},
-        {initial:'K', avBg:'#F0F4F0', avFg:FOREST, client:'Karabo Sithole', treatment:'Lash Lift', when:'Yesterday, 16:30', status:'Complete', bg:'#F0F4F0', fg:FOREST},
-        {initial:'A', avBg:'#F0F4F0', avFg:FOREST, client:'Amy Lourens', treatment:'Classic Facial', when:'Yesterday, 14:00', status:'Complete', bg:'#F0F4F0', fg:FOREST}
-      ],
-      schedule: [
-        {time:'13:00', what:'Brazilian — Jane Smith', color:FOREST},
-        {time:'14:30', what:'Classic Facial — new client', color:'rgba(51,51,51,.5)'},
-        {time:'16:00', what:'Brow Shape & Tint — Priya Naidoo', color:'rgba(51,51,51,.5)'}
-      ],
-
-      steps, stepNo:S.step,
-      stepHealth: S.step <= 4,
-      stepConsent: S.step === 5,
-      stepSign: S.step === 6,
-      nextLabel: S.step === 6 ? 'Submit consultation' : 'Continue',
-      nextStep: () => this.setState(s => ({step: Math.min(6, s.step+1)})),
-      prevStep: () => this.setState(s => ({step: Math.max(1, s.step-1)})),
-      questions, consents,
-
-      sigPaths: S.sigPaths,
-      sigHintColor: S.sigPaths.length ? 'transparent' : 'rgba(51,51,51,.28)',
-      confirmBg: S.sigPaths.length ? FOREST : 'rgba(74,107,87,.35)',
-      sigDown:this.sigDown, sigMove:this.sigMove, sigUp:this.sigUp,
-      sigUndo: () => this.setState(s => ({sigPaths:s.sigPaths.slice(0,-1)})),
-      sigClear: () => this.setState({sigPaths:[]}),
-      sigMeta: [
-        {k:'Client', v:'Naledi Dube'}, {k:'Treatment', v:'Gel Manicure'}, {k:'Therapist', v:'Lerato Mokoena'},
-        {k:'Date & time', v:'27 Aug 2026, 12:04'}, {k:'Consent form', v:'Nails — General'}, {k:'Version', v:'v3 · published 02 Jul 2026'}
-      ],
-
-      adminNav: [['Dashboard','grid'],['Consultations','clipboard'],['Consent forms','doccheck'],['Clients','users'],['Treatments','leaf'],['Therapists','user'],['Specials','tag'],['Salon details','store'],['Branding','droplet'],['QR codes','qr']].map(([label,ic],i) => ({
-        label,
-        icon: ICONS[ic],
-        bg: i===0 ? 'rgba(255,253,249,.16)' : 'transparent',
-        fg: i===0 ? '#FFFDF9' : 'rgba(255,253,249,.7)',
-        font: i===0 ? "500 13.5px/1 Inter,sans-serif" : "300 13.5px/1 Inter,sans-serif"
-      })),
-      adminStats: [
-        {label:'Consultations today', value:'14', sub:'Across 4 therapists', color:INK},
-        {label:'This week', value:'61', sub:'+12% on last week', color:INK},
-        {label:'This month', value:'184', sub:'Target 200', color:INK},
-        {label:'Active therapists', value:'4', sub:'1 inactive', color:INK},
-        {label:'Requiring review', value:'3', sub:'Oldest 2 days', color:GOLD_INK},
-        {label:'Consent expiring', value:'9', sub:'Clients over 12 months', color:'#37627E'}
-      ],
-      chart: chartData.map(([w,v]) => ({label:'W'+w, value:v, h: Math.round(v/max*150)+'px', color: v===max ? FOREST : SAGE})),
-      flagged: [
-        {client:'Jane Smith', reason:'Retinoid use declared before Full Leg Wax', meta:'Lerato Mokoena · 2 days ago', dot:GOLD},
-        {client:'Naledi Dube', reason:'Signature not captured — session abandoned', meta:'Lerato Mokoena · today', dot:'#C29A8E'},
-        {client:'Sipho Molefe', reason:'Blood thinning medication declared', meta:'Thandi Nkosi · yesterday', dot:GOLD}
-      ],
-      tableHead: [{label:'Therapist',align:'left'},{label:'This month',align:'right'},{label:'Last consent',align:'right'},{label:'Avg / week',align:'right'},{label:'Flagged',align:'right'},{label:'',align:'right'}],
-      tableRows: [
-        {initial:'L', name:'Lerato Mokoena', role:'Senior Therapist', month:'62', last:'Today, 11:42', avg:'15.5', flagged:'2', flagColor:GOLD_INK},
-        {initial:'A', name:'Anja van Wyk', role:'Nail Technician', month:'54', last:'Today, 09:20', avg:'13.5', flagged:'0', flagColor:'rgba(51,51,51,.4)'},
-        {initial:'T', name:'Thandi Nkosi', role:'Massage Therapist', month:'41', last:'Yesterday, 17:05', avg:'10.3', flagged:'1', flagColor:GOLD_INK},
-        {initial:'C', name:'Chloé Petersen', role:'Lash & Brow Artist', month:'27', last:'25 Aug, 15:40', avg:'6.8', flagged:'0', flagColor:'rgba(51,51,51,.4)'}
-      ]
+      noteTitle: note[0], noteBody: note[1], noteComponents: note[2]
     };
   }
 }
 </script>
 </body>
 </html>
+

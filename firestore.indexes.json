@@ -24,6 +24,14 @@
       { "fieldPath": "clientId", "order": "ASCENDING" },
       { "fieldPath": "startedAt", "order": "DESCENDING" }
     ]},
+    { "collectionGroup": "consultations", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "status", "order": "ASCENDING" },
+      { "fieldPath": "signedAt", "order": "DESCENDING" }
+    ]},
+    { "collectionGroup": "consultations", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "status", "order": "ASCENDING" },
+      { "fieldPath": "completedAt", "order": "DESCENDING" }
+    ]},
     { "collectionGroup": "consentSubmissions", "queryScope": "COLLECTION", "fields": [
       { "fieldPath": "clientId", "order": "ASCENDING" },
       { "fieldPath": "createdAt", "order": "DESCENDING" }
@@ -35,6 +43,10 @@
     { "collectionGroup": "consentTemplateVersions", "queryScope": "COLLECTION", "fields": [
       { "fieldPath": "templateId", "order": "ASCENDING" },
       { "fieldPath": "versionNumber", "order": "ASCENDING" }
+    ]},
+    { "collectionGroup": "notifications", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "recipientUid", "order": "ASCENDING" },
+      { "fieldPath": "createdAt", "order": "DESCENDING" }
     ]}
   ],
   "fieldOverrides": []

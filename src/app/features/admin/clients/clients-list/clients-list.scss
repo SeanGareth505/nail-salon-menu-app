@@ -1,0 +1,20 @@
+.search-input {
+  width: 280px;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  background: var(--sf-surface);
+  font-family: var(--sf-font-body);
+  font-size: 0.9rem;
+}
+.search-input:focus {
+  outline: 2px solid var(--sf-sage);
+  outline-offset: 1px;
+}
+
+.empty-cell {
+  text-align: center;
+  color: var(--sf-ink-muted);
+  padding: var(--sf-space-6) !important;
+}

@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { demoMeta } from './demo-catalogue.mjs';
+import { DEFAULT_CONSENT_TEMPLATE, ensureDefaultConsentTemplate } from './default-consent-template.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const manifest = JSON.parse(readFileSync(join(__dirname, '../src/assets/demo-catalogue.manifest.json'), 'utf8'));
@@ -49,6 +50,7 @@ const blankSettings = {
   ],
   vatIncluded: true,
   catalogueSource: 'custom',
+  defaultConsentTemplateId: DEFAULT_CONSENT_TEMPLATE.templateId,
 };
 
 const starterBranding = {
@@ -64,7 +66,9 @@ const starterBranding = {
 };
 
 async function main() {
-  await signInWithEmailAndPassword(auth, ADMIN_EMAIL, ADMIN_PASSWORD);
+  const cred = await signInWithEmailAndPassword(auth, ADMIN_EMAIL, ADMIN_PASSWORD);
+  const uid = cred.user.uid;
+  const aud = () => ({ updatedAt: serverTimestamp(), updatedBy: uid });
   console.log('Signed in as', ADMIN_EMAIL);
 
   for (const id of manifest.categories) await deleteDoc(doc(db, 'categories', id));
@@ -78,13 +82,15 @@ async function main() {
 
   await setDoc(doc(db, 'salonSettings/default'), {
     ...blankSettings,
-    updatedAt: serverTimestamp(),
+    ...aud(),
   }, { merge: true });
 
   await setDoc(doc(db, 'branding/default'), {
     ...starterBranding,
-    updatedAt: serverTimestamp(),
+    ...aud(),
   }, { merge: true });
+
+  await ensureDefaultConsentTemplate(db, uid, serverTimestamp);
 
   console.log('Demo catalogue cleared. Salon details and branding reset — add your own content in Admin.');
   process.exit(0);

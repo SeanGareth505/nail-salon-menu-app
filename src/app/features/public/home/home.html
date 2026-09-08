@@ -1,82 +1,229 @@
-<section class="hero">
-  <div class="hero-panel" sfReveal>
-    <div class="hero-frame"></div>
-    <span class="sf-eyebrow hero-kicker">Welcome to</span>
-  </div>
-  <div class="hero-card sf-card" sfReveal [sfRevealDelay]="1">
-    <div class="logo-mark">
-      <img [src]="identity.logoUrl()" [alt]="identity.name()" class="logo-img" />
-    </div>
-    <p class="sf-script tagline sf-motion-fade-in" style="animation-delay: 140ms">{{ identity.tagline() }}</p>
-    <p class="welcome-copy sf-motion-fade-in" style="animation-delay: 200ms">
-      Welcome in. Browse the full treatment menu, this week's specials and the team looking after you today.
-    </p>
-    <a routerLink="/treatments" class="cta-primary sf-motion-rise-in" style="animation-delay: 260ms">Explore Treatments <sf-icon name="arrow-right" [size]="16" /></a>
-    <a routerLink="/specials" class="cta-secondary sf-motion-fade-in" style="animation-delay: 320ms">View Specials</a>
-  </div>
-</section>
+<div class="home">
+  <div class="mobile-only">
+    <section class="home-hero">
+      <div class="home-hero-inner">
+        <header class="home-brand" sfReveal>
+          <img [src]="identity.logoUrl()" [alt]="identity.name()" class="home-logo" />
+          <p class="sf-eyebrow home-kicker">Welcome to</p>
+          <h1 class="home-name">{{ identity.name() }}</h1>
+          <p class="sf-script home-tagline">{{ identity.tagline() }}</p>
+          @if (openStatusLabel()) {
+            <p class="home-status">
+              <span class="status-dot" aria-hidden="true"></span>
+              {{ openStatusLabel() }}
+            </p>
+          }
+        </header>
 
-<section class="section" sfReveal [sfRevealDelay]="2">
-  <div class="section-head">
-    <h2>Browse by category</h2>
-  </div>
-  <div class="categories">
-    @for (category of categories(); track category.id; let i = $index) {
-      <div sfReveal [sfRevealDelay]="i + 3"><sf-category-tile [category]="category" /></div>
-    }
-  </div>
-</section>
-
-@if (liveSpecial(); as special) {
-  <section class="section" sfReveal [sfRevealDelay]="3">
-    <div class="section-head">
-      <h2>On this week</h2>
-      <a routerLink="/specials" class="link">All specials <sf-icon name="arrow-right" [size]="14" /></a>
-    </div>
-    <sf-special-card [special]="special" />
-  </section>
-}
-
-<section class="section" sfReveal [sfRevealDelay]="4">
-  <div class="section-head">
-    <h2>Featured treatments</h2>
-  </div>
-  <div class="list-plain">
-    @for (t of featuredTreatments(); track t.id) {
-      <sf-treatment-card [treatment]="t" layout="featured" tint="blush" icon="droplet" />
-    } @empty {
-      <sf-empty-state-animation motif="treatments" title="Menu coming soon" message="Treatments will appear here once they're added." />
-    }
-  </div>
-</section>
-
-<section class="section" sfReveal [sfRevealDelay]="5">
-  <div class="section-head">
-    <h2>Meet our therapists</h2>
-    <a routerLink="/therapists" class="link">The team <sf-icon name="arrow-right" [size]="14" /></a>
-  </div>
-  <div class="avatar-row">
-    @for (t of featuredTherapists(); track t.id; let i = $index) {
-      <a class="avatar sf-motion-rise-in" [style.animation-delay]="(i * 60) + 'ms'" [routerLink]="['/therapists', t.id]" [class]="'tint-' + t.tint">
-        <span>{{ t.initial }}</span>
-        <span class="name">{{ t.name.split(' ')[0] }}</span>
-        <span class="role">{{ t.role }}</span>
-      </a>
-    }
-  </div>
-</section>
-
-@if (settings(); as s) {
-  <section class="section location-section" sfReveal [sfRevealDelay]="6">
-    <div class="location-card">
-      <h3>{{ s.name || identity.name() }} {{ (s.city || identity.city()) ? '· ' + (s.city || identity.city()) : '' }}</h3>
-      <p>{{ s.addressLine1 }}<br />{{ s.addressLine2 }}</p>
-      <p class="open"><span class="dot"></span> {{ openStatusLabel() }}</p>
-      <div class="actions">
-        <a class="action call" [href]="'tel:' + s.phone"><sf-icon name="phone" [size]="18" />Call</a>
-        <a class="action whatsapp" [href]="'https://wa.me/' + s.whatsapp"><sf-icon name="whatsapp" [size]="18" />WhatsApp</a>
-        <a class="action directions" routerLink="/contact"><sf-icon name="map-pin" [size]="18" />Directions</a>
+        <nav class="home-nav" aria-label="Main menu" sfReveal sfRevealMode="stagger">
+          @for (item of navItems; track item.path; let i = $index) {
+            <a
+              [class]="'nav-tile nav-tile--' + item.tint"
+              [routerLink]="item.path"
+              sfRevealStagger
+              [sfRevealStaggerIndex]="i"
+            >
+              <span class="nav-tile-icon" aria-hidden="true">
+                <sf-icon [name]="item.icon" [size]="24" />
+              </span>
+              <span class="nav-tile-copy">
+                <span class="nav-tile-label">{{ item.label }}</span>
+                <span class="nav-tile-desc">{{ item.description }}</span>
+              </span>
+            </a>
+          }
+        </nav>
       </div>
-    </div>
-  </section>
-}
+    </section>
+
+    @if (settings(); as s) {
+      <section class="home-visit" sfReveal>
+        <div class="home-visit-inner">
+          <div class="visit-copy">
+            <h2 class="visit-title">Visit us</h2>
+            <p class="visit-address">
+              {{ s.addressLine1 }}@if (s.addressLine2) {, {{ s.addressLine2 }} }@if (s.city) { · {{ s.city }} }
+            </p>
+          </div>
+          <div class="visit-actions">
+            <a class="visit-btn visit-btn--primary" [href]="'tel:' + s.phone">
+              <sf-icon name="phone" [size]="17" />
+              Call
+            </a>
+            <a class="visit-btn visit-btn--whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener noreferrer">
+              <sf-icon name="whatsapp" [size]="17" />
+              WhatsApp
+            </a>
+            <a class="visit-btn visit-btn--outline" [href]="mapsUrl(s)" target="_blank" rel="noopener noreferrer">
+              <sf-icon name="map-pin" [size]="17" />
+              Directions
+            </a>
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (pwa.canInstall()) {
+      <section class="install-card home-install" sfReveal>
+        <div class="install-mark">{{ identity.markInitial() }}</div>
+        <div class="install-copy">
+          <span class="install-title">Keep {{ identity.name() }} on your phone</span>
+          <span class="install-sub">Add to home screen — works offline</span>
+        </div>
+        <button type="button" class="install-btn" (click)="install()">Install</button>
+      </section>
+    }
+  </div>
+
+  <div class="desktop-only">
+    <section class="home-hero-banner" sfReveal>
+      <div class="hero-frame" aria-hidden="true"></div>
+      <div class="hero-banner-copy">
+        <p class="sf-eyebrow hero-kicker">Welcome to</p>
+        <span class="hero-divider" aria-hidden="true"></span>
+        <h1 class="hero-banner-title">{{ identity.name() }}</h1>
+        <p class="sf-script hero-banner-tagline">{{ identity.tagline() }}</p>
+      </div>
+    </section>
+
+    <section class="home-cta" sfReveal>
+      <div class="home-cta-inner">
+        <p class="home-intro">Welcome in. Browse the full treatment menu, this week's specials and the team looking after you today.</p>
+        <div class="home-cta-actions">
+          <a class="btn btn-primary" routerLink="/treatments">Explore Treatments <span aria-hidden="true">→</span></a>
+          <a class="btn btn-outline" routerLink="/specials">View Specials</a>
+        </div>
+      </div>
+    </section>
+
+    @if (categoriesWithCount().length) {
+      <section class="home-section" sfReveal>
+        <div class="section-head">
+          <h2>Browse by category</h2>
+        </div>
+        <div class="category-grid" sfReveal sfRevealMode="stagger">
+          @for (item of categoriesWithCount(); track item.category.id; let i = $index) {
+            <a
+              class="category-card"
+              [class]="'tint-' + item.category.tint"
+              [routerLink]="categoryLink(item.category.slug)"
+              [queryParams]="categoryQuery(item.category.slug)"
+              sfRevealStagger
+              [sfRevealStaggerIndex]="i"
+            >
+              <span class="category-watermark" aria-hidden="true">
+                <sf-icon [name]="item.icon" [size]="88" />
+              </span>
+              <span class="category-icon" aria-hidden="true">
+                <sf-icon [name]="item.icon" [size]="24" />
+              </span>
+              <span class="category-copy">
+                <span class="category-name">{{ item.category.name }}</span>
+                <span class="category-count">{{ item.count }} treatments</span>
+              </span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+
+    <section class="home-section home-highlight-grid">
+      @if (weekSpecial(); as special) {
+        <div class="highlight-special" sfReveal>
+          <div class="section-head">
+            <h2>On this week</h2>
+            <a class="section-link" routerLink="/specials">All specials →</a>
+          </div>
+          <sf-special-card
+            [special]="special"
+            [compact]="true"
+            [therapistNames]="therapistNamesFor(special)"
+            [treatmentNames]="treatmentNamesFor(special)"
+            [effectiveState]="effectiveStateFor(special)"
+          />
+        </div>
+      }
+
+      @if (featuredTreatments().length) {
+        <div class="highlight-treatments" sfReveal>
+          <div class="section-head">
+            <h2>Featured treatments</h2>
+          </div>
+          <div class="featured-list">
+            @for (t of featuredTreatments(); track t.id) {
+              <sf-treatment-card
+                [treatment]="t"
+                layout="featured"
+                [tint]="cardTint(t)"
+                [icon]="cardIcon(t)"
+                [specialView]="specialViewFor(t.id)"
+              />
+            }
+          </div>
+        </div>
+      }
+    </section>
+
+    @if (therapists().length) {
+      <section class="home-section" sfReveal>
+        <div class="section-head">
+          <h2>Meet our therapists</h2>
+          <a class="section-link" routerLink="/therapists">The team →</a>
+        </div>
+        <div class="therapist-grid">
+          @for (p of therapists(); track p.id) {
+            <a class="therapist-tile" [routerLink]="['/therapists', p.id]">
+              <span class="therapist-avatar large" [class]="'tint-' + p.tint">{{ p.initial }}</span>
+              <span class="therapist-name">{{ therapistFirstName(p.name) }}</span>
+              <span class="therapist-role">{{ p.role }}</span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+
+    @if (settings(); as s) {
+      <section class="home-visit" sfReveal>
+        <div class="home-visit-inner">
+          <div class="visit-copy">
+            <h2 class="visit-title">{{ identity.name() }}@if (s.city) { {{ s.city }} }</h2>
+            <p class="visit-address">
+              {{ s.addressLine1 }}@if (s.addressLine2) {, {{ s.addressLine2 }} }@if (s.city) { · {{ s.city }} }
+            </p>
+            @if (openStatusLabel()) {
+              <p class="visit-hours">
+                <span class="status-dot" aria-hidden="true"></span>
+                {{ openStatusLabel() }}
+              </p>
+            }
+          </div>
+          <div class="visit-actions">
+            <a class="visit-btn visit-btn--primary" [href]="'tel:' + s.phone">
+              <sf-icon name="phone" [size]="17" />
+              Call
+            </a>
+            <a class="visit-btn visit-btn--whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener noreferrer">
+              <sf-icon name="whatsapp" [size]="17" />
+              WhatsApp
+            </a>
+            <a class="visit-btn visit-btn--outline" [href]="mapsUrl(s)" target="_blank" rel="noopener noreferrer">
+              <sf-icon name="map-pin" [size]="17" />
+              Directions
+            </a>
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (pwa.canInstall()) {
+      <section class="install-card home-install" sfReveal>
+        <div class="install-mark">{{ identity.markInitial() }}</div>
+        <div class="install-copy">
+          <span class="install-title">Keep {{ identity.name() }} on your phone</span>
+          <span class="install-sub">Add to home screen — works offline</span>
+        </div>
+        <button type="button" class="install-btn" (click)="install()">Install</button>
+      </section>
+    }
+  </div>
+</div>

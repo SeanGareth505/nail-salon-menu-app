@@ -1,18 +1,34 @@
 @if (therapist(); as t) {
-  <div class="hero" [class]="'tint-' + t.tint">
-    <button type="button" class="back" (click)="back()"><sf-icon name="chevron-left" [size]="20" /></button>
-    <span class="initial">{{ t.initial }}</span>
-  </div>
-  <div class="sf-container body">
-    <h1>{{ t.name }}</h1>
-    <p class="role">{{ t.role }}</p>
-    <p class="bio">{{ t.bio }}</p>
-    <div class="facts">
-      <div><span class="sf-eyebrow">Experience</span><span>{{ t.experienceYears }} years</span></div>
-      <div><span class="sf-eyebrow">Qualification</span><span>{{ t.qualification }}</span></div>
+  <div class="profile">
+    <div class="hero" [class]="'tint-' + t.tint">
+      <div class="hero-frame" aria-hidden="true"></div>
+      <button type="button" class="back" (click)="back()" aria-label="Back">
+        <sf-icon name="chevron-left" [size]="20" />
+      </button>
+      <span class="initial">{{ t.initial }}</span>
     </div>
-    <div class="chips">
-      @for (skill of t.expertise; track skill) { <span class="chip">{{ skill }}</span> }
+    <div class="body">
+      <div class="head">
+        <h1>{{ t.name }}</h1>
+        <span class="role">{{ t.role }}</span>
+      </div>
+      <p class="bio">{{ t.bio }}</p>
+      <div class="facts">
+        <div>
+          <span class="fact-label">Experience</span>
+          <span>{{ t.experienceYears }} years</span>
+        </div>
+        <div class="fact-divider"></div>
+        <div>
+          <span class="fact-label">Qualification</span>
+          <span>{{ t.qualification }}</span>
+        </div>
+      </div>
+      <div class="chips">
+        @for (skill of t.expertise; track skill) {
+          <span class="chip">{{ skill }}</span>
+        }
+      </div>
     </div>
   </div>
 }

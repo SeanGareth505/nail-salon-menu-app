@@ -1,0 +1,133 @@
+.page {
+  padding: 22px 20px 30px;
+}
+
+.page-head h1 {
+  margin: 0 0 5px;
+  font-size: 1.69rem;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.sub {
+  margin: 0 0 22px;
+  font-size: 0.84rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(51, 51, 51, 0.55);
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filter {
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(74, 107, 87, 0.28);
+  background: transparent;
+  color: rgba(51, 51, 51, 0.7);
+  font-family: var(--sf-font-body);
+  font-size: 0.84rem;
+  font-weight: 400;
+  border-radius: var(--sf-radius-pill);
+  cursor: pointer;
+}
+
+.filter.active {
+  border-color: var(--sf-forest);
+  background: var(--sf-forest);
+  color: var(--sf-ivory);
+}
+
+.form-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sf-sage-light);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  color: var(--sf-forest);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(74, 107, 87, 0.12);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--sf-font-display);
+  font-size: 1.06rem;
+  line-height: 1.3;
+  color: var(--sf-ink);
+}
+
+.meta {
+  font-size: 0.78rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(51, 51, 51, 0.55);
+  margin-top: 4px;
+}
+
+.price {
+  flex: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--sf-forest);
+}
+
+.consult-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(74, 107, 87, 0.35);
+  background: transparent;
+  border-radius: var(--sf-radius-pill);
+  color: var(--sf-forest);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 32px 36px 40px;
+  }
+
+  .page-head h1 {
+    font-size: 2rem;
+    line-height: 1.12;
+  }
+}
+
+@media (min-width: 1100px) {
+  .page {
+    padding: 34px 40px 44px;
+  }
+
+  .page-head h1 {
+    line-height: 1.1;
+  }
+}

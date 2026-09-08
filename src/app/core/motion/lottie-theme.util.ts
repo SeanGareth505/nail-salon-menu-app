@@ -12,14 +12,14 @@ export interface LottieThemePalette {
 }
 
 export const DEFAULT_LOTTIE_PALETTE: LottieThemePalette = {
-  forest: hexToLottie('#3e5341'),
-  sage: hexToLottie('#93ab94'),
-  sageLight: hexToLottie('#dbe6db'),
-  champagne: hexToLottie('#c7a05e'),
-  champagneLight: hexToLottie('#f1e3c8'),
-  ivory: hexToLottie('#faf6ef'),
-  ink: hexToLottie('#262620'),
-  inkMuted: hexToLottie('#6b6b60'),
+  forest: hexToLottie('#4a6b57'),
+  sage: hexToLottie('#8baa8e'),
+  sageLight: hexToLottie('#f0f4f0'),
+  champagne: hexToLottie('#c9a96e'),
+  champagneLight: hexToLottie('#f5efe7'),
+  ivory: hexToLottie('#fffdf9'),
+  ink: hexToLottie('#333333'),
+  inkMuted: hexToLottie('#9e9e96'),
 };
 
 export function hexToLottie(hex: string): LottieRgba {
@@ -92,10 +92,13 @@ function recolorNode(node: unknown, palette: LottieThemePalette, role?: string):
 
   const record = node as Record<string, unknown>;
 
-  if (record['c'] && typeof record['c'] === 'object') {
-    const color = record['c'] as Record<string, unknown>;
-    if (isRgba(color['k'])) {
-      color['k'] = mapColorToPalette(color['k'] as LottieRgba, palette, role);
+  if (record['ty'] === 'st' || record['ty'] === 'fl') {
+    const color = record['c'];
+    if (color && typeof color === 'object' && !Array.isArray(color)) {
+      const colorRecord = color as Record<string, unknown>;
+      if (isRgba(colorRecord['k'])) {
+        colorRecord['k'] = mapColorToPalette(colorRecord['k'] as LottieRgba, palette, role);
+      }
     }
   }
 

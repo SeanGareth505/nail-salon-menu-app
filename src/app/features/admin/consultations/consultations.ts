@@ -7,6 +7,8 @@ import { ConsultationsService } from '../../../core/services/consultations.servi
 import { ConsentSubmissionsService } from '../../../core/services/consent-submissions.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { AuditService } from '../../../core/services/audit.service';
+import { Consultation } from '../../../core/models';
+import { consultationTreatmentLabel } from '../../../core/utils/consultation-treatment.util';
 
 @Component({
   selector: 'app-consultations',
@@ -30,6 +32,10 @@ export class Consultations {
     if (f === 'all') return this.consultations();
     return this.consultations().filter((c) => c.status === f);
   });
+
+  treatmentLabel(record: Consultation): string {
+    return consultationTreatmentLabel(record);
+  }
 
   async markReviewed(consultationId: string, submissionId: string | null): Promise<void> {
     if (!submissionId) return;

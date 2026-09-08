@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConsentField } from '../../../core/models';
+import { isValidEmail, formatEmailInput } from '../../../core/utils/email.util';
+import { formatPhoneInput, isValidPhone } from '../../../core/utils/phone.util';
 import { SfIcon } from '../icon/icon';
+import { SfPhoneMaskDirective } from '../../directives/phone-mask.directive';
+import { SfEmailMaskDirective } from '../../directives/email-mask.directive';
 import { expandCollapse } from '../../animations/motion.animations';
 
 @Component({
   selector: 'sf-dynamic-field',
   standalone: true,
-  imports: [FormsModule, SfIcon],
+  imports: [FormsModule, SfIcon, SfPhoneMaskDirective, SfEmailMaskDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [expandCollapse],
   template: `
-    <div class="field" [class.block-type]="isBlockType()" @expandCollapse>
+    <div class="field" [class.block-type]="isBlockType()" [class.choice-field]="isChoiceField()" @expandCollapse>
       @switch (field().type) {
         @case ('information') {
           <div class="block info sf-motion-fade-in">
@@ -47,20 +51,20 @@ import { expandCollapse } from '../../animations/motion.animations';
 
           @switch (field().type) {
             @case ('yes_no') {
-              <div class="segmented">
+              <div class="segmented touch-choice">
                 <button type="button" [class.active]="value() === 'yes'" (click)="emit('yes')">Yes</button>
                 <button type="button" [class.active]="value() === 'no'" (click)="emit('no')">No</button>
               </div>
             }
             @case ('yes_no_unsure') {
-              <div class="segmented">
+              <div class="segmented touch-choice">
                 <button type="button" [class.active]="value() === 'yes'" (click)="emit('yes')">Yes</button>
                 <button type="button" [class.active]="value() === 'no'" (click)="emit('no')">No</button>
                 <button type="button" [class.active]="value() === 'unsure'" (click)="emit('unsure')">Unsure</button>
               </div>
             }
             @case ('radio') {
-              <div class="segmented wrap">
+              <div class="segmented touch-choice wrap">
                 @for (opt of field().options; track opt.value) {
                   <button type="button" [class.active]="value() === opt.value" (click)="emit(opt.value)">{{ opt.label }}</button>
                 }
@@ -75,7 +79,7 @@ import { expandCollapse } from '../../animations/motion.animations';
               </select>
             }
             @case ('multi_select') {
-              <div class="segmented wrap">
+              <div class="segmented touch-choice wrap">
                 @for (opt of field().options; track opt.value) {
                   <button type="button" [class.active]="isSelected(opt.value)" (click)="toggleMulti(opt.value)">{{ opt.label }}</button>
                 }
@@ -97,10 +101,10 @@ import { expandCollapse } from '../../animations/motion.animations';
               <input type="number" [id]="field().key" [ngModel]="value()" (ngModelChange)="onValueChange($event)" [placeholder]="field().placeholder || ''" [class.invalid]="showError()" />
             }
             @case ('email') {
-              <input type="email" [id]="field().key" [ngModel]="value()" (ngModelChange)="onValueChange($event)" [placeholder]="field().placeholder || ''" [class.invalid]="showError()" />
+              <input type="email" sfEmailMask [id]="field().key" [ngModel]="value()" (ngModelChange)="onEmailChange($event)" [class.invalid]="showError()" />
             }
             @case ('phone') {
-              <input type="tel" [id]="field().key" [ngModel]="value()" (ngModelChange)="onValueChange($event)" [placeholder]="field().placeholder || ''" [class.invalid]="showError()" />
+              <input type="tel" sfPhoneMask [id]="field().key" [ngModel]="value()" (ngModelChange)="onPhoneChange($event)" [class.invalid]="showError()" />
             }
             @default {
               <input type="text" [id]="field().key" [ngModel]="value()" (ngModelChange)="onValueChange($event)" [placeholder]="field().placeholder || ''" [class.invalid]="showError()" />
@@ -108,7 +112,7 @@ import { expandCollapse } from '../../animations/motion.animations';
           }
 
           @if (showError()) {
-            <p class="sf-field-error" @expandCollapse>This field is required.</p>
+            <p class="sf-field-error" @expandCollapse>{{ fieldErrorMessage() }}</p>
           }
 
           @if (showConditionalDetail()) {
@@ -121,34 +125,140 @@ import { expandCollapse } from '../../animations/motion.animations';
     </div>
   `,
   styles: [`
-    .field { padding: var(--sf-space-4) 0; border-bottom: 1px solid var(--sf-border); }
-    .field:last-child { border-bottom: none; }
-    .field.block-type { padding: 0 0 var(--sf-space-4); border-bottom: none; }
-    .label { display: block; font-family: var(--sf-font-display); font-size: 1.05rem; margin-bottom: var(--sf-space-1); }
-    .req { color: var(--sf-champagne); }
-    .help { color: var(--sf-ink-muted); font-size: 0.85rem; margin-bottom: var(--sf-space-2); }
-    .segmented { display: flex; gap: var(--sf-space-2); margin-top: var(--sf-space-2); }
-    .segmented.wrap { flex-wrap: wrap; }
-    .segmented button {
-      flex: 1; min-width: 84px; padding: 12px; border-radius: var(--sf-radius-sm); border: 1.5px solid var(--sf-border);
-      background: var(--sf-surface); cursor: pointer; font-weight: 600; color: var(--sf-ink); font-family: var(--sf-font-body);
-      transition: border-color var(--sf-dur-fast) var(--sf-ease-standard), background-color var(--sf-dur-fast) var(--sf-ease-standard);
+    .field {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(74, 107, 87, 0.1);
     }
-    .segmented button.active { border-color: var(--sf-forest); background: var(--sf-sage-light); color: var(--sf-forest-dark); }
+    .field:last-child { border-bottom: none; padding-bottom: 0; }
+    .field.block-type { padding: 0 0 12px; border-bottom: none; }
+    .field.choice-field {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+      padding: 20px 0;
+    }
+    .choice-field .label {
+      flex: none;
+      font-family: var(--sf-font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--sf-ink);
+      margin-bottom: 0;
+    }
+    .choice-field .help {
+      flex: none;
+      margin-top: -4px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .choice-field .segmented { width: 100%; margin-left: 0; }
+    .choice-field .sf-field-error,
+    .choice-field .conditional-detail { flex: none; width: 100%; }
+    .label {
+      display: block;
+      font-family: var(--sf-font-display);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--sf-ink);
+      margin-bottom: 8px;
+    }
+    .field:not(.choice-field) .label {
+      font-family: var(--sf-font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: rgba(51, 51, 51, 0.72);
+      margin-bottom: 8px;
+    }
+    .req { color: #a8874c; }
+    .help { color: var(--sf-ink-muted); font-size: 0.84rem; margin: 0 0 10px; line-height: 1.5; }
+    .segmented { display: flex; gap: 10px; flex-wrap: wrap; }
+    .segmented.touch-choice button {
+      flex: 1 1 0;
+      min-width: 88px;
+      min-height: 54px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(74,107,87,.18);
+      background: #faf9f6;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.96rem;
+      color: rgba(51,51,51,.78);
+      font-family: var(--sf-font-body);
+      transition: border-color var(--sf-dur-fast) var(--sf-ease-standard), background-color var(--sf-dur-fast) var(--sf-ease-standard), color var(--sf-dur-fast) var(--sf-ease-standard), box-shadow var(--sf-dur-fast) var(--sf-ease-standard);
+    }
+    .segmented.touch-choice button.active {
+      border-color: var(--sf-forest);
+      background: var(--sf-sage-light);
+      color: var(--sf-forest);
+      box-shadow: inset 0 0 0 1px rgba(74,107,87,.08);
+    }
+    .segmented.touch-choice.wrap button { flex: 1 1 calc(50% - 5px); min-width: 120px; }
     select, textarea, input[type=text], input[type=date], input[type=number], input[type=email], input[type=tel] {
-      width: 100%; padding: 12px 14px; border-radius: var(--sf-radius-sm); border: 1.5px solid var(--sf-border);
-      font-family: var(--sf-font-body); font-size: 0.95rem; margin-top: var(--sf-space-2); background: var(--sf-surface); color: var(--sf-ink);
-      transition: border-color var(--sf-dur-fast) var(--sf-ease-standard);
+      width: 100%;
+      min-height: 52px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(74, 107, 87, 0.22);
+      font-family: var(--sf-font-body);
+      font-size: 1rem;
+      margin-top: 0;
+      background: #fff;
+      color: var(--sf-ink);
+      box-sizing: border-box;
+    }
+    textarea { min-height: 120px; line-height: 1.5; resize: vertical; }
+    select:focus, textarea:focus, input:focus {
+      outline: none;
+      border-color: var(--sf-forest);
+      box-shadow: 0 0 0 3px rgba(74, 107, 87, 0.12);
     }
     .invalid { border-color: #a3453a; }
-    .ack-row { display: flex; align-items: flex-start; gap: var(--sf-space-2); cursor: pointer; }
-    .ack-row input { margin-top: 3px; }
-    .block { border-radius: var(--sf-radius-md); padding: var(--sf-space-4); display: flex; gap: var(--sf-space-3); }
+    .ack-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      padding: 16px 14px;
+      border: 1px solid rgba(74, 107, 87, 0.18);
+      border-radius: 10px;
+      background: #fff;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .ack-row input { width: 22px; height: 22px; margin-top: 2px; flex: none; }
+    .block {
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 12px;
+    }
     .block.info { background: var(--sf-sky); flex-direction: column; }
-    .block.warning { background: var(--sf-champagne-light); border-left: 3px solid var(--sf-champagne); align-items: flex-start; }
+    .block.warning {
+      background: #fdf3e7;
+      border-left: 3px solid var(--sf-champagne);
+      align-items: flex-start;
+    }
     .block.warning sf-icon { color: var(--sf-champagne); flex: none; margin-top: 2px; }
-    .warning-label { font-weight: 700; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.08em; color: #8a6a2f; margin-bottom: 4px; }
-    .conditional-detail { margin-top: var(--sf-space-2); overflow: hidden; }
+    .warning-label {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: #8a6a2e;
+      margin-bottom: 6px;
+    }
+    .block.warning p:last-child {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: #6b542a;
+    }
+    .conditional-detail { margin-top: 4px; overflow: hidden; }
   `],
 })
 export class SfDynamicField {
@@ -160,6 +270,11 @@ export class SfDynamicField {
   readonly conditionalValue = signal('');
 
   readonly isBlockType = computed(() => ['information', 'warning', 'acknowledgement'].includes(this.field().type));
+
+  readonly isChoiceField = computed(() => {
+    const type = this.field().type;
+    return type === 'yes_no' || type === 'yes_no_unsure' || type === 'radio';
+  });
 
   readonly showConditionalDetail = computed(() => {
     const f = this.field();
@@ -178,14 +293,37 @@ export class SfDynamicField {
     this.valueChange.emit(v);
   }
 
+  onPhoneChange(v: unknown): void {
+    this.touched.set(true);
+    this.valueChange.emit(typeof v === 'string' ? formatPhoneInput(v) : v);
+  }
+
+  onEmailChange(v: unknown): void {
+    this.touched.set(true);
+    this.valueChange.emit(typeof v === 'string' ? formatEmailInput(v) : v);
+  }
+
   showError(): boolean {
+    return this.fieldErrorMessage() !== null;
+  }
+
+  fieldErrorMessage(): string | null {
     const f = this.field();
-    if (!f.required || ['information', 'warning', 'acknowledgement'].includes(f.type)) return false;
-    if (!this.touched()) return false;
+    if (['information', 'warning', 'acknowledgement'].includes(f.type)) return null;
+    if (!this.touched()) return null;
+
     const v = this.value();
-    if (v === null || v === undefined || v === '') return true;
-    if (Array.isArray(v)) return v.length === 0;
-    return false;
+    const empty = v === null || v === undefined || v === '' || (Array.isArray(v) && v.length === 0);
+    if (f.required && empty) return 'This field is required.';
+
+    if (!empty && f.type === 'email' && typeof v === 'string' && !isValidEmail(v)) {
+      return 'Enter a valid email address.';
+    }
+    if (!empty && f.type === 'phone' && typeof v === 'string' && !isValidPhone(v)) {
+      return 'Enter a valid phone number (e.g. 082 123 4567).';
+    }
+
+    return null;
   }
 
   conditionalPlaceholder(): string {

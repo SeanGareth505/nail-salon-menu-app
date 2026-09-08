@@ -1,9 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 import { ConsentTemplatesService } from '../../../core/services/consent-templates.service';
 import { ConsentTemplateVersionsService } from '../../../core/services/consent-template-versions.service';
 import { TreatmentsService } from '../../../core/services/treatments.service';
+import { NotificationDispatcherService } from '../../../core/services/notification-dispatcher.service';
+import { SfPageActionDirective } from '../../../shared/directives/page-action.directive';
+import {
+  DEFAULT_CONSENT_FIELDS,
+  DEFAULT_CONSENT_STEPS,
+} from '../../../core/consent/default-consent-template';
 import {
   ConsentField,
   ConsentFieldType,
@@ -20,7 +28,7 @@ const FIELD_TYPES: ConsentFieldType[] = [
 @Component({
   selector: 'app-consent-forms',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SfPageActionDirective],
   templateUrl: './consent-forms.html',
   styleUrl: './consent-forms.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,10 +37,30 @@ export class ConsentForms {
   private readonly templatesSvc = inject(ConsentTemplatesService);
   private readonly versionsSvc = inject(ConsentTemplateVersionsService);
   private readonly treatmentsSvc = inject(TreatmentsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly dispatcher = inject(NotificationDispatcherService);
+
+  readonly pageAction = (): void => {
+    const input = document.querySelector<HTMLInputElement>('.consent-forms-page .new-row input');
+    input?.focus();
+  };
 
   readonly fieldTypes = FIELD_TYPES;
   readonly templates = toSignal(this.templatesSvc.listAll(), { initialValue: [] });
+  readonly sortedTemplates = computed(() => {
+    const items = [...this.templates()];
+    items.sort((a, b) => {
+      if (a.isSystemDefault && !b.isSystemDefault) return -1;
+      if (!a.isSystemDefault && b.isSystemDefault) return 1;
+      return a.name.localeCompare(b.name);
+    });
+    return items;
+  });
   readonly treatments = toSignal(this.treatmentsSvc.listActive(), { initialValue: [] });
+  readonly queryTemplateId = toSignal(
+    this.route.queryParamMap.pipe(map((params) => params.get('template'))),
+    { initialValue: null },
+  );
 
   readonly selectedTemplateId = signal<string | null>(null);
   readonly selectedTemplate = computed(() => this.templates().find((t) => t.id === this.selectedTemplateId()) ?? null);
@@ -43,6 +71,23 @@ export class ConsentForms {
   readonly draftVersionId = signal<string | null>(null);
 
   readonly newTemplateName = signal('');
+
+  fieldTypeLabel(type: ConsentFieldType): string {
+    if (type === 'textarea') return 'textarea — Notes / comments';
+    return type;
+  }
+
+  constructor() {
+    effect(() => {
+      const templateId = this.queryTemplateId();
+      const templates = this.templates();
+      if (!templateId || !templates.length) return;
+      const template = templates.find((t) => t.id === templateId);
+      if (template && this.selectedTemplateId() !== template.id) {
+        this.select(template);
+      }
+    });
+  }
 
   select(t: ConsentTemplate): void {
     this.selectedTemplateId.set(t.id);
@@ -62,9 +107,10 @@ export class ConsentForms {
   }
 
   async createTemplate(): Promise<void> {
-    if (!this.newTemplateName().trim()) return;
+    const name = this.newTemplateName().trim();
+    if (!name) return;
     const id = await this.templatesSvc.create({
-      name: this.newTemplateName().trim(),
+      name,
       description: '',
       treatmentIds: [],
       currentPublishedVersionId: null,
@@ -72,8 +118,19 @@ export class ConsentForms {
       active: true,
     } as any);
     this.newTemplateName.set('');
-    const versionId = await this.versionsSvc.createDraft(id);
+    const versionId = await this.versionsSvc.createDraft(id, {
+      steps: DEFAULT_CONSENT_STEPS,
+      fields: DEFAULT_CONSENT_FIELDS,
+    });
     await this.templatesSvc.update(id, { draftVersionId: versionId } as any);
+    void this.dispatcher.notifyAdmins({
+      type: 'consent_form_created',
+      title: 'Consent form created',
+      body: `${name} was added as a draft.`,
+      link: `/admin/consent-forms?template=${id}`,
+      entityType: 'consentTemplate',
+      entityId: id,
+    }).catch(() => undefined);
   }
 
   async startDraft(): Promise<void> {

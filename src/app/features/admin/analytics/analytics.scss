@@ -1,10 +1,86 @@
-.stats-row { display: grid; grid-template-columns: repeat(2, 1fr); margin-bottom: var(--sf-space-5); }
-.stats-row > * { border-right: 1px solid var(--sf-border); border-bottom: 1px solid var(--sf-border); }
-.breakdown { padding: var(--sf-space-5); }
-.breakdown h2 { font-size: 1rem; margin-bottom: var(--sf-space-4); }
-.bar-row { display: grid; grid-template-columns: 160px 1fr 40px; align-items: center; gap: var(--sf-space-3); padding: var(--sf-space-2) 0; }
-.name { font-size: 0.88rem; }
-.track { height: 8px; background: var(--sf-sand); border-radius: 4px; overflow: hidden; }
-.fill { display: block; height: 100%; background: var(--sf-sage); }
-.count { text-align: right; font-weight: 600; font-size: 0.85rem; }
-@media (min-width: 900px) { .stats-row { grid-template-columns: repeat(4, 1fr); } }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(74, 107, 87, 0.15);
+  border: 1px solid rgba(74, 107, 87, 0.15);
+  margin-bottom: 28px;
+}
+
+.stats-grid > * {
+  background: var(--sf-surface);
+}
+
+.breakdown {
+  border: 1px solid rgba(74, 107, 87, 0.15);
+  background: var(--sf-surface);
+  padding: 22px 24px;
+}
+
+.breakdown h2 {
+  margin: 0 0 22px;
+  font-family: var(--sf-font-display);
+  font-size: 1.06rem;
+  font-weight: 400;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(74, 107, 87, 0.1);
+}
+
+.bar-row:last-child {
+  border-bottom: 0;
+}
+
+.name {
+  font-size: 0.88rem;
+  color: var(--sf-ink);
+}
+
+.track {
+  height: 8px;
+  background: var(--sf-sand);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background: var(--sf-sage);
+}
+
+.count {
+  text-align: right;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--sf-ink);
+}
+
+.empty {
+  margin: 0;
+  font-size: 0.84rem;
+  color: rgba(51, 51, 51, 0.55);
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .bar-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .count {
+    text-align: left;
+  }
+}

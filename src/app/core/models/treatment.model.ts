@@ -4,17 +4,19 @@ export interface Treatment extends WithId, AuditFields {
   name: string;
   slug: string;
   categoryId: string;
-  categoryName: string; // denormalized for list rendering
+  categoryName: string;
   shortDescription: string;
   description: string;
   durationMinutes: number;
   price: Money;
   onSpecial: boolean;
   specialId?: string | null;
-  beforeAppointment: string[]; // bullet list
+  featured: boolean;
+  imageUrl?: string | null;
+  beforeAppointment: string[];
   performedByTherapistIds: string[];
   relatedTreatmentIds: string[];
-  consentTemplateId: string | null; // which consent template applies, if any
+  consentTemplateId: string | null;
   active: boolean;
   sortOrder: number;
 }

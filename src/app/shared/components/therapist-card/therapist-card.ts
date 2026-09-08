@@ -44,12 +44,21 @@ import { Therapist } from '../../../core/models';
     }
   `,
   styles: [`
-    .profile { margin-bottom: 36px; animation: sf-motion-rise-in var(--sf-dur-normal) var(--sf-ease-enter) both; }
+    .profile {
+      overflow: hidden;
+      border: 1px solid rgba(74, 107, 87, 0.12);
+      background: var(--sf-surface);
+      box-shadow:
+        0 10px 32px -10px rgba(60, 72, 64, 0.26),
+        0 4px 12px -4px rgba(60, 72, 64, 0.12);
+      margin-bottom: 0;
+      animation: sf-motion-rise-in var(--sf-dur-normal) var(--sf-ease-enter) both;
+    }
     .portrait-link { display: block; text-decoration: none; color: inherit; }
     .portrait {
       position: relative;
-      height: 300px;
-      margin-bottom: 16px;
+      height: 220px;
+      margin-bottom: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -64,7 +73,8 @@ import { Therapist } from '../../../core/models';
     .tint-sage { background: var(--sf-sage-light); }
     .tint-sky { background: var(--sf-sky); }
     .tint-sand { background: var(--sf-sand); }
-    .initial { font-family: var(--sf-font-display); font-size: 6rem; color: rgba(74, 107, 87, 0.42); position: relative; z-index: 1; }
+    .initial { font-family: var(--sf-font-display); font-size: 5rem; color: rgba(74, 107, 87, 0.42); position: relative; z-index: 1; }
+    .content { padding: 18px 18px 20px; }
     .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
     h2 { margin: 0; font-size: 1.5rem; font-weight: 400; }
     .role { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sf-sage); font-weight: 400; font-family: var(--sf-font-body); }
@@ -75,6 +85,57 @@ import { Therapist } from '../../../core/models';
     .fact-divider { width: 1px; background: rgba(74, 107, 87, 0.13); }
     .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
     .chip { background: var(--sf-sage-light); color: var(--sf-forest); font-size: 0.75rem; padding: 9px 13px; border-radius: var(--sf-radius-pill); }
+
+    @media (min-width: 834px) {
+      .profile {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 0;
+        align-items: stretch;
+        padding: 0;
+        margin-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .portrait {
+        margin-bottom: 0;
+        height: 100%;
+        min-height: 300px;
+      }
+
+      .portrait-frame {
+        inset: 16px;
+      }
+
+      .content {
+        padding: 24px 28px 28px;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      .bio {
+        font-size: 0.9375rem;
+        line-height: 1.75;
+        max-width: 640px;
+      }
+
+      .facts {
+        gap: 34px;
+        margin-top: 20px;
+        padding: 16px 0;
+      }
+
+      .facts > div span:last-child {
+        font-size: 1rem;
+      }
+
+      .chip {
+        font-size: 0.78rem;
+        padding: 10px 14px;
+      }
+    }
 
     .card { display: block; text-decoration: none; color: inherit; overflow: hidden; margin-bottom: var(--sf-space-5); }
     .portrait.compact { aspect-ratio: 1.1; display: flex; align-items: center; justify-content: center; }

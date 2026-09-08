@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { therapistAreaGuard, adminAreaGuard } from './core/auth/auth.guards';
+import { adminAreaGuard, tabletKioskGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
@@ -21,19 +21,19 @@ export const routes: Routes = [
     title: 'Sign in — SalonFlow',
   },
   {
-    path: 'login/therapist',
-    loadComponent: () => import('./features/auth/therapist-login/therapist-login').then((m) => m.TherapistLogin),
-    title: 'Therapist sign in — SalonFlow',
-  },
-  {
     path: 'therapist',
-    canActivate: [therapistAreaGuard],
+    canActivate: [tabletKioskGuard],
     loadComponent: () => import('./layout/therapist-shell/therapist-shell').then((m) => m.TherapistShell),
     children: [
       { path: '', loadComponent: () => import('./features/therapist/dashboard/dashboard').then((m) => m.Dashboard), title: 'Today — SalonFlow' },
-      { path: 'consultations', loadComponent: () => import('./features/therapist/consultations/consultations').then((m) => m.Consultations), title: 'Consultations — SalonFlow' },
-      { path: 'consultations/new', loadComponent: () => import('./features/therapist/consultation-wizard/consultation-wizard').then((m) => m.ConsultationWizard), title: 'New Consultation — SalonFlow' },
+      { path: 'consent-forms', loadComponent: () => import('./features/therapist/consultations/consultations').then((m) => m.Consultations), title: 'Consent Forms — SalonFlow' },
+      { path: 'consent-forms/new', loadComponent: () => import('./features/therapist/consultation-wizard/consultation-wizard').then((m) => m.ConsultationWizard), title: 'New Consent Form — SalonFlow' },
+      { path: 'consent-forms/:id/complete', loadComponent: () => import('./features/therapist/consent-form-complete/consent-form-complete').then((m) => m.ConsentFormComplete), title: 'Complete Consent Form — SalonFlow' },
+      { path: 'clients', loadComponent: () => import('./features/therapist/clients/clients').then((m) => m.Clients), title: 'Clients — SalonFlow' },
       { path: 'clients/:id', loadComponent: () => import('./features/therapist/client-detail/client-detail').then((m) => m.ClientDetail), title: 'Client — SalonFlow' },
+      { path: 'menu', loadComponent: () => import('./features/therapist/treatment-menu/treatment-menu').then((m) => m.TreatmentMenu), title: 'Menu — SalonFlow' },
+      { path: 'consultations', redirectTo: 'consent-forms', pathMatch: 'full' },
+      { path: 'consultations/new', redirectTo: 'consent-forms/new', pathMatch: 'full' },
     ],
   },
   {

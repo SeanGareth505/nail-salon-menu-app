@@ -12,17 +12,18 @@
 :root {
   --sf-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --sf-ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --sf-ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
   --sf-ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
 
   --sf-dur-fast: 150ms;
   --sf-dur-normal: 220ms;
   --sf-dur-slow: 280ms;
   --sf-dur-brand: 900ms;
-  --sf-stagger-delay: 60ms;
+  --sf-stagger-delay: 52ms;
+  --sf-reveal-dur: 580ms;
+  --sf-reveal-blur: 3px;
 
-  // Small, consistent entrance offset -- never large enough to feel like a
-  // "slide", just enough to read as a gentle lift.
-  --sf-lift: 10px;
+  --sf-lift: 12px;
 }
 
 // Respect the user's OS-level motion preference everywhere. This collapses
@@ -37,6 +38,8 @@
     --sf-dur-brand: 1ms;
     --sf-lift: 0px;
     --sf-stagger-delay: 0ms;
+    --sf-reveal-blur: 0px;
+    --sf-reveal-dur: 1ms;
   }
 }
 
@@ -53,6 +56,19 @@
 @keyframes sf-rise-in {
   from { opacity: 0; transform: translateY(var(--sf-lift)); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sf-reveal-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--sf-lift), 0);
+    filter: blur(var(--sf-reveal-blur));
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
 }
 
 @keyframes sf-scale-in {

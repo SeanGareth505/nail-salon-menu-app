@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Firestore, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
 import { BrandingService } from './branding.service';
 import { SalonSettingsService } from './salon-settings.service';
+import { DefaultConsentTemplateService } from './default-consent-template.service';
 import {
   BLANK_SALON_SETTINGS,
   DEMO_CATALOGUE_IDS,
@@ -14,6 +15,7 @@ export class DemoDataService {
   private readonly firestore = inject(Firestore);
   private readonly settingsSvc = inject(SalonSettingsService);
   private readonly brandingSvc = inject(BrandingService);
+  private readonly defaultConsentSvc = inject(DefaultConsentTemplateService);
 
   async clearDemoCatalogueAndStartFresh(): Promise<void> {
     await Promise.all([
@@ -27,6 +29,7 @@ export class DemoDataService {
       await updateDoc(doc(this.firestore, `consentTemplates/${id}`), { active: false, seedSource: DEMO_SEED_SOURCE });
     }
 
+    await this.defaultConsentSvc.ensureDefaultTemplate();
     await this.settingsSvc.save(BLANK_SALON_SETTINGS);
     await this.brandingSvc.save(STARTER_BRANDING);
   }

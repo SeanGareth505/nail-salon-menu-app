@@ -1,10 +1,9 @@
-<section class="sf-page-hero sf-motion-fade-in">
-  <p class="sf-script">Meet the</p>
+<section class="page-intro sf-motion-fade-in">
+  <p class="sf-script intro-script">Meet the</p>
   <h1>People behind the work</h1>
-  <p class="sub">Experienced therapists, one thoughtful appointment at a time</p>
 </section>
 
-<div class="sf-container sf-public-page page">
+<div class="sf-public-page page">
   <div class="team-list">
     @for (t of therapists(); track t.id) {
       <sf-therapist-card [therapist]="t" [full]="true" />

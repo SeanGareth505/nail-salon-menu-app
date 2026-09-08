@@ -9,16 +9,21 @@ import {
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideLottieOptions, provideCacheableAnimationLoader } from 'ngx-lottie';
+import lottie from 'lottie-web';
 import { provideServiceWorker } from '@angular/service-worker';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth, browserLocalPersistence, setPersistence } from '@angular/fire/auth';
+import { getAuth, provideAuth, browserLocalPersistence } from '@angular/fire/auth';
 import {
-  getFirestore,
-  provideFirestore,
   connectFirestoreEmulator,
-  enableIndexedDbPersistence,
+  getFirestore,
+  initializeFirestore,
+  provideFirestore,
 } from '@angular/fire/firestore';
+import { getApp } from 'firebase/app';
+import { persistentLocalCache } from 'firebase/firestore';
 import { getStorage, provideStorage, connectStorageEmulator } from '@angular/fire/storage';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
+import { connectFunctionsEmulator, getFunctions, provideFunctions } from '@angular/fire/functions';
 import {
   provideAppCheck,
   initializeAppCheck,
@@ -28,6 +33,32 @@ import {
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 
+function appCheckProviders() {
+  const siteKey = environment.appCheckSiteKey;
+  const debugToken = environment.appCheckDebugToken;
+  const enabledInDev = isDevMode() && (!!siteKey || !!debugToken);
+  const enabledInProd = !isDevMode() && !!siteKey;
+
+  if (!enabledInDev && !enabledInProd) {
+    return [];
+  }
+
+  return [
+    provideAppCheck(() => {
+      if (debugToken) {
+        (globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }).FIREBASE_APPCHECK_DEBUG_TOKEN =
+          debugToken;
+      }
+      return initializeAppCheck(undefined, {
+        provider: new ReCaptchaV3Provider(
+          siteKey || '6LeIxAcTAAAAAGG-vFI1SlNbL8KxTUx0MTTtXzQf',
+        ),
+        isTokenAutoRefreshEnabled: true,
+      });
+    }),
+  ];
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -36,7 +67,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
     provideAnimationsAsync(),
     provideLottieOptions({
-      player: () => import('lottie-web'),
+      player: () => lottie,
     }),
     provideCacheableAnimationLoader(),
     provideServiceWorker('ngsw-worker.js', {
@@ -46,46 +77,24 @@ export const appConfig: ApplicationConfig = {
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
 
-    // App Check protects Firestore/Storage/Auth from abuse. In dev, when no
-    // site key is configured, fall back to a debug provider so local builds
-    // still work — register the printed debug token in the Firebase console
-    // under App Check > Apps > salonflow-web > Manage debug tokens.
-    provideAppCheck(() => {
-      if (isDevMode() && environment.appCheckDebugToken) {
-        (globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }).FIREBASE_APPCHECK_DEBUG_TOKEN =
-          environment.appCheckDebugToken;
-      }
-      if (!isDevMode() && environment.appCheckSiteKey) {
-        return initializeAppCheck(undefined, {
-          provider: new ReCaptchaV3Provider(environment.appCheckSiteKey),
-          isTokenAutoRefreshEnabled: true,
-        });
-      }
-      if (isDevMode()) {
-        return initializeAppCheck(undefined, {
-          provider: new ReCaptchaV3Provider('6LeIxAcTAAAAAGG-vFI1SlNbL8KxTUx0MTTtXzQf'),
-          isTokenAutoRefreshEnabled: true,
-        });
-      }
-      return undefined as never;
-    }),
+    ...appCheckProviders(),
 
     provideAuth(() => {
       const auth = getAuth();
-      setPersistence(auth, browserLocalPersistence);
+      void auth.setPersistence(browserLocalPersistence).catch(() => void 0);
       return auth;
     }),
 
     provideFirestore(() => {
-      const firestore = getFirestore();
+      const app = getApp();
       if (environment.useEmulators) {
+        const firestore = getFirestore(app);
         connectFirestoreEmulator(firestore, 'localhost', 8080);
-      } else {
-        // Best-effort offline cache for the public menu/specials/therapists —
-        // lets the client shell degrade gracefully on poor connectivity.
-        enableIndexedDbPersistence(firestore).catch(() => void 0);
+        return firestore;
       }
-      return firestore;
+      return initializeFirestore(app, {
+        localCache: persistentLocalCache(),
+      });
     }),
 
     provideStorage(() => {
@@ -94,6 +103,21 @@ export const appConfig: ApplicationConfig = {
         connectStorageEmulator(storage, 'localhost', 9199);
       }
       return storage;
+    }),
+
+    provideFunctions(() => {
+      const functions = getFunctions(getApp(), 'us-central1');
+      if (environment.useEmulators) {
+        connectFunctionsEmulator(functions, 'localhost', 5001);
+      }
+      return functions;
+    }),
+
+    provideMessaging(() => {
+      if (typeof window === 'undefined') {
+        return undefined as never;
+      }
+      return getMessaging();
     }),
 
     provideAppInitializer(() => void 0),

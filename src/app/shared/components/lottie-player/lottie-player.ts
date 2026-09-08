@@ -65,6 +65,9 @@ export class SfLottiePlayer {
       animationData: data,
       loop: this.loop(),
       autoplay: this.motion.reducedMotion() ? false : this.autoplay(),
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid meet',
+      },
     };
   });
 

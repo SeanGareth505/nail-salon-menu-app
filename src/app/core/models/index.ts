@@ -14,3 +14,5 @@ export * from './consultation.model';
 export * from './app-user.model';
 export * from './audit-event.model';
 export * from './branding.model';
+export * from './notification.model';
+export * from './complete-consent-form.model';

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,14 +7,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const dir = join(__dirname, '../public/assets/lottie');
 
 const palette = {
-  forest: hexToLottie('#3e5341'),
-  sage: hexToLottie('#93ab94'),
-  sageLight: hexToLottie('#dbe6db'),
-  champagne: hexToLottie('#c7a05e'),
-  champagneLight: hexToLottie('#f1e3c8'),
-  ivory: hexToLottie('#faf6ef'),
-  ink: hexToLottie('#262620'),
-  inkMuted: hexToLottie('#6b6b60'),
+  forest: hexToLottie('#4a6b57'),
+  sage: hexToLottie('#8baa8e'),
+  sageLight: hexToLottie('#f0f4f0'),
+  champagne: hexToLottie('#c9a96e'),
+  champagneLight: hexToLottie('#f5efe7'),
+  ivory: hexToLottie('#fffdf9'),
+  ink: hexToLottie('#333333'),
+  inkMuted: hexToLottie('#9e9e96'),
 };
 
 function hexToLottie(hex) {
@@ -89,11 +89,19 @@ function recolorNode(node) {
   for (const value of Object.values(node)) recolorNode(value);
 }
 
-for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
-  const path = join(dir, file);
-  const data = JSON.parse(readFileSync(path, 'utf8'));
-  const themed = file === 'success-check.json' ? applySuccessCheck(structuredClone(data)) : structuredClone(data);
-  if (file !== 'success-check.json') recolorNode(themed);
-  writeFileSync(path, JSON.stringify(themed));
-  console.log('themed', file);
+function themeFiles(targetDir, skipCategories = false) {
+  if (!existsSync(targetDir)) return;
+  if (skipCategories && targetDir.endsWith('categories')) return;
+
+  for (const file of readdirSync(targetDir).filter((f) => f.endsWith('.json'))) {
+    const path = join(targetDir, file);
+    const data = JSON.parse(readFileSync(path, 'utf8'));
+    const themed = file === 'success-check.json' ? applySuccessCheck(structuredClone(data)) : structuredClone(data);
+    if (file !== 'success-check.json') recolorNode(themed);
+    writeFileSync(path, JSON.stringify(themed));
+    console.log('themed', join(targetDir, file));
+  }
 }
+
+themeFiles(dir);
+themeFiles(join(dir, 'categories'), true);

@@ -1,0 +1,57 @@
+<div class="chrome" [class.hide-chrome]="hideChrome()">
+  @if (!hideChrome()) {
+    <header class="mobile-admin-bar">
+      <a routerLink="/login" class="admin-login mobile">
+        <sf-icon name="shield" [size]="18" />
+        Admin login
+      </a>
+    </header>
+  }
+
+  <div class="chrome-body">
+    <aside class="rail">
+      <a routerLink="/therapist" class="brand">
+        <sf-brand-mark size="rail" tone="inverse" />
+        <span class="brand-text">
+          <strong>{{ identity.name() }}</strong>
+          <small>{{ identity.city() }}</small>
+        </span>
+      </a>
+      <nav>
+        @for (item of navItems; track item.path) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.exact }"
+          >
+            <sf-icon [name]="item.icon" [size]="20" />
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+      <div class="rail-footer">
+        <a routerLink="/login" class="admin-login">
+          <sf-icon name="shield" [size]="16" />
+          <span class="admin-login-label">Admin login</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <ng-content />
+    </main>
+  </div>
+
+  <nav class="mobile-tabs" aria-label="Therapist navigation">
+    @for (item of navItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact }"
+      >
+        <sf-icon [name]="item.icon" [size]="21" />
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</div>

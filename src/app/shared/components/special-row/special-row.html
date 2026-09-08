@@ -1,0 +1,69 @@
+<article class="special-item" [class.is-upcoming]="upcoming()">
+  <div class="layout-card">
+    <header class="card-header" [class]="'tint-' + statusTone()">
+      <div class="header-frame" aria-hidden="true"></div>
+      <span class="status" [class]="'tone-' + statusTone()">{{ stateLabel() }}</span>
+      @if (showSavings()) {
+        <span class="save-chip">Save {{ savingsAmount() | formatRand }}</span>
+      }
+      <p class="script">{{ special().scriptTitle || special().title }}</p>
+      <div class="date-card" [class]="'tone-' + statusTone()">
+        <span class="date-meta">{{ dateMetaLine() }}</span>
+      </div>
+    </header>
+
+    <div class="card-body">
+      <h3>{{ special().title }}</h3>
+
+      @if (special().description) {
+        <p class="desc">{{ special().description }}</p>
+      }
+
+      @if (showPricing()) {
+        <div class="price-block">
+          <span class="price">{{ special().price | formatRand }}</span>
+          <span class="was">{{ special().originalPrice | formatRand }}</span>
+        </div>
+      }
+
+      @if (appliesLine()) {
+        <p class="meta">{{ appliesLine() }}</p>
+      }
+
+      @if (special().finePrint) {
+        <p class="fine-print">{{ special().finePrint }}</p>
+      }
+    </div>
+  </div>
+
+  <div class="layout-row">
+    <div class="row-top">
+      <span class="status" [class]="'tone-' + statusTone()">{{ stateLabel() }}</span>
+      <span class="date-meta" [class]="'tone-' + statusTone()">{{ dateMetaLine() }}</span>
+    </div>
+
+    <h3>{{ special().title }}</h3>
+
+    @if (special().description) {
+      <p class="desc">{{ special().description }}</p>
+    }
+
+    @if (showPricing()) {
+      <div class="price-line">
+        <span class="price">{{ special().price | formatRand }}</span>
+        <span class="was">{{ special().originalPrice | formatRand }}</span>
+        @if (showSavings()) {
+          <span class="save">Save {{ savingsAmount() | formatRand }}</span>
+        }
+      </div>
+    }
+
+    @if (appliesLine()) {
+      <p class="meta">{{ appliesLine() }}</p>
+    }
+
+    @if (special().finePrint) {
+      <p class="fine-print">{{ special().finePrint }}</p>
+    }
+  </div>
+</article>

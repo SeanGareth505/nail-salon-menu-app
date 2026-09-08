@@ -1,0 +1,16 @@
+<nav class="bar" aria-label="Primary">
+  @for (item of items; track item.path) {
+    <a
+      class="nav-item"
+      [class.center]="item.center"
+      [routerLink]="item.path"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: item.exact }"
+    >
+      <span class="icon-wrap" [class.center-icon]="item.center">
+        <sf-icon [name]="item.icon" [size]="item.center ? 20 : 22" />
+      </span>
+      <span class="label">{{ item.label }}</span>
+    </a>
+  }
+</nav>

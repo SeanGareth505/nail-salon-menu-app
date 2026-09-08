@@ -1,0 +1,43 @@
+@if (open()) {
+  <div class="overlay" role="dialog" aria-modal="true" aria-labelledby="pin-challenge-title">
+    <div class="panel">
+      <button type="button" class="close" (click)="dismiss()" aria-label="Cancel">
+        <sf-icon name="close" [size]="18" />
+      </button>
+      <h2 id="pin-challenge-title">{{ title() }}</h2>
+      <p class="subtitle">{{ subtitle() }}</p>
+
+      <div class="pin-boxes" [class.shake]="error()">
+        @for (i of [0, 1, 2, 3, 4, 5]; track i) {
+          <span class="pin-box" [class.filled]="pin().length > i">
+            @if (pin().length > i) {
+              <span class="pin-dot" aria-hidden="true"></span>
+            }
+          </span>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="pin-error">{{ error() }}</p>
+      }
+
+      <div class="pad">
+        @for (key of padKeys; track $index) {
+          @if (key === 'back') {
+            <button type="button" class="key key-back" (click)="press(key)" [disabled]="loading()" aria-label="Backspace">
+              <sf-icon name="close" [size]="18" />
+            </button>
+          } @else if (key) {
+            <button type="button" class="key" (click)="press(key)" [disabled]="loading()">{{ key }}</button>
+          } @else {
+            <span class="key key-spacer"></span>
+          }
+        }
+      </div>
+
+      @if (loading()) {
+        <p class="status">Verifying…</p>
+      }
+    </div>
+  </div>
+}

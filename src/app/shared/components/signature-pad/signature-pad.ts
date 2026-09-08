@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  input,
   output,
   signal,
   viewChild,
@@ -31,43 +32,56 @@ import { expandCollapse } from '../../animations/motion.animations';
       <div class="controls">
         <button type="button" class="ghost" (click)="undo()" [disabled]="empty">Undo</button>
         <button type="button" class="ghost" (click)="clear()">Clear</button>
-        <button type="button" class="confirm" [class.confirmed]="confirmed()" [disabled]="empty" (click)="confirm()">
-          @if (confirmed()) { <span class="check">✓</span> Confirmed }
-          @else { Confirm signature }
-        </button>
+        @if (confirmed()) {
+          <span class="status">Signature captured</span>
+        }
       </div>
     </div>
   `,
   styles: [`
     .pad-shell { display: flex; flex-direction: column; gap: var(--sf-space-3); }
-    .pad-wrap { position: relative; border: 1.5px dashed var(--sf-border); border-radius: var(--sf-radius-md); background: #fff; touch-action: none; }
-    canvas { display: block; width: 100%; height: 220px; touch-action: none; cursor: crosshair; }
-    .placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--sf-ink-muted); pointer-events: none; font-size: 0.9rem; }
-    .controls { display: flex; gap: var(--sf-space-2); flex-wrap: wrap; }
+    .pad-wrap { position: relative; border: 1.5px solid rgba(74,107,87,.16); border-radius: 14px; background: linear-gradient(180deg, #fff 0%, #faf9f6 100%); touch-action: none; overflow: hidden; }
+    canvas { display: block; width: 100%; height: 240px; touch-action: none; cursor: crosshair; }
+    .placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(51,51,51,.34); pointer-events: none; font-family: var(--sf-font-display); font-size: 1.05rem; }
+    .controls { display: flex; align-items: center; gap: var(--sf-space-2); flex-wrap: wrap; }
+    .status {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 48px;
+      padding: 0 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--sf-forest);
+    }
+    .status::before {
+      content: '✓';
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--sf-sage-light);
+      color: var(--sf-forest);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+    }
     button {
       border-radius: var(--sf-radius-pill);
-      padding: 12px 18px;
+      padding: 12px 20px;
       font-weight: 600;
       font-size: 0.9rem;
       cursor: pointer;
-      border: 1.5px solid var(--sf-border);
-      background: var(--sf-surface);
+      border: 1.5px solid rgba(74,107,87,.2);
+      background: #fff;
       color: var(--sf-ink);
-      min-height: 44px;
+      min-height: 48px;
     }
-    .confirm {
-      margin-left: auto;
-      background: var(--sf-forest);
-      color: #fff;
-      border-color: var(--sf-forest);
-      transition: background-color var(--sf-dur-fast) var(--sf-ease-standard), transform var(--sf-dur-fast) var(--sf-ease-standard);
-    }
-    .confirm.confirmed { background: var(--sf-sage); border-color: var(--sf-sage); }
-    .confirm:disabled { opacity: 0.45; cursor: not-allowed; }
-    .check { margin-right: 6px; }
   `],
 })
 export class SfSignaturePad implements AfterViewInit {
+  initialSignature = input<string | null>(null);
   readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   readonly signatureChange = output<string | null>();
 
@@ -90,6 +104,23 @@ export class SfSignaturePad implements AfterViewInit {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     this.ctx = ctx;
+    this.restoreInitialSignature();
+  }
+
+  private restoreInitialSignature(): void {
+    const dataUrl = this.initialSignature();
+    if (!dataUrl) return;
+
+    const img = new Image();
+    img.onload = () => {
+      const canvas = this.canvasRef().nativeElement;
+      const rect = canvas.getBoundingClientRect();
+      this.ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      this.empty = false;
+      this.confirmed.set(true);
+      this.signatureChange.emit(dataUrl);
+    };
+    img.src = dataUrl;
   }
 
   start(ev: PointerEvent): void {
@@ -113,13 +144,14 @@ export class SfSignaturePad implements AfterViewInit {
   end(): void {
     if (!this.drawing) return;
     this.drawing = false;
+    this.confirmed.set(this.strokes.length > 0);
     this.emitCurrent();
   }
 
   undo(): void {
     this.strokes.pop();
     this.redraw();
-    this.confirmed.set(false);
+    this.confirmed.set(this.strokes.length > 0);
     this.emitCurrent();
   }
 
@@ -129,12 +161,6 @@ export class SfSignaturePad implements AfterViewInit {
     this.empty = true;
     this.confirmed.set(false);
     this.signatureChange.emit(null);
-  }
-
-  confirm(): void {
-    if (this.empty) return;
-    this.confirmed.set(true);
-    this.emitCurrent();
   }
 
   private redraw(): void {

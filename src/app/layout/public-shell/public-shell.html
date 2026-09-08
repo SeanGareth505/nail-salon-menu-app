@@ -1,27 +1,41 @@
 <div class="shell">
-  <header class="topbar">
-    <a class="brand" routerLink="/">
-      <img class="brand-logo" [src]="identity.logoUrl()" [alt]="identity.name()" />
-      <span class="wordmark">{{ identity.wordmarkUpper() }}</span>
-    </a>
-    <nav class="desktop-nav">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a routerLink="/treatments" routerLinkActive="active">Treatments</a>
-      <a routerLink="/specials" routerLinkActive="active">Specials</a>
-      <a routerLink="/therapists" routerLinkActive="active">Team</a>
-      <a routerLink="/contact" routerLinkActive="active">Contact</a>
-    </nav>
-  </header>
+  <div class="client-frame">
+    <header class="topbar desktop-only" [class.is-hidden]="topbarHidden()">
+      <div class="topbar-row">
+        <a class="brand" routerLink="/" [attr.aria-label]="identity.name() + ' home'">
+          <img class="brand-logo" [src]="identity.logoUrl()" [alt]="identity.name()" />
+        </a>
 
-  <main class="content">
-    <router-outlet />
-  </main>
+        <nav class="desktop-nav" aria-label="Main">
+          <div class="nav-track">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+            <a routerLink="/treatments" routerLinkActive="active">Treatments</a>
+            <a routerLink="/specials" routerLinkActive="active">Specials</a>
+            <a routerLink="/therapists" routerLinkActive="active">Team</a>
+            <a routerLink="/contact" routerLinkActive="active">Contact</a>
+            @if (auth.isAdmin()) {
+              <a routerLink="/admin" routerLinkActive="active" class="admin-link">Admin</a>
+            }
+          </div>
+        </nav>
 
-  <footer class="site-footer">
-    <div class="sf-container footer-inner">
+        @if (salon(); as s) {
+          <div class="quick-actions">
+            <a class="quick-btn call" [href]="'tel:' + s.phone"><sf-icon name="phone" [size]="16" /> Call</a>
+            <a class="quick-btn whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener"><sf-icon name="whatsapp" [size]="16" /> WhatsApp</a>
+          </div>
+        }
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+
+    <footer class="site-footer desktop-only">
       <span>© {{ year }} {{ identity.name() }}</span>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <sf-mobile-nav class="mobile-only" />
 </div>

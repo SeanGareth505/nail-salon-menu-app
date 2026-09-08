@@ -1,0 +1,698 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="height:100%;display:flex;background:#FFFDF9;font-family:Inter,sans-serif">
+
+<sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+<div class="sfscroll" style="width:{{ L.railW }};flex:none;background:#3E5A4A;padding:22px 0;display:flex;flex-direction:column;overflow-y:auto">
+  <div style="display:flex;align-items:center;gap:11px;padding:0 {{ L.railPad }} 22px;justify-content:{{ L.railJustify }}">
+    <div style="width:38px;height:38px;flex:none;border-radius:10px;background:#FFFDF9;display:flex;align-items:center;justify-content:center;font:600 14px/1 'Playfair Display',serif;color:#4A6B57">SF</div>
+    <sc-if value="{{ isLg }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="font:500 13px/1 Inter,sans-serif;color:#FFFDF9">SalonFlow</div>
+        <div style="font:300 10.5px/1 Inter,sans-serif;color:rgba(255,253,249,.55);margin-top:4px">Rosebank</div>
+      </div>
+    </sc-if>
+  </div>
+  <sc-for list="{{ nav }}" as="n" hint-placeholder-count="14">
+    <button onClick="{{ n.go }}" style="{{ n.style }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:18px;height:18px;flex:none;display:block"><path d="{{ n.icon }}"></path></svg>
+      <span style="font:{{ n.font }}">{{ n.short }}</span>
+    </button>
+  </sc-for>
+  <div style="margin-top:auto;padding:18px {{ L.railPad }} 0;border-top:1px solid rgba(255,253,249,.12);display:flex;align-items:center;gap:11px;justify-content:{{ L.railJustify }}">
+    <div style="width:34px;height:34px;flex:none;border-radius:50%;background:rgba(255,253,249,.2);color:#FFFDF9;font:400 13px/34px 'Playfair Display',serif;text-align:center">S</div>
+    <sc-if value="{{ isLg }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="font:400 12.5px/1 Inter,sans-serif;color:#FFFDF9">Sean Gareth</div>
+        <div style="font:300 10.5px/1 Inter,sans-serif;color:rgba(255,253,249,.55);margin-top:4px">Owner</div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column">
+
+  <div style="flex:none;display:flex;align-items:center;gap:14px;padding:{{ L.barPad }};border-bottom:1px solid rgba(74,107,87,.13);background:{{ L.barBg }};flex-wrap:wrap">
+    <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="border:0;background:transparent;padding:0;display:flex;flex-direction:column;gap:4px;cursor:pointer">
+        <span style="width:20px;height:1.6px;background:#FFFDF9;display:block"></span>
+        <span style="width:20px;height:1.6px;background:#FFFDF9;display:block"></span>
+        <span style="width:13px;height:1.6px;background:#FFFDF9;display:block"></span>
+      </button>
+    </sc-if>
+    <h1 style="margin:0;font:400 {{ L.titleType }};color:{{ L.titleColor }}">{{ pageTitle }}</h1>
+    <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:10px;height:42px;padding:0 15px;background:#F5EFE7;border-radius:100px;width:280px;margin-left:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(51,51,51,.45)" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" style="width:16px;height:16px;flex:none"><path d="M10.6 17.2a6.6 6.6 0 1 0 0-13.2 6.6 6.6 0 0 0 0 13.2 M15.4 15.4 20.5 20.5"></path></svg>
+        <input placeholder="Search clients, consultations…" aria-label="Search" style="flex:1;min-width:0;border:0;background:transparent;font:300 13px/1 Inter,sans-serif;color:#333;outline:none">
+      </div>
+    </sc-if>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+      <button onClick="{{ toggleBell }}" aria-label="Notifications" style="position:relative;width:42px;height:42px;border:1px solid {{ bellBorder }};background:{{ bellBg }};border-radius:100px;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="{{ bellInk }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:19px;height:19px"><path d="M18 8.5a6 6 0 1 0-12 0c0 6.5-2.5 8-2.5 8h17S18 15 18 8.5 M13.7 20.2a2 2 0 0 1-3.4 0"></path></svg>
+        <span style="position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#C9A96E;color:#fff;font:600 10px/18px Inter,sans-serif;text-align:center">3</span>
+      </button>
+      <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+        <button style="height:42px;padding:0 20px;border:0;background:#4A6B57;color:#FFFDF9;font:500 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">{{ pageAction }}</button>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="flex:1;min-height:0;position:relative;display:flex">
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div class="sfscroll" style="position:absolute;inset:0;z-index:40;background:#3E5A4A;padding:20px 0;overflow-y:auto">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="14">
+          <button onClick="{{ n.goClose }}" style="display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;height:52px;padding:0 24px;border:0;background:{{ n.mBg }};color:{{ n.mFg }};font:400 15px/1 Inter,sans-serif;text-align:left;cursor:pointer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:19px;height:19px;flex:none"><path d="{{ n.icon }}"></path></svg>
+            {{ n.label }}
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ bellOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:12px;right:16px;z-index:50;width:340px;background:#FFFDF9;border:1px solid rgba(74,107,87,.2);box-shadow:0 20px 44px -18px rgba(40,50,44,.4)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(74,107,87,.13)">
+          <span style="font:500 13px/1 Inter,sans-serif;color:#333">Notifications</span>
+          <button onClick="{{ toggleBell }}" style="border:0;background:transparent;font:400 12px/1 Inter,sans-serif;color:#A8874C;cursor:pointer">Mark all read</button>
+        </div>
+        <sc-for list="{{ notifications }}" as="nt" hint-placeholder-count="3">
+          <div style="display:flex;gap:12px;padding:15px 18px;border-bottom:1px solid rgba(74,107,87,.1);background:{{ nt.bg }}">
+            <span style="width:8px;height:8px;flex:none;margin-top:6px;background:{{ nt.dot }};transform:rotate(45deg)"></span>
+            <div>
+              <div style="font:400 13.5px/1.45 Inter,sans-serif;color:#333">{{ nt.title }}</div>
+              <div style="font:300 12px/1.5 Inter,sans-serif;color:rgba(51,51,51,.55);margin-top:4px">{{ nt.when }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <div class="sfscroll" style="flex:1;min-width:0;overflow-y:auto">
+
+      <sc-if value="{{ pDash }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:{{ L.pad }}">
+        <div style="display:grid;grid-template-columns:{{ L.statCols }};gap:1px;background:rgba(74,107,87,.15);border:1px solid rgba(74,107,87,.15);margin-bottom:28px">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="6">
+            <div style="background:#FFFDF9;padding:18px 20px">
+              <div style="font:400 10px/1.3 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45);min-height:26px">{{ s.label }}</div>
+              <div style="font:400 {{ L.statType }};color:{{ s.color }};margin-top:10px">{{ s.value }}</div>
+              <div style="font:300 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:8px">{{ s.sub }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ L.splitCols }};gap:26px;margin-bottom:28px">
+          <div style="border:1px solid rgba(74,107,87,.15);padding:22px 24px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;gap:12px;flex-wrap:wrap">
+              <h2 style="margin:0;font:400 17px/1 'Playfair Display',serif;color:#333">Consultations, last 8 weeks</h2>
+              <span style="font:300 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">184 total · up 12%</span>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:{{ L.barGap }};height:{{ L.chartH }}">
+              <sc-for list="{{ chart }}" as="b" hint-placeholder-count="8">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:9px">
+                  <div style="font:400 11px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">{{ b.value }}</div>
+                  <div style="width:100%;height:{{ b.h }};background:{{ b.color }}"></div>
+                  <div style="font:300 10.5px/1 Inter,sans-serif;color:rgba(51,51,51,.42)">{{ b.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="border:1px solid rgba(74,107,87,.15);padding:22px 24px">
+            <h2 style="margin:0 0 16px;font:400 17px/1 'Playfair Display',serif;color:#333">Requires review</h2>
+            <sc-for list="{{ flagged }}" as="f" hint-placeholder-count="3">
+              <div style="display:flex;gap:13px;padding:14px 0;border-bottom:1px solid rgba(74,107,87,.12)">
+                <span style="width:8px;height:8px;flex:none;margin-top:6px;background:{{ f.dot }};transform:rotate(45deg)"></span>
+                <div style="flex:1;min-width:0">
+                  <div style="font:400 14px/1.4 Inter,sans-serif;color:#333">{{ f.client }}</div>
+                  <div style="font:300 12.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.58);margin-top:3px">{{ f.reason }}</div>
+                  <div style="font:300 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.42);margin-top:6px">{{ f.meta }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="border:1px solid rgba(74,107,87,.15)">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(74,107,87,.15)">
+            <h2 style="margin:0;font:400 17px/1 'Playfair Display',serif;color:#333">Therapist activity</h2>
+            <span style="font:300 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">August 2026</span>
+          </div>
+          <sc-for list="{{ therapistRows }}" as="r" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:{{ L.actCols }};padding:0 24px;border-bottom:1px solid rgba(74,107,87,.1);align-items:center;gap:10px">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 0">
+                <div style="width:36px;height:36px;flex:none;border-radius:50%;background:#F0F4F0;color:#4A6B57;font:400 14px/36px 'Playfair Display',serif;text-align:center">{{ r.initial }}</div>
+                <div>
+                  <div style="font:400 14.5px/1.3 Inter,sans-serif;color:#333">{{ r.name }}</div>
+                  <div style="font:300 11.5px/1 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:4px">{{ r.role }}</div>
+                </div>
+              </div>
+              <div style="font:400 15px/1 Inter,sans-serif;color:#333;text-align:right">{{ r.month }}</div>
+              <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+                <div style="font:300 13px/1 Inter,sans-serif;color:rgba(51,51,51,.65);text-align:right">{{ r.last }}</div>
+              </sc-if>
+              <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+                <div style="font:300 13px/1 Inter,sans-serif;color:rgba(51,51,51,.65);text-align:right">{{ r.avg }}</div>
+              </sc-if>
+              <div style="font:500 12.5px/1 Inter,sans-serif;color:{{ r.flagColor }};text-align:right">{{ r.flagged }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pTreatments }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:{{ L.editorCols }};height:100%">
+        <div class="sfscroll" style="overflow-y:auto;padding:{{ L.pad }};border-right:{{ L.editorBorder }}">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+            <sc-for list="{{ catFilters }}" as="c" hint-placeholder-count="7">
+              <button onClick="{{ c.go }}" style="height:40px;padding:0 15px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font:400 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">{{ c.name }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 16px;background:#F7F4EF;border:1px solid rgba(74,107,87,.13);border-bottom:0;font:500 10.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.5)">
+            <span style="width:26px;flex:none">#</span>
+            <span style="flex:1">Treatment</span>
+            <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}"><span style="width:70px;flex:none;text-align:right">Duration</span></sc-if>
+            <span style="width:88px;flex:none;text-align:right">Price</span>
+            <span style="width:74px;flex:none;text-align:right">Status</span>
+          </div>
+          <div style="border:1px solid rgba(74,107,87,.13)">
+            <sc-for list="{{ treatments }}" as="t" hint-placeholder-count="6">
+              <button onClick="{{ t.select }}" style="display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-align:left;padding:13px 16px;border:0;border-bottom:1px solid rgba(74,107,87,.1);background:{{ t.rowBg }};cursor:pointer">
+                <span style="width:26px;flex:none;font:300 12.5px/1 Inter,sans-serif;color:rgba(51,51,51,.4)">{{ t.order }}</span>
+                <span style="flex:1;min-width:0">
+                  <span style="display:flex;align-items:center;gap:8px">
+                    <span style="font:400 15px/1.3 Inter,sans-serif;color:#333">{{ t.name }}</span>
+                    <sc-if value="{{ t.featured }}" hint-placeholder-val="{{ false }}">
+                      <span style="font:600 8.5px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A8874C;border:1px solid rgba(201,169,110,.6);padding:4px 5px">Featured</span>
+                    </sc-if>
+                    <sc-if value="{{ t.onSpecial }}" hint-placeholder-val="{{ false }}">
+                      <span style="font:600 8.5px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:#C9A96E;padding:4px 5px">Special</span>
+                    </sc-if>
+                  </span>
+                  <span style="display:block;font:300 11.5px/1.4 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:4px">{{ t.cat }} · {{ t.form }}</span>
+                </span>
+                <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}"><span style="width:70px;flex:none;text-align:right;font:300 13px/1 Inter,sans-serif;color:rgba(51,51,51,.6)">{{ t.dur }} min</span></sc-if>
+                <span style="width:88px;flex:none;text-align:right;font:400 14px/1 Inter,sans-serif;color:{{ t.priceColor }}">{{ t.priceLabel }}</span>
+                <span style="width:74px;flex:none;text-align:right"><span style="font:500 10px/1 Inter,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:{{ t.stFg }};background:{{ t.stBg }};padding:6px 8px">{{ t.status }}</span></span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:18px;font:300 12.5px/1.6 Inter,sans-serif;color:rgba(51,51,51,.5)">
+            <span>Drag rows to change display order. Inactive treatments stay hidden from clients.</span>
+          </div>
+        </div>
+
+        <sc-if value="{{ isLg }}" hint-placeholder-val="{{ true }}">
+        <div class="sfscroll" style="overflow-y:auto;padding:26px 28px;background:#FCFAF6">
+          <div style="font:400 10.5px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(51,51,51,.45);margin-bottom:8px">Editing</div>
+          <h2 style="margin:0 0 22px;font:400 24px/1.15 'Playfair Display',serif;color:#333">{{ sel.name }}</h2>
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div>
+              <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Treatment name</label>
+              <input value="{{ sel.name }}" style="width:100%;height:46px;padding:0 14px;border:1px solid rgba(74,107,87,.3);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#333;border-radius:4px;box-sizing:border-box">
+            </div>
+            <div>
+              <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Description</label>
+              <textarea style="width:100%;min-height:80px;padding:13px;border:1px solid rgba(74,107,87,.3);background:#fff;font:300 14px/1.6 Inter,sans-serif;color:#333;resize:vertical;border-radius:4px;box-sizing:border-box">{{ sel.blurb }}</textarea>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div>
+                <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Price</label>
+                <input value="{{ sel.price }}" style="width:100%;height:46px;padding:0 14px;border:1px solid rgba(74,107,87,.3);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#333;border-radius:4px;box-sizing:border-box">
+              </div>
+              <div>
+                <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Special price</label>
+                <input value="{{ sel.special }}" placeholder="—" style="width:100%;height:46px;padding:0 14px;border:1px solid rgba(201,169,110,.5);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#A8874C;border-radius:4px;box-sizing:border-box">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div>
+                <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Duration (min)</label>
+                <input value="{{ sel.dur }}" style="width:100%;height:46px;padding:0 14px;border:1px solid rgba(74,107,87,.3);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#333;border-radius:4px;box-sizing:border-box">
+              </div>
+              <div>
+                <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Display order</label>
+                <input value="{{ sel.order }}" style="width:100%;height:46px;padding:0 14px;border:1px solid rgba(74,107,87,.3);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#333;border-radius:4px;box-sizing:border-box">
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Category</label>
+              <select aria-label="Category" style="width:100%;height:46px;padding:0 12px;border:1px solid rgba(74,107,87,.3);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#333;border-radius:4px">
+                <sc-for list="{{ catNames }}" as="c" hint-placeholder-count="6"><option>{{ c }}</option></sc-for>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:8px">Consent form</label>
+              <select aria-label="Consent form" style="width:100%;height:46px;padding:0 12px;border:1px solid rgba(74,107,87,.3);background:#fff;font:400 14.5px/1 Inter,sans-serif;color:#333;border-radius:4px"><option>{{ sel.form }}</option><option>General — Beauty v2</option></select>
+            </div>
+            <div>
+              <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:10px">Assigned therapists</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <sc-for list="{{ assignChips }}" as="a" hint-placeholder-count="4">
+                  <button onClick="{{ a.toggle }}" style="height:42px;padding:0 15px;border:1.5px solid {{ a.border }};background:{{ a.bg }};color:{{ a.fg }};font:400 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">{{ a.name }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font:400 13px/1 Inter,sans-serif;color:#333;margin-bottom:10px">Image</label>
+              <div style="display:flex;align-items:center;gap:14px;border:1px dashed rgba(74,107,87,.35);background:#fff;padding:16px 18px">
+                <div style="width:52px;height:52px;flex:none;background:{{ sel.tint }};display:flex;align-items:center;justify-content:center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="{{ sel.mark }}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:21px;height:21px"><path d="{{ sel.icon }}"></path></svg>
+                </div>
+                <div style="flex:1;font:300 12.5px/1.5 Inter,sans-serif;color:rgba(51,51,51,.55)">No image set — the category mark is used</div>
+                <button style="height:42px;padding:0 16px;border:1px solid rgba(74,107,87,.35);background:transparent;color:#4A6B57;font:500 12.5px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Upload</button>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:6px">
+              <sc-for list="{{ selToggles }}" as="tg" hint-placeholder-count="3">
+                <button onClick="{{ tg.toggle }}" style="display:flex;align-items:center;gap:14px;border:0;background:transparent;padding:0;cursor:pointer;text-align:left">
+                  <span style="width:46px;height:26px;flex:none;border-radius:100px;background:{{ tg.track }};position:relative;display:block">
+                    <span style="position:absolute;top:3px;left:{{ tg.knob }};width:20px;height:20px;border-radius:50%;background:#FFFDF9;display:block"></span>
+                  </span>
+                  <span style="font:400 14px/1.4 Inter,sans-serif;color:#333">{{ tg.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px;padding-top:14px;border-top:1px solid rgba(74,107,87,.13)">
+              <button style="height:48px;padding:0 24px;border:0;background:#4A6B57;color:#FFFDF9;font:500 14px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Save changes</button>
+              <button style="height:48px;padding:0 20px;border:1px solid rgba(74,107,87,.3);background:transparent;color:#4A6B57;font:500 14px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Cancel</button>
+              <button style="margin-left:auto;height:48px;padding:0 16px;border:0;background:transparent;color:#8A5A5A;font:400 13px/1 Inter,sans-serif;cursor:pointer">Delete</button>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pCategories }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:{{ L.pad }}">
+        <p style="margin:0 0 22px;font:300 13.5px/1.6 Inter,sans-serif;color:rgba(51,51,51,.58);max-width:620px">Categories drive the client home screen tiles and the menu grouping. Order, tint and mark are all editable; the slug is used in QR links.</p>
+        <div style="display:grid;grid-template-columns:{{ L.cardCols }};gap:14px">
+          <sc-for list="{{ categories }}" as="c" hint-placeholder-count="6">
+            <div style="border:1px solid rgba(74,107,87,.15);background:#FFFDF9">
+              <div style="position:relative;height:88px;background:{{ c.tint }};display:flex;align-items:center;justify-content:center;overflow:hidden">
+                <svg viewBox="0 0 24 24" fill="none" stroke="{{ c.mark }}" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position:absolute;right:-14px;bottom:-16px;width:80px;height:80px;opacity:.18"><path d="{{ c.icon }}"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="{{ c.mark }}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:26px;height:26px;position:relative"><path d="{{ c.icon }}"></path></svg>
+                <span style="position:absolute;top:10px;left:12px;font:300 11px/1 Inter,sans-serif;color:rgba(51,51,51,.5)">Order {{ c.order }}</span>
+              </div>
+              <div style="padding:16px 18px 18px">
+                <div style="font:400 17px/1.2 'Playfair Display',serif;color:#333">{{ c.name }}</div>
+                <div style="font:300 12px/1 Inter,sans-serif;color:rgba(51,51,51,.5);margin-top:6px">/{{ c.slug }} · {{ c.count }} treatments</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:13px;border-top:1px solid rgba(74,107,87,.11)">
+                  <span style="font:500 10px/1 Inter,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:{{ c.stFg }};background:{{ c.stBg }};padding:6px 8px">{{ c.status }}</span>
+                  <button style="margin-left:auto;border:0;background:transparent;font:400 12.5px/1 Inter,sans-serif;color:#4A6B57;cursor:pointer">Edit</button>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+          <button style="border:1px dashed rgba(74,107,87,.35);background:transparent;min-height:160px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+            <span style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(74,107,87,.35);color:#4A6B57;font:300 20px/36px Inter,sans-serif;text-align:center">+</span>
+            <span style="font:400 13.5px/1 Inter,sans-serif;color:#4A6B57">New category</span>
+          </button>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pTherapists }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:{{ L.pad }}">
+        <div style="display:grid;grid-template-columns:{{ L.cardCols }};gap:16px">
+          <sc-for list="{{ therapists }}" as="p" hint-placeholder-count="4">
+            <div style="border:1px solid rgba(74,107,87,.15);padding:22px">
+              <div style="display:flex;align-items:flex-start;gap:14px">
+                <div style="width:56px;height:56px;flex:none;border-radius:50%;background:{{ p.tint }};color:#4A6B57;font:400 21px/56px 'Playfair Display',serif;text-align:center">{{ p.initial }}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font:400 19px/1.2 'Playfair Display',serif;color:#333">{{ p.name }}</div>
+                  <div style="font:300 12.5px/1.4 Inter,sans-serif;color:rgba(51,51,51,.55);margin-top:4px">{{ p.role }} · {{ p.years }} years</div>
+                </div>
+                <span style="font:500 10px/1 Inter,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:{{ p.stFg }};background:{{ p.stBg }};padding:6px 8px;flex:none">{{ p.status }}</span>
+              </div>
+              <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:16px">
+                <sc-for list="{{ p.skills }}" as="s" hint-placeholder-count="3">
+                  <span style="font:400 11.5px/1 Inter,sans-serif;color:#4A6B57;background:#F0F4F0;padding:8px 11px;border-radius:100px">{{ s }}</span>
+                </sc-for>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;padding-top:15px;border-top:1px solid rgba(74,107,87,.11)">
+                <div>
+                  <div style="font:400 9.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45)">Treatments</div>
+                  <div style="font:400 14px/1 Inter,sans-serif;color:#333;margin-top:6px">{{ p.treatments }}</div>
+                </div>
+                <div>
+                  <div style="font:400 9.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45)">Tablet login</div>
+                  <div style="font:400 14px/1 Inter,sans-serif;color:{{ p.loginColor }};margin-top:6px">{{ p.login }}</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:18px">
+                <button style="height:44px;padding:0 18px;border:1px solid rgba(74,107,87,.35);background:transparent;color:#4A6B57;font:500 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Edit profile</button>
+                <button style="height:44px;padding:0 18px;border:1px solid rgba(201,169,110,.55);background:transparent;color:#A8874C;font:500 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Reset PIN</button>
+              </div>
+            </div>
+          </sc-for>
+          <button style="border:1px dashed rgba(74,107,87,.35);background:transparent;min-height:200px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+            <span style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(74,107,87,.35);color:#4A6B57;font:300 20px/36px Inter,sans-serif;text-align:center">+</span>
+            <span style="font:400 13.5px/1 Inter,sans-serif;color:#4A6B57">Add therapist</span>
+          </button>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pSpecials }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:{{ L.pad }}">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px">
+          <sc-for list="{{ lifecycleFilters }}" as="lf" hint-placeholder-count="5">
+            <button onClick="{{ lf.go }}" style="height:42px;padding:0 16px;border:1px solid {{ lf.border }};background:{{ lf.bg }};color:{{ lf.fg }};font:400 13px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">{{ lf.name }} <span style="opacity:.6">{{ lf.count }}</span></button>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ specials }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid rgba(74,107,87,.15);display:grid;grid-template-columns:{{ L.specialCols }}">
+              <div style="position:relative;background:{{ s.tint }};display:flex;align-items:center;justify-content:center;min-height:130px;padding:18px">
+                <div style="position:absolute;inset:12px;border:1px solid rgba(201,169,110,.35)"></div>
+                <div style="font:400 24px/1.15 Allura,cursive;color:rgba(74,107,87,.55);text-align:center;position:relative">{{ s.title }}</div>
+              </div>
+              <div style="padding:20px 22px">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+                  <span style="font:500 10px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:{{ s.stFg }};background:{{ s.stBg }};padding:7px 10px">{{ s.state }}</span>
+                  <span style="font:400 10px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4A6B57;border:1px solid rgba(74,107,87,.3);padding:6px 9px">{{ s.kind }}</span>
+                  <span style="font:400 10px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#A8874C;border:1px solid rgba(201,169,110,.5);padding:6px 9px">{{ s.discount }}</span>
+                </div>
+                <h2 style="margin:0 0 6px;font:400 20px/1.2 'Playfair Display',serif;color:#333">{{ s.title }}</h2>
+                <p style="margin:0 0 14px;font:300 13px/1.6 Inter,sans-serif;color:rgba(51,51,51,.6);max-width:560px">{{ s.body }}</p>
+                <div style="display:flex;gap:22px;flex-wrap:wrap;padding-top:13px;border-top:1px solid rgba(74,107,87,.11)">
+                  <div>
+                    <div style="font:400 9.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45)">Pricing</div>
+                    <div style="font:400 13.5px/1 Inter,sans-serif;color:#333;margin-top:6px">{{ s.pricing }}</div>
+                  </div>
+                  <div>
+                    <div style="font:400 9.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45)">Runs</div>
+                    <div style="font:400 13.5px/1 Inter,sans-serif;color:#333;margin-top:6px">{{ s.dates }}</div>
+                  </div>
+                  <div>
+                    <div style="font:400 9.5px/1 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:rgba(51,51,51,.45)">Applies to</div>
+                    <div style="font:400 13.5px/1 Inter,sans-serif;color:#333;margin-top:6px">{{ s.applies }}</div>
+                  </div>
+                  <div style="margin-left:auto;display:flex;gap:9px;align-items:flex-end">
+                    <button style="height:42px;padding:0 16px;border:1px solid rgba(74,107,87,.35);background:transparent;color:#4A6B57;font:500 12.5px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">Edit</button>
+                    <button style="height:42px;padding:0 16px;border:0;background:{{ s.actionBg }};color:#FFFDF9;font:500 12.5px/1 Inter,sans-serif;border-radius:100px;cursor:pointer">{{ s.action }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:22px;background:#F0F4F0;padding:18px 20px;font:300 13px/1.7 Inter,sans-serif;color:rgba(51,51,51,.65);max-width:720px">Expired specials drop off the client app automatically at midnight on the end date. Scheduled specials appear the moment their start date is reached — no manual publishing needed.</div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pPlaceholder }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:{{ L.pad }}">
+        <div style="border:1px dashed rgba(74,107,87,.3);padding:56px 32px;text-align:center;max-width:600px;margin:0 auto">
+          <div style="width:52px;height:52px;border:1px solid rgba(201,169,110,.5);border-radius:50%;margin:0 auto 20px"></div>
+          <div style="font:400 22px/1.3 'Playfair Display',serif;color:#333">{{ pageTitle }}</div>
+          <p style="margin:10px 0 0;font:300 14px/1.7 Inter,sans-serif;color:rgba(51,51,51,.58)">Designed in the next batch. The sidebar item, page title and toolbar are already wired so the route exists.</p>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sm&quot;,&quot;md&quot;,&quot;lg&quot;],&quot;default&quot;:&quot;lg&quot;,&quot;tsType&quot;:&quot;'sm'|'md'|'lg'&quot;,&quot;section&quot;:&quot;Device&quot;}}">
+const FOREST='#4A6B57', SAGE='#8BAA8E', GOLD='#C9A96E', GOLD_INK='#A8874C', IVORY='#FFFDF9', INK='#333';
+const IC = {
+  grid:'M3.5 3.5h7v7h-7z M13.5 3.5h7v7h-7z M3.5 13.5h7v7h-7z M13.5 13.5h7v7h-7z',
+  clipboard:'M9 3.5h6a1 1 0 0 1 1 1v1.2H8V4.5a1 1 0 0 1 1-1Z M16 5.7h2.5a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19V7.2a1.5 1.5 0 0 1 1.5-1.5H8 M8 11h8 M8 15h5',
+  doccheck:'M14 3.5H6.5A1.5 1.5 0 0 0 5 5v14a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19V8.5Z M14 3.5V8.5h5 M8.5 14.5l2 2 4-4',
+  users:'M16 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H6.8A3.8 3.8 0 0 0 3 18.7v1.8 M9.5 11.2a3.8 3.8 0 1 0 0-7.7 3.8 3.8 0 0 0 0 7.7 M21 20.5v-1.8a3.8 3.8 0 0 0-2.9-3.7 M16.2 3.7a3.8 3.8 0 0 1 0 7.4',
+  user:'M19 20.5v-1.8a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v1.8 M12 10.7a3.9 3.9 0 1 0 0-7.7 3.9 3.9 0 0 0 0 7.7',
+  leaf:'M4 20C4 11.2 11.2 4 20 4c0 8.8-7.2 16-16 16Z M19 5 8.5 15.5',
+  tag:'M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 2.8 12V4.8a2 2 0 0 1 2-2H12a2 2 0 0 1 1.4.6l7.2 7.2a2 2 0 0 1 0 2.8Z M7.4 7.4h.01',
+  store:'M4 9.5V19a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19V9.5 M3 9.5 5.2 4.2A1 1 0 0 1 6.1 3.5h11.8a1 1 0 0 1 .9.7L21 9.5Z M9.5 20.5v-6h5v6',
+  droplet:'M12 3.2c3.2 3.4 5.4 6 5.4 8.9A5.4 5.4 0 0 1 12 17.5a5.4 5.4 0 0 1-5.4-5.4c0-2.9 2.2-5.5 5.4-8.9Z',
+  qr:'M4 4h5.5v5.5H4z M14.5 4H20v5.5h-5.5z M4 14.5h5.5V20H4z M14.5 14.5h2.5 M20 14.5v2.5 M17 20h3v-3 M14.5 17.5v2.5',
+  chart:'M4 20V10 M9.5 20V4 M15 20v-7 M20.5 20V7',
+  bell:'M18 8.5a6 6 0 1 0-12 0c0 6.5-2.5 8-2.5 8h17S18 15 18 8.5 M13.7 20.2a2 2 0 0 1-3.4 0',
+  shield:'M12 3 19.5 6v6c0 4.4-3.1 7.6-7.5 9-4.4-1.4-7.5-4.6-7.5-9V6Z M9 12.2l2 2 4-4',
+  folder:'M4 6.5A1.5 1.5 0 0 1 5.5 5h4l2 2.5h7A1.5 1.5 0 0 1 20 9v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18Z'
+};
+
+const NAV = [
+  ['dash','Dashboard','Home',IC.grid],
+  ['consultations','Consultations','Consults',IC.clipboard],
+  ['forms','Consent forms','Forms',IC.doccheck],
+  ['clients','Clients','Clients',IC.users],
+  ['treatments','Treatments','Menu',IC.leaf],
+  ['categories','Categories','Cats',IC.folder],
+  ['therapists','Therapists','Team',IC.user],
+  ['specials','Specials','Specials',IC.tag],
+  ['salon','Salon details','Salon',IC.store],
+  ['branding','Branding','Brand',IC.droplet],
+  ['qr','QR codes','QR',IC.qr],
+  ['analytics','Analytics','Stats',IC.chart],
+  ['notifications','Notifications','Alerts',IC.bell],
+  ['users','Users','Users',IC.shield]
+];
+
+const TITLES = {dash:'Dashboard', consultations:'Consultations', forms:'Consent forms', clients:'Clients', treatments:'Treatments', categories:'Categories', therapists:'Therapists', specials:'Specials', salon:'Salon details', branding:'Branding', qr:'QR codes', analytics:'Analytics', notifications:'Notifications', users:'Users'};
+const ACTIONS = {dash:'Export', consultations:'Export', forms:'New form', clients:'Add client', treatments:'New treatment', categories:'New category', therapists:'Add therapist', specials:'New special', salon:'Save', branding:'Save theme', qr:'New QR code', analytics:'Export', notifications:'Save', users:'Invite user'};
+
+const CATS = [
+  ['Nails','nails','#F7E9E3',GOLD,IC.droplet,1,5,'Active'],
+  ['Facials','facials','#F0F4F0',SAGE,IC.leaf,2,4,'Active'],
+  ['Massage','massage','#E3F0F9','#8FB4CE',IC.droplet,3,4,'Active'],
+  ['Waxing','waxing','#F5EFE7',GOLD,IC.leaf,4,4,'Active'],
+  ['Brows & Lashes','brows-lashes','#F7E9E3','#C29A8E',IC.leaf,5,4,'Active'],
+  ['Skincare','skincare','#F0F4F0',SAGE,IC.droplet,6,3,'Draft']
+];
+
+const TREATMENTS = [
+  ['Gel Manicure','Nails',60,350,null,1,true,'Soak-off gel, cuticle work and a colour of your choosing.','Active'],
+  ['Gel Pedicure','Nails',60,420,null,2,false,'Foot soak, shaping and long-wear gel colour.','Active'],
+  ['Acrylic Full Set','Nails',90,550,null,3,false,'Sculpted extensions built to your preferred length.','Active'],
+  ['Acrylic Fill','Nails',75,400,null,4,false,'Regrowth infill and rebalance for an existing set.','Active'],
+  ['Nail Art Add-on','Nails',15,50,null,5,false,'Hand-painted detail, chrome or gems.','Active'],
+  ['Express Facial','Facials',30,450,null,1,false,'A cleanse, exfoliation and mask for a lunch-hour reset.','Active'],
+  ['Classic Facial','Facials',60,650,null,2,false,'Deep cleanse, extractions and a tailored mask.','Active'],
+  ['Hydrating Facial','Facials',75,780,590,3,true,'Layered hydration for tight, dehydrated winter skin.','Active'],
+  ['Advanced Skin Treatment','Facials',75,950,null,4,false,'Targeted correction for pigmentation or texture.','Active'],
+  ['Back, Neck & Shoulder','Massage',30,390,null,1,false,'Focused pressure where desk work collects.','Active'],
+  ['Full Body Swedish','Massage',60,690,null,2,false,'Long, even strokes to settle the nervous system.','Active'],
+  ['Aromatherapy Massage','Massage',75,790,null,3,true,'Blended essential oils chosen with you on the day.','Active'],
+  ['Hot Stone Massage','Massage',90,950,null,4,false,'Warmed basalt stones for deep muscular release.','Inactive'],
+  ['Half Leg','Waxing',30,280,null,1,false,'Knee down, warm wax.','Active'],
+  ['Full Leg','Waxing',45,420,null,2,false,'Ankle to upper thigh.','Active'],
+  ['Underarm','Waxing',15,150,null,3,false,'Quick, precise, done.','Active'],
+  ['Brazilian','Waxing',45,450,null,4,false,'Hard wax throughout for sensitive areas.','Active'],
+  ['Brow Shape & Tint','Brows & Lashes',30,260,null,1,false,'Mapped, shaped and tinted to suit your face.','Active'],
+  ['Lash Lift','Brows & Lashes',60,520,null,2,false,'Your own lashes, curled and tinted for six weeks.','Active'],
+  ['Classic Lash Extensions','Brows & Lashes',120,850,null,3,false,'One extension per natural lash.','Active'],
+  ['Brow Lamination','Brows & Lashes',45,480,null,4,false,'Brushed-up brows, set in place.','Active'],
+  ['Chemical Peel','Skincare',45,850,null,1,false,'Resurfacing acids matched to your skin.','Active'],
+  ['Dermaplaning','Skincare',45,690,null,2,false,'Fine exfoliation for a smooth make-up base.','Active'],
+  ['LED Light Therapy','Skincare',30,390,null,3,false,'Calming or clarifying light.','Inactive']
+];
+
+const FORM_FOR = {'Nails':'Nails — General v3','Facials':'Facials — General v4','Massage':'Massage — General v2','Waxing':'Waxing — Sensitive v5','Brows & Lashes':'Brows & Lashes v3','Skincare':'Skincare — Advanced v6'};
+const TINTS = {'Nails':'#F7E9E3','Facials':'#F0F4F0','Massage':'#E3F0F9','Waxing':'#F5EFE7','Brows & Lashes':'#F7E9E3','Skincare':'#F0F4F0'};
+const MARKS = {'Nails':GOLD,'Facials':SAGE,'Massage':'#8FB4CE','Waxing':GOLD,'Brows & Lashes':'#C29A8E','Skincare':SAGE};
+const CICON = {'Nails':IC.droplet,'Facials':IC.leaf,'Massage':IC.droplet,'Waxing':IC.leaf,'Brows & Lashes':IC.leaf,'Skincare':IC.droplet};
+
+const SPECIALS = [
+  {title:'Winter Glow Facial Ritual', state:'Live', kind:'Bundle', discount:'Fixed price', pricing:'R1 170 → R890', dates:'01 Jul – 30 Sep 2026', applies:'2 treatments · Lerato, Chloé', tint:'#F0F4F0', body:'Hydrating Facial paired with LED light therapy — 105 minutes of layered hydration and calm.', action:'End now'},
+  {title:'Gel Mani + Pedi Duo', state:'Ending soon', kind:'Bundle', discount:'Amount off', pricing:'R770 − R150', dates:'12 Aug – 05 Sep 2026', applies:'2 treatments · Anja', tint:'#F7E9E3', body:'Gel Manicure and Gel Pedicure booked together, colour matched or deliberately not.', action:'Extend'},
+  {title:'Spring Skin Reset', state:'Scheduled', kind:'Bundle', discount:'Percent off', pricing:'R1 640 − 21%', dates:'15 Sep – 31 Oct 2026', applies:'2 treatments · Lerato', tint:'#E3F0F9', body:'Advanced Skin Treatment followed by dermaplaning, two weeks apart, with a home-care plan.', action:'Go live now'},
+  {title:'Refer a friend', state:'Draft', kind:'Promotional', discount:'No pricing', pricing:'Non-pricing offer', dates:'Not set', applies:'All treatments · all therapists', tint:'#F5EFE7', body:'Both parties receive a complimentary nail art add-on. Terms drafted, awaiting owner sign-off.', action:'Publish'},
+  {title:'Autumn Massage Month', state:'Expired', kind:'Single', discount:'Percent off', pricing:'R690 − 15%', dates:'01 – 30 Apr 2026', applies:'Full Body Swedish · Thandi', tint:'#F5EFE7', body:'Ran across April. Retained for reporting; no longer visible in the client app.', action:'Duplicate'}
+];
+
+const STATE_STYLE = {
+  'Live':{bg:'#F0F4F0', fg:FOREST}, 'Ending soon':{bg:'#FDF3E7', fg:'#8A6A2E'},
+  'Scheduled':{bg:'#E3F0F9', fg:'#37627E'}, 'Draft':{bg:'#F5EFE7', fg:'rgba(51,51,51,.6)'},
+  'Expired':{bg:'rgba(51,51,51,.07)', fg:'rgba(51,51,51,.5)'}
+};
+
+const PEOPLE = [
+  {initial:'L', name:'Lerato Mokoena', role:'Senior Therapist', years:9, tint:'#F0F4F0', skills:['Facials','Advanced Skincare','Waxing','Peels'], treatments:12, login:'Enabled', status:'Active'},
+  {initial:'A', name:'Anja van Wyk', role:'Nail Technician', years:6, tint:'#F7E9E3', skills:['Gel','Acrylic','Nail Art','Pedicure'], treatments:5, login:'Enabled', status:'Active'},
+  {initial:'T', name:'Thandi Nkosi', role:'Massage Therapist', years:12, tint:'#E3F0F9', skills:['Swedish','Deep Tissue','Aromatherapy','Hot Stone'], treatments:4, login:'Enabled', status:'Active'},
+  {initial:'C', name:'Chloé Petersen', role:'Lash & Brow Artist', years:4, tint:'#F5EFE7', skills:['Lash Lift','Extensions','Brow Lamination'], treatments:4, login:'Not set', status:'Inactive'}
+];
+
+const LAYOUTS = {
+  sm:{railW:'0', railPad:'0', railJustify:'center', barPad:'52px 20px 16px', barBg:'#3E5A4A', titleType:"20px/1 'Playfair Display',serif", titleColor:IVORY, pad:'22px 20px 32px', statCols:'1fr 1fr', statType:"27px/1 'Playfair Display',serif", splitCols:'1fr', chartH:'112px', barGap:'7px', actCols:'1fr 60px 60px', cardCols:'1fr', editorCols:'1fr', editorBorder:'0', specialCols:'1fr'},
+  md:{railW:'84px', railPad:'0', railJustify:'center', barPad:'18px 26px', barBg:'rgba(255,253,249,.97)', titleType:"22px/1 'Playfair Display',serif", titleColor:INK, pad:'24px 26px 36px', statCols:'repeat(3,1fr)', statType:"30px/1 'Playfair Display',serif", splitCols:'1fr', chartH:'140px', barGap:'11px', actCols:'2fr 1fr 1.2fr 1fr 0.8fr', cardCols:'repeat(2,1fr)', editorCols:'1fr', editorBorder:'0', specialCols:'220px 1fr'},
+  lg:{railW:'238px', railPad:'22px', railJustify:'flex-start', barPad:'18px 32px', barBg:'rgba(255,253,249,.97)', titleType:"24px/1 'Playfair Display',serif", titleColor:INK, pad:'28px 32px 40px', statCols:'repeat(6,1fr)', statType:"32px/1 'Playfair Display',serif", splitCols:'1.6fr 1fr', chartH:'160px', barGap:'13px', actCols:'2.2fr 1fr 1.3fr 1.2fr 0.9fr', cardCols:'repeat(3,1fr)', editorCols:'1fr 380px', editorBorder:'1px solid rgba(74,107,87,.15)', specialCols:'240px 1fr'}
+};
+
+const money = n => 'R' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+class Component extends DCLogic {
+  state = {page:'dash', cat:'All', selected:'Gel Manicure', lifecycle:'All', menuOpen:false, bellOpen:false, assigned:['Anja van Wyk'], toggles:{active:true, featured:true, special:false}};
+
+  go = p => () => this.setState({page:p, menuOpen:false, bellOpen:false});
+
+  renderVals() {
+    const S = this.state;
+    const size = this.props.size || 'lg';
+    const L = LAYOUTS[size] || LAYOUTS.lg;
+    const p = S.page;
+    const catNames = CATS.map(c => c[0]);
+
+    const nav = NAV.map(([k,label,short,icon]) => {
+      const active = p === k;
+      const wide = size === 'lg';
+      return {
+        label, short: wide ? label : short, icon,
+        go: this.go(k), goClose: this.go(k),
+        style: wide
+          ? `display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;height:42px;padding:0 22px;border:0;background:${active?'rgba(255,253,249,.16)':'transparent'};color:${active?IVORY:'rgba(255,253,249,.7)'};cursor:pointer;text-align:left`
+          : `display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:60px;height:52px;margin:0 auto;border:0;border-radius:12px;background:${active?'rgba(255,253,249,.16)':'transparent'};color:${active?IVORY:'rgba(255,253,249,.66)'};cursor:pointer`,
+        font: wide ? "400 13.5px/1 Inter,sans-serif" : "400 8px/1 Inter,sans-serif",
+        mBg: active ? 'rgba(255,253,249,.16)' : 'transparent',
+        mFg: active ? IVORY : 'rgba(255,253,249,.72)'
+      };
+    });
+
+    const rows = TREATMENTS.filter(t => S.cat === 'All' || t[1] === S.cat);
+    const selRow = TREATMENTS.find(t => t[0] === S.selected) || TREATMENTS[0];
+
+    const lifeCounts = {};
+    SPECIALS.forEach(s => { lifeCounts[s.state] = (lifeCounts[s.state]||0) + 1; });
+    const lifeNames = ['All','Live','Scheduled','Draft','Expired'];
+
+    return {
+      L, isLg: size === 'lg', isNarrow: size === 'sm', isWide: size !== 'sm',
+      nav, catNames,
+      pageTitle: TITLES[p] || 'Admin',
+      pageAction: ACTIONS[p] || 'Save',
+      menuOpen: S.menuOpen, bellOpen: S.bellOpen,
+      toggleMenu: () => this.setState(s => ({menuOpen:!s.menuOpen, bellOpen:false})),
+      toggleBell: () => this.setState(s => ({bellOpen:!s.bellOpen, menuOpen:false})),
+      bellBg: S.bellOpen ? '#F0F4F0' : 'transparent',
+      bellBorder: S.bellOpen ? FOREST : (size === 'sm' ? 'rgba(255,253,249,.35)' : 'rgba(74,107,87,.28)'),
+      bellInk: size === 'sm' && !S.bellOpen ? 'rgba(255,253,249,.9)' : FOREST,
+      notifications: [
+        {title:'Jane Smith — retinoid declared before waxing', when:'2 days ago · needs review', bg:'#FDF3E7', dot:GOLD},
+        {title:'Naledi Dube — consultation abandoned without signature', when:'Today, 11:48', bg:'#FDF3E7', dot:'#C29A8E'},
+        {title:'Waxing — Sensitive v5 published by Sean Gareth', when:'Yesterday, 09:12', bg:IVORY, dot:SAGE}
+      ],
+
+      pDash: p === 'dash',
+      pTreatments: p === 'treatments',
+      pCategories: p === 'categories',
+      pTherapists: p === 'therapists',
+      pSpecials: p === 'specials',
+      pPlaceholder: ['consultations','forms','clients','salon','branding','qr','analytics','notifications','users'].includes(p),
+
+      stats: [
+        {label:'Consultations today', value:'14', sub:'Across 4 therapists', color:INK},
+        {label:'This week', value:'61', sub:'+12% on last week', color:INK},
+        {label:'This month', value:'184', sub:'Target 200', color:INK},
+        {label:'Active therapists', value:'4', sub:'1 inactive', color:INK},
+        {label:'Requiring review', value:'3', sub:'Oldest 2 days', color:GOLD_INK},
+        {label:'Consent expiring', value:'9', sub:'Clients over 12 months', color:'#37627E'}
+      ],
+      chart: [[7,18],[8,22],[9,19],[10,26],[11,24],[12,31],[13,28],[14,34]].map(([w,v]) => ({
+        label:'W'+w, value:v,
+        h: Math.round(v/34 * (parseInt(L.chartH,10) - 46)) + 'px',
+        color: v === 34 ? FOREST : SAGE
+      })),
+      flagged: [
+        {client:'Jane Smith', reason:'Retinoid use declared before Full Leg Wax', meta:'Lerato Mokoena · 2 days ago', dot:GOLD},
+        {client:'Naledi Dube', reason:'Signature not captured — session abandoned', meta:'Lerato Mokoena · today', dot:'#C29A8E'},
+        {client:'Sipho Molefe', reason:'Blood thinning medication declared', meta:'Thandi Nkosi · yesterday', dot:GOLD}
+      ],
+      therapistRows: [
+        {initial:'L', name:'Lerato Mokoena', role:'Senior Therapist', month:'62', last:'Today, 11:42', avg:'15.5', flagged:'2', flagColor:GOLD_INK},
+        {initial:'A', name:'Anja van Wyk', role:'Nail Technician', month:'54', last:'Today, 09:20', avg:'13.5', flagged:'0', flagColor:'rgba(51,51,51,.4)'},
+        {initial:'T', name:'Thandi Nkosi', role:'Massage Therapist', month:'41', last:'Yesterday, 17:05', avg:'10.3', flagged:'1', flagColor:GOLD_INK},
+        {initial:'C', name:'Chloé Petersen', role:'Lash & Brow Artist', month:'27', last:'25 Aug, 15:40', avg:'6.8', flagged:'0', flagColor:'rgba(51,51,51,.4)'}
+      ],
+
+      catFilters: ['All',...catNames].map(n => ({
+        name:n, go:() => this.setState({cat:n}),
+        bg: S.cat === n ? FOREST : 'transparent',
+        fg: S.cat === n ? IVORY : 'rgba(51,51,51,.7)',
+        border: S.cat === n ? FOREST : 'rgba(74,107,87,.28)'
+      })),
+      treatments: rows.map(t => ({
+        name:t[0], cat:t[1], dur:t[2], order:t[5], featured:t[6],
+        onSpecial: t[4] != null,
+        priceLabel: t[4] != null ? money(t[4]) : money(t[3]),
+        priceColor: t[4] != null ? GOLD_INK : INK,
+        form: FORM_FOR[t[1]],
+        status: t[8],
+        stBg: t[8] === 'Active' ? '#F0F4F0' : 'rgba(51,51,51,.07)',
+        stFg: t[8] === 'Active' ? FOREST : 'rgba(51,51,51,.5)',
+        rowBg: S.selected === t[0] ? '#F0F4F0' : IVORY,
+        select: () => this.setState({selected:t[0]})
+      })),
+      sel: {
+        name:selRow[0], cat:selRow[1], dur:selRow[2], order:selRow[5],
+        price: money(selRow[3]), special: selRow[4] != null ? money(selRow[4]) : '',
+        blurb: selRow[7], form: FORM_FOR[selRow[1]],
+        tint: TINTS[selRow[1]], mark: MARKS[selRow[1]], icon: CICON[selRow[1]]
+      },
+      assignChips: PEOPLE.map(pe => {
+        const on = S.assigned.includes(pe.name);
+        return {
+          name: pe.name.split(' ')[0],
+          toggle: () => this.setState(st => ({assigned: on ? st.assigned.filter(x=>x!==pe.name) : [...st.assigned, pe.name]})),
+          bg: on ? '#F0F4F0' : IVORY,
+          border: on ? FOREST : 'rgba(74,107,87,.25)',
+          fg: on ? FOREST : 'rgba(51,51,51,.6)'
+        };
+      }),
+      selToggles: [['active','Active — visible to clients'],['featured','Featured on home screen'],['special','Special price currently applied']].map(([k,label]) => {
+        const on = !!S.toggles[k];
+        return {
+          label, toggle: () => this.setState(st => ({toggles:{...st.toggles, [k]:!st.toggles[k]}})),
+          track: on ? FOREST : 'rgba(74,107,87,.25)',
+          knob: on ? '23px' : '3px'
+        };
+      }),
+
+      categories: CATS.map(c => ({
+        name:c[0], slug:c[1], tint:c[2], mark:c[3], icon:c[4], order:c[5], count:c[6], status:c[7],
+        stBg: c[7] === 'Active' ? '#F0F4F0' : '#F5EFE7',
+        stFg: c[7] === 'Active' ? FOREST : 'rgba(51,51,51,.6)'
+      })),
+
+      therapists: PEOPLE.map(pe => ({
+        ...pe,
+        stBg: pe.status === 'Active' ? '#F0F4F0' : 'rgba(51,51,51,.07)',
+        stFg: pe.status === 'Active' ? FOREST : 'rgba(51,51,51,.5)',
+        loginColor: pe.login === 'Enabled' ? FOREST : 'rgba(51,51,51,.45)'
+      })),
+
+      lifecycleFilters: lifeNames.map(n => ({
+        name:n, count: n === 'All' ? SPECIALS.length : (lifeCounts[n] || 0),
+        go: () => this.setState({lifecycle:n}),
+        bg: S.lifecycle === n ? FOREST : 'transparent',
+        fg: S.lifecycle === n ? IVORY : 'rgba(51,51,51,.7)',
+        border: S.lifecycle === n ? FOREST : 'rgba(74,107,87,.28)'
+      })),
+      specials: SPECIALS.filter(s => S.lifecycle === 'All' || s.state === S.lifecycle || (S.lifecycle === 'Live' && s.state === 'Ending soon')).map(s => ({
+        ...s,
+        stBg: (STATE_STYLE[s.state]||{}).bg,
+        stFg: (STATE_STYLE[s.state]||{}).fg,
+        actionBg: s.state === 'Draft' || s.state === 'Scheduled' ? FOREST : GOLD_INK
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
+

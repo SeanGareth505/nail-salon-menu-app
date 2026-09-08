@@ -1,0 +1,33 @@
+<div class="page">
+  <header class="page-head">
+    <div>
+      <h1>Clients</h1>
+      <p class="sub">{{ clients().length }} records you are authorised to view</p>
+    </div>
+    <div class="search-box">
+      <sf-icon name="search" [size]="18" />
+      <input
+        type="search"
+        placeholder="Name, phone or email…"
+        aria-label="Search clients"
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+      />
+    </div>
+  </header>
+
+  <div class="list">
+    @for (c of filteredClients(); track c.id) {
+      <a class="row" [routerLink]="['/therapist/clients', c.id]">
+        <span class="avatar" [style.background]="avatarBg(c.fullName)" [style.color]="avatarFg(c.fullName)">{{ c.fullName.charAt(0) }}</span>
+        <span class="body">
+          <span class="name">{{ c.fullName }}</span>
+          <span class="meta">{{ c.phone }} · last visit {{ lastVisit(c) }}</span>
+        </span>
+        <sf-state-pill [tone]="consentTone(c)">{{ consentLabel(c) }}</sf-state-pill>
+      </a>
+    } @empty {
+      <sf-empty-state icon="clients" title="No clients yet" message="Clients appear here once you start a consultation." />
+    }
+  </div>
+</div>

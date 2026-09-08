@@ -24,8 +24,11 @@ export class ThemeService {
     if (tokens.primary) root.setProperty('--sf-forest', tokens.primary);
     if (tokens.secondary) root.setProperty('--sf-sage', tokens.secondary);
     if (tokens.accent) root.setProperty('--sf-champagne', tokens.accent);
-    if (tokens.background) root.setProperty('--sf-ivory', tokens.background);
-    if (tokens.surface) root.setProperty('--sf-surface', tokens.surface);
+    if (tokens.background) root.setProperty('--sf-canvas', tokens.background);
+    if (tokens.surface) {
+      root.setProperty('--sf-surface', tokens.surface);
+      root.setProperty('--sf-ivory', tokens.surface);
+    }
     if (tokens.text) root.setProperty('--sf-ink', tokens.text);
     this.lottieLoader.invalidate();
   });

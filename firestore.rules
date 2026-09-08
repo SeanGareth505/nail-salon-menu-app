@@ -12,12 +12,32 @@ service cloud.firestore {
         && request.auth.token.email.matches('^t-.+@staff\\.salonflow\\.internal$');
     }
 
+    function isKiosk() {
+      return isSignedIn() && (
+        request.auth.token.firebase.sign_in_provider == 'anonymous' ||
+        request.auth.token.kiosk == true
+      );
+    }
+
     function isAdmin() {
-      return isSignedIn() && !isTherapistAuth();
+      return isSignedIn() && !isTherapistAuth() && !isKiosk();
     }
 
     function isStaff() {
       return isAdmin() || isTherapistAuth();
+    }
+
+    function isStaffOrKiosk() {
+      return isStaff() || isKiosk();
+    }
+
+    function therapistDoc(therapistId) {
+      return get(/databases/$(database)/documents/therapists/$(therapistId));
+    }
+
+    function tapTabletSignInAllowed(therapistId) {
+      return therapistDoc(therapistId).data.active == true
+        && therapistDoc(therapistId).data.get('pinEnabled', false) != true;
     }
 
     match /salonSettings/{docId} {
@@ -46,7 +66,8 @@ service cloud.firestore {
     }
 
     match /therapistStaffAccess/{therapistId} {
-      allow read, write: if isAdmin();
+      allow read: if isAdmin() || tapTabletSignInAllowed(therapistId);
+      allow write: if isAdmin();
     }
 
     match /specials/{docId} {
@@ -55,12 +76,12 @@ service cloud.firestore {
     }
 
     match /consentTemplates/{docId} {
-      allow read: if isStaff();
+      allow read: if isStaffOrKiosk();
       allow write: if isAdmin();
     }
 
     match /consentTemplateVersions/{docId} {
-      allow read: if isStaff();
+      allow read: if isStaffOrKiosk();
       allow create: if isAdmin();
       allow update: if isAdmin() && (
         resource.data.status != 'published' ||
@@ -71,30 +92,45 @@ service cloud.firestore {
     }
 
     match /clients/{docId} {
-      allow read, write: if isStaff();
+      allow read, write: if isStaffOrKiosk();
     }
 
     match /consultations/{docId} {
-      allow read, write: if isStaff();
+      allow read, write: if isStaffOrKiosk();
     }
 
     match /consentSubmissions/{docId} {
-      allow read: if isStaff();
-      allow create: if isStaff();
-      allow update: if isStaff() &&
-        request.resource.data.answers == resource.data.answers &&
-        request.resource.data.signature == resource.data.signature;
+      allow read: if isStaffOrKiosk();
+      allow create: if isStaffOrKiosk();
+      allow update: if isStaffOrKiosk() && (
+        (request.resource.data.answers == resource.data.answers &&
+         request.resource.data.signature == resource.data.signature) ||
+        (resource.data.status == 'pending' &&
+         request.resource.data.status == 'complete' &&
+         request.resource.data.answers == resource.data.answers &&
+         request.resource.data.signature == resource.data.signature)
+      );
       allow delete: if false;
     }
 
     match /users/{uid} {
       allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
-      allow write: if isAdmin();
+      allow create, update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /notifications/{docId} {
+      allow read: if isAdmin() && resource.data.recipientUid == request.auth.uid;
+      allow create: if isStaffOrKiosk();
+      allow update: if isAdmin()
+        && resource.data.recipientUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if false;
     }
 
     match /auditEvents/{docId} {
       allow read: if isAdmin();
-      allow create: if isStaff();
+      allow create: if isStaffOrKiosk();
       allow update, delete: if false;
     }
   }

@@ -1,21 +1,25 @@
-<div class="admin-page">
-  <header class="admin-head"><div><h1>Analytics</h1><p>Consultation volume and completion, at a glance</p></div></header>
+<div class="admin-page analytics-page" [sfPageAction]="pageAction">
+  <header class="admin-head"><div><h1>Analytics</h1><p>Consent form volume and completion, at a glance</p></div></header>
 
-  <div class="stats-row sf-card">
-    <sf-stat-tile label="Total consultations" [value]="consultations().length" />
+  <p class="page-intro">Track consent form volume, completion rate and treatment popularity across your salon.</p>
+
+  <div class="stats-grid">
+    <sf-stat-tile label="Total consent forms" [value]="consultations().length" />
     <sf-stat-tile label="Completion rate" [value]="completionRate()" />
-    <sf-stat-tile label="Flag rate" [value]="flagRate()" />
+    <sf-stat-tile label="Unique clients" [value]="uniqueClients()" />
     <sf-stat-tile label="Treatments offered" [value]="treatments().length" />
   </div>
 
-  <section class="sf-card breakdown">
-    <h2>Consultations by treatment</h2>
+  <section class="breakdown">
+    <h2>Completed treatments</h2>
     @for (row of byTreatment(); track row.name) {
       <div class="bar-row">
         <span class="name">{{ row.name }}</span>
         <span class="track"><span class="fill" [style.width.%]="row.pct"></span></span>
         <span class="count">{{ row.count }}</span>
       </div>
+    } @empty {
+      <p class="empty">No consent form data yet.</p>
     }
   </section>
 </div>

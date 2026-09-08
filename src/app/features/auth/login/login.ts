@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
-import { SfBrandMark } from '../../../shared/components/brand-mark/brand-mark';
+import { SalonIdentityService } from '../../../core/services/salon-identity.service';
+import { SfIcon } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink, SfBrandMark],
+  imports: [FormsModule, RouterLink, SfIcon],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,8 +17,10 @@ export class Login {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
+  readonly identity = inject(SalonIdentityService);
   readonly email = signal('');
   readonly password = signal('');
+  readonly showPassword = signal(false);
   readonly error = signal('');
   readonly loading = signal(false);
 
