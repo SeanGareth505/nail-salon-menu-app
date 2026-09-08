@@ -1,0 +1,270 @@
+<div class="page">
+  <header class="page-head">
+    <div class="head-copy">
+      <h1>Consent forms</h1>
+      <p class="sub">
+        @if (statusFilter() === 'Pending') {
+          {{ filteredRecords().length }} awaiting review
+        } @else {
+          {{ filteredRecords().length }} completed records
+        }
+      </p>
+    </div>
+    <a routerLink="/therapist/consent-forms/new" class="cta">Start consent form</a>
+  </header>
+
+  <div class="toolbar">
+    <div class="segmented" role="tablist" aria-label="Consent form filter">
+      @for (f of filters; track f) {
+        <button
+          type="button"
+          class="segment"
+          role="tab"
+          [class.active]="statusFilter() === f"
+          [attr.aria-selected]="statusFilter() === f"
+          (click)="setFilter(f)"
+        >
+          {{ f }}
+          @if (f === 'Pending' && pendingRecords().length) {
+            <span class="segment-count">{{ pendingRecords().length }}</span>
+          }
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (filteredRecords().length) {
+    <div class="workspace" [class.has-selection]="!!selectedRecord()">
+      <section class="list-panel" aria-label="Consent form records">
+        <div class="list-columns" aria-hidden="true">
+          <span>Client</span>
+          <span>Details</span>
+          <span>Date</span>
+        </div>
+
+        <div class="record-list">
+          @for (r of filteredRecords(); track r.id) {
+            <article
+              class="record-card"
+              [class.selected]="isExpanded(r.id)"
+              [class.highlighted]="isHighlighted(r.id)"
+            >
+              <button
+                type="button"
+                class="record-toggle"
+                (click)="toggleExpanded(r)"
+                [attr.aria-expanded]="isExpanded(r.id)"
+                [attr.aria-controls]="'record-details-' + r.id"
+              >
+                <span
+                  class="avatar"
+                  [style.background]="avatarBg(r.clientName)"
+                  [style.color]="avatarFg(r.clientName)"
+                >
+                  {{ r.clientName.charAt(0) }}
+                </span>
+
+                <span class="record-summary">
+                  <span class="record-top">
+                    <span class="name">{{ r.clientName }}</span>
+                    @if (statusFilter() !== 'Pending') {
+                      <sf-state-pill [tone]="pillTone(r.status)">{{ statusLabel(r.status) }}</sf-state-pill>
+                    }
+                  </span>
+                  <span class="meta">{{ versionLabel(r) }}</span>
+                  <span class="meta-row">
+                    <span class="meta-chip">{{ therapistLabel(r) }}</span>
+                    @if (flaggedCount(r) > 0) {
+                      <span class="meta-chip flagged">{{ flaggedCount(r) }} flagged</span>
+                    }
+                  </span>
+                </span>
+
+                <span class="record-time">
+                  <span class="when-label">{{ statusFilter() === 'Pending' ? 'Signed' : 'Completed' }}</span>
+                  <time class="when">{{ whenLabel(r) | date: 'd MMM y' }}</time>
+                  <span class="when-time">{{ whenLabel(r) | date: 'HH:mm' }}</span>
+                </span>
+
+                <span class="chevron mobile-only" [class.open]="isExpanded(r.id)" aria-hidden="true">
+                  <sf-icon name="chevron-right" [size]="20" />
+                </span>
+              </button>
+
+              @if (isExpanded(r.id)) {
+                <div class="record-details mobile-only" [id]="'record-details-' + r.id" @expandCollapse>
+                  <ng-container *ngTemplateOutlet="recordDetails; context: { $implicit: r }" />
+                </div>
+              }
+            </article>
+          }
+        </div>
+      </section>
+
+      <aside class="detail-panel" [class.empty]="!selectedRecord()" aria-label="Record details">
+        @if (selectedRecord(); as r) {
+          <div class="detail-panel-inner">
+            <header class="detail-head">
+              <div class="detail-head-main">
+                <p class="detail-eyebrow">{{ statusFilter() === 'Pending' ? 'Pending review' : 'Completed record' }}</p>
+                <h2>{{ r.clientName }}</h2>
+                <p class="detail-sub">Signed {{ whenLabel(r) | date: 'd MMM y, HH:mm' }} · {{ versionLabel(r) }}</p>
+              </div>
+              <div class="detail-head-aside">
+                <sf-state-pill [tone]="pillTone(r.status)">{{ statusLabel(r.status) }}</sf-state-pill>
+                @if (statusFilter() === 'Pending') {
+                  <button type="button" class="action-primary complete-btn" (click)="openCompleteModal(r)">
+                    Complete consent form
+                  </button>
+                }
+                <a
+                  class="view-client-link"
+                  [routerLink]="['/therapist/clients', r.clientId]"
+                  [queryParams]="viewClientQueryParams()"
+                >
+                  View client profile
+                </a>
+              </div>
+            </header>
+
+            <div class="detail-scroll">
+              <ng-container *ngTemplateOutlet="recordDetails; context: { $implicit: r }" />
+            </div>
+          </div>
+        } @else {
+          <div class="detail-placeholder">
+            <div class="placeholder-icon" aria-hidden="true">
+              <sf-icon name="records" [size]="28" />
+            </div>
+            <h2>Select a record</h2>
+            <p>Choose a consent form from the list to review signed answers and contact details.</p>
+          </div>
+        }
+      </aside>
+    </div>
+
+    <p class="footnote desktop-only">Each record uses the exact form version the client signed, not the current template.</p>
+  } @else {
+    <div class="empty-wrap">
+      <sf-empty-state
+        icon="records"
+        [title]="statusFilter() === 'Pending' ? 'No pending consent forms' : 'No history yet'"
+        [message]="statusFilter() === 'Pending' ? 'Signed consent forms awaiting therapist review will appear here.' : 'Completed consent forms will appear here.'"
+      />
+      @if (statusFilter() === 'Pending') {
+        <a routerLink="/therapist/consent-forms/new" class="empty-cta">Start consent form</a>
+      }
+    </div>
+  }
+</div>
+
+<ng-template #recordDetails let-r>
+  @if (detailsLoading(r)) {
+    <div class="details-loading">
+      <sf-skeleton variant="text" [count]="3" />
+      <sf-skeleton variant="block" />
+    </div>
+  } @else {
+    <div class="detail-facts">
+      <div class="fact-card">
+        <span class="detail-label">Therapist</span>
+        <span class="detail-value">{{ therapistLabel(r) }}</span>
+      </div>
+      @if (clientFor(r); as client) {
+        <div class="fact-card">
+          <span class="detail-label">Phone</span>
+          <span class="detail-value">{{ client.phone }}</span>
+        </div>
+        @if (client.email) {
+          <div class="fact-card">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ client.email }}</span>
+          </div>
+        }
+      }
+      @if (answerCount(r) > 0) {
+        <div class="fact-card">
+          <span class="detail-label">Answers</span>
+          <span class="detail-value">{{ answerCount(r) }} signed</span>
+        </div>
+      }
+      @if (flaggedCount(r) > 0) {
+        <div class="fact-card flagged">
+          <span class="detail-label">Flagged</span>
+          <span class="detail-value">{{ flaggedCount(r) }} item{{ flaggedCount(r) === 1 ? '' : 's' }}</span>
+        </div>
+      }
+    </div>
+
+    @if (r.consentNotes) {
+      <div class="detail-notes">
+        <span class="detail-label">Client notes</span>
+        <p>{{ r.consentNotes }}</p>
+      </div>
+    }
+
+    @if (flaggedCount(r) > 0) {
+      <div class="detail-alert">
+        <span class="alert-diamond"></span>
+        <span>{{ flaggedCount(r) }} flagged answer{{ flaggedCount(r) === 1 ? '' : 's' }} require review</span>
+      </div>
+    }
+
+    @if (reviewGroupsFor(r).length) {
+      <div class="answers-block">
+        <h3>Signed answers</h3>
+        @for (group of reviewGroupsFor(r); track group.key) {
+          <div class="answer-group">
+            <h4>{{ group.name }}</h4>
+            @for (row of group.rows; track row.label) {
+              <div class="answer-row">
+                <span class="answer-label">{{ row.label }}</span>
+                <span class="answer-value" [class.flagged]="row.flagged">{{ row.value }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    } @else if (!detailsLoading(r) && submissionFor(r)) {
+      <div class="answers-block empty-answers">
+        <h3>Signed answers</h3>
+        <p>No answer details are available for this form version.</p>
+      </div>
+    }
+
+    @if (submissionFor(r)?.signature; as signature) {
+      <div class="signature-block">
+        <h3>Client signature</h3>
+        <p class="signature-meta">Signed by {{ signature.signedByName }} · {{ signature.signedAt | date: 'd MMM y, HH:mm' }}</p>
+        <div class="signature-frame">
+          <img [src]="signature.dataUrl" alt="Client signature" />
+        </div>
+      </div>
+    }
+  }
+
+  @if (submissionFor(r)?.therapistSignature; as signature) {
+    <div class="signature-block">
+      <h3>Therapist signature</h3>
+      <p>{{ signature.declaration }}</p>
+      @if (submissionFor(r)?.reviewNotes; as notes) {
+        <p><strong>Review notes:</strong> {{ notes }}</p>
+      }
+      <p class="signature-meta">Signed by {{ signature.signedByName }} · {{ signature.signedAt | date: 'd MMM y, HH:mm' }}</p>
+      <div class="signature-frame"><img [src]="signature.dataUrl" alt="Therapist signature" /></div>
+    </div>
+  }
+
+  <div class="mobile-actions mobile-only">
+    @if (statusFilter() === 'Pending') {
+      <button type="button" class="action-primary" (click)="openCompleteModal(r)">Complete consent form</button>
+    }
+    <a
+      class="action-secondary"
+      [routerLink]="['/therapist/clients', r.clientId]"
+      [queryParams]="viewClientQueryParams()"
+    >
+      View client profile
+    </a>
+  </div>
+</ng-template>

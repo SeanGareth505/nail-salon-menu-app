@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SalonFlow Staff</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="SalonFlow — treatments, specials and the team, plus consultation and consent tools for the salon floor."
+    />
+    <meta name="theme-color" content="#f5f6f3" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Allura&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="manifest" href="manifest.webmanifest" />
+  </head>
+  <body>
+    <app-root>
+      <style>
+        .sf-boot-shell {
+          position: fixed;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: #f5f6f3;
+          color: #2e3531;
+          font-family: Georgia, serif;
+        }
+        .sf-boot-mark {
+          width: 76px;
+          height: 76px;
+          display: grid;
+          place-items: center;
+          border-radius: 20px;
+          background: #e8f0eb;
+          color: #6f8f7a;
+          font-size: 30px;
+        }
+        .sf-boot-line {
+          width: 84px;
+          height: 2px;
+          margin: 26px 0 28px;
+          background: #dde4df;
+          overflow: hidden;
+        }
+        .sf-boot-line span {
+          display: block;
+          width: 40%;
+          height: 100%;
+          background: #6f8f7a;
+          animation: sf-boot-sweep 1.4s ease-in-out infinite;
+        }
+        .sf-boot-name {
+          font-size: 30px;
+          margin: 0 0 8px;
+        }
+        .sf-boot-sub {
+          font:
+            13px Arial,
+            sans-serif;
+          color: #897882;
+          margin: 0;
+        }
+        @keyframes sf-boot-sweep {
+          from {
+            transform: translateX(-110%);
+          }
+          to {
+            transform: translateX(360%);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sf-boot-line span {
+            animation: none;
+            width: 100%;
+          }
+        }
+      </style>
+      <div class="sf-boot-shell" role="status" aria-label="Opening salon menu">
+        <div class="sf-boot-mark">SF</div>
+        <div class="sf-boot-line" aria-hidden="true"><span></span></div>
+        <p class="sf-boot-name">SalonFlow</p>
+        <p class="sf-boot-sub">A moment for you.</p>
+      </div>
+    </app-root>
+    <noscript>Please enable JavaScript to continue using this application.</noscript>
+  </body>
+</html>

@@ -5,32 +5,54 @@
       "emailPassword": true
     }
   },
-  "hosting": {
-    "public": "dist/salonflow/browser",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      { "source": "**", "destination": "/index.html" }
-    ],
-    "headers": [
-      {
-        "source": "**/*.@(js|css)",
-        "headers": [{ "key": "Cache-Control", "value": "max-age=31536000,immutable" }]
-      },
-      {
-        "source": "firebase-messaging-sw.js",
-        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
-      },
-      {
-        "source": "ngsw-worker.js",
-        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
-      },
-      {
-        "source": "**/*.@(png|jpg|jpeg|webp|svg|ico)",
-        "headers": [{ "key": "Cache-Control", "value": "max-age=604800" }]
-      }
-    ],
-    "predeploy": ["npm run build"]
-  },
+  "hosting": [
+    {
+      "target": "menu",
+      "public": "dist/menu/browser",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }],
+      "headers": [
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [{ "key": "Cache-Control", "value": "max-age=31536000,immutable" }]
+        },
+        {
+          "source": "ngsw-worker.js",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        },
+        {
+          "source": "**/*.@(png|jpg|jpeg|webp|svg|ico)",
+          "headers": [{ "key": "Cache-Control", "value": "max-age=604800" }]
+        }
+      ],
+      "predeploy": ["npm run build:menu"]
+    },
+    {
+      "target": "staff",
+      "public": "dist/staff/browser",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }],
+      "headers": [
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [{ "key": "Cache-Control", "value": "max-age=31536000,immutable" }]
+        },
+        {
+          "source": "firebase-messaging-sw.js",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        },
+        {
+          "source": "ngsw-worker.js",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        },
+        {
+          "source": "**/*.@(png|jpg|jpeg|webp|svg|ico)",
+          "headers": [{ "key": "Cache-Control", "value": "max-age=604800" }]
+        }
+      ],
+      "predeploy": ["npm run build:staff"]
+    }
+  ],
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"

@@ -8,7 +8,7 @@ import { demoMeta } from './demo-catalogue.mjs';
 import { DEFAULT_CONSENT_TEMPLATE, ensureDefaultConsentTemplate } from './default-consent-template.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const manifest = JSON.parse(readFileSync(join(__dirname, '../src/assets/demo-catalogue.manifest.json'), 'utf8'));
+const manifest = JSON.parse(readFileSync(join(__dirname, '../projects/shared/src/assets/demo-catalogue.manifest.json'), 'utf8'));
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD7oAK5uqxY6xueecZbp4AZiupp3ZT9-3w',
@@ -55,12 +55,12 @@ const blankSettings = {
 
 const starterBranding = {
   id: 'default',
-  primary: '#4a6b57',
-  secondary: '#8baa8e',
-  accent: '#c9a96e',
-  background: '#e9e6e0',
-  surface: '#fffdf9',
-  text: '#333333',
+  primary: '#6f8f7a',
+  secondary: '#a3b9ab',
+  accent: '#c2a888',
+  background: '#f5f6f3',
+  surface: '#fafbf9',
+  text: '#2e3531',
   logoUrl: '/assets/salonflow-logo.png',
   markInitial: 'SF',
 };

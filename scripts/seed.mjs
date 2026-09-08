@@ -15,8 +15,13 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { demoMeta } from './demo-catalogue.mjs';
+import {
+  DEFAULT_CONSENT_TEMPLATE,
+  GENERAL_CONSENT_TEMPLATE,
+  ensureDefaultConsentTemplate,
+} from './default-consent-template.mjs';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD7oAK5uqxY6xueecZbp4AZiupp3ZT9-3w',
@@ -69,17 +74,17 @@ async function main() {
     ],
     vatIncluded: true,
     catalogueSource: 'demo',
-    defaultConsentTemplateId: 'health-safety',
+    defaultConsentTemplateId: DEFAULT_CONSENT_TEMPLATE.templateId,
   });
 
   await setDoc(doc(db, 'branding/default'), {
     id: 'default',
-    primary: '#4a6b57',
-    secondary: '#8baa8e',
-    accent: '#c9a96e',
-    background: '#e9e6e0',
-    surface: '#fffdf9',
-    text: '#333333',
+    primary: '#6f8f7a',
+    secondary: '#a3b9ab',
+    accent: '#c2a888',
+    background: '#f5f6f3',
+    surface: '#fafbf9',
+    text: '#2e3531',
     logoUrl: '/assets/salonflow-logo.png',
     ...demoMeta(),
   });
@@ -173,7 +178,10 @@ async function main() {
       ...t, slug: t.id, onSpecial: false, specialId: null, relatedTreatmentIds: [],
       featured: ['gel-manicure', 'hydrating-facial', 'aromatherapy-massage'].includes(t.id),
       imageUrl: null,
-      consentTemplateId: 'health-safety', active: true, sortOrder: 1, ...demoMeta(), ...aud(uid),
+      consentTemplateId: t.categoryId === 'nails'
+        ? DEFAULT_CONSENT_TEMPLATE.templateId
+        : GENERAL_CONSENT_TEMPLATE.templateId,
+      active: true, sortOrder: 1, ...demoMeta(), ...aud(uid),
     });
   }
   console.log('Seeded treatments');
@@ -258,7 +266,8 @@ async function main() {
 
   // Consent architecture: one template covering the general health & safety
   // + treatment questions used across the demo treatments, published as v1.
-  await setDoc(doc(db, 'consentTemplates/health-safety'), {
+  if (!(await getDoc(doc(db, 'consentTemplates/health-safety'))).exists()) {
+    await setDoc(doc(db, 'consentTemplates/health-safety'), {
     name: 'General Health & Safety',
     description: 'Standard pre-treatment health & safety consent, used across most treatments.',
     treatmentIds: treatments.map((t) => t.id),
@@ -269,7 +278,10 @@ async function main() {
     ...aud(uid),
   });
 
-  await setDoc(doc(db, 'consentTemplateVersions/health-safety-v1'), {
+  }
+
+  if (!(await getDoc(doc(db, 'consentTemplateVersions/health-safety-v1'))).exists()) {
+    await setDoc(doc(db, 'consentTemplateVersions/health-safety-v1'), {
     templateId: 'health-safety',
     versionNumber: 1,
     status: 'published',
@@ -298,7 +310,9 @@ async function main() {
     ...demoMeta(),
     ...aud(uid),
   });
-  console.log('Seeded consent template + published v1');
+  }
+  await ensureDefaultConsentTemplate(db, uid, serverTimestamp);
+  console.log('Prepared default consent template; historical versions preserved');
 
   console.log('\nDone. Demo catalogue is ready — clear it from Admin › Salon details when you want to start from scratch.');
   process.exit(0);

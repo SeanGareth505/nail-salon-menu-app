@@ -1,5 +1,3 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -11,6 +9,11 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
+    "paths": {
+      "@core/*": ["./projects/shared/src/lib/core/*"],
+      "@shared/*": ["./projects/shared/src/lib/shared/*"],
+      "shared": ["./projects/shared/src/public-api.ts"]
+    },
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve"
@@ -25,10 +28,16 @@
   "files": [],
   "references": [
     {
-      "path": "./tsconfig.app.json"
+      "path": "./projects/shared/tsconfig.lib.json"
     },
     {
-      "path": "./tsconfig.spec.json"
+      "path": "./projects/shared/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/menu/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/staff/tsconfig.app.json"
     }
   ]
 }

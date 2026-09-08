@@ -61,8 +61,8 @@
     }
   ],
   "description": "Treatments, specials and the team \u2014 plus consultation tools for the salon floor.",
-  "theme_color": "#3e5a4a",
-  "background_color": "#e9e6e0",
+  "theme_color": "#6f8f7a",
+  "background_color": "#f5f6f3",
   "orientation": "any",
   "categories": [
     "lifestyle",

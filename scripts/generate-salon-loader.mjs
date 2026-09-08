@@ -6,10 +6,10 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const out = join(__dirname, '../public/assets/lottie/splash.json');
 
-const CHAMPAGNE = [0.7803921569, 0.6274509804, 0.368627451, 1];
-const SAGE = [0.5764705882, 0.6705882353, 0.5803921569, 1];
-const SAGE_LIGHT = [0.8588235294, 0.9019607843, 0.8588235294, 1];
-const FOREST = [0.2431372549, 0.3254901961, 0.2549019608, 1];
+const CHAMPAGNE = [0.7607843137, 0.6588235294, 0.5333333333, 1];
+const SAGE = [0.6392156863, 0.7254901961, 0.6705882353, 1];
+const SAGE_LIGHT = [0.9098039216, 0.9411764706, 0.9215686275, 1];
+const FOREST = [0.4352941176, 0.5607843137, 0.4784313725, 1];
 
 function strokeLayer(name, color, width, shapes, index, start = 0) {
   return {

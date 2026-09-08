@@ -1,0 +1,68 @@
+:root {
+  --sf-forest: #6f8f7a;
+  --sf-forest-dark: #587463;
+  --sf-sage: #a3b9ab;
+  --sf-sage-light: #e8f0eb;
+  --sf-canvas: #f5f6f3;
+  --sf-ivory: #fafbf9;
+  --sf-surface: #fafbf9;
+  --sf-champagne: #c2a888;
+  --sf-champagne-light: #f3eee5;
+  --sf-champagne-ink: #6f5a40;
+  --sf-blush: #eef1ee;
+  --sf-rose: #d7e0d9;
+  --sf-rose-fg: #4d6356;
+  --sf-rose-border: #b7c7bc;
+  --sf-peach: #f3eee5;
+  --sf-peach-fg: #6f5a40;
+  --sf-peach-border: #e2d6c4;
+  --sf-lilac: #eceaf0;
+  --sf-lilac-fg: #5f5a6a;
+  --sf-lilac-border: #ddd8e4;
+  --sf-neutral: #eef0ec;
+  --sf-neutral-border: #d7ddd8;
+  --sf-sky: #eaf1f2;
+  --sf-sand: #f0ebe4;
+  --sf-ink: #2e3531;
+  --sf-ink-muted: #6a746e;
+  --sf-border: #dde4df;
+  --sf-border-strong: #b8c5bc;
+  --sf-nav-surface: #fafbf9;
+  --sf-nav-muted: #6a746e;
+  --sf-on-forest: #ffffff;
+  --sf-on-forest-muted: rgba(250, 251, 249, 0.72);
+  --sf-blush-fg: #587463;
+  --sf-sky-fg: #3f6674;
+  --sf-sand-fg: #6f8f7a;
+
+  --sf-status-complete-bg: #e8f0eb;
+  --sf-status-complete-fg: #456555;
+  --sf-status-flagged-bg: #f5efe3;
+  --sf-status-flagged-fg: #7a6540;
+  --sf-status-incomplete-bg: #eef0ec;
+  --sf-status-incomplete-fg: #5c6660;
+  --sf-status-live-bg: #e8f0eb;
+  --sf-status-live-fg: #456555;
+  --sf-status-ending-bg: #f3eee5;
+  --sf-status-ending-fg: #6f5a40;
+  --sf-status-upcoming-bg: var(--sf-lilac);
+  --sf-status-upcoming-fg: var(--sf-lilac-fg);
+
+  --sf-font-display: 'DM Serif Display', 'Georgia', serif;
+  --sf-font-script: 'Allura', cursive;
+  --sf-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --sf-radius-sm: 8px;
+  --sf-radius-md: 12px;
+  --sf-radius-lg: 18px;
+  --sf-radius-pill: 8px;
+  --sf-space-1: 4px;
+  --sf-space-2: 8px;
+  --sf-space-3: 12px;
+  --sf-space-4: 16px;
+  --sf-space-5: 24px;
+  --sf-space-6: 32px;
+  --sf-space-7: 48px;
+  --sf-shadow-card: 0 4px 18px -6px rgba(46, 53, 49, 0.1);
+  --sf-shadow-raised: 0 2px 10px -4px rgba(46, 53, 49, 0.1);
+}

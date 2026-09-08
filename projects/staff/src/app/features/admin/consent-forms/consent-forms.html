@@ -1,0 +1,173 @@
+<div class="admin-page wide consent-forms-page" [sfPageAction]="pageAction">
+  <header class="admin-head">
+    <div>
+      <h2>Reusable consent templates</h2>
+      <p>Nail form, general form, and any custom templates</p>
+    </div>
+  </header>
+
+  <p class="page-intro">
+    Mark a published form as Live to make it available when therapists start a consent form on the
+    tablet. Forms that are not live stay editable here but cannot be chosen.
+  </p>
+
+  <div class="layout">
+    <aside class="template-list sf-card">
+      <div class="new-row">
+        <input
+          placeholder="New template name…"
+          [ngModel]="newTemplateName()"
+          (ngModelChange)="newTemplateName.set($event)"
+        />
+        <button type="button" class="admin-btn" (click)="createTemplate()">Add</button>
+      </div>
+      @for (t of sortedTemplates(); track t.id) {
+        <button
+          type="button"
+          class="template-row"
+          [class.active]="selectedTemplateId() === t.id"
+          (click)="select(t)"
+        >
+          <span class="template-row-copy">
+            <span class="template-row-name">{{ t.name }}</span>
+            <span class="template-row-badges">
+              @if (t.isSystemDefault) {
+                <span class="admin-badge on">Default</span>
+              }
+              <span class="admin-badge" [class.on]="isLive(t)" [class.off]="!isLive(t)">
+                {{ isLive(t) ? 'Live' : 'Not live' }}
+              </span>
+            </span>
+          </span>
+        </button>
+      }
+    </aside>
+
+    @if (selectedTemplate(); as tpl) {
+      <section class="editor sf-card">
+        <div class="editor-head">
+          <div>
+            <h2>{{ tpl.name }}</h2>
+            <p class="sf-eyebrow">
+              {{ versions().length }} version(s) ·
+              {{
+                tpl.currentPublishedVersionId
+                  ? 'published version ready'
+                  : 'nothing published yet'
+              }}
+            </p>
+          </div>
+          <div class="editor-actions">
+            <sf-admin-toggle
+              label="Live"
+              [checked]="tpl.active !== false && !!tpl.currentPublishedVersionId"
+              [disabled]="!tpl.currentPublishedVersionId"
+              (checkedChange)="setLive($event)"
+            />
+            @if (!draftVersionId()) {
+              <button type="button" class="admin-btn" (click)="startDraft()">Start new draft</button>
+            } @else {
+              <button type="button" class="admin-btn ghost" (click)="saveDraft()">
+                Save draft
+              </button>
+              <button type="button" class="admin-btn" (click)="publish()">Publish version</button>
+            }
+          </div>
+        </div>
+
+        @if (!tpl.currentPublishedVersionId) {
+          <p class="draft-note">
+            Publish a version before this form can go live for therapists.
+          </p>
+        } @else if (tpl.active === false) {
+          <p class="draft-note">
+            This form is not live. Therapists cannot choose it until you turn Live on.
+          </p>
+        }
+
+        @if (draftVersionId()) {
+          <p class="draft-note">
+            Editing the draft. Publishing snapshots these exact questions — past signed submissions
+            always keep the wording they were signed against.
+          </p>
+
+          @for (step of draftSteps(); track step.key) {
+            <div class="step-block">
+              <div class="step-block-head">
+                <input
+                  class="step-title"
+                  [ngModel]="step.title"
+                  (ngModelChange)="updateStep(step.key, { title: $event })"
+                />
+                <button type="button" class="admin-btn ghost small" (click)="addField(step.key)">
+                  Add question
+                </button>
+                <button type="button" class="admin-btn danger small" (click)="removeStep(step.key)">
+                  Remove step
+                </button>
+              </div>
+
+              @for (field of fieldsForStep(step.key); track field.key) {
+                <div class="field-row">
+                  <input
+                    class="field-label"
+                    [ngModel]="field.label"
+                    (ngModelChange)="updateField(field.key, { label: $event })"
+                    placeholder="Question label"
+                  />
+                  <select
+                    [ngModel]="field.type"
+                    (ngModelChange)="updateField(field.key, { type: $event })"
+                  >
+                    @for (ft of fieldTypes; track ft) {
+                      <option [value]="ft">{{ fieldTypeLabel(ft) }}</option>
+                    }
+                  </select>
+                  <label class="req-toggle"
+                    ><input
+                      type="checkbox"
+                      [ngModel]="field.required"
+                      (ngModelChange)="updateField(field.key, { required: $event })"
+                    />
+                    Required</label
+                  >
+                  <button
+                    type="button"
+                    class="admin-btn danger small"
+                    (click)="removeField(field.key)"
+                  >
+                    Remove
+                  </button>
+
+                  @if (needsOptions(field.type)) {
+                    <input
+                      class="options-input"
+                      [ngModel]="optionsText(field)"
+                      (ngModelChange)="setOptionsFromText(field.key, $event)"
+                      placeholder="Options, comma separated"
+                    />
+                  }
+                  @if (needsBody(field.type)) {
+                    <textarea
+                      class="body-input"
+                      rows="2"
+                      [ngModel]="field.bodyText"
+                      (ngModelChange)="updateField(field.key, { bodyText: $event })"
+                      placeholder="Body text shown to the client"
+                    ></textarea>
+                  }
+                </div>
+              }
+            </div>
+          }
+          <button type="button" class="admin-btn ghost" (click)="addStep()">Add step</button>
+        } @else {
+          <p class="empty-note">
+            No draft yet for this template — start one from the currently published version (or from
+            scratch) to make changes.
+          </p>
+        }
+      </section>
+    }
+  </div>
+</div>

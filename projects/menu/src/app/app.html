@@ -1,0 +1,19 @@
+<sf-branded-splash />
+@if (!online() || syncing() || wasOffline() || syncError()) {
+  <div class="offline-shell">
+    <sf-offline-state
+      [title]="offlineTitle()"
+      [message]="offlineMessage()"
+      [reconnecting]="syncing()"
+      (retry)="retryConnection()"
+    />
+  </div>
+}
+@if (loading.navigating()) {
+  <div class="route-progress" role="progressbar" aria-label="Opening page"><span></span></div>
+}
+<router-outlet />
+@if (loading.active()) {
+  <sf-loading-overlay [message]="loading.message()" />
+}
+<sf-pwa-update-banner />

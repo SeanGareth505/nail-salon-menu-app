@@ -1,0 +1,1459 @@
+{
+  "templateId": "nail-consultation",
+  "versionId": "nail-consultation-v1",
+  "versionNumber": 1,
+  "name": "Nail Consultation & Treatment Consent",
+  "description": "Client nail consultation, manicure and pedicure preferences, health disclosures, salon policies, informed consent and technician assessment.",
+  "steps": [
+    {
+      "key": "details",
+      "title": "Your contact details",
+      "subtitle": "Captured before the form begins.",
+      "sortOrder": 1
+    },
+    {
+      "key": "client_profile",
+      "title": "About your visit",
+      "subtitle": "Confirm the salon and tell us any additional details you want recorded.",
+      "sortOrder": 2
+    },
+    {
+      "key": "medical_history",
+      "title": "Health history",
+      "subtitle": "Tell us about conditions that may affect your treatment. Choose “Unsure” if you need guidance.",
+      "sortOrder": 3
+    },
+    {
+      "key": "medications_allergies",
+      "title": "Medicines & allergies",
+      "subtitle": "Include prescribed, over-the-counter and topical products, as well as supplements.",
+      "sortOrder": 4
+    },
+    {
+      "key": "skin_hormones",
+      "title": "Skin & recent treatments",
+      "subtitle": "Tell us about skin concerns, hormonal changes and procedures that may affect the treatment area.",
+      "sortOrder": 5
+    },
+    {
+      "key": "nail_preferences",
+      "title": "Your nails & preferences",
+      "subtitle": "Tell us what you would like. Your nail technician will assess your nails and confirm the treatment plan.",
+      "sortOrder": 6
+    },
+    {
+      "key": "salon_policies",
+      "title": "Salon policies",
+      "subtitle": "Please read these terms before signing. Ask us about anything that is unclear.",
+      "sortOrder": 7
+    },
+    {
+      "key": "informed_consent",
+      "title": "Treatment consent",
+      "subtitle": "Discuss this section with your therapist. Only agree once the statements are true and your questions have been answered.",
+      "sortOrder": 8
+    }
+  ],
+  "fields": [
+    {
+      "key": "first_name",
+      "type": "text",
+      "label": "First name",
+      "required": true,
+      "step": "details",
+      "sortOrder": 1
+    },
+    {
+      "key": "last_name",
+      "type": "text",
+      "label": "Surname",
+      "required": true,
+      "step": "details",
+      "sortOrder": 2
+    },
+    {
+      "key": "phone",
+      "type": "phone",
+      "label": "Mobile number",
+      "required": true,
+      "step": "details",
+      "sortOrder": 3
+    },
+    {
+      "key": "email",
+      "type": "email",
+      "label": "Email address",
+      "required": true,
+      "step": "details",
+      "sortOrder": 4
+    },
+    {
+      "key": "form_introduction",
+      "type": "information",
+      "label": "Before you begin",
+      "required": false,
+      "step": "client_profile",
+      "sortOrder": 1,
+      "bodyText": "Complete the health and preferences sections first. Then discuss the proposed treatment and the consent statements with your therapist before signing. Please complete this form before your treatment. Answer honestly and choose “Unsure” whenever you need help. Your therapist will discuss relevant answers with you before deciding whether to proceed, adapt or postpone a treatment. This form does not replace an individual consultation or medical advice.\n\nOnly share information relevant to your care. Optional questions may be left blank. If you would prefer to discuss sensitive information privately, tell your therapist before continuing."
+    },
+    {
+      "key": "salon_outlet",
+      "type": "text",
+      "label": "Salon / outlet",
+      "required": true,
+      "step": "client_profile",
+      "sortOrder": 2,
+      "helpText": "The salon providing your treatment."
+    },
+    {
+      "key": "date_of_birth",
+      "type": "date",
+      "label": "Date of birth",
+      "required": false,
+      "step": "client_profile",
+      "sortOrder": 3
+    },
+    {
+      "key": "profession",
+      "type": "text",
+      "label": "Occupation",
+      "required": false,
+      "step": "client_profile",
+      "sortOrder": 4,
+      "helpText": "Optional; include it if work affects your skin, nails or treatment needs."
+    },
+    {
+      "key": "identity_number",
+      "type": "text",
+      "label": "ID / passport number",
+      "required": false,
+      "step": "client_profile",
+      "sortOrder": 5,
+      "helpText": "Optional. Only provide this if the salon has explained why it is needed; otherwise leave it blank."
+    },
+    {
+      "key": "treatment_requested",
+      "type": "textarea",
+      "label": "Which nail treatment or treatments are you considering today?",
+      "required": true,
+      "step": "client_profile",
+      "sortOrder": 6,
+      "helpText": "List all treatments you want discussed. The therapist will confirm the final treatment plan and price before treatment."
+    },
+    {
+      "key": "additional_therapists",
+      "type": "text",
+      "label": "Additional therapist / nail technician names",
+      "required": false,
+      "step": "client_profile",
+      "sortOrder": 7,
+      "helpText": "Optional, if more than one therapist is involved. The performing therapist is also recorded with your visit."
+    },
+    {
+      "key": "privacy_notice",
+      "type": "information",
+      "label": "How this information will be used",
+      "required": false,
+      "step": "client_profile",
+      "sortOrder": 8,
+      "bodyText": "The salon named above will use your contact details, health answers and signed consent to assess treatment suitability, plan your care, communicate about this visit and maintain a record of your consultation. Relevant information may be accessed by authorised salon staff and service providers supporting those purposes. It is not consent to marketing or public use of photographs.\n\nYou may ask the salon to explain its privacy notice, who can access your record, how long it is kept, and how to request access or correction. You may withdraw consent to future processing, subject to lawful record-retention requirements. If you do not wish to provide information needed to assess a treatment safely, ask to speak privately with the therapist; the treatment may need to be postponed."
+    },
+    {
+      "key": "health_data_consent",
+      "type": "acknowledgement",
+      "label": "Use of my consultation information",
+      "required": true,
+      "step": "client_profile",
+      "sortOrder": 9,
+      "bodyText": "I consent to the salon processing the personal and health information I provide for the consultation, treatment-suitability assessment and related record-keeping described above. I have had the opportunity to ask questions."
+    },
+    {
+      "key": "chronic_conditions",
+      "type": "yes_no_unsure",
+      "label": "Do you have any ongoing or past medical conditions relevant to treatment?",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 1
+    },
+    {
+      "key": "chronic_conditions_list",
+      "type": "multi_select",
+      "label": "Relevant medical history",
+      "required": false,
+      "step": "medical_history",
+      "sortOrder": 2,
+      "options": [
+        {
+          "label": "High or low blood pressure",
+          "value": "blood_pressure"
+        },
+        {
+          "label": "Diabetes",
+          "value": "diabetes"
+        },
+        {
+          "label": "Digestive disorders",
+          "value": "digestive"
+        },
+        {
+          "label": "Epilepsy / seizures",
+          "value": "epilepsy"
+        },
+        {
+          "label": "Bleeding disorder / haemophilia",
+          "value": "bleeding"
+        },
+        {
+          "label": "Thyroid condition",
+          "value": "thyroid"
+        },
+        {
+          "label": "Hormonal condition",
+          "value": "hormonal"
+        },
+        {
+          "label": "Stress",
+          "value": "stress"
+        },
+        {
+          "label": "Metal pins, plates or implants",
+          "value": "metal_implants"
+        },
+        {
+          "label": "Severe anxiety",
+          "value": "anxiety"
+        },
+        {
+          "label": "Heart / cardiac condition",
+          "value": "cardiac"
+        },
+        {
+          "label": "Thrombosis / blood clots",
+          "value": "thrombosis"
+        },
+        {
+          "label": "Autoimmune condition",
+          "value": "autoimmune"
+        },
+        {
+          "label": "Delayed healing",
+          "value": "delayed_healing"
+        },
+        {
+          "label": "Easy bruising",
+          "value": "easy_bruising"
+        },
+        {
+          "label": "Cancer / cancer treatment",
+          "value": "cancer"
+        },
+        {
+          "label": "History of deep-vein thrombosis",
+          "value": "dvt_history"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "chronic_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "chronic_conditions_detail",
+      "type": "textarea",
+      "label": "Medical history details",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 3,
+      "conditions": [
+        {
+          "dependsOn": "chronic_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include anything your therapist should know, any relevant advice from your clinician, or what you are unsure about.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "current_conditions",
+      "type": "yes_no_unsure",
+      "label": "Do you currently have an illness, infection, injury or other condition we should know about?",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 4
+    },
+    {
+      "key": "current_conditions_list",
+      "type": "multi_select",
+      "label": "Current conditions",
+      "required": false,
+      "step": "medical_history",
+      "sortOrder": 5,
+      "options": [
+        {
+          "label": "Fever or infection",
+          "value": "fever_infection"
+        },
+        {
+          "label": "COVID-19",
+          "value": "covid"
+        },
+        {
+          "label": "Gastroenteritis",
+          "value": "gastroenteritis"
+        },
+        {
+          "label": "Cold sores / fever blisters",
+          "value": "cold_sores"
+        },
+        {
+          "label": "Athlete’s foot",
+          "value": "athletes_foot"
+        },
+        {
+          "label": "Nail fungus",
+          "value": "nail_fungus"
+        },
+        {
+          "label": "Sinusitis",
+          "value": "sinusitis"
+        },
+        {
+          "label": "Bruising or injury",
+          "value": "bruise_injury"
+        },
+        {
+          "label": "Claustrophobia",
+          "value": "claustrophobia"
+        },
+        {
+          "label": "Headaches / migraines",
+          "value": "headache"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "current_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "current_conditions_detail",
+      "type": "textarea",
+      "label": "Current condition details",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 6,
+      "conditions": [
+        {
+          "dependsOn": "current_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include relevant details, or explain what you are unsure about.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "covid_history",
+      "type": "yes_no_unsure",
+      "label": "Have you previously had COVID-19?",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 7
+    },
+    {
+      "key": "covid_history_detail",
+      "type": "textarea",
+      "label": "Any ongoing effects relevant to treatment?",
+      "required": false,
+      "step": "medical_history",
+      "sortOrder": 8,
+      "conditions": [
+        {
+          "dependsOn": "covid_history",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "recent_surgery",
+      "type": "yes_no_unsure",
+      "label": "Have you recently had surgery or an anaesthetic, or are you recovering from a procedure?",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 9
+    },
+    {
+      "key": "recent_surgery_detail",
+      "type": "textarea",
+      "label": "Surgery / anaesthetic details",
+      "required": true,
+      "step": "medical_history",
+      "sortOrder": 10,
+      "conditions": [
+        {
+          "dependsOn": "recent_surgery",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include the procedure, approximate date, area affected and any restrictions advised by your clinician.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "chronic_conditions_review",
+      "type": "warning",
+      "label": "Medical history — discuss before treatment",
+      "required": false,
+      "step": "medical_history",
+      "sortOrder": 11,
+      "bodyText": "Please discuss this answer with your therapist before treatment. They may need further information, an adjustment to the treatment or advice from your healthcare professional.",
+      "conditions": [
+        {
+          "dependsOn": "chronic_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "current_conditions_review",
+      "type": "warning",
+      "label": "Current symptoms — discuss before treatment",
+      "required": false,
+      "step": "medical_history",
+      "sortOrder": 12,
+      "bodyText": "Please discuss this answer with your therapist before treatment. They may need further information, an adjustment to the treatment or advice from your healthcare professional.",
+      "conditions": [
+        {
+          "dependsOn": "current_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "recent_surgery_review",
+      "type": "warning",
+      "label": "Recent surgery or anaesthetic — discuss before treatment",
+      "required": false,
+      "step": "medical_history",
+      "sortOrder": 13,
+      "bodyText": "Please discuss this answer with your therapist before treatment. They may need further information, an adjustment to the treatment or advice from your healthcare professional.",
+      "conditions": [
+        {
+          "dependsOn": "recent_surgery",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "medication",
+      "type": "yes_no_unsure",
+      "label": "Are you taking or using any medicines or supplements?",
+      "required": true,
+      "step": "medications_allergies",
+      "sortOrder": 1
+    },
+    {
+      "key": "medication_types",
+      "type": "multi_select",
+      "label": "Medicines and supplements",
+      "required": false,
+      "step": "medications_allergies",
+      "sortOrder": 2,
+      "options": [
+        {
+          "label": "Cortisone / corticosteroids",
+          "value": "cortisone"
+        },
+        {
+          "label": "Isotretinoin (e.g. Roaccutane)",
+          "value": "isotretinoin"
+        },
+        {
+          "label": "Hormonal medication / contraception",
+          "value": "hormonal"
+        },
+        {
+          "label": "Blood thinners",
+          "value": "blood_thinners"
+        },
+        {
+          "label": "Chemotherapy",
+          "value": "chemotherapy"
+        },
+        {
+          "label": "Cholesterol medication",
+          "value": "cholesterol"
+        },
+        {
+          "label": "Thyroid medication",
+          "value": "thyroid"
+        },
+        {
+          "label": "Heart medication",
+          "value": "cardiac"
+        },
+        {
+          "label": "Anti-anxiety / antidepressant medication",
+          "value": "mental_health"
+        },
+        {
+          "label": "Epilepsy medication",
+          "value": "epilepsy"
+        },
+        {
+          "label": "Diabetes medication",
+          "value": "diabetes"
+        },
+        {
+          "label": "Immunosuppressants",
+          "value": "immunosuppressants"
+        },
+        {
+          "label": "Vitamins / herbal or other supplements",
+          "value": "supplements"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "medication",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "medication_detail",
+      "type": "textarea",
+      "label": "Medication / supplement details",
+      "required": true,
+      "step": "medications_allergies",
+      "sortOrder": 3,
+      "conditions": [
+        {
+          "dependsOn": "medication",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "List names, relevant dosage and recent changes if known. Do not stop prescribed medication for a salon treatment; discuss any concerns with your prescriber.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "retinoid_use",
+      "type": "yes_no_unsure",
+      "label": "Do you currently use, or have you recently used, retinol, a retinoid or isotretinoin?",
+      "required": true,
+      "step": "medications_allergies",
+      "sortOrder": 4
+    },
+    {
+      "key": "retinoid_detail",
+      "type": "textarea",
+      "label": "Retinoid details",
+      "required": true,
+      "step": "medications_allergies",
+      "sortOrder": 5,
+      "conditions": [
+        {
+          "dependsOn": "retinoid_use",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include the product or medicine, whether it is applied to the skin or taken by mouth, the area treated and when you last used it.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "retinoid_warning",
+      "type": "warning",
+      "label": "Product and treatment review required",
+      "required": false,
+      "step": "medications_allergies",
+      "sortOrder": 6,
+      "bodyText": "Tell your therapist before waxing, exfoliation or other skin treatments. The product used, treatment area and timing need to be assessed before proceeding. Do not change prescribed treatment without advice from your prescriber.",
+      "conditions": [
+        {
+          "dependsOn": "retinoid_use",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "allergies",
+      "type": "yes_no_unsure",
+      "label": "Do you have any known or suspected allergies, sensitivities or food intolerances?",
+      "required": true,
+      "step": "medications_allergies",
+      "sortOrder": 7
+    },
+    {
+      "key": "allergy_types",
+      "type": "multi_select",
+      "label": "Allergies and sensitivities",
+      "required": false,
+      "step": "medications_allergies",
+      "sortOrder": 8,
+      "options": [
+        {
+          "label": "Aspirin",
+          "value": "aspirin"
+        },
+        {
+          "label": "Bees / honey / bee products",
+          "value": "bees_honey"
+        },
+        {
+          "label": "Food allergies or intolerances",
+          "value": "food"
+        },
+        {
+          "label": "Latex",
+          "value": "latex"
+        },
+        {
+          "label": "Adhesives / lash glue",
+          "value": "adhesives"
+        },
+        {
+          "label": "Acrylates / gel or acrylic nail products",
+          "value": "acrylates"
+        },
+        {
+          "label": "Fragrance / skincare products",
+          "value": "fragrance"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "allergies",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "allergies_detail",
+      "type": "textarea",
+      "label": "Allergy / sensitivity details",
+      "required": true,
+      "step": "medications_allergies",
+      "sortOrder": 9,
+      "conditions": [
+        {
+          "dependsOn": "allergies",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include the substance, the reaction you experienced and any precautions advised to you.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "allergy_review",
+      "type": "warning",
+      "label": "Allergy review required",
+      "required": false,
+      "step": "medications_allergies",
+      "sortOrder": 10,
+      "bodyText": "Your therapist must discuss suitable products and any necessary precautions or testing before treatment. A previous treatment without a reaction does not remove the need to disclose an allergy or sensitivity.",
+      "conditions": [
+        {
+          "dependsOn": "allergies",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "skin_condition",
+      "type": "yes_no_unsure",
+      "label": "Do you have a history of skin disease, or a current rash, infection, irritation or broken skin?",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 1
+    },
+    {
+      "key": "skin_conditions_list",
+      "type": "multi_select",
+      "label": "Skin conditions",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 2,
+      "options": [
+        {
+          "label": "Eczema",
+          "value": "eczema"
+        },
+        {
+          "label": "Dermatitis",
+          "value": "dermatitis"
+        },
+        {
+          "label": "Psoriasis",
+          "value": "psoriasis"
+        },
+        {
+          "label": "Cold sores / fever blisters",
+          "value": "cold_sores"
+        },
+        {
+          "label": "Staphylococcal infection",
+          "value": "staphylococcus"
+        },
+        {
+          "label": "Acne",
+          "value": "acne"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "skin_condition",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "skin_condition_detail",
+      "type": "textarea",
+      "label": "Skin condition details",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 3,
+      "conditions": [
+        {
+          "dependsOn": "skin_condition",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Tell us which areas are affected, whether the condition is active and any relevant advice or products used.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "hormonal_conditions",
+      "type": "yes_no_unsure",
+      "label": "Are any hormonal conditions or changes relevant to your treatment?",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 4
+    },
+    {
+      "key": "hormonal_conditions_list",
+      "type": "multi_select",
+      "label": "Hormonal conditions and changes",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 5,
+      "options": [
+        {
+          "label": "Menopause / perimenopause",
+          "value": "menopause"
+        },
+        {
+          "label": "Pregnancy",
+          "value": "pregnancy"
+        },
+        {
+          "label": "Change in contraception",
+          "value": "contraception"
+        },
+        {
+          "label": "Hirsutism / increased hair growth",
+          "value": "hirsutism"
+        },
+        {
+          "label": "Puberty",
+          "value": "puberty"
+        },
+        {
+          "label": "Polycystic ovary syndrome (PCOS)",
+          "value": "pcos"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "hormonal_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hormonal_conditions_detail",
+      "type": "textarea",
+      "label": "Hormonal condition details",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 6,
+      "conditions": [
+        {
+          "dependsOn": "hormonal_conditions",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include relevant details, or explain what you are unsure about.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "pregnant_breastfeeding",
+      "type": "yes_no_unsure",
+      "label": "Are you pregnant, possibly pregnant or breastfeeding?",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 7
+    },
+    {
+      "key": "pregnancy_detail",
+      "type": "textarea",
+      "label": "Anything relevant to treatment planning?",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 8,
+      "conditions": [
+        {
+          "dependsOn": "pregnant_breastfeeding",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Share only what is relevant to your care; you may discuss this privately with your therapist."
+    },
+    {
+      "key": "recent_procedures",
+      "type": "yes_no_unsure",
+      "label": "Have you recently had any cosmetic procedures or skin treatments?",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 9
+    },
+    {
+      "key": "recent_procedures_list",
+      "type": "multi_select",
+      "label": "Recent procedures and products",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 10,
+      "options": [
+        {
+          "label": "Botox / fillers or other injectables",
+          "value": "injectables"
+        },
+        {
+          "label": "Lash enhancements",
+          "value": "lashes"
+        },
+        {
+          "label": "Topical retinoids or acid treatments",
+          "value": "retinoid_acids"
+        },
+        {
+          "label": "Peels or laser treatments",
+          "value": "peel_laser"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "helpText": "Select all that apply. If you are unsure, explain below.",
+      "conditions": [
+        {
+          "dependsOn": "recent_procedures",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "recent_procedures_detail",
+      "type": "textarea",
+      "label": "Procedure details",
+      "required": true,
+      "step": "skin_hormones",
+      "sortOrder": 11,
+      "conditions": [
+        {
+          "dependsOn": "recent_procedures",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include the procedure, treatment area, approximate date and any aftercare or restrictions given.",
+      "placeholder": "Add details for your therapist…"
+    },
+    {
+      "key": "skin_condition_review",
+      "type": "warning",
+      "label": "Skin condition — discuss before treatment",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 12,
+      "bodyText": "Your therapist must review this information and confirm that the proposed treatment and products are suitable before proceeding.",
+      "conditions": [
+        {
+          "dependsOn": "skin_condition",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "pregnant_breastfeeding_review",
+      "type": "warning",
+      "label": "Pregnancy / breastfeeding — discuss before treatment",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 13,
+      "bodyText": "Your therapist must review this information and confirm that the proposed treatment and products are suitable before proceeding.",
+      "conditions": [
+        {
+          "dependsOn": "pregnant_breastfeeding",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "recent_procedures_review",
+      "type": "warning",
+      "label": "Recent procedure — discuss before treatment",
+      "required": false,
+      "step": "skin_hormones",
+      "sortOrder": 14,
+      "bodyText": "Your therapist must review this information and confirm that the proposed treatment and products are suitable before proceeding.",
+      "conditions": [
+        {
+          "dependsOn": "recent_procedures",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "booking_policy",
+      "type": "information",
+      "label": "Appointments and late arrivals",
+      "required": false,
+      "step": "salon_policies",
+      "sortOrder": 1,
+      "bodyText": "Please arrive at least 10 minutes before your appointment to allow time for consultation and preparation. If you arrive late, the salon may need to shorten, reschedule or cancel the appointment if there is not enough time to perform the treatment safely. Any change to the treatment or price will be explained to you before you agree to proceed."
+    },
+    {
+      "key": "cancellation_policy",
+      "type": "information",
+      "label": "Cancellations and rescheduling",
+      "required": false,
+      "step": "salon_policies",
+      "sortOrder": 2,
+      "bodyText": "Please give at least 24 hours’ notice if you need to cancel or reschedule. The salon will try to offer another suitable time, subject to availability. A late cancellation or missed appointment may attract a reasonable cancellation charge where permitted by law. Any applicable charge must be disclosed in advance and take account of the notice given, the circumstances and whether the appointment can be filled. This policy does not remove any statutory right to cancel without a charge."
+    },
+    {
+      "key": "refund_policy",
+      "type": "information",
+      "label": "Products, refunds and treatment concerns",
+      "required": false,
+      "step": "salon_policies",
+      "sortOrder": 3,
+      "bodyText": "Please raise any product or treatment concern with the salon as soon as reasonably possible so it can be assessed. Returns, refunds, remedies for defective products and service-quality concerns will be handled in accordance with applicable consumer law and the salon’s disclosed policy. Nothing in this form limits a right or remedy that the law provides. Ask for the policy before purchasing if you need more information."
+    },
+    {
+      "key": "admission_policy",
+      "type": "information",
+      "label": "A respectful and safe salon",
+      "required": false,
+      "step": "salon_policies",
+      "sortOrder": 4,
+      "bodyText": "Please treat other clients and staff respectfully. The salon may decline or stop a service, or ask someone to leave, where behaviour is threatening, abusive, disruptive or creates a safety risk. This will be done fairly and in accordance with applicable law."
+    },
+    {
+      "key": "belongings_policy",
+      "type": "information",
+      "label": "Personal belongings and premises",
+      "required": false,
+      "step": "salon_policies",
+      "sortOrder": 5,
+      "bodyText": "Please take reasonable care of your personal belongings and tell staff about any safety concern or incident promptly. The salon’s responsibility for injury, loss, theft or damage will be determined under applicable law; entering the premises does not waive your legal rights."
+    },
+    {
+      "key": "salon_policy_ack",
+      "type": "acknowledgement",
+      "label": "I have read the salon policies",
+      "required": true,
+      "step": "salon_policies",
+      "sortOrder": 6,
+      "bodyText": "I have had the opportunity to ask questions about appointments, cancellations, refunds, conduct and personal belongings, and understand the policies described above."
+    },
+    {
+      "key": "treatment_consent_text",
+      "type": "information",
+      "label": "Informed and voluntary treatment consent",
+      "required": false,
+      "step": "informed_consent",
+      "sortOrder": 1,
+      "bodyText": "I request the treatment or treatments recorded for this visit. Before treatment starts, my therapist will confirm the proposed treatment, the area to be treated, the products or techniques, the price, expected benefits and limitations, relevant risks, aftercare and any reasonable alternatives, including postponing or having no treatment.\n\nI may ask questions, decline a proposed treatment or ask for treatment to stop. Consent to this visit does not authorise an unrelated or materially changed treatment without further discussion and agreement. Results vary between people and a particular cosmetic result is not guaranteed.\n\nI understand that this is a beauty or wellness service and is not a medical diagnosis or a substitute for care from a qualified healthcare professional. I will tell the therapist promptly if I feel pain, burning, irritation or other discomfort."
+    },
+    {
+      "key": "treatment_risks",
+      "type": "warning",
+      "label": "Important: treatment risks and suitability",
+      "required": false,
+      "step": "informed_consent",
+      "sortOrder": 2,
+      "bodyText": "Depending on the service, nail and foot treatments may involve filing, shaping, cuticle work, adhesives, gel or acrylic products, removal products and curing lamps. Your technician must explain which products and techniques will be used and the risks relevant to you before treatment.\n\nPossible adverse effects include irritation, allergy or sensitisation, soreness, cuts, burns, infection, lifting, breakage or damage to the natural nail or surrounding skin. Tell your technician immediately if you feel pain, burning or unusual discomfort. A previous service without a reaction does not guarantee that a later service will be reaction-free.\n\nDo not conceal an existing nail or skin condition with a cosmetic enhancement before it has been assessed. If a concern is identified, the technician may adapt or postpone the service and suggest appropriate professional advice. The technician will explain maintenance, safe removal and aftercare for the system used."
+    },
+    {
+      "key": "liability_disclaimer",
+      "type": "warning",
+      "label": "Liability disclaimer — please read carefully",
+      "required": false,
+      "step": "informed_consent",
+      "sortOrder": 3,
+      "bodyText": "I accept the inherent risks of the agreed treatment that have been clearly explained to me and that may occur despite reasonable care and skill. To the extent permitted by law, the salon and its staff are not responsible for an adverse outcome caused solely by relevant information I knowingly withheld or provided inaccurately, or by my failure to follow clearly explained aftercare.\n\nThis is not a blanket release of liability. Nothing in this form excludes or limits liability for negligence, gross negligence, deliberate wrongdoing, unsafe or defective products, or any injury, loss or consumer remedy for which liability cannot lawfully be excluded. My rights under applicable consumer law remain unaffected.\n\nI understand that responsibility for any injury, reaction, loss or damage will depend on the facts and applicable law. I am not being asked to accept responsibility for the salon’s failure to provide services with reasonable care and skill."
+    },
+    {
+      "key": "disclosure_ack",
+      "type": "acknowledgement",
+      "label": "My information is accurate and complete",
+      "required": true,
+      "step": "informed_consent",
+      "sortOrder": 4,
+      "bodyText": "To the best of my knowledge, the information I have provided is accurate and complete. I have disclosed relevant medical conditions, medicines, supplements, allergies, products and recent procedures, and will tell the therapist about any changes before treatment. I will correct any earlier information that is no longer accurate."
+    },
+    {
+      "key": "treatment_consent_ack",
+      "type": "acknowledgement",
+      "label": "I freely consent to the agreed treatment",
+      "required": true,
+      "step": "informed_consent",
+      "sortOrder": 5,
+      "bodyText": "My technician has explained the agreed manicure, pedicure or enhancement service, the products and methods, relevant risks, maintenance, removal and aftercare in language I understand. My questions have been answered. I understand that I can decline or ask to stop, and I voluntarily consent to the agreed service once the technician has confirmed it is suitable."
+    },
+    {
+      "key": "liability_ack",
+      "type": "acknowledgement",
+      "label": "I have read and understood the liability disclaimer",
+      "required": true,
+      "step": "informed_consent",
+      "sortOrder": 6,
+      "bodyText": "My attention has been drawn to the treatment risks and liability disclaimer above. I understand the limited allocation of responsibility described there and that my statutory rights are not waived."
+    },
+    {
+      "key": "aftercare_ack",
+      "type": "acknowledgement",
+      "label": "I understand the aftercare responsibilities",
+      "required": true,
+      "step": "informed_consent",
+      "sortOrder": 7,
+      "bodyText": "I will follow the maintenance, hygiene and removal advice explained by my technician and ask if anything is unclear. I will not pick or force off enhancements. I will report pain, irritation, lifting or other unexpected concerns and seek appropriate medical advice when needed."
+    },
+    {
+      "key": "questions_answered_ack",
+      "type": "acknowledgement",
+      "label": "I am ready to sign",
+      "required": true,
+      "step": "informed_consent",
+      "sortOrder": 8,
+      "bodyText": "I have read this form, or it has been read and explained to me. I understand it and am signing voluntarily. If I do not understand or agree with a statement, I will speak to the therapist before signing."
+    },
+    {
+      "key": "consent_notes",
+      "type": "textarea",
+      "label": "Additional information for the therapist",
+      "required": false,
+      "step": "consent_notes",
+      "sortOrder": 1
+    },
+    {
+      "key": "residential_address",
+      "type": "textarea",
+      "label": "Residential address",
+      "step": "client_profile",
+      "required": false,
+      "sortOrder": 10,
+      "helpText": "Optional. Provide only if needed for your salon record."
+    },
+    {
+      "key": "preferred_language",
+      "type": "text",
+      "label": "Preferred language",
+      "step": "client_profile",
+      "required": false,
+      "sortOrder": 11,
+      "helpText": "Tell us which language you would prefer for explanations and aftercare."
+    },
+    {
+      "key": "referral_source",
+      "type": "text",
+      "label": "Where did you hear about us?",
+      "step": "client_profile",
+      "required": false,
+      "sortOrder": 12,
+      "helpText": "Optional."
+    },
+    {
+      "key": "marketing_notice",
+      "type": "information",
+      "label": "Salon news and offers",
+      "step": "client_profile",
+      "required": false,
+      "sortOrder": 13,
+      "bodyText": "Marketing is optional and separate from your treatment consent. Leave both choices unchecked if you do not want promotions. You can ask the salon to stop promotional messages at any time; messages needed for your appointment are separate."
+    },
+    {
+      "key": "marketing_email_optin",
+      "type": "checkbox",
+      "label": "I would like salon news and offers by email.",
+      "step": "client_profile",
+      "required": false,
+      "sortOrder": 14
+    },
+    {
+      "key": "marketing_sms_optin",
+      "type": "checkbox",
+      "label": "I would like salon news and offers by SMS.",
+      "step": "client_profile",
+      "required": false,
+      "sortOrder": 15
+    },
+    {
+      "key": "nail_main_concern",
+      "type": "textarea",
+      "label": "What is your main concern about your hands or nails?",
+      "step": "nail_preferences",
+      "required": true,
+      "sortOrder": 1,
+      "placeholder": "For example: breakage, lifting, length, appearance or comfort. Enter “None” if you have no particular concern."
+    },
+    {
+      "key": "nail_disorder_history",
+      "type": "yes_no_unsure",
+      "label": "Have you had any nail disease, disorder or reaction to nail products?",
+      "step": "nail_preferences",
+      "required": true,
+      "sortOrder": 2
+    },
+    {
+      "key": "nail_disorder_detail",
+      "type": "textarea",
+      "label": "Nail condition / reaction details",
+      "step": "nail_preferences",
+      "required": true,
+      "sortOrder": 3,
+      "conditions": [
+        {
+          "dependsOn": "nail_disorder_history",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Describe the condition or reaction, affected fingers or toes, and whether it is current."
+    },
+    {
+      "key": "nail_disorder_review",
+      "type": "warning",
+      "label": "Nail technician review required",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 4,
+      "conditions": [
+        {
+          "dependsOn": "nail_disorder_history",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "bodyText": "Discuss the condition and any previous product reaction with your technician before treatment. Treatment may need to be adapted or postponed pending appropriate advice."
+    },
+    {
+      "key": "preferred_nail_services",
+      "type": "multi_select",
+      "label": "Which services would you like to discuss?",
+      "step": "nail_preferences",
+      "required": true,
+      "sortOrder": 5,
+      "options": [
+        {
+          "value": "manicure",
+          "label": "Manicure"
+        },
+        {
+          "value": "pedicure",
+          "label": "Pedicure"
+        },
+        {
+          "value": "gel_polish",
+          "label": "Gel polish"
+        },
+        {
+          "value": "gel",
+          "label": "Gel enhancements"
+        },
+        {
+          "value": "acrylic",
+          "label": "Acrylic enhancements"
+        },
+        {
+          "value": "other",
+          "label": "Other / help me choose"
+        }
+      ]
+    },
+    {
+      "key": "nail_service_notes",
+      "type": "textarea",
+      "label": "Your preferred treatment, finish or colour",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 6,
+      "helpText": "Include any other service you want to discuss, or tell us if you would like advice."
+    },
+    {
+      "key": "nail_shape",
+      "type": "radio",
+      "label": "Preferred nail shape",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 7,
+      "options": [
+        {
+          "value": "round",
+          "label": "Round"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "squoval",
+          "label": "Squoval"
+        },
+        {
+          "value": "edge",
+          "label": "Edge"
+        },
+        {
+          "value": "stiletto",
+          "label": "Stiletto"
+        },
+        {
+          "value": "coffin",
+          "label": "Coffin"
+        },
+        {
+          "value": "advice",
+          "label": "Help me choose"
+        }
+      ]
+    },
+    {
+      "key": "nail_shape_notes",
+      "type": "textarea",
+      "label": "Length, shape or design notes",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 8,
+      "helpText": "Optional; you may also show your technician a reference picture."
+    },
+    {
+      "key": "pedicure_requested",
+      "type": "yes_no_unsure",
+      "label": "Are you having a pedicure or a foot treatment today?",
+      "step": "nail_preferences",
+      "required": true,
+      "sortOrder": 9
+    },
+    {
+      "key": "pedicure_main_concern",
+      "type": "textarea",
+      "label": "What is your main concern about your feet?",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 10,
+      "conditions": [
+        {
+          "dependsOn": "pedicure_requested",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "For example: dryness, cracked heels, sensitivity or appearance."
+    },
+    {
+      "key": "dry_cracked_heels",
+      "type": "yes_no_unsure",
+      "label": "Do you experience dry or cracked heels?",
+      "step": "nail_preferences",
+      "required": true,
+      "sortOrder": 11,
+      "conditions": [
+        {
+          "dependsOn": "pedicure_requested",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "foot_condition_notes",
+      "type": "textarea",
+      "label": "Anything else about your feet we should know?",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 12,
+      "conditions": [
+        {
+          "dependsOn": "pedicure_requested",
+          "operator": "one_of",
+          "value": [
+            "yes",
+            "unsure"
+          ]
+        }
+      ],
+      "helpText": "Include any sore, broken or irritated areas. Tell your therapist before treatment."
+    },
+    {
+      "key": "nail_preferences_notes",
+      "type": "textarea",
+      "label": "Comfort preferences or other notes",
+      "step": "nail_preferences",
+      "required": false,
+      "sortOrder": 13,
+      "helpText": "Tell us about sensitivity, products you prefer to avoid or anything that would make the visit more comfortable."
+    }
+  ]
+}

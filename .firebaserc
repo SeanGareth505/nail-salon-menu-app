@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "salonix-66a6c"
-  }
+  },
+  "targets": {
+    "salonix-66a6c": {
+      "hosting": {
+        "menu": [
+          "salonix-66a6c"
+        ],
+        "staff": [
+          "salonflow-staff"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
