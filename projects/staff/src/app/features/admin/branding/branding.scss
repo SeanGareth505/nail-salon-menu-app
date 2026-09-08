@@ -7,7 +7,7 @@
 .saved-msg { color: var(--sf-forest); font-weight: 600; align-self: center; margin-right: var(--sf-space-2); }
 .logo-preview { max-width: 160px; max-height: 64px; object-fit: contain; margin-bottom: var(--sf-space-2); }
 .upload-msg { color: var(--sf-ink-muted); font-size: 0.85rem; }
-.upload-error { color: #a3453a; font-size: 0.85rem; }
+.upload-error { color: var(--sf-danger); font-size: 0.85rem; }
 .field-hint { color: var(--sf-ink-muted); font-size: 0.82rem; margin-top: 4px; }
 
 .preview { flex: none; width: 260px; padding: var(--sf-space-4); }

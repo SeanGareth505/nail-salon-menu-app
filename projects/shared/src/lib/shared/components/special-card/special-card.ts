@@ -83,7 +83,7 @@ import { SfStatePill } from '../state-pill/state-pill';
     .card {
       overflow: hidden;
       margin-bottom: 0;
-      border: 1px solid rgba(201, 169, 110, 0.32);
+      border: 1px solid color-mix(in srgb, var(--sf-champagne) 32%, transparent);
       border-radius: 0;
       background: var(--sf-surface);
       box-shadow: none;
@@ -95,7 +95,7 @@ import { SfStatePill } from '../state-pill/state-pill';
     .card:hover {
       transform: none;
       box-shadow: none;
-      border-color: rgba(201, 169, 110, 0.32);
+      border-color: color-mix(in srgb, var(--sf-champagne) 32%, transparent);
     }
 
     .panel {
@@ -110,14 +110,14 @@ import { SfStatePill } from '../state-pill/state-pill';
     .panel-frame {
       position: absolute;
       inset: 14px;
-      border: 1px solid rgba(201, 169, 110, 0.35);
+      border: 1px solid color-mix(in srgb, var(--sf-champagne) 35%, transparent);
       pointer-events: none;
     }
 
-    .tint-sage { background: #F0F4F0; }
-    .tint-blush { background: #F7E9E3; }
-    .tint-sky { background: #E3F0F9; }
-    .tint-sand { background: #F5EFE7; }
+    .tint-sage { background: var(--sf-sky); }
+    .tint-blush { background: var(--sf-blush); }
+    .tint-sky { background: var(--sf-lilac); }
+    .tint-sand { background: var(--sf-sand); }
 
     .state-badge {
       position: absolute;
@@ -138,7 +138,7 @@ import { SfStatePill } from '../state-pill/state-pill';
       max-width: 70%;
       font-size: 2.125rem;
       text-align: center;
-      color: rgba(74, 107, 87, 0.5);
+      color: color-mix(in srgb, var(--sf-ink) 50%, transparent);
       line-height: 1.1;
       text-wrap: balance;
       position: relative;
@@ -162,7 +162,7 @@ import { SfStatePill } from '../state-pill/state-pill';
 
     .desc {
       margin: 0 0 14px;
-      color: rgba(51, 51, 51, 0.62);
+      color: color-mix(in srgb, var(--sf-ink) 62%, transparent);
       font-weight: 300;
       line-height: 1.6;
       font-size: 0.844rem;
@@ -175,7 +175,7 @@ import { SfStatePill } from '../state-pill/state-pill';
       align-items: baseline;
       gap: 10px;
       padding-bottom: 14px;
-      border-bottom: 1px solid rgba(74, 107, 87, 0.12);
+      border-bottom: 1px solid color-mix(in srgb, var(--sf-ink) 12%, transparent);
     }
 
     .price {
@@ -189,7 +189,7 @@ import { SfStatePill } from '../state-pill/state-pill';
     .was {
       font-size: 0.9375rem;
       text-decoration: line-through;
-      color: rgba(51, 51, 51, 0.4);
+      color: color-mix(in srgb, var(--sf-ink) 40%, transparent);
       font-weight: 300;
     }
 
@@ -208,7 +208,7 @@ import { SfStatePill } from '../state-pill/state-pill';
       font-size: 0.781rem;
       font-weight: 300;
       line-height: 1.5;
-      color: rgba(51, 51, 51, 0.55);
+      color: color-mix(in srgb, var(--sf-ink) 55%, transparent);
     }
 
     .meta-line span:last-child {
@@ -218,13 +218,13 @@ import { SfStatePill } from '../state-pill/state-pill';
     .fine-print {
       margin: 10px 0 0;
       font-size: 0.719rem;
-      color: rgba(51, 51, 51, 0.42);
+      color: color-mix(in srgb, var(--sf-ink) 42%, transparent);
       font-weight: 300;
       line-height: 1.6;
     }
 
     .card-compact {
-      border: 1px solid rgba(201, 169, 110, 0.35);
+      border: 1px solid color-mix(in srgb, var(--sf-champagne) 35%, transparent);
       border-radius: 3px;
       height: 100%;
       display: flex;
@@ -247,7 +247,7 @@ import { SfStatePill } from '../state-pill/state-pill';
     .compact-script {
       margin: 0;
       font-size: 1.875rem;
-      color: rgba(74, 107, 87, 0.55);
+      color: color-mix(in srgb, var(--sf-ink) 55%, transparent);
       text-align: center;
       position: relative;
       z-index: 1;
@@ -258,7 +258,7 @@ import { SfStatePill } from '../state-pill/state-pill';
       top: 12px;
       left: 12px;
       background: var(--sf-champagne);
-      color: #fff;
+      color: var(--sf-on-forest);
       font-size: 0.625rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -304,7 +304,7 @@ import { SfStatePill } from '../state-pill/state-pill';
     .compact-price-row .was {
       font-size: 0.875rem;
       font-weight: 300;
-      color: rgba(51, 51, 51, 0.4);
+      color: color-mix(in srgb, var(--sf-ink) 40%, transparent);
       text-decoration: line-through;
     }
 
@@ -312,7 +312,7 @@ import { SfStatePill } from '../state-pill/state-pill';
       margin-left: auto;
       font-size: 0.719rem;
       font-weight: 400;
-      color: rgba(51, 51, 51, 0.5);
+      color: color-mix(in srgb, var(--sf-ink) 50%, transparent);
     }
 
     @media (min-width: 768px) {

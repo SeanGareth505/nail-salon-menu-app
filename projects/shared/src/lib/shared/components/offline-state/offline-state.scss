@@ -4,7 +4,7 @@
   gap: 14px;
   padding: 14px 16px;
   background: var(--sf-surface);
-  border: 1px solid rgba(201, 169, 110, 0.4);
+  border: 1px solid color-mix(in srgb, var(--sf-champagne) 40%, transparent);
   border-radius: var(--sf-radius-sm);
   box-shadow: var(--sf-shadow-card);
   animation: sf-motion-rise-in var(--sf-dur-normal) var(--sf-ease-enter) both;
@@ -17,7 +17,7 @@
   gap: 2px;
   font-size: 0.719rem;
   font-weight: 300;
-  color: rgba(51, 51, 51, 0.55);
+  color: color-mix(in srgb, var(--sf-ink) 55%, transparent);
   strong {
     color: var(--sf-ink);
     font-size: 0.8125rem;
@@ -28,7 +28,7 @@
 .retry {
   border: none;
   background: var(--sf-champagne);
-  color: #fff;
+  color: var(--sf-on-forest);
   border-radius: var(--sf-radius-pill);
   padding: 10px 14px;
   font-weight: 500;

@@ -7,14 +7,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const dir = join(__dirname, '../public/assets/lottie');
 
 const palette = {
-  forest: hexToLottie('#6f8f7a'),
-  sage: hexToLottie('#a3b9ab'),
-  sageLight: hexToLottie('#e8f0eb'),
-  champagne: hexToLottie('#c2a888'),
-  champagneLight: hexToLottie('#f3eee5'),
-  ivory: hexToLottie('#fafbf9'),
-  ink: hexToLottie('#2e3531'),
-  inkMuted: hexToLottie('#6a746e'),
+  forest: hexToLottie('#5b2b45'),
+  sage: hexToLottie('#7c9a8e'),
+  sageLight: hexToLottie('#e3ede8'),
+  champagne: hexToLottie('#c08a4a'),
+  champagneLight: hexToLottie('#f8eedd'),
+  ivory: hexToLottie('#ffffff'),
+  ink: hexToLottie('#2a1f26'),
+  inkMuted: hexToLottie('#6e5f67'),
 };
 
 function hexToLottie(hex) {

@@ -21,7 +21,7 @@
 }
 .menu:hover {
   border-color: var(--sf-forest);
-  box-shadow: 0 4px 16px #29262b09;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--sf-ink) 4%, transparent);
   transform: translateY(-2px);
 }
 .icon-header {

@@ -3,7 +3,7 @@
   "short_name": "SF Staff",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/login",
+  "start_url": "/therapist",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -61,8 +61,8 @@
     }
   ],
   "description": "Admin and therapist tools for the salon floor.",
-  "theme_color": "#6f8f7a",
-  "background_color": "#f5f6f3",
+  "theme_color": "#5b2b45",
+  "background_color": "#faf5f2",
   "orientation": "any",
   "categories": ["business", "productivity"]
 }

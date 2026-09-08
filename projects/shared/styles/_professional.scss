@@ -5,7 +5,7 @@
   z-index: 1000;
   padding: 14px 22px;
   background: var(--sf-forest);
-  color: white;
+  color: var(--sf-on-forest);
   border-radius: 8px;
 }
 .skip-link:focus {
@@ -83,7 +83,7 @@ body :is(.filter-chip, .chip) {
 }
 body .search-pill {
   border-radius: 8px;
-  background: white;
+  background: var(--sf-surface);
   border: 1px solid var(--sf-border);
   height: 46px;
 }
@@ -136,7 +136,7 @@ app-admin-shell .page .stats-grid {
   gap: 16px;
 }
 app-admin-shell .page .panel {
-  background: white;
+  background: var(--sf-surface);
   padding: 24px;
 }
 app-admin-shell sf-stat-tile .tile {
@@ -144,7 +144,7 @@ app-admin-shell sf-stat-tile .tile {
   border: 1px solid var(--sf-border);
   border-radius: 12px;
   box-shadow: none;
-  background: white;
+  background: var(--sf-surface);
 }
 app-admin-shell sf-stat-tile :is(.label, .hint) {
   font-size: 13px;
@@ -228,7 +228,7 @@ app-admin-shell :is(.treatments-page, .specials-page, .clients-page, .categories
 }
 app-admin-shell
   :is(.list-pane, .editor-pane, .list-body, .settings-card, .branding-preview, .qr-preview) {
-  background: white;
+  background: var(--sf-surface);
   border-radius: 12px;
   border-color: var(--sf-border);
   box-shadow: none;
@@ -238,9 +238,6 @@ app-admin-shell :is(.editor-pane, .settings-card) {
 }
 app-admin-shell :is(.list-row, .list-header) {
   border-color: var(--sf-border);
-}
-app-admin-shell .list-row.selected {
-  background: var(--sf-blush);
 }
 app-admin-shell .editor-pane :is(h1, h2) {
   font: 600 22px var(--sf-font-body);
@@ -262,7 +259,7 @@ app-therapist-shell :is(.page-head h1, .head-copy h1) {
 app-therapist-shell :is(.search-box, .search-pill) {
   border-radius: 8px;
   border: 1px solid var(--sf-border);
-  background: white;
+  background: var(--sf-surface);
 }
 app-therapist-shell :is(.client-name, .client-row .name) {
   font-family: var(--sf-font-body);
@@ -290,4 +287,286 @@ sf-consent-form-complete-panel .cta:disabled {
 app-admin-shell,
 app-therapist-shell {
   --sf-font-display: var(--sf-font-body);
+}
+
+// ---------------------------------------------------------------------------
+// Refinement layer — "Noir & Champagne"
+//
+// Loaded last, so it settles the details the per-feature stylesheets each
+// solved slightly differently: how a price is set, what a card does on hover,
+// what focus looks like, how much air sits under a section heading. The rule
+// throughout is restraint — hairlines instead of shadows, one accent, and
+// numbers that line up.
+// ---------------------------------------------------------------------------
+
+::selection {
+  background: var(--sf-champagne-light);
+  color: var(--sf-ink);
+}
+
+// Prices, durations, counts and countdowns all sit in columns or line up
+// across rows, so they need lining figures. Proportional digits are the single
+// most common thing that makes an otherwise tidy menu look amateur.
+:is(.price, .amount, .value, .duration, .meta-price, .old-price, .stat-value, .category-index),
+:is(.price, .amount, .value, .duration) * {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+body .price,
+body .amount {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--sf-forest);
+}
+
+body .old-price {
+  color: var(--sf-ink-muted);
+  font-weight: 400;
+}
+
+// The accent earns its keep on savings and offers, and nowhere else.
+body :is(.save-badge, .special-badge, .badge-save, .discount) {
+  background: var(--sf-champagne);
+  color: #ffffff;
+  border: 1px solid var(--sf-champagne);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+// --- Focus -----------------------------------------------------------------
+// One ring everywhere. Espresso carries the contrast; the champagne halo makes
+// it visible over dark surfaces too.
+body :is(a, button, [tabindex], input, select, textarea):focus-visible {
+  outline: 2px solid var(--sf-forest);
+  outline-offset: 2px;
+  border-radius: var(--sf-radius-sm);
+}
+
+// --- Buttons ---------------------------------------------------------------
+body :is(.btn-primary, .cta, .submit, .save-btn, .primary-btn) {
+  background: var(--sf-forest);
+  color: var(--sf-on-forest);
+  border: 1px solid var(--sf-forest);
+  letter-spacing: 0.005em;
+  transition:
+    background var(--sf-dur-fast) var(--sf-ease-standard),
+    border-color var(--sf-dur-fast) var(--sf-ease-standard);
+}
+body :is(.btn-primary, .cta, .submit, .save-btn, .primary-btn):hover:not(:disabled) {
+  background: color-mix(in srgb, var(--sf-forest) 88%, var(--sf-champagne));
+  border-color: color-mix(in srgb, var(--sf-forest) 88%, var(--sf-champagne));
+}
+
+body :is(.outline-btn, .secondary-btn, .cancel-btn, .btn-ghost) {
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border-strong);
+  color: var(--sf-ink);
+}
+body :is(.outline-btn, .secondary-btn, .cancel-btn, .btn-ghost):hover:not(:disabled) {
+  border-color: var(--sf-forest);
+  background: var(--sf-sand);
+}
+
+// Inline "View full menu →" style links: underline on hover only, from the
+// accent, so the page reads as type rather than as a wall of links.
+body .text-link {
+  color: var(--sf-ink);
+  text-decoration: none;
+  font-weight: 500;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--sf-champagne);
+}
+body .text-link:hover {
+  color: var(--sf-ink);
+  text-decoration: underline;
+}
+
+// --- Surfaces --------------------------------------------------------------
+// Inside the staff apps every panel sits on an explicit surface. The admin
+// content area is canvas-coloured, so a panel that inherits the ground rather
+// than setting its own just dissolves into it. This is scoped to the two staff
+// shells on purpose — the public menu's tiles are deliberately tinted and must
+// not be flattened to white.
+:is(app-admin-shell, app-therapist-shell, sf-therapist-rail)
+  :is(
+    .panel,
+    .card,
+    .form-card,
+    .editor-card,
+    .section-card,
+    .review-card,
+    .list-pane,
+    .list-body,
+    .setup-card,
+    .settings-card,
+    .stat-card,
+    .record-card,
+    .client-card,
+    .summary-card,
+    .detail-card,
+    .table-wrap,
+    .admin-table-wrap,
+    .admin-form
+  ) {
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
+  border-radius: var(--sf-radius-md);
+}
+
+// --- Selection -------------------------------------------------------------
+// One selected treatment across both staff apps: a plum wash, a plum rule down
+// the leading edge, and the label in plum. Enough to find at a glance in a
+// long list without turning the row into a solid block of colour.
+body :is(.list-row, .template-row, .record-card, .form-option, .client-row, .option-row).selected,
+body :is(.list-row, .template-row, .record-card, .form-option, .client-row, .option-row).active,
+body :is(.list-row, .template-row, .record-card, .form-option).is-selected {
+  background: var(--sf-selected-bg);
+  border-color: var(--sf-selected-border);
+  box-shadow: inset 3px 0 var(--sf-selected-border);
+}
+body :is(.list-row, .template-row, .record-card, .form-option).selected :is(.name, .title, strong),
+body :is(.list-row, .template-row, .record-card, .form-option).active :is(.name, .title, strong) {
+  color: var(--sf-selected-fg);
+  font-weight: 600;
+}
+
+body :is(.treatment-card, .category-card, .therapist-card, .special-card, sf-treatment-card .card) {
+  transition:
+    border-color var(--sf-dur-fast) var(--sf-ease-standard),
+    transform var(--sf-dur-fast) var(--sf-ease-standard);
+}
+body
+  :is(.treatment-card, .category-card, .therapist-card, .special-card, sf-treatment-card .card):hover {
+  border-color: var(--sf-forest);
+}
+
+// --- Section headings ------------------------------------------------------
+// A hairline under the heading row is what turns a stack of sections into a
+// printed menu.
+body .section-head {
+  align-items: flex-end;
+  padding-bottom: var(--sf-space-3);
+  border-bottom: 1px solid var(--sf-border);
+  margin-bottom: var(--sf-space-5);
+}
+body .section-head h2 {
+  margin-bottom: 0;
+}
+body .section-head .sf-eyebrow {
+  margin-bottom: var(--sf-space-1);
+}
+
+// --- Tables ----------------------------------------------------------------
+body .admin-table th {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+body .admin-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+// --- Imagery ---------------------------------------------------------------
+// Photography is the only place saturated colour appears; a hairline keeps it
+// from floating off the warm ground.
+body :is(.welcome-image img, .hero-image img, .portrait img) {
+  border-radius: var(--sf-radius-md);
+}
+
+// A disabled primary shouldn't become a grey slab on a warm page — mute it
+// into the palette instead.
+body :is(.btn-primary, .cta, .submit, .save-btn, .primary-btn, button[type='submit']):disabled {
+  background: var(--sf-neutral);
+  border-color: var(--sf-border);
+  color: var(--sf-ink-muted);
+}
+
+// ---------------------------------------------------------------------------
+// Mobile
+//
+// The phone is the primary surface here — clients reach the menu from a QR
+// code at the desk. These rules fix the things that read as unfinished on a
+// small screen: native form chrome, visible scrollbars under swipe rails,
+// touch targets under 44px, and content running beneath the tab bar.
+// ---------------------------------------------------------------------------
+
+// Native select chrome differs on every platform and never matches the rest of
+// the page. Draw our own control and our own chevron.
+body select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--sf-surface);
+  background-image: linear-gradient(45deg, transparent 50%, var(--sf-ink-muted) 50%),
+    linear-gradient(135deg, var(--sf-ink-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% + 2px),
+    calc(100% - 13px) calc(50% + 2px);
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  border: 1px solid var(--sf-border);
+  border-radius: var(--sf-radius-sm);
+  color: var(--sf-ink);
+  padding-right: 34px;
+}
+
+// Any horizontally scrolling rail: no scrollbar, snap to items.
+body :is(.category-chips, .chip-row, .filter-row, .therapist-rail-scroll, .scroll-rail) {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+}
+body :is(.category-chips, .chip-row, .filter-row, .therapist-rail-scroll, .scroll-rail)::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  // Comfortable, consistent touch targets.
+  body :is(button, .chip, .filter-chip, .category-filter, .refine-option, select, a.btn) {
+    min-height: 44px;
+  }
+
+  // Tighten the space above the fold — on a phone the page title, search and
+  // filters were eating most of the first screen before any treatment showed.
+  body .sf-page-hero h1 {
+    font-size: 30px;
+    line-height: 1.12;
+  }
+  body .sf-page-hero .sub,
+  body .page-intro {
+    font-size: 13px;
+  }
+  body .section-head {
+    padding-bottom: var(--sf-space-2);
+    margin-bottom: var(--sf-space-4);
+  }
+
+  // Cards get a little denser so more than one fits on screen.
+  body :is(.treatment-card, sf-treatment-card .card, .therapist-card, .special-card) {
+    border-radius: var(--sf-radius-md);
+  }
+
+  // Nothing should sit under the fixed tab bar, and the bar itself has to
+  // clear the home indicator on notched phones.
+  body :is(.sf-public-page, .admin-page, .page) {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+  body :is(.mobile-tabs, .mobile-nav) {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  // Inputs at 16px so iOS Safari doesn't zoom the page on focus.
+  body :is(input, select, textarea) {
+    font-size: 16px;
+  }
+
+  // Tables never work on a phone — let them scroll in their own box rather
+  // than pushing the whole page sideways.
+  body :is(.admin-table-wrap, .table-wrap) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }

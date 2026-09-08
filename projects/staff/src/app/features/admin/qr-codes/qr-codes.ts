@@ -85,7 +85,7 @@ export class QrCodes {
   private makeQr(url: string): Promise<string> {
     return QRCode.toDataURL(url, {
       margin: 1,
-      color: { dark: '#6f8f7a', light: '#fafbf9' },
+      color: { dark: '#2f5f6a', light: '#ffffff' },
       width: 320,
     });
   }

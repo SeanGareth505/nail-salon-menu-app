@@ -220,6 +220,12 @@
   color: var(--sf-ivory);
 }
 
+.pill-btn.danger {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--sf-danger) 45%, transparent);
+  color: var(--sf-danger);
+}
+
 .specials-footnote {
   margin: 22px 0 0;
   background: var(--sf-sage-light);
@@ -300,7 +306,7 @@
 .form-errors {
   margin: 0;
   padding-left: 18px;
-  color: #a3453a;
+  color: var(--sf-danger);
   font-size: 0.88rem;
 }
 

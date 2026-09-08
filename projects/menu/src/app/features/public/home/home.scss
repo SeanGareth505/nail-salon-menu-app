@@ -62,11 +62,11 @@ h1 em {
 }
 .btn-primary {
   background: var(--sf-forest);
-  color: #fff;
+  color: var(--sf-on-forest);
 }
 .btn-primary:hover {
   background: var(--sf-forest);
-  color: #fff;
+  color: var(--sf-on-forest);
 }
 .text-link {
   display: inline-flex;
@@ -143,28 +143,56 @@ h2 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
+// Each category gets its own tint so the menu reads as a set of choices
+// rather than a list. The tints share one lightness, and every card keeps the
+// same ink title — the colour differentiates, it never carries meaning the
+// title has to fight.
 .category-card {
   padding: 24px;
   border: 1px solid var(--sf-border);
-  border-radius: 12px;
+  border-radius: var(--sf-radius-md);
   color: var(--sf-ink);
   background: var(--sf-blush);
+  border-color: var(--sf-rose-border);
   text-decoration: none;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  transition:
+    border-color var(--sf-dur-fast) var(--sf-ease-standard),
+    box-shadow var(--sf-dur-fast) var(--sf-ease-standard),
+    transform var(--sf-dur-fast) var(--sf-ease-standard);
 }
-.category-card:nth-child(2) {
+.category-card .category-top {
+  color: var(--sf-blush-fg);
+}
+.category-card .category-index {
+  color: var(--sf-blush-fg);
+}
+.category-card:nth-child(4n + 2) {
   background: var(--sf-lilac);
+  border-color: var(--sf-lilac-border);
 }
-.category-card:nth-child(3) {
+.category-card:nth-child(4n + 2) :is(.category-top, .category-index) {
+  color: var(--sf-lilac-fg);
+}
+.category-card:nth-child(4n + 3) {
+  background: var(--sf-sky);
+  border-color: color-mix(in srgb, var(--sf-sky-fg) 24%, transparent);
+}
+.category-card:nth-child(4n + 3) :is(.category-top, .category-index) {
+  color: var(--sf-sky-fg);
+}
+.category-card:nth-child(4n) {
   background: var(--sf-peach);
+  border-color: var(--sf-peach-border);
 }
-.category-card:nth-child(4) {
-  background: var(--sf-neutral);
+.category-card:nth-child(4n) :is(.category-top, .category-index) {
+  color: var(--sf-peach-fg);
 }
 .category-card:hover {
   border-color: var(--sf-forest);
+  box-shadow: var(--sf-shadow-card);
   transform: translateY(-3px);
 }
 .category-top,
@@ -179,7 +207,9 @@ h2 {
 }
 .category-index {
   font-size: 11px;
-  color: var(--sf-ink-muted);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
 }
 .category-name {
   font: 24px var(--sf-font-display);
@@ -276,7 +306,7 @@ h2 {
   margin: 12px 0 0;
 }
 .visit-strip .btn {
-  background: white;
+  background: var(--sf-surface);
   color: var(--sf-ink);
   flex-shrink: 0;
 }
@@ -407,6 +437,8 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
+  // One tint per destination. The title stays ink on every tile — the earlier
+  // version recoloured the first tile's text, which just looked like a bug.
   .quick-tile {
     min-height: 154px;
     display: flex;
@@ -414,23 +446,30 @@ h2 {
     padding: 21px;
     background: var(--sf-lilac);
     border: 1px solid var(--sf-lilac-border);
-    border-radius: 14px;
+    border-radius: var(--sf-radius-md);
     color: var(--sf-ink);
     text-decoration: none;
   }
   .quick-tile--sage {
-    background: var(--sf-rose);
+    background: var(--sf-blush);
     border-color: var(--sf-rose-border);
-    color: var(--sf-rose-fg);
-    box-shadow: 0 4px 14px rgb(163 92 116 / 10%);
+  }
+  .quick-tile--sage .quick-tile-top {
+    color: var(--sf-blush-fg);
   }
   .quick-tile--sand {
     background: var(--sf-peach);
     border-color: var(--sf-peach-border);
   }
+  .quick-tile--sand .quick-tile-top {
+    color: var(--sf-peach-fg);
+  }
   .quick-tile--sky {
-    background: var(--sf-neutral);
-    border-color: var(--sf-neutral-border);
+    background: var(--sf-sky);
+    border-color: color-mix(in srgb, var(--sf-sky-fg) 24%, transparent);
+  }
+  .quick-tile--sky .quick-tile-top {
+    color: var(--sf-sky-fg);
   }
   .quick-tile-top {
     display: flex;
@@ -438,22 +477,11 @@ h2 {
     justify-content: space-between;
     margin-bottom: 18px;
     min-height: 34px;
-    color: var(--sf-forest);
-  }
-  .quick-tile--sage .quick-tile-top {
-    color: var(--sf-rose-fg);
-  }
-  .quick-tile--sage .quick-tile-top sf-icon {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: rgb(255 253 251 / 65%);
+    color: var(--sf-lilac-fg);
   }
   .quick-tile-top > span {
     font-size: 18px;
-    opacity: 0.65;
+    color: var(--sf-ink-muted);
   }
   .quick-tile strong {
     font: 24px/1.1 var(--sf-font-display);
@@ -463,9 +491,6 @@ h2 {
     font-size: 11px;
     color: var(--sf-ink-muted);
     line-height: 1.4;
-  }
-  .quick-tile--sage small {
-    color: var(--sf-rose-fg);
   }
   .quick-visit {
     display: flex;

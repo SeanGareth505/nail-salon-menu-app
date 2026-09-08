@@ -11,7 +11,7 @@
   position: relative;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(74, 107, 87, 0.28);
+  border: 1px solid color-mix(in srgb, var(--sf-ink) 28%, transparent);
   border-radius: var(--sf-radius-pill);
   background: transparent;
   color: var(--sf-forest);
@@ -27,8 +27,8 @@
 }
 
 :host.inverted .bell-btn {
-  border-color: rgba(255, 253, 249, 0.35);
-  color: rgba(255, 253, 249, 0.9);
+  border-color: color-mix(in srgb, var(--sf-ivory) 35%, transparent);
+  color: color-mix(in srgb, var(--sf-ivory) 90%, transparent);
 }
 
 :host.inverted .bell-btn.active {
@@ -45,7 +45,7 @@
   height: 18px;
   border-radius: 50%;
   background: var(--sf-champagne);
-  color: #fff;
+  color: var(--sf-on-forest);
   font-size: 0.62rem;
   font-weight: 600;
   line-height: 18px;
@@ -66,9 +66,9 @@
   max-height: 420px;
   overflow: auto;
   background: var(--sf-surface);
-  border: 1px solid rgba(74, 107, 87, 0.2);
+  border: 1px solid color-mix(in srgb, var(--sf-ink) 20%, transparent);
   border-radius: 0;
-  box-shadow: 0 20px 44px -18px rgba(40, 50, 44, 0.4);
+  box-shadow: 0 20px 44px -18px color-mix(in srgb, var(--sf-forest-dark) 40%, transparent);
   z-index: 21;
 }
 
@@ -78,7 +78,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 16px 18px;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.13);
+  border-bottom: 1px solid color-mix(in srgb, var(--sf-ink) 13%, transparent);
 }
 
 .panel h2 {
@@ -100,7 +100,7 @@
 .empty {
   margin: 0;
   padding: 18px 16px;
-  color: rgba(51, 51, 51, 0.62);
+  color: color-mix(in srgb, var(--sf-ink) 62%, transparent);
   font-size: 0.84rem;
 }
 
@@ -113,7 +113,7 @@ ul {
 .item {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.1);
+  border-bottom: 1px solid color-mix(in srgb, var(--sf-ink) 10%, transparent);
   background: transparent;
   text-align: left;
   padding: 15px 18px;
@@ -149,12 +149,12 @@ ul {
 .item .body {
   font-size: 0.75rem;
   font-weight: 300;
-  color: rgba(51, 51, 51, 0.55);
+  color: color-mix(in srgb, var(--sf-ink) 55%, transparent);
   line-height: 1.5;
 }
 
 .item.unread {
-  background: #fdf3e7;
+  background: var(--sf-champagne-light);
 }
 
 .item.unread .dot {

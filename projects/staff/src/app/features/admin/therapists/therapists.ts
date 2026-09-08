@@ -3,10 +3,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { TherapistsService } from '@core/services/therapists.service';
 import { TreatmentsService } from '@core/services/treatments.service';
+import { SpecialsService } from '@core/services/specials.service';
 import { StorageUploadService } from '@core/services/storage-upload.service';
+import { TherapistStaffAccessService } from '@core/services/therapist-staff-access.service';
 import { SfPortrait } from '@shared/components/portrait/portrait';
 import { Therapist } from '@core/models';
 import { SfPageActionDirective } from '@shared/directives/page-action.directive';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-therapists',
@@ -23,6 +26,8 @@ export class Therapists implements OnDestroy {
   readonly photoError = signal('');
   private readonly therapistsSvc = inject(TherapistsService);
   private readonly treatmentsSvc = inject(TreatmentsService);
+  private readonly specialsSvc = inject(SpecialsService);
+  private readonly staffAccessSvc = inject(TherapistStaffAccessService);
 
   readonly pageAction = (): void => this.startNew();
 
@@ -35,6 +40,7 @@ export class Therapists implements OnDestroy {
   readonly expertiseInput = signal('');
   readonly saveError = signal('');
   readonly saving = signal(false);
+  readonly removing = signal(false);
 
   startNew(): void {
     this.clearPhotoSelection();
@@ -160,8 +166,56 @@ export class Therapists implements OnDestroy {
   }
 
   async remove(t: Therapist): Promise<void> {
-    if (!confirm(`Remove "${t.name}"?`)) return;
-    await this.therapistsSvc.remove(t.id);
+    if (!confirm(`Remove "${t.name}"? This cannot be undone.`)) return;
+    if (this.removing()) return;
+    this.removing.set(true);
+    this.saveError.set('');
+    try {
+      const linkedTreatments = this.treatments().filter((treatment) =>
+        (treatment.performedByTherapistIds ?? []).includes(t.id),
+      );
+      await Promise.all(
+        linkedTreatments.map((treatment) =>
+          this.treatmentsSvc.update(treatment.id, {
+            performedByTherapistIds: (treatment.performedByTherapistIds ?? []).filter(
+              (id) => id !== t.id,
+            ),
+          }),
+        ),
+      );
+
+      const specials = await firstValueFrom(this.specialsSvc.listAll());
+      await Promise.all(
+        specials
+          .filter((special) => (special.therapistIds ?? []).includes(t.id))
+          .map((special) =>
+            this.specialsSvc.update(special.id, {
+              therapistIds: (special.therapistIds ?? []).filter((id) => id !== t.id),
+            }),
+          ),
+      );
+
+      try {
+        await this.staffAccessSvc.removeForTherapist(t.id);
+      } catch {
+        void 0;
+      }
+
+      await this.therapistsSvc.remove(t.id);
+      if (this.editing()?.id === t.id) {
+        this.editing.set(null);
+      }
+    } catch {
+      this.saveError.set('Could not remove therapist. Please try again.');
+    } finally {
+      this.removing.set(false);
+    }
+  }
+
+  async removeEditing(): Promise<void> {
+    const d = this.editing();
+    if (!d?.id) return;
+    await this.remove(d as Therapist);
   }
 
   treatmentCount(therapistId: string): number {

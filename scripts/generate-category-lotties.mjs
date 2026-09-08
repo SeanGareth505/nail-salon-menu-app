@@ -7,9 +7,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, '../public/assets/lottie/categories');
 mkdirSync(outDir, { recursive: true });
 
-const FOREST = [0.4352941176, 0.5607843137, 0.4784313725, 1];
-const CHAMPAGNE = [0.7607843137, 0.6588235294, 0.5333333333, 1];
-const SAGE = [0.6392156863, 0.7254901961, 0.6705882353, 1];
+const FOREST = [0.1843137255, 0.3725490196, 0.4156862745, 1];
+const CHAMPAGNE = [0.7882352941, 0.4823529412, 0.431372549, 1];
+const SAGE = [0.4980392157, 0.6392156863, 0.6784313725, 1];
 
 function shapeLayer(name, shapes, index) {
   return {

@@ -27,7 +27,7 @@ import {
 import { getApp } from 'firebase/app';
 import {
   persistentLocalCache,
-  persistentMultipleTabManager,
+  persistentSingleTabManager,
 } from 'firebase/firestore';
 import { getStorage, provideStorage, connectStorageEmulator } from '@angular/fire/storage';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
@@ -103,7 +103,7 @@ export const appConfig: ApplicationConfig = {
       }
       return initializeFirestore(app, {
         localCache: persistentLocalCache({
-          tabManager: persistentMultipleTabManager(),
+          tabManager: persistentSingleTabManager(undefined),
         }),
       });
     }),

@@ -19,7 +19,7 @@
   height: 26px;
   flex: none;
   border-radius: 100px;
-  background: rgba(74, 107, 87, 0.25);
+  background: color-mix(in srgb, var(--sf-ink) 25%, transparent);
   position: relative;
   display: block;
 }

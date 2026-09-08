@@ -1,57 +1,93 @@
+// SalonFlow — "Plum & Gold".
+//
+// A rich salon palette: deep plum as the primary, warm gold as the accent, and
+// a family of distinct, light tints — rose, lilac, aqua, sage, apricot — that
+// give categories, badges and status chips real colour to work with. The base
+// stays a warm blush cream so the colour reads as considered rather than loud.
+//
+// The discipline that keeps it expensive: the tints are all high-lightness and
+// low-chroma, so several can sit on one screen without shouting, and full
+// strength colour is reserved for type, icons and small fills.
+//
+// These are defaults only — ThemeService overwrites --sf-forest / --sf-sage /
+// --sf-champagne / --sf-canvas / --sf-surface / --sf-ink from the admin
+// branding doc, so keep semantic tokens expressed in terms of the six brand
+// tokens wherever a salon-chosen colour should flow through.
 :root {
-  --sf-forest: #6f8f7a;
-  --sf-forest-dark: #587463;
-  --sf-sage: #a3b9ab;
-  --sf-sage-light: #e8f0eb;
-  --sf-canvas: #f5f6f3;
-  --sf-ivory: #fafbf9;
-  --sf-surface: #fafbf9;
-  --sf-champagne: #c2a888;
-  --sf-champagne-light: #f3eee5;
-  --sf-champagne-ink: #6f5a40;
-  --sf-blush: #eef1ee;
-  --sf-rose: #d7e0d9;
-  --sf-rose-fg: #4d6356;
-  --sf-rose-border: #b7c7bc;
-  --sf-peach: #f3eee5;
-  --sf-peach-fg: #6f5a40;
-  --sf-peach-border: #e2d6c4;
-  --sf-lilac: #eceaf0;
-  --sf-lilac-fg: #5f5a6a;
-  --sf-lilac-border: #ddd8e4;
-  --sf-neutral: #eef0ec;
-  --sf-neutral-border: #d7ddd8;
-  --sf-sky: #eaf1f2;
-  --sf-sand: #f0ebe4;
-  --sf-ink: #2e3531;
-  --sf-ink-muted: #6a746e;
-  --sf-border: #dde4df;
-  --sf-border-strong: #b8c5bc;
-  --sf-nav-surface: #fafbf9;
-  --sf-nav-muted: #6a746e;
+  // --- Brand ------------------------------------------------------------
+  --sf-forest: #5b2b45; // primary — deep plum
+  --sf-forest-dark: #3e1b30;
+  --sf-sage: #7c9a8e; // secondary — soft eucalyptus
+  --sf-sage-light: #e3ede8;
+  --sf-champagne: #c08a4a; // accent — warm gold
+  --sf-champagne-light: #f8eedd;
+  --sf-champagne-ink: #8a5e24;
+
+  // --- Ground -----------------------------------------------------------
+  --sf-canvas: #faf5f2; // blush cream
+  --sf-ivory: #ffffff;
+  --sf-surface: #ffffff;
+  --sf-ink: #2a1f26; // plum-black
+  --sf-ink-muted: #6e5f67;
+  --sf-border: #e8dde2;
+  --sf-border-strong: #c9b4be;
+  --sf-nav-surface: #ffffff;
+  --sf-nav-muted: #6e5f67;
   --sf-on-forest: #ffffff;
-  --sf-on-forest-muted: rgba(250, 251, 249, 0.72);
-  --sf-blush-fg: #587463;
-  --sf-sky-fg: #3f6674;
-  --sf-sand-fg: #6f8f7a;
+  --sf-on-forest-muted: rgba(255, 255, 255, 0.76);
 
-  --sf-status-complete-bg: #e8f0eb;
-  --sf-status-complete-fg: #456555;
-  --sf-status-flagged-bg: #f5efe3;
-  --sf-status-flagged-fg: #7a6540;
-  --sf-status-incomplete-bg: #eef0ec;
-  --sf-status-incomplete-fg: #5c6660;
-  --sf-status-live-bg: #e8f0eb;
-  --sf-status-live-fg: #456555;
-  --sf-status-ending-bg: #f3eee5;
-  --sf-status-ending-fg: #6f5a40;
-  --sf-status-upcoming-bg: var(--sf-lilac);
-  --sf-status-upcoming-fg: var(--sf-lilac-fg);
+  // --- Tints ------------------------------------------------------------
+  // Five separate hues, each with a matched foreground that clears contrast on
+  // its own background. Categories, chips and cards draw from these.
+  --sf-blush: #fbe9ec; // rose
+  --sf-blush-fg: #8a3a55;
+  --sf-rose: #f6dde3;
+  --sf-rose-fg: #8a3a55;
+  --sf-rose-border: #e8c2cc;
+  --sf-peach: #fbecdd; // apricot / gold
+  --sf-peach-fg: #8a5e24;
+  --sf-peach-border: #f0d9be;
+  --sf-lilac: #ece6f3; // lilac
+  --sf-lilac-fg: #55407a;
+  --sf-lilac-border: #d8cde6;
+  --sf-sky: #e1eef2; // aqua
+  --sf-sky-fg: #2a5c68;
+  --sf-sand: #f5efe6; // warm sand
+  --sf-sand-fg: #7a6448;
+  --sf-neutral: #f0ebed;
+  --sf-neutral-border: #ded4d9;
 
+  // --- Status -----------------------------------------------------------
+  --sf-status-complete-bg: #e3efe7;
+  --sf-status-complete-fg: #35634a;
+  --sf-status-flagged-bg: #fbebdb;
+  --sf-status-flagged-fg: #8a5620;
+  --sf-status-incomplete-bg: #f0ebed;
+  --sf-status-incomplete-fg: #6e5f67;
+  --sf-status-live-bg: #e3efe7;
+  --sf-status-live-fg: #35634a;
+  --sf-status-ending-bg: #fbebdb;
+  --sf-status-ending-fg: #8a5620;
+  --sf-status-upcoming-bg: var(--sf-sky);
+  --sf-status-upcoming-fg: var(--sf-sky-fg);
+  // Selection needs to read at a glance against a warm cream ground — the
+  // old tints (blush, sage-light) were within a few percent lightness of the
+  // canvas, so a selected row looked identical to an unselected one.
+  --sf-selected-bg: #f2e2ea;
+  --sf-selected-border: #5b2b45;
+  --sf-selected-fg: #5b2b45;
+  --sf-danger: #a33a48;
+  --sf-danger-bg: #fbe7ea;
+  --sf-danger-muted: #8a5560;
+
+  // --- Type -------------------------------------------------------------
   --sf-font-display: 'DM Serif Display', 'Georgia', serif;
-  --sf-font-script: 'Allura', cursive;
+  --sf-font-script: 'DM Serif Display', 'Georgia', serif;
   --sf-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sf-tracking-eyebrow: 0.16em;
+  --sf-tracking-display: -0.02em;
 
+  // --- Shape & space ----------------------------------------------------
   --sf-radius-sm: 8px;
   --sf-radius-md: 12px;
   --sf-radius-lg: 18px;
@@ -63,6 +99,8 @@
   --sf-space-5: 24px;
   --sf-space-6: 32px;
   --sf-space-7: 48px;
-  --sf-shadow-card: 0 4px 18px -6px rgba(46, 53, 49, 0.1);
-  --sf-shadow-raised: 0 2px 10px -4px rgba(46, 53, 49, 0.1);
+
+  --sf-shadow-card: 0 12px 32px -18px rgba(42, 31, 38, 0.3);
+  --sf-shadow-raised: 0 2px 10px -4px rgba(42, 31, 38, 0.16);
+  --sf-hairline: 1px solid var(--sf-border);
 }

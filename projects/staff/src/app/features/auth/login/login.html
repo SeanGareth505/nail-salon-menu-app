@@ -11,9 +11,9 @@
   <main class="auth-main">
     <div class="auth-card sf-card">
       <header class="auth-card-head">
-        <p class="sf-eyebrow">Staff portal</p>
-        <h1>Welcome back.</h1>
-        <p class="subtitle">Sign in to manage your salon, menu, and team.</p>
+        <p class="sf-eyebrow">Admin only</p>
+        <h1>Admin sign in</h1>
+        <p class="subtitle">Manage treatments, branding, clients, and salon settings.</p>
       </header>
 
       <form class="auth-form" #loginForm="ngForm" (ngSubmit)="submit()">
@@ -62,15 +62,15 @@
         }
 
         <button type="submit" class="submit" [disabled]="loading() || loginForm.invalid">
-          {{ loading() ? 'Signing in…' : 'Sign in' }}
+          {{ loading() ? 'Signing in…' : 'Sign in as admin' }}
         </button>
       </form>
     </div>
 
     <footer class="auth-footer">
-      <a routerLink="/therapist" class="alt-link">Open staff workspace</a>
+      <a routerLink="/therapist" class="alt-link">← Back to staff workspace</a>
       <div class="auth-footer-divider"></div>
-      <a routerLink="/" class="back">Back to the menu</a>
+      <a [href]="menuUrl" class="back">Public menu</a>
     </footer>
   </main>
 </div>

@@ -127,7 +127,7 @@
 }
 
 .sf-field-error {
-  color: #a3453a;
+  color: var(--sf-danger);
   font-size: 0.82rem;
   margin-top: var(--sf-space-1);
   animation: sf-rise-in var(--sf-dur-fast) var(--sf-ease-enter) both;

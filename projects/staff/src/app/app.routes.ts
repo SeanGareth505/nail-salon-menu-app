@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
-    title: 'Sign in — SalonFlow',
+    title: 'Admin sign in — SalonFlow',
   },
   {
     path: 'therapist',
@@ -153,7 +153,7 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: '', pathMatch: 'full', redirectTo: 'therapist' },
   {
     path: '**',
     loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound),

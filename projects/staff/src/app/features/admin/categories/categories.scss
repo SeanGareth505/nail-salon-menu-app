@@ -126,6 +126,14 @@
   cursor: pointer;
 }
 
+.delete-link {
+  border: 0;
+  background: transparent;
+  font: 400 0.78rem/1 var(--sf-font-body);
+  color: var(--sf-danger);
+  cursor: pointer;
+}
+
 .new-card {
   min-height: 160px;
   border: 1px dashed var(--sf-border-strong);

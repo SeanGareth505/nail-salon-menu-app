@@ -4,7 +4,7 @@
 .new-row { display: flex; gap: 6px; margin-bottom: var(--sf-space-2); }
 .new-row input { flex: 1; padding: 8px 10px; border-radius: var(--sf-radius-sm); border: 1.5px solid var(--sf-border); }
 .template-row { display: flex; justify-content: space-between; align-items: center; gap: var(--sf-space-2); padding: var(--sf-space-3); border-radius: var(--sf-radius-sm); border: none; background: transparent; cursor: pointer; text-align: left; font-family: var(--sf-font-body); }
-.template-row.active { background: var(--sf-sage-light); }
+.template-row.active { background: var(--sf-selected-bg); }
 .template-row-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
 .template-row-name { font-weight: 600; }
 .template-row-badges { display: flex; flex-wrap: wrap; gap: 6px; }

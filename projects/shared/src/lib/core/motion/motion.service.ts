@@ -9,10 +9,13 @@ export class MotionService {
   readonly splashVisible = signal(true);
   readonly splashLeaving = signal(false);
 
-  private splashMinMs = 120;
-  private splashMaxMs = 1800;
+  private splashMinMs = 80;
+  private splashMaxMs = 900;
   private splashStartedAt = 0;
   private splashHideTimer: ReturnType<typeof setTimeout> | null = null;
+  private splashExitTimer: ReturnType<typeof setTimeout> | null = null;
+  private hideScheduled = false;
+  private ready = false;
 
   init(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -26,14 +29,15 @@ export class MotionService {
 
     if (this.reducedMotion()) {
       this.splashMinMs = 0;
-      this.splashMaxMs = 120;
+      this.splashMaxMs = 80;
     }
 
     this.splashStartedAt = performance.now();
-    this.splashHideTimer = setTimeout(() => this.tryHideSplash(), this.splashMaxMs);
+    this.splashHideTimer = setTimeout(() => this.forceHideSplash(), this.splashMaxMs);
   }
 
   markReady(): void {
+    this.ready = true;
     this.tryHideSplash();
   }
 
@@ -43,15 +47,40 @@ export class MotionService {
   }
 
   private tryHideSplash(): void {
-    if (this.splashLeaving()) return;
+    if (!this.ready || this.hideScheduled || !this.splashVisible()) return;
+
     const elapsed = performance.now() - this.splashStartedAt;
     const remaining = Math.max(0, this.splashMinMs - elapsed);
 
-    if (this.splashHideTimer) clearTimeout(this.splashHideTimer);
-    this.splashHideTimer = setTimeout(() => {
-      this.splashLeaving.set(true);
-      const exitMs = this.reducedMotion() ? 1 : 180;
-      setTimeout(() => this.splashVisible.set(false), exitMs);
-    }, remaining);
+    if (this.splashHideTimer) {
+      clearTimeout(this.splashHideTimer);
+      this.splashHideTimer = null;
+    }
+
+    this.hideScheduled = true;
+    this.splashHideTimer = setTimeout(() => this.beginSplashExit(), remaining);
+  }
+
+  private forceHideSplash(): void {
+    if (!this.splashVisible() && !this.splashLeaving()) return;
+    this.hideScheduled = true;
+    this.beginSplashExit();
+  }
+
+  private beginSplashExit(): void {
+    if (this.splashHideTimer) {
+      clearTimeout(this.splashHideTimer);
+      this.splashHideTimer = null;
+    }
+    if (!this.splashVisible()) return;
+
+    this.splashLeaving.set(true);
+    const exitMs = this.reducedMotion() ? 1 : 160;
+    if (this.splashExitTimer) clearTimeout(this.splashExitTimer);
+    this.splashExitTimer = setTimeout(() => {
+      this.splashVisible.set(false);
+      this.splashLeaving.set(false);
+      this.splashExitTimer = null;
+    }, exitMs);
   }
 }

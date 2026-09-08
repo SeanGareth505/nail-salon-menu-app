@@ -150,8 +150,8 @@ h1 {
 .error-box {
   font-size: 13px;
   line-height: 1.6;
-  background: #fcefeb;
-  color: #963d39;
+  background: var(--sf-danger-bg);
+  color: var(--sf-danger);
   padding: 14px;
   border-radius: 8px;
   margin-bottom: 18px;

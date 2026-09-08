@@ -53,9 +53,18 @@ export class Categories {
     this.editing.set(null);
   }
 
-  async remove(c: Category): Promise<void> {
-    if (!confirm(`Remove "${c.name}"?`)) return;
+  async remove(c: Category | Partial<Category>): Promise<void> {
+    if (!c.id || !c.name) return;
+    const linked = this.treatmentCount(c.id);
+    const warning =
+      linked > 0
+        ? `Remove "${c.name}"? ${linked} treatment${linked === 1 ? '' : 's'} still use this category.`
+        : `Remove "${c.name}"?`;
+    if (!confirm(warning)) return;
     await this.categoriesSvc.remove(c.id);
+    if (this.editing()?.id === c.id) {
+      this.editing.set(null);
+    }
   }
 
   treatmentCount(categoryId: string): number {

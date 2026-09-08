@@ -26,7 +26,46 @@ describe('resolveBranding', () => {
     expect(result).toEqual(BRANDING_DEFAULTS);
   });
 
-  it('keeps primary button text readable against the default rose', () => {
+  it('migrates the prior sage palette to the current palette', () => {
+    const result = resolveBranding({
+      ...BRANDING_DEFAULTS,
+      primary: '#3f6b55',
+      secondary: '#7fa891',
+      accent: '#d4a574',
+      background: '#eef4ef',
+      surface: '#fffcf7',
+      text: '#1f2a24',
+    });
+    expect(result).toEqual(BRANDING_DEFAULTS);
+  });
+
+  it('migrates the prior mineral palette to the current palette', () => {
+    const result = resolveBranding({
+      ...BRANDING_DEFAULTS,
+      primary: '#2f5f6a',
+      secondary: '#7fa3ad',
+      accent: '#c97b6e',
+      background: '#f1f5f6',
+      surface: '#ffffff',
+      text: '#1a282e',
+    });
+    expect(result).toEqual(BRANDING_DEFAULTS);
+  });
+
+  it('migrates the prior noir palette to the current palette', () => {
+    const result = resolveBranding({
+      ...BRANDING_DEFAULTS,
+      primary: '#2b2426',
+      secondary: '#a08c7d',
+      accent: '#b08968',
+      background: '#f7f3ef',
+      surface: '#fffcfa',
+      text: '#221d1e',
+    });
+    expect(result).toEqual(BRANDING_DEFAULTS);
+  });
+
+  it('keeps primary button text readable against the default primary', () => {
     const channels = BRANDING_DEFAULTS.primary.match(/[a-f0-9]{2}/gi)!.map((channel) => {
       const value = parseInt(channel, 16) / 255;
       return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;

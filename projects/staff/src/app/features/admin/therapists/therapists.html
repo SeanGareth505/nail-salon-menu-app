@@ -98,11 +98,23 @@
         <p class="photo-error" role="alert">{{ saveError() }}</p>
       }
       <div class="admin-form-actions">
-        <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        <button type="button" class="admin-btn ghost" (click)="cancel()" [disabled]="saving() || removing()">
+          Cancel
+        </button>
+        @if (!isNew() && d.id) {
+          <button
+            type="button"
+            class="admin-btn danger"
+            [disabled]="saving() || removing()"
+            (click)="removeEditing()"
+          >
+            {{ removing() ? 'Removing…' : 'Delete' }}
+          </button>
+        }
         <button
           type="button"
           class="admin-btn"
-          [disabled]="saving() || !d.name?.trim() || !d.role?.trim()"
+          [disabled]="saving() || removing() || !d.name?.trim() || !d.role?.trim()"
           (click)="save()"
         >
           {{ saving() ? 'Saving…' : 'Save therapist' }}
@@ -143,6 +155,9 @@
         </div>
         <div class="card-actions">
           <button type="button" class="pill-btn outline" (click)="edit(t)">Edit profile</button>
+          <button type="button" class="pill-btn danger" [disabled]="removing()" (click)="remove(t)">
+            Delete
+          </button>
         </div>
       </article>
     }

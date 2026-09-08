@@ -59,9 +59,10 @@
   font-size: 14px;
 }
 .rail nav a.active {
-  background: var(--sf-blush);
+  background: var(--sf-sand);
   color: var(--sf-ink);
-  box-shadow: inset 3px 0 var(--sf-sage);
+  font-weight: 500;
+  box-shadow: inset 2px 0 var(--sf-forest);
 }
 .rail nav a:hover {
   background: var(--sf-canvas);
@@ -204,8 +205,8 @@
     font-weight: 650;
   }
   .mobile-tabs a.active .tab-icon {
-    background: var(--sf-blush);
-    color: var(--sf-forest-dark);
+    background: var(--sf-sand);
+    color: var(--sf-forest);
     animation: tab-select var(--sf-dur-normal) var(--sf-ease-enter);
   }
   .mobile-tabs a:active .tab-icon {

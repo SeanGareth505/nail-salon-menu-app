@@ -1,6 +1,6 @@
 .tile {
   position: relative;
-  border: 1px solid rgba(74, 107, 87, 0.14);
+  border: 1px solid color-mix(in srgb, var(--sf-ink) 14%, transparent);
   padding: 16px 16px 15px;
   display: flex;
   flex-direction: column;
@@ -47,7 +47,7 @@
   font-size: 0.656rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(51, 51, 51, 0.48);
+  color: color-mix(in srgb, var(--sf-ink) 48%, transparent);
   margin-top: 7px;
   font-weight: 400;
 }
@@ -64,7 +64,7 @@
 
 .tint-sky {
   background: var(--sf-sky);
-  color: #8fb4ce;
+  color: var(--sf-sage);
 }
 
 .tint-sand {

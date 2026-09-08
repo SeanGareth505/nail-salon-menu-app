@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { APP_ENVIRONMENT } from '@core/environment/app-environment';
 import { AuthService } from '@core/auth/auth.service';
 import { SalonIdentityService } from '@core/services/salon-identity.service';
 import { SfIcon } from '@shared/components/icon/icon';
@@ -16,8 +17,10 @@ import { SfIcon } from '@shared/components/icon/icon';
 export class Login {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly environment = inject(APP_ENVIRONMENT);
 
   readonly identity = inject(SalonIdentityService);
+  readonly menuUrl = this.environment.publicOrigin;
   readonly email = signal('');
   readonly password = signal('');
   readonly showPassword = signal(false);

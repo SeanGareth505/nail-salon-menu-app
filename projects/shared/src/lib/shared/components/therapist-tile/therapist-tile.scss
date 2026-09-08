@@ -13,7 +13,7 @@
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  border: 1px solid rgba(201, 169, 110, 0.35);
+  border: 1px solid color-mix(in srgb, var(--sf-champagne) 35%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,14 +51,14 @@
   font-size: 0.6875rem;
   font-weight: 300;
   line-height: 1.4;
-  color: rgba(51, 51, 51, 0.52);
+  color: color-mix(in srgb, var(--sf-ink) 52%, transparent);
   margin-top: 2px;
 }
 
 @media (min-width: 768px) {
   .tile {
     width: 100%;
-    border: 1px solid rgba(74, 107, 87, 0.14);
+    border: 1px solid color-mix(in srgb, var(--sf-ink) 14%, transparent);
     background: transparent;
     padding: 24px 14px;
     gap: 12px;
@@ -80,7 +80,7 @@
 
   .role {
     font-size: 0.719rem;
-    color: rgba(51, 51, 51, 0.55);
+    color: color-mix(in srgb, var(--sf-ink) 55%, transparent);
     text-align: center;
     max-width: none;
   }

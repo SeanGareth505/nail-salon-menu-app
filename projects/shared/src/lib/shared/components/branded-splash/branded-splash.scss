@@ -7,7 +7,8 @@
   justify-content: center;
   background: var(--sf-canvas);
   opacity: 1;
-  transition: opacity 180ms ease;
+  transition: opacity 160ms ease;
+  touch-action: none;
 }
 .splash.leaving {
   opacity: 0;

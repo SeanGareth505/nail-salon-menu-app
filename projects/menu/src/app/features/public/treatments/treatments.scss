@@ -45,10 +45,10 @@ h1 {
   flex: 1;
   min-width: 0;
   border: 1px solid var(--sf-border);
-  background: var(--sf-canvas);
+  background-color: var(--sf-surface);
   padding: 0 16px;
   height: 50px;
-  border-radius: 9px;
+  border-radius: var(--sf-radius-sm);
   color: var(--sf-ink-muted);
 }
 .search-box input {
@@ -80,7 +80,7 @@ h1 {
   padding: 0 35px 0 14px;
   border: 1px solid var(--sf-border);
   border-radius: 9px;
-  background: white;
+  background-color: var(--sf-surface);
   color: var(--sf-ink);
   font-size: 13px;
 }
@@ -125,9 +125,14 @@ h1 {
   opacity: 0.8;
 }
 .category-filter.active {
-  background: var(--sf-sage-light);
-  color: var(--sf-forest);
+  background: var(--sf-forest);
+  color: var(--sf-on-forest);
+  border-color: var(--sf-forest);
   font-weight: 600;
+}
+.category-filter.active span {
+  color: var(--sf-on-forest);
+  opacity: 0.72;
 }
 .category-filter:hover {
   background: var(--sf-neutral);
@@ -226,7 +231,7 @@ h1 {
     justify-content: space-between;
   }
   .sort-control select {
-    height: 42px;
+    height: 44px;
     flex: 1;
   }
   .menu-layout {
@@ -238,17 +243,32 @@ h1 {
   .filters-card {
     position: static;
   }
+  // A horizontal rail with a native scrollbar sitting under it is the single
+  // most obviously "unfinished" thing on a phone. Hide the bar, snap the
+  // chips, and let the row bleed to the screen edge so it reads as swipeable.
   .category-chips {
     flex-direction: row;
+    gap: 8px;
     overflow-x: auto;
-    margin-right: -20px;
-    padding-right: 20px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin: 0 calc(var(--sf-client-pad-x, 20px) * -1);
+    padding: 2px var(--sf-client-pad-x, 20px);
+  }
+  .category-chips::-webkit-scrollbar {
+    display: none;
   }
   .category-filter {
     white-space: nowrap;
     border: 1px solid var(--sf-border);
-    padding: 12px;
+    background: var(--sf-surface);
+    border-radius: var(--sf-radius-pill);
+    padding: 0 14px;
+    min-height: 40px;
+    gap: 8px;
     flex-shrink: 0;
+    scroll-snap-align: start;
   }
   .filters .filter-label {
     display: none;
@@ -318,7 +338,7 @@ h1 {
     padding: 10px 14px;
     border: 1px solid var(--sf-border);
     border-radius: 8px;
-    background: white;
+    background: var(--sf-surface);
     color: var(--sf-ink);
     font-size: 13px;
     font-weight: 500;
@@ -336,7 +356,7 @@ h1 {
     height: 20px;
     border-radius: 5px;
     background: var(--sf-forest);
-    color: white;
+    color: var(--sf-on-forest);
     font-size: 11px;
   }
   .filter-toggle-label {

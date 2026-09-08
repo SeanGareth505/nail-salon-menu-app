@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { afterNextRender, Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { ThemeService } from '@core/theme/theme.service';
@@ -53,9 +53,13 @@ export class App {
     this.motion.init();
     this.connectivity.init();
 
+    if (this.router.navigated) {
+      this.motion.markReady();
+    }
     this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
       this.motion.markReady();
     });
+    afterNextRender(() => this.motion.markReady());
   }
 
   retryConnection(): void {

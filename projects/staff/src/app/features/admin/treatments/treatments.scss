@@ -78,7 +78,7 @@
 }
 
 .list-row.selected {
-  background: var(--sf-sage-light);
+  background: var(--sf-selected-bg);
 }
 
 .list-row.cdk-drag-preview {
@@ -369,7 +369,7 @@
 .upload-error {
   margin: 6px 0 0;
   font-size: 0.78rem;
-  color: #a3453a;
+  color: var(--sf-danger);
 }
 
 .delete-btn {
@@ -378,7 +378,7 @@
   padding: 0 16px;
   border: 0;
   background: transparent;
-  color: #8a5a5a;
+  color: var(--sf-danger-muted);
   font: 400 0.81rem/1 var(--sf-font-body);
   cursor: pointer;
 }

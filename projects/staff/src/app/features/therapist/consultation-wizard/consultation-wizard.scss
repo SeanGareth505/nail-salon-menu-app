@@ -199,7 +199,7 @@ h1 {
 }
 .form-option.selected {
   border-color: var(--sf-forest);
-  background: var(--sf-sage-light);
+  background: var(--sf-selected-bg);
 }
 .form-option-copy {
   display: flex;
@@ -235,12 +235,12 @@ h1 {
   font-size: 15px;
 }
 .field.invalid {
-  border-color: #a3453a;
+  border-color: var(--sf-danger);
 }
 .req,
 .error,
 .sf-field-error {
-  color: #a3453a;
+  color: var(--sf-danger);
 }
 .client-results-panel {
   border: 1px solid var(--sf-border);
@@ -378,8 +378,8 @@ h1 {
   padding: 16px;
   margin-top: 16px;
   border-radius: 9px;
-  background: #fcf0ee;
-  color: #963d39;
+  background: var(--sf-danger-bg);
+  color: var(--sf-danger);
   font-size: 14px;
 }
 .setup-alert-link {
@@ -854,7 +854,7 @@ h1 {
   margin-bottom: 12px;
 }
 .section-validation {
-  color: #a3453a;
+  color: var(--sf-danger);
   font-size: 14px;
   line-height: 1.6;
   margin: 16px 0 0;

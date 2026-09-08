@@ -29,6 +29,9 @@
       >
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        @if (!isNew() && d.id) {
+          <button type="button" class="admin-btn danger" (click)="remove(d)">Delete</button>
+        }
         <button type="button" class="admin-btn" (click)="save()">Save</button>
       </div>
     </div>
@@ -55,6 +58,7 @@
               c.active ? 'Active' : 'Draft'
             }}</span>
             <button type="button" class="edit-link" (click)="edit(c)">Edit</button>
+            <button type="button" class="delete-link" (click)="remove(c)">Delete</button>
           </div>
         </div>
       </article>

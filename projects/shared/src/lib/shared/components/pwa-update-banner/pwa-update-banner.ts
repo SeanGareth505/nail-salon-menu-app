@@ -34,7 +34,7 @@ import { overlayEnter } from '../../animations/motion.animations';
       align-items: center;
       gap: 14px;
       padding: 14px 16px;
-      border: 1px solid rgba(201, 169, 110, 0.4);
+      border: 1px solid color-mix(in srgb, var(--sf-champagne) 40%, transparent);
       border-radius: var(--sf-radius-sm);
       background: var(--sf-surface);
       box-shadow: var(--sf-shadow-card);
@@ -73,7 +73,7 @@ import { overlayEnter } from '../../animations/motion.animations';
       display: block;
       font-weight: 300;
       font-size: 0.719rem;
-      color: rgba(51, 51, 51, 0.55);
+      color: color-mix(in srgb, var(--sf-ink) 55%, transparent);
       margin-top: 2px;
     }
 
@@ -96,13 +96,13 @@ import { overlayEnter } from '../../animations/motion.animations';
 
     .primary {
       background: var(--sf-champagne);
-      color: #fff;
+      color: var(--sf-on-forest);
     }
 
     .ghost {
       background: transparent;
       color: var(--sf-forest);
-      border: 1px solid rgba(74, 107, 87, 0.35);
+      border: 1px solid color-mix(in srgb, var(--sf-ink) 35%, transparent);
     }
   `],
 })

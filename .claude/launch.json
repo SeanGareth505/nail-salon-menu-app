@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "menu",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:menu"],
+      "port": 4200
+    },
+    {
+      "name": "staff",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:staff"],
+      "port": 4300
+    }
+  ]
+}

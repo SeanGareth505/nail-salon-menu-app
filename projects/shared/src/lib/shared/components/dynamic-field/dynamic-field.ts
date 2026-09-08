@@ -219,7 +219,7 @@ import { expandCollapse } from '../../animations/motion.animations';
       border-color: var(--sf-forest);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--sf-forest) 12%, transparent);
     }
-    .invalid { border-color: #a3453a; }
+    .invalid { border-color: var(--sf-danger); }
     .ack-row {
       display: flex;
       align-items: flex-start;
@@ -265,7 +265,7 @@ import { expandCollapse } from '../../animations/motion.animations';
     .block.warning .body-text { font-size: 1rem; line-height: 1.7; }
     .block.warning > div { min-width: 0; }
     .ack-row:has(input:checked) { background: var(--sf-blush); border-color: var(--sf-border-strong); }
-    .ack-row:has(input[aria-invalid=true]) { border-color: #a3453a; }
+    .ack-row:has(input[aria-invalid=true]) { border-color: var(--sf-danger); }
     .ack-row input { accent-color: var(--sf-forest); }
     button:focus-visible { outline: 2px solid var(--sf-forest); outline-offset: 3px; }
     .block.info { background: var(--sf-canvas); }

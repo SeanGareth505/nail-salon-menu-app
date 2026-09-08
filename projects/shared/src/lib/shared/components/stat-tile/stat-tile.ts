@@ -26,7 +26,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         padding: 22px;
         border: 1px solid var(--sf-border);
         border-radius: 12px;
-        background: white;
+        background: var(--sf-surface);
       }
       .label {
         font-size: 12px;

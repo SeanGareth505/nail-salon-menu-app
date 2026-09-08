@@ -19,14 +19,14 @@ export class LottieThemeService {
     const read = (token: string, fallback: string) => styles.getPropertyValue(token).trim() || fallback;
 
     return {
-      forest: hexToLottie(read('--sf-forest', '#6f8f7a')),
-      sage: hexToLottie(read('--sf-sage', '#a3b9ab')),
-      sageLight: hexToLottie(read('--sf-sage-light', '#e8f0eb')),
-      champagne: hexToLottie(read('--sf-champagne', '#c2a888')),
-      champagneLight: hexToLottie(read('--sf-champagne-light', '#f3eee5')),
-      ivory: hexToLottie(read('--sf-ivory', '#fafbf9')),
-      ink: hexToLottie(read('--sf-ink', '#2e3531')),
-      inkMuted: hexToLottie(read('--sf-ink-muted', '#6a746e')),
+      forest: hexToLottie(read('--sf-forest', '#5b2b45')),
+      sage: hexToLottie(read('--sf-sage', '#7c9a8e')),
+      sageLight: hexToLottie(read('--sf-sage-light', '#e3ede8')),
+      champagne: hexToLottie(read('--sf-champagne', '#c08a4a')),
+      champagneLight: hexToLottie(read('--sf-champagne-light', '#f8eedd')),
+      ivory: hexToLottie(read('--sf-ivory', '#ffffff')),
+      ink: hexToLottie(read('--sf-ink', '#2a1f26')),
+      inkMuted: hexToLottie(read('--sf-ink-muted', '#6e5f67')),
     };
   }
 

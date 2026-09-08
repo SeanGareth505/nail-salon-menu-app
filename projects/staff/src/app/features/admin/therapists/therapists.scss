@@ -156,6 +156,16 @@
   color: var(--sf-champagne-ink);
 }
 
+.pill-btn.danger {
+  border: 1px solid color-mix(in srgb, var(--sf-danger) 45%, transparent);
+  color: var(--sf-danger);
+}
+
+.pill-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .new-card {
   min-height: 200px;
   border: 1px dashed var(--sf-border-strong);
@@ -228,18 +238,18 @@
 }
 
 .pin-hidden-help {
-  color: #a3453a;
+  color: var(--sf-danger);
   margin-top: var(--sf-space-2);
 }
 
 .pin-error {
-  color: #a3453a;
+  color: var(--sf-danger);
   font-size: 0.85rem;
   margin-top: var(--sf-space-2);
 }
 
 .danger-text {
-  color: #a3453a;
+  color: var(--sf-danger);
   margin-top: var(--sf-space-3);
 }
 
@@ -328,7 +338,7 @@
   cursor: pointer;
 }
 .photo-error {
-  color: #a3453a !important;
+  color: var(--sf-danger) !important;
   font-size: 13px;
 }
 .photo-copy .photo-hint {

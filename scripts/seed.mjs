@@ -79,12 +79,12 @@ async function main() {
 
   await setDoc(doc(db, 'branding/default'), {
     id: 'default',
-    primary: '#6f8f7a',
-    secondary: '#a3b9ab',
-    accent: '#c2a888',
-    background: '#f5f6f3',
-    surface: '#fafbf9',
-    text: '#2e3531',
+    primary: '#5b2b45',
+    secondary: '#7c9a8e',
+    accent: '#c08a4a',
+    background: '#faf5f2',
+    surface: '#ffffff',
+    text: '#2a1f26',
     logoUrl: '/assets/salonflow-logo.png',
     ...demoMeta(),
   });

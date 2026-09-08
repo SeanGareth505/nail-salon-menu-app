@@ -226,6 +226,15 @@ export class Specials {
   async remove(s: Special): Promise<void> {
     if (!confirm(`Remove "${s.title}"?`)) return;
     await this.specialsSvc.deleteSpecial(s.id);
+    if (this.editing()?.id === s.id) {
+      this.editing.set(null);
+    }
+  }
+
+  async removeEditing(): Promise<void> {
+    const d = this.editing();
+    if (!d?.id) return;
+    await this.remove(d as Special);
   }
 
   async endNow(s: Special): Promise<void> {

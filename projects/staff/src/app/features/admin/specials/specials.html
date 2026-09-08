@@ -217,6 +217,9 @@
 
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
+        @if (!isNew() && d.id) {
+          <button type="button" class="admin-btn danger" (click)="removeEditing()">Delete</button>
+        }
         <button type="button" class="admin-btn" (click)="save()">
           {{ saveAsDraft() ? 'Save draft' : 'Publish' }}
         </button>
@@ -267,6 +270,7 @@
             </div>
             <div class="row-actions">
               <button type="button" class="pill-btn outline" (click)="edit(s)">Edit</button>
+              <button type="button" class="pill-btn danger" (click)="remove(s)">Delete</button>
               <button
                 type="button"
                 class="pill-btn"

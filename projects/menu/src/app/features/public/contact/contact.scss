@@ -38,7 +38,7 @@ h1 {
   border: 1px solid var(--sf-border);
   border-radius: 12px;
   color: var(--sf-ink);
-  background: white;
+  background: var(--sf-surface);
 }
 .contact-action > span:last-child {
   margin-left: auto;
@@ -58,7 +58,7 @@ h1 {
 .contact-action.primary {
   background: var(--sf-forest);
   border-color: var(--sf-forest-dark);
-  color: white;
+  color: var(--sf-on-forest);
 }
 .contact-action.primary small {
   color: var(--sf-on-forest);
