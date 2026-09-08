@@ -12,11 +12,11 @@
     <div class="auth-card sf-card">
       <header class="auth-card-head">
         <p class="sf-eyebrow">Staff portal</p>
-        <h1>Admin sign in</h1>
-        <p class="subtitle">Email and password for salon owners and managers.</p>
+        <h1>Welcome back.</h1>
+        <p class="subtitle">Sign in to manage your salon, menu, and team.</p>
       </header>
 
-      <form class="auth-form" (ngSubmit)="submit()">
+      <form class="auth-form" #loginForm="ngForm" (ngSubmit)="submit()">
         <div class="field">
           <label for="email">Email</label>
           <div class="field-control">
@@ -61,14 +61,14 @@
           <p class="error-box" role="alert">{{ error() }}</p>
         }
 
-        <button type="submit" class="submit" [disabled]="loading()">
+        <button type="submit" class="submit" [disabled]="loading() || loginForm.invalid">
           {{ loading() ? 'Signing in…' : 'Sign in' }}
         </button>
       </form>
     </div>
 
     <footer class="auth-footer">
-      <a routerLink="/therapist/consent-forms/new" class="alt-link">Open tablet consent form</a>
+      <a routerLink="/therapist" class="alt-link">Open staff workspace</a>
       <div class="auth-footer-divider"></div>
       <a routerLink="/" class="back">Back to the menu</a>
     </footer>

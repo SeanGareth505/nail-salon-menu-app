@@ -1,6 +1,6 @@
 @if (treatment(); as t) {
   <div class="detail-page">
-    <button type="button" class="back-link desktop-only" (click)="back()">← All treatments</button>
+    <a class="back-link" routerLink="/treatments">← All treatments</a>
 
     <div class="hero mobile-only sf-motion-fade-in" [class]="'tint-' + heroTint()">
       <div class="hero-frame"></div>
@@ -30,7 +30,7 @@
                 <span class="stat-value">{{ t.price | formatRand }}</span>
               }
             </div>
-            <button type="button" class="reception-cta desktop-only">Ask at reception</button>
+            
           </div>
 
           @if (specialView()?.badge === 'bundle') {
@@ -42,6 +42,8 @@
           }
 
           <p class="description">{{ t.description }}</p>
+          <a class="enquire-button" routerLink="/contact" [queryParams]="{ treatment: t.name }">Enquire about this treatment <sf-icon name="arrow-right" [size]="17" /></a>
+          <p class="enquire-hint">Contact the salon to arrange your visit.</p>
 
           @if (performedBy().length) {
             <section class="performer-block">
@@ -88,6 +90,8 @@
       }
     </div>
   </div>
+} @else if (!loading()) {
+  <div class="detail-empty"><h1>{{ loadError() ? 'Treatment couldn’t load' : 'Treatment not found' }}</h1><p>{{ loadError() ? 'Please check your connection and try again.' : 'This treatment may no longer be on our menu.' }}</p><a routerLink="/treatments">Explore all treatments →</a></div>
 } @else {
   <div class="detail-loading">
     <sf-skeleton variant="treatment-detail" />

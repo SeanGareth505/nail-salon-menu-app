@@ -24,8 +24,8 @@
         @if (uploadError()) { <p class="upload-error">{{ uploadError() }}</p> }
       </div>
       <div class="admin-field">
-        <label>Mark initials</label>
-        <input [ngModel]="form().markInitial" (ngModelChange)="set('markInitial', $event)" maxlength="2" placeholder="SF" />
+        <label for="field-branding-1">Mark initials</label>
+        <input id="field-branding-1" [ngModel]="form().markInitial" (ngModelChange)="set('markInitial', $event)" maxlength="2" placeholder="SF" />
         <p class="field-hint">Shown when no logo is uploaded — header, splash screen and sign-in pages.</p>
       </div>
       <div class="admin-form-actions">

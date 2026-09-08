@@ -1,229 +1,52 @@
 <div class="home">
-  <div class="mobile-only">
-    <section class="home-hero">
-      <div class="home-hero-inner">
-        <header class="home-brand" sfReveal>
-          <img [src]="identity.logoUrl()" [alt]="identity.name()" class="home-logo" />
-          <p class="sf-eyebrow home-kicker">Welcome to</p>
-          <h1 class="home-name">{{ identity.name() }}</h1>
-          <p class="sf-script home-tagline">{{ identity.tagline() }}</p>
-          @if (openStatusLabel()) {
-            <p class="home-status">
-              <span class="status-dot" aria-hidden="true"></span>
-              {{ openStatusLabel() }}
-            </p>
-          }
-        </header>
-
-        <nav class="home-nav" aria-label="Main menu" sfReveal sfRevealMode="stagger">
-          @for (item of navItems; track item.path; let i = $index) {
-            <a
-              [class]="'nav-tile nav-tile--' + item.tint"
-              [routerLink]="item.path"
-              sfRevealStagger
-              [sfRevealStaggerIndex]="i"
-            >
-              <span class="nav-tile-icon" aria-hidden="true">
-                <sf-icon [name]="item.icon" [size]="24" />
-              </span>
-              <span class="nav-tile-copy">
-                <span class="nav-tile-label">{{ item.label }}</span>
-                <span class="nav-tile-desc">{{ item.description }}</span>
-              </span>
-            </a>
-          }
-        </nav>
-      </div>
-    </section>
-
-    @if (settings(); as s) {
-      <section class="home-visit" sfReveal>
-        <div class="home-visit-inner">
-          <div class="visit-copy">
-            <h2 class="visit-title">Visit us</h2>
-            <p class="visit-address">
-              {{ s.addressLine1 }}@if (s.addressLine2) {, {{ s.addressLine2 }} }@if (s.city) { · {{ s.city }} }
-            </p>
-          </div>
-          <div class="visit-actions">
-            <a class="visit-btn visit-btn--primary" [href]="'tel:' + s.phone">
-              <sf-icon name="phone" [size]="17" />
-              Call
-            </a>
-            <a class="visit-btn visit-btn--whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener noreferrer">
-              <sf-icon name="whatsapp" [size]="17" />
-              WhatsApp
-            </a>
-            <a class="visit-btn visit-btn--outline" [href]="mapsUrl(s)" target="_blank" rel="noopener noreferrer">
-              <sf-icon name="map-pin" [size]="17" />
-              Directions
-            </a>
-          </div>
-        </div>
-      </section>
-    }
-
-    @if (pwa.canInstall()) {
-      <section class="install-card home-install" sfReveal>
-        <div class="install-mark">{{ identity.markInitial() }}</div>
-        <div class="install-copy">
-          <span class="install-title">Keep {{ identity.name() }} on your phone</span>
-          <span class="install-sub">Add to home screen — works offline</span>
-        </div>
-        <button type="button" class="install-btn" (click)="install()">Install</button>
-      </section>
-    }
-  </div>
-
-  <div class="desktop-only">
-    <section class="home-hero-banner" sfReveal>
-      <div class="hero-frame" aria-hidden="true"></div>
-      <div class="hero-banner-copy">
-        <p class="sf-eyebrow hero-kicker">Welcome to</p>
-        <span class="hero-divider" aria-hidden="true"></span>
-        <h1 class="hero-banner-title">{{ identity.name() }}</h1>
-        <p class="sf-script hero-banner-tagline">{{ identity.tagline() }}</p>
-      </div>
-    </section>
-
-    <section class="home-cta" sfReveal>
-      <div class="home-cta-inner">
-        <p class="home-intro">Welcome in. Browse the full treatment menu, this week's specials and the team looking after you today.</p>
-        <div class="home-cta-actions">
-          <a class="btn btn-primary" routerLink="/treatments">Explore Treatments <span aria-hidden="true">→</span></a>
-          <a class="btn btn-outline" routerLink="/specials">View Specials</a>
-        </div>
-      </div>
-    </section>
-
-    @if (categoriesWithCount().length) {
-      <section class="home-section" sfReveal>
-        <div class="section-head">
-          <h2>Browse by category</h2>
-        </div>
-        <div class="category-grid" sfReveal sfRevealMode="stagger">
-          @for (item of categoriesWithCount(); track item.category.id; let i = $index) {
-            <a
-              class="category-card"
-              [class]="'tint-' + item.category.tint"
-              [routerLink]="categoryLink(item.category.slug)"
-              [queryParams]="categoryQuery(item.category.slug)"
-              sfRevealStagger
-              [sfRevealStaggerIndex]="i"
-            >
-              <span class="category-watermark" aria-hidden="true">
-                <sf-icon [name]="item.icon" [size]="88" />
-              </span>
-              <span class="category-icon" aria-hidden="true">
-                <sf-icon [name]="item.icon" [size]="24" />
-              </span>
-              <span class="category-copy">
-                <span class="category-name">{{ item.category.name }}</span>
-                <span class="category-count">{{ item.count }} treatments</span>
-              </span>
-            </a>
-          }
-        </div>
-      </section>
-    }
-
-    <section class="home-section home-highlight-grid">
-      @if (weekSpecial(); as special) {
-        <div class="highlight-special" sfReveal>
-          <div class="section-head">
-            <h2>On this week</h2>
-            <a class="section-link" routerLink="/specials">All specials →</a>
-          </div>
-          <sf-special-card
-            [special]="special"
-            [compact]="true"
-            [therapistNames]="therapistNamesFor(special)"
-            [treatmentNames]="treatmentNamesFor(special)"
-            [effectiveState]="effectiveStateFor(special)"
-          />
-        </div>
+  <div class="quick-menu">
+    <header class="quick-intro"><p class="sf-eyebrow">WELCOME TO {{ identity.name() }}</p><h1>A moment for you.</h1><p>Explore the menu. Find your favourite.</p></header>
+    <nav class="quick-grid" aria-label="Explore the salon">
+      @for (item of navItems; track item.path; let i = $index) {
+        <a class="quick-tile" [class]="'quick-tile--' + item.tint" [routerLink]="item.path"><span class="quick-tile-top"><sf-icon [name]="item.icon" [size]="27" /><span aria-hidden="true">↗</span></span><strong>{{ item.label }}</strong><small>{{ item.description }}</small></a>
       }
-
-      @if (featuredTreatments().length) {
-        <div class="highlight-treatments" sfReveal>
-          <div class="section-head">
-            <h2>Featured treatments</h2>
-          </div>
-          <div class="featured-list">
-            @for (t of featuredTreatments(); track t.id) {
-              <sf-treatment-card
-                [treatment]="t"
-                layout="featured"
-                [tint]="cardTint(t)"
-                [icon]="cardIcon(t)"
-                [specialView]="specialViewFor(t.id)"
-              />
-            }
-          </div>
-        </div>
-      }
-    </section>
-
-    @if (therapists().length) {
-      <section class="home-section" sfReveal>
-        <div class="section-head">
-          <h2>Meet our therapists</h2>
-          <a class="section-link" routerLink="/therapists">The team →</a>
-        </div>
-        <div class="therapist-grid">
-          @for (p of therapists(); track p.id) {
-            <a class="therapist-tile" [routerLink]="['/therapists', p.id]">
-              <span class="therapist-avatar large" [class]="'tint-' + p.tint">{{ p.initial }}</span>
-              <span class="therapist-name">{{ therapistFirstName(p.name) }}</span>
-              <span class="therapist-role">{{ p.role }}</span>
-            </a>
-          }
-        </div>
-      </section>
-    }
-
-    @if (settings(); as s) {
-      <section class="home-visit" sfReveal>
-        <div class="home-visit-inner">
-          <div class="visit-copy">
-            <h2 class="visit-title">{{ identity.name() }}@if (s.city) { {{ s.city }} }</h2>
-            <p class="visit-address">
-              {{ s.addressLine1 }}@if (s.addressLine2) {, {{ s.addressLine2 }} }@if (s.city) { · {{ s.city }} }
-            </p>
-            @if (openStatusLabel()) {
-              <p class="visit-hours">
-                <span class="status-dot" aria-hidden="true"></span>
-                {{ openStatusLabel() }}
-              </p>
-            }
-          </div>
-          <div class="visit-actions">
-            <a class="visit-btn visit-btn--primary" [href]="'tel:' + s.phone">
-              <sf-icon name="phone" [size]="17" />
-              Call
-            </a>
-            <a class="visit-btn visit-btn--whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener noreferrer">
-              <sf-icon name="whatsapp" [size]="17" />
-              WhatsApp
-            </a>
-            <a class="visit-btn visit-btn--outline" [href]="mapsUrl(s)" target="_blank" rel="noopener noreferrer">
-              <sf-icon name="map-pin" [size]="17" />
-              Directions
-            </a>
-          </div>
-        </div>
-      </section>
-    }
-
-    @if (pwa.canInstall()) {
-      <section class="install-card home-install" sfReveal>
-        <div class="install-mark">{{ identity.markInitial() }}</div>
-        <div class="install-copy">
-          <span class="install-title">Keep {{ identity.name() }} on your phone</span>
-          <span class="install-sub">Add to home screen — works offline</span>
-        </div>
-        <button type="button" class="install-btn" (click)="install()">Install</button>
-      </section>
-    }
+    </nav>
+    @if (settings(); as s) { <section class="quick-visit"><div><sf-icon name="map-pin" [size]="17" /><span>{{ identity.city() }}<small>{{ openStatusLabel() || 'We look forward to seeing you' }}</small></span></div><a routerLink="/contact">Visit us →</a></section> }
+    @if (weekSpecial(); as special) { <a class="quick-offer" routerLink="/specials"><span><span class="sf-eyebrow">IN THE SPOTLIGHT</span><strong>{{ special.title }}</strong></span><sf-icon name="arrow-right" [size]="18" /></a> }
   </div>
+  <div class="desktop-experience">
+  <section class="welcome">
+    <div class="welcome-copy">
+      <p class="sf-eyebrow">A LITTLE TIME, JUST FOR YOU</p>
+      <h1>Feel good.<br /><em>Beautifully.</em></h1>
+      <p class="welcome-description">Find your next moment of calm. Explore treatments, meet your therapist, and make time for yourself.</p>
+      <div class="welcome-actions"><a class="btn btn-primary" routerLink="/treatments">Explore treatments <sf-icon name="arrow-right" [size]="17" /></a><a class="text-link" routerLink="/specials">Discover specials <span>↗</span></a></div>
+      <div class="welcome-note"><sf-icon name="map-pin" [size]="16" /><span>{{ identity.city() }}</span><span class="note-divider"></span><span>{{ openStatusLabel() || 'Beauty & wellness' }}</span></div>
+    </div>
+    <div class="welcome-image"><img src="/assets/salon-editorial.jpg" alt="A carefully finished manicure" fetchpriority="high" /><span class="image-caption">The beauty is in the details.</span></div>
+  </section>
+  <section class="home-section category-section">
+    <div class="section-head"><div><p class="sf-eyebrow">THE TREATMENT MENU</p><h2>What are you in the mood for?</h2></div><a class="text-link" routerLink="/treatments">View full menu <span>→</span></a></div>
+    <div class="category-grid">
+      @for (item of categoriesWithCount(); track item.category.id; let i = $index) {
+        <a class="category-card" routerLink="/treatments" [queryParams]="categoryQuery(item.category.slug)">
+          <span class="category-top"><sf-icon [name]="item.icon" [size]="26" /><span class="category-index">0{{ i + 1 }}</span></span>
+          <span class="category-name">{{ item.category.name }}</span><span class="category-bottom"><span>{{ item.count }} {{ item.count === 1 ? 'treatment' : 'treatments' }}</span><span>↗</span></span>
+        </a>
+      } @empty { <a class="category-card" routerLink="/treatments"><sf-icon name="treatments" [size]="26" /><span class="category-name">Explore our menu</span><span class="category-bottom">Find your next treatment <span>→</span></span></a> }
+    </div>
+  </section>
+  <section class="home-section home-highlights">
+    @if (featuredTreatments().length) {
+      <div class="featured-section"><div class="section-head"><div><p class="sf-eyebrow">A GOOD PLACE TO START</p><h2>A few favourites</h2></div><a class="text-link" routerLink="/treatments">All treatments →</a></div><div class="featured-list">
+        @for (t of featuredTreatments(); track t.id) { <sf-treatment-card [treatment]="t" layout="featured" [tint]="cardTint(t)" [icon]="cardIcon(t)" [specialView]="specialViewFor(t.id)" /> }
+      </div></div>
+    }
+    @if (weekSpecial(); as special) {
+      <div class="special-section"><p class="sf-eyebrow">SOMETHING EXTRA SPECIAL</p><sf-special-card [special]="special" [compact]="true" [therapistNames]="therapistNamesFor(special)" [treatmentNames]="treatmentNamesFor(special)" [effectiveState]="effectiveStateFor(special)" /><a class="text-link" routerLink="/specials">Explore all offers <span>→</span></a></div>
+    }
+  </section>
+  @if (therapists().length) {
+    <section class="home-section team-section"><div class="section-head"><div><p class="sf-eyebrow">YOU’RE IN GOOD HANDS</p><h2>Meet your people</h2></div><a class="text-link" routerLink="/therapists">Meet the team →</a></div><div class="team-grid">
+      @for (p of therapists().slice(0, 4); track p.id) { <a class="team-member" [routerLink]="['/therapists', p.id]"><span class="team-avatar">{{ p.initial }}</span><span><strong>{{ p.name }}</strong><small>{{ p.role }}</small></span><sf-icon name="arrow-right" [size]="16" /></a> }
+    </div></section>
+  }
+  <section class="visit-strip"><div><p class="sf-eyebrow">WE’D LOVE TO SEE YOU</p><h2>Your next little escape.</h2><p>Get in touch to find a time that works for you.</p></div><a class="btn btn-primary" routerLink="/contact">Plan your visit <sf-icon name="arrow-right" [size]="17" /></a></section>
+  @if (pwa.canInstall()) { <section class="install-card"><div class="install-mark">{{ identity.markInitial() }}</div><div class="install-copy"><span class="install-title">Your salon, a tap away</span><span class="install-sub">Add {{ identity.name() }} to your home screen.</span></div><button type="button" class="install-btn" (click)="install()">Install</button></section> }
+</div>
 </div>

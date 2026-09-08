@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreatmentsService } from '../../../core/services/treatments.service';
@@ -29,10 +29,14 @@ export class TreatmentDetail {
 
   readonly id = input<string>('');
 
-  readonly treatment = toSignal(
-    toObservable(this.id).pipe(switchMap((id) => (id ? this.treatmentsSvc.get(id) : []))),
-    { initialValue: undefined },
-  );
+  readonly treatmentState = toSignal(toObservable(this.id).pipe(switchMap(id => this.treatmentsSvc.get(id).pipe(
+    map(treatment => ({ treatment, loading: false, error: false })),
+    startWith({ treatment: undefined, loading: true, error: false }),
+    catchError(() => of({ treatment: undefined, loading: false, error: true })),
+  ))), { initialValue: { treatment: undefined, loading: true, error: false } });
+  readonly treatment = computed(() => this.treatmentState().treatment);
+  readonly loading = computed(() => this.treatmentState().loading);
+  readonly loadError = computed(() => this.treatmentState().error);
 
   private readonly allTherapists = toSignal(this.therapistsSvc.listActive(), { initialValue: [] });
   private readonly allTreatments = toSignal(this.treatmentsSvc.listActive(), { initialValue: [] });

@@ -1,9 +1,6 @@
 @if (motion.splashVisible()) {
-  <div class="splash" [class.leaving]="motion.splashLeaving()" aria-hidden="true">
-    <div class="splash-inner">
-      <sf-salon-loader size="splash" />
-      <p class="wordmark">{{ identity.name() }}</p>
-      <p class="tag">{{ identity.subtext() }}</p>
-    </div>
+  <div class="splash" [class.leaving]="motion.splashLeaving()" role="status" aria-live="polite" aria-label="Opening salon menu">
+    <div class="splash-inner"><sf-salon-loader size="splash" /><p class="wordmark">{{ identity.name() }}</p><p class="tag">A moment for you.</p></div>
+    <p class="splash-caption">BEAUTY & WELLNESS</p>
   </div>
 }

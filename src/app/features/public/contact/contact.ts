@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SalonSettings, SalonHours } from '../../../core/models/salon-settings.model';
 import { SalonSettingsService } from '../../../core/services/salon-settings.service';
@@ -18,6 +19,19 @@ import { salonAddressQuery, salonMapsUrl } from '../../../shared/utils/salon-map
 export class Contact {
   private readonly settingsSvc = inject(SalonSettingsService);
   readonly settings = toSignal(this.settingsSvc.get(), { initialValue: undefined });
+
+  private readonly params = toSignal(inject(ActivatedRoute).queryParamMap);
+  readonly enquiry = computed(() => (this.params()?.get('treatment') || this.params()?.get('therapist') || '').slice(0, 160));
+
+  whatsappUrl(s: SalonSettings): string {
+    const phone = s.whatsapp.replace(/[^0-9]/g, '');
+    const message = this.enquiry() ? `Hello, I'd like to enquire about ${this.enquiry()}. Please let me know your availability.` : `Hello, I'd like to arrange a visit. Please let me know your availability.`;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  }
+
+  emailUrl(s: SalonSettings): string {
+    return `mailto:${s.email}?subject=${encodeURIComponent(this.enquiry() ? `Enquiry: ${this.enquiry()}` : 'Appointment enquiry')}`;
+  }
 
   mapsUrl(s: SalonSettings): string {
     return salonMapsUrl(s);
@@ -45,7 +59,7 @@ export class Contact {
   isTodayRow(h: SalonHours): boolean {
     const dayIndex = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const today = dayIndex[new Date().getDay()];
-    if (h.day === 'monday' && ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].includes(today)) {
+    if (h.label.toLowerCase().includes('–') && h.label.toLowerCase().includes('fri') && ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].includes(today)) {
       return true;
     }
     return h.day === today;

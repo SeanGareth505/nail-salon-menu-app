@@ -2,6 +2,7 @@
 @use 'styles/tokens';
 @use 'styles/layout';
 @use 'styles/motion';
+@use 'styles/professional';
 
 // Angular Material provides structure/behaviour/accessibility (elevation,
 // state layers, shape, focus rings); the exact SalonFlow palette is then
@@ -58,7 +59,8 @@ body {
   color: var(--sf-ink);
   font: var(--mat-sys-body-medium);
   font-family: var(--sf-font-body);
-  font-weight: 300;
+  font-weight: 400;
+  font-size: 16px;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }

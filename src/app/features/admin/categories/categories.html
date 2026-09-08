@@ -3,18 +3,18 @@
     <div class="admin-form editor-modal">
       <h2>{{ isNew() ? 'New category' : 'Edit category' }}</h2>
       <div class="admin-row-3">
-        <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
+        <div class="admin-field"><label for="field-categories-1">Name</label><input id="field-categories-1" [(ngModel)]="d.name" /></div>
         <div class="admin-field">
-          <label>Icon</label>
-          <select [(ngModel)]="d.icon">
+          <label for="field-categories-2">Icon</label>
+          <select id="field-categories-2" [(ngModel)]="d.icon">
             @for (i of icons; track i) {
               <option [value]="i">{{ i }}</option>
             }
           </select>
         </div>
         <div class="admin-field">
-          <label>Tint</label>
-          <select [(ngModel)]="d.tint">
+          <label for="field-categories-3">Tint</label>
+          <select id="field-categories-3" [(ngModel)]="d.tint">
             @for (t of tints; track t) {
               <option [value]="t">{{ t }}</option>
             }

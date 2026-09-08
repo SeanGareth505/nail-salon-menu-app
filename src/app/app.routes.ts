@@ -54,6 +54,7 @@ export const routes: Routes = [
       { path: 'settings', loadComponent: () => import('./features/admin/settings/settings').then((m) => m.Settings), title: 'Salon Details — Admin' },
       { path: 'branding', loadComponent: () => import('./features/admin/branding/branding').then((m) => m.Branding), title: 'Branding — Admin' },
       { path: 'qr-codes', loadComponent: () => import('./features/admin/qr-codes/qr-codes').then((m) => m.QrCodes), title: 'QR Codes — Admin' },
+      { path: 'notifications', loadComponent: () => import('./features/admin/notifications/notifications').then((m) => m.Notifications), title: 'Notifications — Admin' },
       { path: 'users', loadComponent: () => import('./features/admin/users/users').then((m) => m.Users), title: 'Users — Admin' },
     ],
   },

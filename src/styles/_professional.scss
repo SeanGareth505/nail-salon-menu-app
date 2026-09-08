@@ -1,0 +1,60 @@
+.skip-link { position: fixed; top: -100px; left: 20px; z-index: 1000; padding: 14px 22px; background: #27232b; color: white; border-radius: 8px; }
+.skip-link:focus { top: 12px; }
+body :is(button, input, select, textarea) { font-family: var(--sf-font-body); }
+body :is(button, a) { -webkit-tap-highlight-color: transparent; }
+body button:disabled { cursor: not-allowed; }
+body :is(input,select,textarea):focus-visible { outline: 2px solid var(--sf-forest); outline-offset: 3px; }
+body :is(.search-pill, .search-box):focus-within { outline: 2px solid var(--sf-forest); outline-offset: 2px; }
+body :is(.admin-btn, .cta, .page-action, .submit, .outline-btn) { min-height: 44px; border-radius: 8px; box-shadow: none; font-weight: 500; }
+body .admin-table-wrap { border-radius: 12px; border-color: var(--sf-border); box-shadow: none; }
+body .admin-table th { padding: 16px 20px; font-size: 12px; background: #f8f6f7; color: #766d74; font-weight: 600; }
+body .admin-table td { padding: 18px 20px; font-size: 14px; }
+body .admin-table tr:hover td { background: #fcfafb; }
+body .admin-form { border-radius: 14px; padding: 28px; gap: 18px; border: 1px solid var(--sf-border); box-shadow: none; }
+body .admin-form h2 { font: 600 18px var(--sf-font-body); }
+body .admin-field label { color: var(--sf-ink); font-size: 14px; font-weight: 500; }
+body .admin-field :is(input,select,textarea) { min-height: 46px; border-width: 1px; border-radius: 8px; padding: 12px; }
+body :is(.admin-row-2,.admin-row-3) { gap: 20px; }
+body :is(.filter-chip,.chip) { min-height: 42px; font-weight: 500; }
+body .search-pill { border-radius: 8px; background: white; border: 1px solid var(--sf-border); height: 46px; }
+body .search-pill input { font-size: 14px; font-weight: 400; }
+body .admin-badge { font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 500; padding: 5px 10px; }
+app-admin-shell :is(h1,h2,h3), app-therapist-shell :is(h1,h2,h3) { font-family: var(--sf-font-body); letter-spacing: -.45px; }
+app-admin-shell :is(.panel,.card,.form-card,.editor-card), app-therapist-shell :is(.panel,.form-card,.setup-card,.section-card,.review-card) { border-color: var(--sf-border); border-radius: 12px; box-shadow: none; }
+app-admin-shell .page { max-width: 1520px; margin: 0 auto; }
+app-admin-shell .content-wrap .content { background: #f7f6f8; }
+app-admin-shell .page :is(.meta,.hint,.sub,.role,.reason) { font-size: 13px; color: #746c74; }
+app-admin-shell .page :is(.name,.client) { font-family: var(--sf-font-body); font-size: 14px; font-weight: 500; }
+app-admin-shell :is(.admin-page,.page) { padding: 32px; }
+app-admin-shell .page .page-intro { font-size: 14px; font-weight: 400; }
+app-admin-shell .page .stats-grid { gap: 16px; }
+app-admin-shell .page .panel { background: white; padding: 24px; }
+app-admin-shell sf-stat-tile .tile { padding: 24px; border: 1px solid var(--sf-border); border-radius: 12px; box-shadow: none; background: white; }
+app-admin-shell sf-stat-tile :is(.label,.hint) { font-size: 13px; letter-spacing: 0; text-transform: none; }
+app-admin-shell sf-stat-tile .value { font-family: var(--sf-font-body); font-size: 32px; font-weight: 600; letter-spacing: -1px; }
+app-public-shell :is(.sf-public-page,.sf-page-hero) { --sf-client-pad-x: 40px; }
+app-public-shell .sf-page-hero .hero-card { box-shadow: none; border-radius: 0; border: 0; background: transparent; }
+app-public-shell :is(.sf-page-hero .hero-band,.sf-page-hero .hero-band::after) { display: none; }
+app-public-shell .sf-page-hero h1 { color: var(--sf-ink); font-size: 42px; }
+app-public-shell .sf-page-hero .sub { font-size: 14px; line-height: 1.7; font-weight: 400; color: var(--sf-ink-muted); }
+app-public-shell .sf-page-hero .hero-copy { color: var(--sf-ink); }
+app-public-shell .sf-page-hero .hero-inner { padding: 30px 0; }
+app-public-shell sf-special-card :is(.card,.special-card,.compact) { box-shadow: none; border-radius: 12px; }
+app-public-shell sf-special-card :is(.title,h3) { font-size: 27px; line-height: 1.25; }
+app-public-shell sf-special-card :is(.description,.desc) { font-size: 14px; line-height: 1.7; }
+app-public-shell sf-special-card :is(.badge,.pill,.meta) { font-size: 12px; }
+@media(max-width:767px) { app-public-shell :is(.sf-public-page,.sf-page-hero) { --sf-client-pad-x: 20px; } app-public-shell .sf-page-hero h1 { font-size: 34px; } app-admin-shell :is(.admin-page,.page) { padding: 24px 18px; } body .admin-form { padding: 20px; } body .admin-table :is(th,td) { padding: 14px; } body input,body select,body textarea { font-size: 16px; } }
+
+app-admin-shell :is(.treatments-page,.specials-page,.clients-page,.categories-page) { padding: 28px 32px; }
+app-admin-shell :is(.list-pane,.editor-pane,.list-body,.settings-card,.branding-preview,.qr-preview) { background: white; border-radius: 12px; border-color: var(--sf-border); box-shadow: none; }
+app-admin-shell :is(.editor-pane,.settings-card) { padding: 24px; }
+app-admin-shell :is(.list-row,.list-header) { border-color: var(--sf-border); }
+app-admin-shell .list-row.selected { background: #f7f0f4; }
+app-admin-shell .editor-pane :is(h1,h2) { font: 600 22px var(--sf-font-body); letter-spacing: -.6px; }
+app-admin-shell :is(.save-btn,.cancel-btn,.danger-btn,.export-btn,.primary-btn,.secondary-btn) { border-radius: 8px; min-height: 42px; padding: 10px 16px; font-size: 13px; box-shadow: none; }
+app-therapist-shell :is(.page-head h1,.head-copy h1) { font-family: var(--sf-font-body); font-weight: 600; letter-spacing: -.7px; }
+app-therapist-shell :is(.search-box,.search-pill) { border-radius: 8px; border: 1px solid var(--sf-border); background: white; }
+app-therapist-shell :is(.client-name,.client-row .name) { font-family: var(--sf-font-body); font-weight: 500; }
+sf-consent-form-complete-panel .cta { min-height: 44px; border-radius: 8px; font-size: 14px; box-shadow: none; }
+sf-consent-form-complete-panel .cta:disabled { color: #62525d; background: #d9ced5; }
+@media(max-width:767px) { app-admin-shell :is(.treatments-page,.specials-page,.clients-page,.categories-page) { padding: 22px 18px; } app-admin-shell .editor-pane { padding: 20px; } }

@@ -2,14 +2,15 @@
   <header class="page-head">
     <div>
       <p class="date">{{ today | date: 'EEEE, d MMMM y' }}</p>
-      <h1>{{ greeting() }}</h1>
+      <h1>{{ greeting() }}.</h1><p class="welcome-note">Let’s take care of today.</p>
     </div>
     <a routerLink="/therapist/consent-forms/new" class="cta">Start consent form →</a>
   </header>
 
+  <nav class="workspace-shortcuts" aria-label="Staff quick actions"><a routerLink="/therapist/clients"><span>Client directory</span><small>Find a client or view their history</small><span class="shortcut-arrow">↗</span></a><a routerLink="/therapist/menu"><span>Treatment menu</span><small>Browse treatments with your client</small><span class="shortcut-arrow">↗</span></a></nav>
   <section class="main-col">
     <div class="section-head">
-      <h2>Pending consent forms</h2>
+      <h2>Ready for review</h2>
       <a routerLink="/therapist/consent-forms" [queryParams]="{ view: 'history' }" class="history-link">View history</a>
     </div>
     <div class="list">

@@ -1,6 +1,6 @@
 <div class="chrome" [class.hide-chrome]="hideChrome()">
   @if (!hideChrome()) {
-    <header class="mobile-admin-bar">
+    <header class="mobile-admin-bar"><span class="mobile-brand">{{ identity.name() }}</span>
       <a routerLink="/login" class="admin-login mobile">
         <sf-icon name="shield" [size]="18" />
         Admin login
@@ -17,11 +17,11 @@
           <small>{{ identity.city() }}</small>
         </span>
       </a>
-      <nav>
+      <nav aria-label="Staff navigation">
         @for (item of navItems; track item.path) {
           <a
             [routerLink]="item.path"
-            routerLinkActive="active"
+            routerLinkActive="active" ariaCurrentWhenActive="page"
             [routerLinkActiveOptions]="{ exact: item.exact }"
           >
             <sf-icon [name]="item.icon" [size]="20" />
@@ -46,7 +46,7 @@
     @for (item of navItems; track item.path) {
       <a
         [routerLink]="item.path"
-        routerLinkActive="active"
+        routerLinkActive="active" ariaCurrentWhenActive="page"
         [routerLinkActiveOptions]="{ exact: item.exact }"
       >
         <sf-icon [name]="item.icon" [size]="21" />

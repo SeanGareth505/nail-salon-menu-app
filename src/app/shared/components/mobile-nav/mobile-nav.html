@@ -5,6 +5,7 @@
       [class.center]="item.center"
       [routerLink]="item.path"
       routerLinkActive="active"
+      ariaCurrentWhenActive="page"
       [routerLinkActiveOptions]="{ exact: item.exact }"
     >
       <span class="icon-wrap" [class.center-icon]="item.center">

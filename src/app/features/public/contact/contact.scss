@@ -1,152 +1,17 @@
-.contact-page {
-  padding: 66px 20px 40px;
-}
-
-h1 {
-  margin: 0 0 22px;
-  font-family: var(--sf-font-display);
-  font-size: 2.125rem;
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--sf-ink);
-}
-
-.tile-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 26px;
-}
-
-.tile {
-  height: 82px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-radius: 0;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.875rem;
-  font-family: var(--sf-font-body);
-}
-
-.tile.call {
-  background: var(--sf-forest);
-  color: var(--sf-on-forest);
-}
-
-.tile.call:hover { color: var(--sf-on-forest); }
-
-.tile.whatsapp {
-  background: var(--sf-sky);
-  color: var(--sf-sky-fg);
-}
-
-.tile.whatsapp:hover { color: var(--sf-sky-fg); }
-
-.tile.directions {
-  background: var(--sf-sand);
-  color: var(--sf-forest);
-}
-
-.tile.directions:hover { color: var(--sf-forest); }
-
-.tile.email {
-  border: 1px solid rgba(74, 107, 87, 0.3);
-  color: var(--sf-forest);
-  background: var(--sf-surface);
-}
-
-.tile.email:hover { color: var(--sf-forest); }
-
-.hours { margin-bottom: 0; }
-
-.hours-label {
-  margin: 0 0 12px;
-  font-family: var(--sf-font-body);
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--sf-forest);
-}
-
-.hours-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 13px 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.11);
-  font-weight: 300;
-  font-size: 0.88rem;
-  color: rgba(51, 51, 51, 0.7);
-}
-
-.hours-row.weekday {
-  color: var(--sf-forest);
-  font-weight: 400;
-}
-
-.hours-row:last-child {
-  border-bottom: none;
-}
-
-.map-block {
-  margin-top: 26px;
-}
-
-.address {
-  margin: 16px 0 0;
-  color: rgba(51, 51, 51, 0.65);
-  font-weight: 300;
-  line-height: 1.7;
-  font-size: 0.84rem;
-}
-
-@media (min-width: 768px) {
-  .contact-page {
-    padding: 38px var(--sf-client-pad-x) 48px;
-  }
-
-  .desktop-only {
-    display: inline;
-  }
-}
-
-@media (min-width: 834px) {
-  .contact-page {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: start;
-  }
-
-  .contact-page > h1 {
-    grid-column: 1 / -1;
-    margin-bottom: 30px;
-    font-size: 2.75rem;
-  }
-
-  .tile-grid {
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-
-  .tile {
-    height: 92px;
-    font-size: 0.906rem;
-    gap: 11px;
-  }
-
-  .hours-row {
-    padding: 14px 0;
-    font-size: 0.906rem;
-  }
-
-  .address {
-    margin-top: 20px;
-    font-size: 0.906rem;
-    line-height: 1.75;
-  }
-}
+.contact-page { padding: 44px 40px; }
+.contact-heading { margin-bottom: 32px; } .contact-heading .sf-eyebrow { font-size: 11px; color: var(--sf-forest); margin-bottom: 13px; }
+h1 { font-size: 44px; letter-spacing: -1.1px; margin-bottom: 12px; } .contact-heading p:last-child { font-size: 14px; color: var(--sf-ink-muted); }
+.contact-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
+.contact-actions { display: flex; flex-direction: column; gap: 12px; }
+.contact-action { display: flex; align-items: center; gap: 18px; padding: 22px; text-decoration: none; border: 1px solid var(--sf-border); border-radius: 12px; color: var(--sf-ink); background: white; }
+.contact-action > span:last-child { margin-left: auto; } .contact-action strong { display: block; font-size: 15px; font-weight: 500; } .contact-action small { display: block; font-size: 12px; color: var(--sf-ink-muted); margin-top: 6px; overflow-wrap: anywhere; }
+.contact-action.primary { background: var(--sf-forest-dark); border-color: var(--sf-forest-dark); color: white; } .contact-action.primary small { color: #d6c9d2; }
+.contact-action:hover { border-color: var(--sf-forest); transform: translateY(-2px); }
+.location-card { margin-top: 24px; padding: 24px; background: #f7f4f6; border-radius: 12px; } .location-card > div { display: flex; align-items: center; gap: 12px; } .location-card h2 { font-size: 24px; margin: 0; } .location-card p { margin: 14px 0; font-size: 14px; color: var(--sf-ink-muted); line-height: 1.7; } .location-card a { font-size: 13px; font-weight: 500; display: flex; gap: 12px; text-decoration: none; }
+.hours { padding: 28px; border: 1px solid var(--sf-border); border-radius: 14px; }
+.hours-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; } .hours-head h2 { font-size: 26px; margin: 0; } .hours-head > span { font-size: 11px; color: var(--sf-ink-muted); }
+.hours-row { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-top: 1px solid var(--sf-border); font-size: 13px; color: var(--sf-ink-muted); } .hours-row.today { color: var(--sf-forest); font-weight: 600; } .hours-row small { font-size: 10px; background: var(--sf-sage-light); padding: 3px 5px; border-radius: 4px; margin-left: 4px; }
+.hours-note { font-size: 12px; line-height: 1.7; color: var(--sf-ink-muted); margin: 18px 0 0; }
+.map-block { margin-top: 32px; overflow: hidden; border-radius: 14px; border: 1px solid var(--sf-border); }
+.enquiry-note { display: flex; align-items: center; gap: 14px; padding: 18px 20px; margin-bottom: 24px; border: 1px solid #e2d2db; background: var(--sf-sage-light); border-radius: 10px; font-size: 14px; } .enquiry-note small { display: block; font-size: 12px; color: var(--sf-ink-muted); margin-top: 5px; }
+@media(max-width:767px) { .contact-page { padding: 30px 20px; } h1 { font-size: 35px; } .contact-layout { grid-template-columns: 1fr; gap: 24px; } .contact-action { padding: 20px; gap: 14px; } .hours { padding: 22px; } .contact-heading { margin-bottom: 25px; } .map-block { margin-top: 24px; } }

@@ -5,7 +5,7 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 export class LoadingService {
   private readonly router = inject(Router);
   private readonly depth = signal(0);
-  private navigationDepth = 0;
+  readonly navigating = signal(false);
 
   readonly message = signal('Loading…');
   readonly active = computed(() => this.depth() > 0);
@@ -13,22 +13,9 @@ export class LoadingService {
   constructor() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        if (this.navigationDepth === 0) {
-          this.begin('Loading…');
-        }
-        this.navigationDepth += 1;
-        return;
-      }
-
-      if (
-        event instanceof NavigationEnd ||
-        event instanceof NavigationCancel ||
-        event instanceof NavigationError
-      ) {
-        this.navigationDepth = Math.max(0, this.navigationDepth - 1);
-        if (this.navigationDepth === 0) {
-          this.end();
-        }
+        this.navigating.set(true);
+      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this.navigating.set(false);
       }
     });
   }

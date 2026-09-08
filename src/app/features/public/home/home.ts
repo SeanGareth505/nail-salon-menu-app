@@ -16,7 +16,6 @@ import { categorySfIcon } from '../../../shared/utils/category-icon.util';
 import { SfIcon } from '../../../shared/components/icon/icon';
 import { SfSpecialCard } from '../../../shared/components/special-card/special-card';
 import { SfTreatmentCard } from '../../../shared/components/treatment-card/treatment-card';
-import { SfRevealDirective, SfRevealStaggerDirective } from '../../../shared/directives/reveal';
 
 interface HomeNavItem {
   path: string;
@@ -28,9 +27,9 @@ interface HomeNavItem {
 
 const HOME_NAV_ITEMS: HomeNavItem[] = [
   { path: '/treatments', label: 'Treatments', description: 'Browse our menu', icon: 'treatments', tint: 'sage' },
-  { path: '/specials', label: 'Specials', description: "This week's deals", icon: 'specials', tint: 'sand' },
-  { path: '/therapists', label: 'Team', description: 'Meet our therapists', icon: 'team', tint: 'blush' },
-  { path: '/contact', label: 'Contact', description: 'Find us & visit', icon: 'contact', tint: 'sky' },
+  { path: '/specials', label: 'Specials', description: 'Offers worth a look', icon: 'specials', tint: 'sand' },
+  { path: '/therapists', label: 'Our team', description: 'Meet your therapists', icon: 'team', tint: 'blush' },
+  { path: '/contact', label: 'Visit us', description: 'Hours & contact details', icon: 'contact', tint: 'sky' },
 ];
 
 @Component({
@@ -41,8 +40,6 @@ const HOME_NAV_ITEMS: HomeNavItem[] = [
     SfIcon,
     SfSpecialCard,
     SfTreatmentCard,
-    SfRevealDirective,
-    SfRevealStaggerDirective,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',

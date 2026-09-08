@@ -11,11 +11,11 @@ interface MobileNavItem {
 }
 
 const NAV_ITEMS: MobileNavItem[] = [
-  { path: '/specials', label: 'Specials', icon: 'specials', exact: false },
+  { path: '/', label: 'Discover', icon: 'home', exact: true },
   { path: '/treatments', label: 'Treatments', icon: 'leaf', exact: false },
-  { path: '/', label: 'Home', icon: 'home', exact: true, center: true },
-  { path: '/therapists', label: 'Team', icon: 'team', exact: false },
-  { path: '/contact', label: 'Contact', icon: 'phone', exact: false },
+  { path: '/specials', label: 'Specials', icon: 'specials', exact: false },
+  { path: '/therapists', label: 'Our team', icon: 'team', exact: false },
+  { path: '/contact', label: 'Visit us', icon: 'map-pin', exact: false },
 ];
 
 @Component({

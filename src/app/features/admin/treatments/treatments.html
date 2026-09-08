@@ -68,16 +68,16 @@
       <aside class="editor-pane">
         <div class="editor-eyebrow">Editing</div>
         <h2>{{ isNew() ? 'New treatment' : d.name }}</h2>
-        <div class="admin-field"><label>Treatment name</label><input [(ngModel)]="d.name" /></div>
+        <div class="admin-field"><label for="field-treatments-1">Treatment name</label><input id="field-treatments-1" [(ngModel)]="d.name" /></div>
         <div class="admin-field">
-          <label>Description</label>
-          <textarea rows="3" [(ngModel)]="d.description"></textarea>
+          <label for="field-treatments-2">Description</label>
+          <textarea id="field-treatments-2" rows="3" [(ngModel)]="d.description"></textarea>
         </div>
         <div class="admin-row-2">
-          <div class="admin-field"><label>Price</label><input type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field"><label for="field-treatments-3">Price</label><input id="field-treatments-3" type="number" [(ngModel)]="d.price" /></div>
           <div class="admin-field">
-            <label>Special price</label>
-            <input
+            <label for="field-treatments-4">Special price</label>
+            <input id="field-treatments-4"
               type="text"
               [value]="d.id ? (specialPriceLabel(d.id) ?? '—') : '—'"
               readonly
@@ -86,12 +86,12 @@
           </div>
         </div>
         <div class="admin-row-2">
-          <div class="admin-field"><label>Duration (min)</label><input type="number" [(ngModel)]="d.durationMinutes" /></div>
-          <div class="admin-field"><label>Display order</label><input type="number" [(ngModel)]="d.sortOrder" /></div>
+          <div class="admin-field"><label for="field-treatments-5">Duration (min)</label><input id="field-treatments-5" type="number" [(ngModel)]="d.durationMinutes" /></div>
+          <div class="admin-field"><label for="field-treatments-6">Display order</label><input id="field-treatments-6" type="number" [(ngModel)]="d.sortOrder" /></div>
         </div>
         <div class="admin-field">
-          <label>Category</label>
-          <select [ngModel]="d.categoryId" (ngModelChange)="onCategoryChange($event)">
+          <label for="field-treatments-7">Category</label>
+          <select id="field-treatments-7" [ngModel]="d.categoryId" (ngModelChange)="onCategoryChange($event)">
             <option value="" disabled>Select…</option>
             @for (c of categories(); track c.id) {
               <option [value]="c.id">{{ c.name }}</option>
@@ -99,8 +99,8 @@
           </select>
         </div>
         <div class="admin-field">
-          <label>Consent form</label>
-          <select [ngModel]="d.consentTemplateId" (ngModelChange)="d.consentTemplateId = $event">
+          <label for="field-treatments-8">Consent form</label>
+          <select id="field-treatments-8" [ngModel]="d.consentTemplateId" (ngModelChange)="d.consentTemplateId = $event">
             <option [ngValue]="null">None</option>
             @for (tpl of consentTemplates(); track tpl.id) {
               <option [ngValue]="tpl.id">{{ tpl.name }}</option>

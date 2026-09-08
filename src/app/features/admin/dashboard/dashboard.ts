@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ConsultationsService } from '../../../core/services/consultations.service';
 import { TherapistsService } from '../../../core/services/therapists.service';
@@ -11,7 +12,7 @@ import { downloadCsv } from '../../../shared/utils/csv-export.util';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DatePipe, SfStatTile, SfPageActionDirective],
+  imports: [RouterLink, DatePipe, SfStatTile, SfPageActionDirective],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

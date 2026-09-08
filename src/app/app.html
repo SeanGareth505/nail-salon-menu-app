@@ -4,6 +4,7 @@
     <sf-offline-state />
   </div>
 }
+@if (loading.navigating()) { <div class="route-progress" role="progressbar" aria-label="Opening page"><span></span></div> }
 <router-outlet />
 @if (loading.active()) {
   <sf-loading-overlay [message]="loading.message()" />

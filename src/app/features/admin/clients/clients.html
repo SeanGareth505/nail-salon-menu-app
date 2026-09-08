@@ -22,12 +22,12 @@
     <div class="admin-form add-form">
       <h2>Add client</h2>
       <div class="admin-row-3">
-        <div class="admin-field"><label>First name *</label><input [ngModel]="newFirstName()" (ngModelChange)="newFirstName.set($event)" /></div>
-        <div class="admin-field"><label>Last name *</label><input [ngModel]="newLastName()" (ngModelChange)="newLastName.set($event)" /></div>
-        <div class="admin-field"><label>Phone *</label><input type="tel" sfPhoneMask [ngModel]="newPhone()" (ngModelChange)="newPhone.set(formatPhoneInput($event))" /></div>
+        <div class="admin-field"><label for="field-clients-1">First name *</label><input id="field-clients-1" [ngModel]="newFirstName()" (ngModelChange)="newFirstName.set($event)" /></div>
+        <div class="admin-field"><label for="field-clients-2">Last name *</label><input id="field-clients-2" [ngModel]="newLastName()" (ngModelChange)="newLastName.set($event)" /></div>
+        <div class="admin-field"><label for="field-clients-3">Phone *</label><input id="field-clients-3" type="tel" sfPhoneMask [ngModel]="newPhone()" (ngModelChange)="newPhone.set(formatPhoneInput($event))" /></div>
       </div>
       <div class="admin-row-3">
-        <div class="admin-field"><label>Email</label><input type="email" sfEmailMask [ngModel]="newEmail()" (ngModelChange)="newEmail.set(formatEmailInput($event))" /></div>
+        <div class="admin-field"><label for="field-clients-4">Email</label><input id="field-clients-4" type="email" sfEmailMask [ngModel]="newEmail()" (ngModelChange)="newEmail.set(formatEmailInput($event))" /></div>
       </div>
       @if (validationError()) {
         <p class="form-error" role="alert">{{ validationError() }}</p>

@@ -1,5 +1,6 @@
 import { DOCUMENT, Injectable, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { resolveBranding } from './theme-defaults';
 import { BrandingService } from '../services/branding.service';
 import { LottieLoaderService } from '../motion/lottie-loader.service';
 
@@ -18,7 +19,8 @@ export class ThemeService {
   private readonly brandingSignal = toSignal(this.branding.get(), { initialValue: undefined });
 
   private readonly applyEffect = effect(() => {
-    const tokens = this.brandingSignal();
+    const saved = this.brandingSignal();
+    const tokens = saved ? resolveBranding(saved) : undefined;
     if (!tokens) return;
     const root = this.document.documentElement.style;
     if (tokens.primary) root.setProperty('--sf-forest', tokens.primary);

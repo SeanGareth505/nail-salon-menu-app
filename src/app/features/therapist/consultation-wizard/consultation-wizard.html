@@ -4,7 +4,7 @@
     <div class="page setup">
       <a routerLink="/therapist" class="back-link">← Dashboard</a>
       <h1>New consent form</h1>
-      <p class="intro">Enter the client’s details and optionally who will perform the treatment. The client will complete the salon consent form on the next step.</p>
+      <p class="intro">Find a returning client or add someone new. Then hand the device to the client to complete their consent form.</p>
 
       @if (intendedTreatment(); as treatment) {
         <div class="treatment-context">
@@ -83,7 +83,7 @@
             </div>
           }
 
-          @if (!selectedClientId() || editingClientDetails()) {
+          @if (editingClientDetails()) {
             @if (editingClientDetails() && selectedClientId()) {
               <div class="edit-mode-bar">
                 <span>Editing contact details</span>
@@ -205,9 +205,9 @@
         </section>
       </div>
 
-      @if (setupError() || (!canBegin() && setupBlockedReason())) {
+      @if (setupError()) {
         <div class="setup-alert" role="alert">
-          {{ setupError() || setupBlockedReason() }}
+          {{ setupError() }}
           @if (isReturningClientLocked() && activeClientDuplicate(); as duplicate) {
             <a class="setup-alert-link" [routerLink]="['/therapist/clients', selectedClientId()!]">Fix client profile</a>
           }
@@ -215,7 +215,7 @@
       }
 
       <footer class="setup-footer">
-        <div class="setup-summary">{{ setupSummary() }}</div>
+        <div class="setup-summary">{{ canBegin() ? setupSummary() : (editingClientDetails() ? setupBlockedReason() : 'Select a client to continue') }}</div>
         <button type="button" class="cta" [class.disabled]="!canBegin()" [disabled]="!canBegin()" (click)="beginConsentForm()">Hand to client →</button>
       </footer>
     </div>
@@ -226,14 +226,14 @@
       <header class="wizard-head">
         <span class="mode-badge"><span class="dot"></span> Consent form</span>
         <span class="breadcrumb">{{ client()?.fullName }}</span>
-        <button type="button" class="exit-btn" (click)="exitConsentForm()">Exit</button>
+        <button type="button" class="exit-btn" (click)="requestExit()">Exit</button>
       </header>
 
       <div class="wizard-layout">
         <aside class="wizard-side">
           <div class="side-label">Progress</div>
           @for (step of steps(); track step.key; let i = $index) {
-            <button type="button" class="side-step" [class.active]="i === stepIndex()" [class.done]="i < stepIndex()" (click)="goToStep(i)">
+            <button type="button" class="side-step" [disabled]="i > stepIndex()" [attr.aria-current]="i === stepIndex() ? 'step' : null" [class.active]="i === stepIndex()" [class.done]="i < stepIndex()" (click)="goToStep(i)">
               <span class="side-mark">{{ i < stepIndex() ? '✓' : i + 1 }}</span>
               <span class="side-text">{{ stepLabel(step) }}</span>
             </button>
@@ -387,7 +387,7 @@
 
           <footer class="wizard-footer">
             <button type="button" class="ghost" (click)="back()">Back</button>
-            <span class="step-note">Step {{ stepIndex() + 1 }} of {{ steps().length }} · answers save as you go</span>
+            <span class="step-note" aria-live="polite">{{ currentStep().key === 'consent_form' ? completionHint() : 'Your draft is saved on this device' }}</span>
             @if (currentStep(); as step) {
               @if (step.key === 'review' && flaggedReviewCount() === 0) {
                 <button type="button" class="cta" [disabled]="!canContinue()" (click)="openSubmitConfirm()">Submit consent form</button>
@@ -404,7 +404,7 @@
 
     @if (submitConfirmOpen()) {
       <div class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="submit-confirm-title">
-        <div class="confirm-panel">
+        <div class="confirm-panel" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown.escape)="dismissSubmitConfirm()">
           <h2 id="submit-confirm-title">Submit consent form?</h2>
           <p class="confirm-lead">
             @if (client(); as c) {
@@ -451,4 +451,8 @@
       </div>
     </div>
   }
+}
+
+@if (exitConfirmOpen()) {
+  <div class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-title"><div class="confirm-panel" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown.escape)="exitConfirmOpen.set(false)"><h2 id="exit-title">Save and leave this form?</h2><p class="confirm-lead">Your answers will stay in this browser tab. Open a consent form again to pick up where you left off.</p><div class="confirm-actions"><button type="button" class="ghost" (click)="exitConfirmOpen.set(false)">Keep working</button><button type="button" class="cta" (click)="exitConsentForm()">Save & leave</button></div></div></div>
 }

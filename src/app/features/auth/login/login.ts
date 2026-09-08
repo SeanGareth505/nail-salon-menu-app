@@ -25,13 +25,19 @@ export class Login {
   readonly loading = signal(false);
 
   async submit(): Promise<void> {
+    if (this.loading()) return;
+    if (!this.email().trim() || !this.password()) {
+      this.error.set('Enter your email and password to continue.');
+      return;
+    }
     this.error.set('');
     this.loading.set(true);
     try {
       await this.auth.signIn(this.email().trim(), this.password());
       await this.router.navigate(['/admin']);
-    } catch {
-      this.error.set('Incorrect email or password.');
+    } catch (error: unknown) {
+      const code = (error as { code?: string })?.code;
+      this.error.set(code === 'auth/network-request-failed' ? 'Check your internet connection and try again.' : code === 'auth/too-many-requests' ? 'Too many sign-in attempts. Please wait a moment and try again.' : 'The email or password is incorrect. Please try again.');
     } finally {
       this.loading.set(false);
     }

@@ -305,3 +305,10 @@
     display: none;
   }
 }
+
+.overview-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; margin-bottom: 30px; }
+.overview-heading .sf-eyebrow { font-size: 11px; letter-spacing: 1.5px; color: var(--sf-forest); }
+.overview-heading h2 { font-size: 27px; font-weight: 600; margin-bottom: 10px; letter-spacing: -.8px; }
+.overview-heading p:last-child { margin: 0; color: var(--sf-ink-muted); font-size: 14px; }
+.panel-head a { font-size: 12px; text-decoration: none; }
+.activity-labels { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--sf-border); color: var(--sf-ink-muted); font-size: 11px; }

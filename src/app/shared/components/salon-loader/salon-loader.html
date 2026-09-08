@@ -1,15 +1,4 @@
-<div class="loader" [class]="sizeClass()" role="status" aria-label="Loading">
-  <div class="frame">
-    <svg class="orbit" viewBox="0 0 120 120" aria-hidden="true">
-      <circle class="halo" cx="60" cy="60" r="56" />
-      <circle class="arc arc-primary" cx="60" cy="60" r="54" />
-      <circle class="arc arc-secondary" cx="60" cy="60" r="48" />
-    </svg>
-    <div class="mark">
-      <sf-brand-mark [size]="markSize()" />
-    </div>
-    <span class="spark spark-a" aria-hidden="true"></span>
-    <span class="spark spark-b" aria-hidden="true"></span>
-    <span class="spark spark-c" aria-hidden="true"></span>
-  </div>
+<div class="loader" [class]="sizeClass()" aria-hidden="true">
+  <div class="monogram"><span>{{ identity.markInitial() }}</span></div>
+  <div class="loading-line"><span></span></div>
 </div>

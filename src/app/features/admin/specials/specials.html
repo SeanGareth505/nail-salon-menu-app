@@ -10,11 +10,11 @@
       </div>
 
       <div class="admin-row-2">
-        <div class="admin-field"><label>Title</label><input [(ngModel)]="d.title" /></div>
-        <div class="admin-field"><label>Script title (shown on card)</label><input [(ngModel)]="d.scriptTitle" /></div>
+        <div class="admin-field"><label for="field-specials-1">Title</label><input id="field-specials-1" [(ngModel)]="d.title" /></div>
+        <div class="admin-field"><label for="field-specials-2">Script title (shown on card)</label><input id="field-specials-2" [(ngModel)]="d.scriptTitle" /></div>
       </div>
 
-      <div class="admin-field"><label>Description</label><textarea rows="2" [(ngModel)]="d.description"></textarea></div>
+      <div class="admin-field"><label for="field-specials-3">Description</label><textarea id="field-specials-3" rows="2" [(ngModel)]="d.description"></textarea></div>
 
       @if (d.kind !== 'promo') {
         <div class="admin-field">
@@ -43,33 +43,33 @@
         </div>
         @if (d.discountType === 'fixed') {
           <div class="admin-row-2">
-            <div class="admin-field"><label>Special price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
-            <div class="admin-field"><label>Original price (R)</label><input type="number" [ngModel]="computedOriginal()" disabled /></div>
+            <div class="admin-field"><label for="field-specials-4">Special price (R)</label><input id="field-specials-4" type="number" [(ngModel)]="d.price" /></div>
+            <div class="admin-field"><label for="field-specials-5">Original price (R)</label><input id="field-specials-5" type="number" [ngModel]="computedOriginal()" disabled /></div>
           </div>
         } @else if (d.discountType === 'percent') {
           <div class="admin-row-2">
-            <div class="admin-field"><label>Percent off</label><input type="number" [(ngModel)]="d.percentOff" /></div>
-            <div class="admin-field"><label>Resulting price (R)</label><input type="number" [ngModel]="computedPrice()" disabled /></div>
+            <div class="admin-field"><label for="field-specials-6">Percent off</label><input id="field-specials-6" type="number" [(ngModel)]="d.percentOff" /></div>
+            <div class="admin-field"><label for="field-specials-7">Resulting price (R)</label><input id="field-specials-7" type="number" [ngModel]="computedPrice()" disabled /></div>
           </div>
         } @else {
           <div class="admin-row-2">
-            <div class="admin-field"><label>Amount off (R)</label><input type="number" [(ngModel)]="d.amountOff" /></div>
-            <div class="admin-field"><label>Resulting price (R)</label><input type="number" [ngModel]="computedPrice()" disabled /></div>
+            <div class="admin-field"><label for="field-specials-8">Amount off (R)</label><input id="field-specials-8" type="number" [(ngModel)]="d.amountOff" /></div>
+            <div class="admin-field"><label for="field-specials-9">Resulting price (R)</label><input id="field-specials-9" type="number" [ngModel]="computedPrice()" disabled /></div>
           </div>
         }
       }
 
       @if (d.kind === 'bundle') {
         <div class="admin-row-2">
-          <div class="admin-field"><label>Bundle price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
-          <div class="admin-field"><label>Combined price (R)</label><input type="number" [ngModel]="computedOriginal()" disabled /></div>
+          <div class="admin-field"><label for="field-specials-10">Bundle price (R)</label><input id="field-specials-10" type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field"><label for="field-specials-11">Combined price (R)</label><input id="field-specials-11" type="number" [ngModel]="computedOriginal()" disabled /></div>
         </div>
       }
 
       @if (d.kind === 'promo') {
         <div class="admin-row-2">
-          <div class="admin-field"><label>Display price (R)</label><input type="number" [(ngModel)]="d.price" /></div>
-          <div class="admin-field"><label>Compare-at price (R)</label><input type="number" [(ngModel)]="d.originalPrice" /></div>
+          <div class="admin-field"><label for="field-specials-12">Display price (R)</label><input id="field-specials-12" type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field"><label for="field-specials-13">Compare-at price (R)</label><input id="field-specials-13" type="number" [(ngModel)]="d.originalPrice" /></div>
         </div>
       }
 
@@ -81,8 +81,8 @@
           <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-month')">This month</button>
         </div>
         <div class="admin-row-2">
-          <div class="admin-field"><label>Starts</label><input type="date" [(ngModel)]="d.startsAt" /></div>
-          <div class="admin-field"><label>Ends</label><input type="date" [(ngModel)]="d.endsAt" /></div>
+          <div class="admin-field"><label for="field-specials-14">Starts</label><input id="field-specials-14" type="date" [(ngModel)]="d.startsAt" /></div>
+          <div class="admin-field"><label for="field-specials-15">Ends</label><input id="field-specials-15" type="date" [(ngModel)]="d.endsAt" /></div>
         </div>
         <p class="schedule-line">{{ scheduleLine() }}</p>
       </div>
@@ -100,8 +100,8 @@
       </div>
 
       <div class="admin-row-2">
-        <div class="admin-field"><label>Fine print</label><input [(ngModel)]="d.finePrint" /></div>
-        <div class="admin-field"><label>Sort order</label><input type="number" [(ngModel)]="d.sortOrder" /></div>
+        <div class="admin-field"><label for="field-specials-16">Fine print</label><input id="field-specials-16" [(ngModel)]="d.finePrint" /></div>
+        <div class="admin-field"><label for="field-specials-17">Sort order</label><input id="field-specials-17" type="number" [(ngModel)]="d.sortOrder" /></div>
       </div>
 
       <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.featured" /> Featured on home</label>

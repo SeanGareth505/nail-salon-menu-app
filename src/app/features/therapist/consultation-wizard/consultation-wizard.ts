@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnDestroy, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { map, of, switchMap } from 'rxjs';
+import { A11yModule } from '@angular/cdk/a11y';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -93,7 +94,7 @@ interface ConsentFormSection {
 @Component({
   selector: 'app-consultation-wizard',
   standalone: true,
-  imports: [FormsModule, RouterLink, DatePipe, SfIcon, SfDynamicField, SfSignaturePad, SfPhoneMaskDirective, SfEmailMaskDirective],
+  imports: [A11yModule, FormsModule, RouterLink, DatePipe, SfIcon, SfDynamicField, SfSignaturePad, SfPhoneMaskDirective, SfEmailMaskDirective],
   providers: [DatePipe],
   templateUrl: './consultation-wizard.html',
   styleUrl: './consultation-wizard.scss',
@@ -195,10 +196,13 @@ export class ConsultationWizard implements OnDestroy {
     () => !!this.selectedClientId() && !this.editingClientDetails(),
   );
 
-  readonly canBegin = computed(() => this.isClientFormValid());
+  readonly canBegin = computed(() =>
+    !!(this.selectedClientId() || this.editingClientDetails()) && this.isClientFormValid(),
+  );
 
   readonly setupBlockedReason = computed(() => {
     if (this.canBegin()) return '';
+    if (!this.selectedClientId() && !this.editingClientDetails()) return 'Choose a client or add a new client to continue.';
 
     const duplicate = this.activeClientDuplicate();
     if (duplicate) {
@@ -313,6 +317,20 @@ export class ConsultationWizard implements OnDestroy {
   readonly saveError = signal('');
   readonly therapistReviewed = signal(false);
   readonly submitConfirmOpen = signal(false);
+  readonly exitConfirmOpen = signal(false);
+  readonly missingRequiredFields = computed(() => {
+    const answers = this.answers();
+    return (this.templateVersion()?.fields ?? [])
+      .filter(f => f.step && !SETUP_SKIPPED_STEP_KEYS.has(f.step) && f.key !== CONSENT_COMMENTS_KEY)
+      .filter(f => !['information', 'warning'].includes(f.type) && f.required && isFieldVisible(f, answers))
+      .filter(f => !this.isFieldValid(f, answers[f.key]));
+  });
+  readonly completionHint = computed(() => {
+    const missing = this.missingRequiredFields().length;
+    if (missing) return `${missing} required ${missing === 1 ? 'answer' : 'answers'} remaining${this.signatureDataUrl() ? '' : ' · signature needed'}`;
+    if (!this.signatureDataUrl()) return 'Add your signature to continue';
+    return 'All set. Review your answers next.';
+  });
 
   readonly steps = computed<ConsentStepDefinition[]>(() => {
     const tail: ConsentStepDefinition[] = [
@@ -464,6 +482,7 @@ export class ConsultationWizard implements OnDestroy {
     if (this.selectedClientId()) {
       this.selectedClientId.set(null);
     }
+    this.editingClientDetails.set(false);
     this.clientSearch.set(value);
   }
 
@@ -582,8 +601,10 @@ export class ConsultationWizard implements OnDestroy {
     this.therapistReviewed.update((value) => !value);
   }
 
+  requestExit(): void { this.exitConfirmOpen.set(true); }
+
   async exitConsentForm(): Promise<void> {
-    clearConsentFormDraft();
+    this.persistDraft();
     this.pwa.setConsultationActive(false);
     await this.router.navigate(['/therapist']);
   }
@@ -912,6 +933,7 @@ export class ConsultationWizard implements OnDestroy {
       return true;
     }
 
+    this.editingClientDetails.set(!draft.selectedClientId && !!(draft.clientFirstName || draft.clientPhone || draft.clientEmail));
     this.setPhase('setup');
     this.pwa.setConsultationActive(false);
     return true;

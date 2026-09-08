@@ -4,18 +4,19 @@ export interface AdminNavItem {
   shortLabel: string;
   icon: string;
   exact: boolean;
+  group?: string;
 }
 
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
-  { path: '/admin', label: 'Dashboard', shortLabel: 'Home', icon: 'grid', exact: true },
+  { path: '/admin', label: 'Dashboard', shortLabel: 'Home', icon: 'grid', exact: true, group: 'WORKSPACE' },
   { path: '/admin/consultations', label: 'Consent forms', shortLabel: 'Forms', icon: 'clipboard', exact: false },
-  { path: '/admin/consent-forms', label: 'Consent forms', shortLabel: 'Forms', icon: 'doccheck', exact: false },
+  { path: '/admin/consent-forms', label: 'Form templates', shortLabel: 'Templates', icon: 'doccheck', exact: false },
   { path: '/admin/clients', label: 'Clients', shortLabel: 'Clients', icon: 'clients', exact: false },
-  { path: '/admin/treatments', label: 'Treatments', shortLabel: 'Menu', icon: 'leaf', exact: false },
-  { path: '/admin/categories', label: 'Categories', shortLabel: 'Cats', icon: 'folder', exact: false },
+  { path: '/admin/treatments', label: 'Treatments', shortLabel: 'Menu', icon: 'leaf', exact: false, group: 'SALON MENU' },
+  { path: '/admin/categories', label: 'Categories', shortLabel: 'Categories', icon: 'folder', exact: false },
   { path: '/admin/therapists', label: 'Therapists', shortLabel: 'Team', icon: 'user', exact: false },
   { path: '/admin/specials', label: 'Specials', shortLabel: 'Specials', icon: 'specials', exact: false },
-  { path: '/admin/settings', label: 'Salon details', shortLabel: 'Salon', icon: 'building', exact: false },
+  { path: '/admin/settings', label: 'Salon details', shortLabel: 'Salon', icon: 'building', exact: false, group: 'MANAGEMENT' },
   { path: '/admin/branding', label: 'Branding', shortLabel: 'Brand', icon: 'droplet', exact: false },
   { path: '/admin/qr-codes', label: 'QR codes', shortLabel: 'QR', icon: 'qr', exact: false },
   { path: '/admin/analytics', label: 'Analytics', shortLabel: 'Stats', icon: 'chart', exact: false },
@@ -26,7 +27,7 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
 export const ADMIN_PAGE_TITLES: Record<string, string> = {
   '/admin': 'Dashboard',
   '/admin/consultations': 'Consent forms',
-  '/admin/consent-forms': 'Consent forms',
+  '/admin/consent-forms': 'Form templates',
   '/admin/clients': 'Clients',
   '/admin/treatments': 'Treatments',
   '/admin/categories': 'Categories',

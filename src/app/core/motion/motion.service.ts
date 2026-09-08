@@ -9,8 +9,8 @@ export class MotionService {
   readonly splashVisible = signal(true);
   readonly splashLeaving = signal(false);
 
-  private splashMinMs = 380;
-  private splashMaxMs = 1100;
+  private splashMinMs = 120;
+  private splashMaxMs = 1800;
   private splashStartedAt = 0;
   private splashHideTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -50,7 +50,7 @@ export class MotionService {
     if (this.splashHideTimer) clearTimeout(this.splashHideTimer);
     this.splashHideTimer = setTimeout(() => {
       this.splashLeaving.set(true);
-      const exitMs = this.reducedMotion() ? 1 : 280;
+      const exitMs = this.reducedMotion() ? 1 : 180;
       setTimeout(() => this.splashVisible.set(false), exitMs);
     }, remaining);
   }

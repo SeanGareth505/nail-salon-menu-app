@@ -3,20 +3,20 @@
     <div class="admin-form">
       <h2>{{ isNew() ? 'New therapist' : 'Edit therapist' }}</h2>
       <div class="admin-row-2">
-        <div class="admin-field"><label>Name</label><input [(ngModel)]="d.name" /></div>
-        <div class="admin-field"><label>Role</label><input [(ngModel)]="d.role" placeholder="e.g. Senior Therapist" /></div>
+        <div class="admin-field"><label for="field-therapists-1">Name</label><input id="field-therapists-1" [(ngModel)]="d.name" /></div>
+        <div class="admin-field"><label for="field-therapists-2">Role</label><input id="field-therapists-2" [(ngModel)]="d.role" placeholder="e.g. Senior Therapist" /></div>
       </div>
-      <div class="admin-field"><label>Bio</label><textarea rows="3" [(ngModel)]="d.bio"></textarea></div>
+      <div class="admin-field"><label for="field-therapists-3">Bio</label><textarea id="field-therapists-3" rows="3" [(ngModel)]="d.bio"></textarea></div>
       <div class="admin-row-2">
-        <div class="admin-field"><label>Experience (years)</label><input type="number" [(ngModel)]="d.experienceYears" /></div>
-        <div class="admin-field"><label>Qualification</label><input [(ngModel)]="d.qualification" /></div>
+        <div class="admin-field"><label for="field-therapists-4">Experience (years)</label><input id="field-therapists-4" type="number" [(ngModel)]="d.experienceYears" /></div>
+        <div class="admin-field"><label for="field-therapists-5">Qualification</label><input id="field-therapists-5" [(ngModel)]="d.qualification" /></div>
       </div>
-      <div class="admin-field"><label>Expertise (comma separated)</label><input [ngModel]="expertiseInput()" (ngModelChange)="expertiseInput.set($event)" /></div>
+      <div class="admin-field"><label for="field-therapists-6">Expertise (comma separated)</label><input id="field-therapists-6" [ngModel]="expertiseInput()" (ngModelChange)="expertiseInput.set($event)" /></div>
       <div class="admin-row-2">
-        <div class="admin-field"><label>Tint</label>
-          <select [(ngModel)]="d.tint">@for (t of tints; track t) { <option [value]="t">{{ t }}</option> }</select>
+        <div class="admin-field"><label for="field-therapists-7">Tint</label>
+          <select id="field-therapists-7" [(ngModel)]="d.tint">@for (t of tints; track t) { <option [value]="t">{{ t }}</option> }</select>
         </div>
-        <div class="admin-field"><label>Avatar initial</label><input [(ngModel)]="d.initial" maxlength="2" /></div>
+        <div class="admin-field"><label for="field-therapists-8">Avatar initial</label><input id="field-therapists-8" [(ngModel)]="d.initial" maxlength="2" /></div>
       </div>
       <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active on public site</label>
 

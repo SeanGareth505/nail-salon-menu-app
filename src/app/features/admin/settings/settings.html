@@ -26,25 +26,25 @@
   <div class="admin-form">
     <h2>Identity</h2>
     <div class="admin-row-2">
-      <div class="admin-field"><label>Salon name</label><input [ngModel]="form().name" (ngModelChange)="setField('name', $event)" /></div>
-      <div class="admin-field"><label>City</label><input [ngModel]="form().city" (ngModelChange)="setField('city', $event)" /></div>
+      <div class="admin-field"><label for="field-settings-1">Salon name</label><input id="field-settings-1" [ngModel]="form().name" (ngModelChange)="setField('name', $event)" /></div>
+      <div class="admin-field"><label for="field-settings-2">City</label><input id="field-settings-2" [ngModel]="form().city" (ngModelChange)="setField('city', $event)" /></div>
     </div>
-    <div class="admin-field"><label>Tagline (script font)</label><input [ngModel]="form().tagline" (ngModelChange)="setField('tagline', $event)" placeholder="Your Escape, Our Passion." /></div>
-    <div class="admin-field"><label>Subtext</label><input [ngModel]="form().subtext" (ngModelChange)="setField('subtext', $event)" placeholder="Beauty · Wellness · Confidence" /></div>
+    <div class="admin-field"><label for="field-settings-3">Tagline (script font)</label><input id="field-settings-3" [ngModel]="form().tagline" (ngModelChange)="setField('tagline', $event)" placeholder="Your Escape, Our Passion." /></div>
+    <div class="admin-field"><label for="field-settings-4">Subtext</label><input id="field-settings-4" [ngModel]="form().subtext" (ngModelChange)="setField('subtext', $event)" placeholder="Beauty · Wellness · Confidence" /></div>
 
     <h2>Contact</h2>
     <div class="admin-row-3">
-      <div class="admin-field"><label>Phone</label><input [ngModel]="form().phone" (ngModelChange)="setField('phone', $event)" /></div>
-      <div class="admin-field"><label>WhatsApp (intl format)</label><input [ngModel]="form().whatsapp" (ngModelChange)="setField('whatsapp', $event)" placeholder="27821234567" /></div>
-      <div class="admin-field"><label>Email</label><input [ngModel]="form().email" (ngModelChange)="setField('email', $event)" /></div>
+      <div class="admin-field"><label for="field-settings-5">Phone</label><input id="field-settings-5" [ngModel]="form().phone" (ngModelChange)="setField('phone', $event)" /></div>
+      <div class="admin-field"><label for="field-settings-6">WhatsApp (intl format)</label><input id="field-settings-6" [ngModel]="form().whatsapp" (ngModelChange)="setField('whatsapp', $event)" placeholder="27821234567" /></div>
+      <div class="admin-field"><label for="field-settings-7">Email</label><input id="field-settings-7" [ngModel]="form().email" (ngModelChange)="setField('email', $event)" /></div>
     </div>
     <div class="admin-row-2">
-      <div class="admin-field"><label>Address line 1</label><input [ngModel]="form().addressLine1" (ngModelChange)="setField('addressLine1', $event)" /></div>
-      <div class="admin-field"><label>Address line 2</label><input [ngModel]="form().addressLine2" (ngModelChange)="setField('addressLine2', $event)" /></div>
+      <div class="admin-field"><label for="field-settings-8">Address line 1</label><input id="field-settings-8" [ngModel]="form().addressLine1" (ngModelChange)="setField('addressLine1', $event)" /></div>
+      <div class="admin-field"><label for="field-settings-9">Address line 2</label><input id="field-settings-9" [ngModel]="form().addressLine2" (ngModelChange)="setField('addressLine2', $event)" /></div>
     </div>
     <div class="admin-field">
-      <label>Directions note</label>
-      <input
+      <label for="field-settings-10">Directions note</label>
+      <input id="field-settings-10"
         [ngModel]="form().locationNote"
         (ngModelChange)="setField('locationNote', $event)"
         placeholder="Parking on level P2, lift access to the first floor"
@@ -52,8 +52,8 @@
     </div>
     <div class="admin-row-2">
       <div class="admin-field">
-        <label>Map latitude</label>
-        <input
+        <label for="field-settings-11">Map latitude</label>
+        <input id="field-settings-11"
           type="number"
           step="any"
           [ngModel]="form().mapLat"
@@ -62,8 +62,8 @@
         />
       </div>
       <div class="admin-field">
-        <label>Map longitude</label>
-        <input
+        <label for="field-settings-12">Map longitude</label>
+        <input id="field-settings-12"
           type="number"
           step="any"
           [ngModel]="form().mapLng"

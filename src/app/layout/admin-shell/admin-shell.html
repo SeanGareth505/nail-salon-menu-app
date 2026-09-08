@@ -4,15 +4,16 @@
   <div class="main">
     <header class="topbar">
       @if (isNarrow()) {
-        <button type="button" class="menu-btn" aria-label="Open menu" (click)="toggleMenu()">
+        <button type="button" class="menu-btn" [attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'" [attr.aria-expanded]="menuOpen()" aria-controls="admin-mobile-nav" (click)="toggleMenu()">
           <span></span>
           <span></span>
           <span class="short"></span>
         </button>
       }
-      <h1>{{ pageTitle() }}</h1>
+      <div><span class="workspace-label">SALON WORKSPACE</span><h1>{{ pageTitle() }}</h1></div>
       <div class="topbar-actions">
-        <sf-notification-bell [inverted]="isNarrow()" />
+        <a class="preview-link" routerLink="/">View salon menu <sf-icon name="arrow-right" [size]="14" /></a>
+        <sf-notification-bell />
         @if (showPageAction()) {
           <button type="button" class="page-action" (click)="onPageAction()">{{ pageAction() }}</button>
         }
@@ -21,11 +22,11 @@
 
     <div class="content-wrap">
       @if (menuOpen() && isNarrow()) {
-        <nav class="mobile-nav" aria-label="Admin navigation">
+        <nav id="admin-mobile-nav" class="mobile-nav" aria-label="Admin navigation">
           @for (item of navItems; track item.path) {
             <a
               [routerLink]="item.path"
-              routerLinkActive="active"
+              routerLinkActive="active" ariaCurrentWhenActive="page"
               [routerLinkActiveOptions]="{ exact: item.exact }"
               (click)="closeMenu()"
             >

@@ -6,11 +6,13 @@
       <small>{{ identity.city() }}</small>
     </span>
   </div>
-  <nav>
+  <nav aria-label="Admin navigation">
     @for (item of items; track item.path) {
+      @if(item.group) { <p class="nav-group-label">{{ item.group }}</p> }
       <a
         [routerLink]="item.path"
         routerLinkActive="active"
+        ariaCurrentWhenActive="page"
         [routerLinkActiveOptions]="{ exact: item.exact }"
         (click)="onNav()"
       >
@@ -20,6 +22,7 @@
       </a>
     }
   </nav>
+  <a class="workspace-link" routerLink="/" (click)="onNav()"><sf-icon name="arrow-right" [size]="16" /> View customer menu</a>
   <div class="footer">
     <span class="avatar">{{ initials() }}</span>
     <span class="footer-body">

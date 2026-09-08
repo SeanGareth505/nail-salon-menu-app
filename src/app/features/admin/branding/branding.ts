@@ -5,20 +5,10 @@ import { BrandingService } from '../../../core/services/branding.service';
 import { StorageUploadService } from '../../../core/services/storage-upload.service';
 import { SalonIdentityService } from '../../../core/services/salon-identity.service';
 import { BrandingTokens } from '../../../core/models';
-import { DEFAULT_MARK_INITIAL } from '../../../core/services/salon-identity.service';
+import { BRANDING_DEFAULTS, resolveBranding } from '../../../core/theme/theme-defaults';
 import { SfPageActionDirective } from '../../../shared/directives/page-action.directive';
 
-const DEFAULTS: BrandingTokens = {
-  id: 'default',
-  primary: '#4a6b57',
-  secondary: '#8baa8e',
-  accent: '#c9a96e',
-  background: '#e9e6e0',
-  surface: '#fffdf9',
-  text: '#333333',
-  logoUrl: null,
-  markInitial: DEFAULT_MARK_INITIAL,
-};
+const DEFAULTS = BRANDING_DEFAULTS;
 
 @Component({
   selector: 'app-branding',
@@ -45,10 +35,10 @@ export class Branding {
   private loaded = false;
 
   readonly swatches: { key: keyof BrandingTokens; label: string }[] = [
-    { key: 'primary', label: 'Primary (forest)' },
-    { key: 'secondary', label: 'Secondary (sage)' },
-    { key: 'accent', label: 'Accent (champagne)' },
-    { key: 'background', label: 'Background (ivory)' },
+    { key: 'primary', label: 'Primary' },
+    { key: 'secondary', label: 'Secondary' },
+    { key: 'accent', label: 'Accent' },
+    { key: 'background', label: 'Background' },
     { key: 'surface', label: 'Surface' },
     { key: 'text', label: 'Text' },
   ];
@@ -58,7 +48,7 @@ export class Branding {
       const b = this.remote();
       if (b && !this.loaded) {
         this.loaded = true;
-        this.form.set({ ...DEFAULTS, ...b });
+        this.form.set(resolveBranding(b));
       }
     });
   }

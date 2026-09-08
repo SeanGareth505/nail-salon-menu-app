@@ -1,41 +1,28 @@
 <div class="shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-row">
+      <a class="brand" routerLink="/" [attr.aria-label]="identity.name() + ' home'">
+        <span class="brand-symbol">{{ identity.markInitial() }}</span>
+        <span class="brand-name">{{ identity.name() }}<small>BEAUTY & WELLNESS</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }">Discover</a>
+        <a routerLink="/treatments" routerLinkActive="active" ariaCurrentWhenActive="page">Treatments</a>
+        <a routerLink="/specials" routerLinkActive="active" ariaCurrentWhenActive="page">Specials</a>
+        <a routerLink="/therapists" routerLinkActive="active" ariaCurrentWhenActive="page">Our team</a>
+        <a routerLink="/contact" routerLinkActive="active" ariaCurrentWhenActive="page">Visit us</a>
+      </nav>
+      <a class="booking-link" routerLink="/contact">Plan your visit <sf-icon name="arrow-right" [size]="16" /></a>
+    </div>
+  </header>
   <div class="client-frame">
-    <header class="topbar desktop-only" [class.is-hidden]="topbarHidden()">
-      <div class="topbar-row">
-        <a class="brand" routerLink="/" [attr.aria-label]="identity.name() + ' home'">
-          <img class="brand-logo" [src]="identity.logoUrl()" [alt]="identity.name()" />
-        </a>
-
-        <nav class="desktop-nav" aria-label="Main">
-          <div class="nav-track">
-            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-            <a routerLink="/treatments" routerLinkActive="active">Treatments</a>
-            <a routerLink="/specials" routerLinkActive="active">Specials</a>
-            <a routerLink="/therapists" routerLinkActive="active">Team</a>
-            <a routerLink="/contact" routerLinkActive="active">Contact</a>
-            @if (auth.isAdmin()) {
-              <a routerLink="/admin" routerLinkActive="active" class="admin-link">Admin</a>
-            }
-          </div>
-        </nav>
-
-        @if (salon(); as s) {
-          <div class="quick-actions">
-            <a class="quick-btn call" [href]="'tel:' + s.phone"><sf-icon name="phone" [size]="16" /> Call</a>
-            <a class="quick-btn whatsapp" [href]="'https://wa.me/' + s.whatsapp" target="_blank" rel="noopener"><sf-icon name="whatsapp" [size]="16" /> WhatsApp</a>
-          </div>
-        }
-      </div>
-    </header>
-
-    <main class="content">
-      <router-outlet />
-    </main>
-
-    <footer class="site-footer desktop-only">
-      <span>© {{ year }} {{ identity.name() }}</span>
+    <main id="main-content" class="content" tabindex="-1"><router-outlet /></main>
+    <footer class="site-footer">
+      <div><strong>{{ identity.name() }}</strong><span>{{ identity.tagline() }}</span></div>
+      <nav aria-label="Footer navigation"><a routerLink="/contact">Contact & hours</a><a routerLink="/therapist">Staff workspace</a><a [routerLink]="auth.isAdmin() ? '/admin' : '/login'">Admin</a></nav>
+      <small>© {{ year }} {{ identity.name() }}</small>
     </footer>
   </div>
-
   <sf-mobile-nav class="mobile-only" />
 </div>
