@@ -1,15 +1,19 @@
 @switch (phase()) {
-
   @case ('setup') {
     <div class="page setup">
       <a routerLink="/therapist" class="back-link">← Dashboard</a>
       <h1>New consent form</h1>
-      <p class="intro">Find a returning client or add someone new. Then hand the device to the client to complete their consent form.</p>
+      <p class="intro">
+        Find a returning client or add someone new. Then hand the device to the client to complete
+        their consent form.
+      </p>
 
       @if (intendedTreatment(); as treatment) {
         <div class="treatment-context">
           <sf-icon name="leaf" [size]="18" />
-          <span>Starting consent form for <strong>{{ treatment.name }}</strong></span>
+          <span
+            >Starting consent form for <strong>{{ treatment.name }}</strong></span
+          >
         </div>
       }
 
@@ -32,7 +36,9 @@
                   (ngModelChange)="onClientSearchChange($event)"
                 />
               </div>
-              <button type="button" class="outline-btn" (click)="beginNewClientForm()">+ New client</button>
+              <button type="button" class="outline-btn" (click)="beginNewClientForm()">
+                + New client
+              </button>
             </div>
 
             @if (clientSearch().trim()) {
@@ -40,18 +46,31 @@
                 <div class="client-results-panel">
                   <div class="client-results">
                     @for (c of filteredClients(); track c.id) {
-                      <button type="button" class="client-card" (click)="selectExistingClient(c.id)">
-                        <span class="client-avatar" [style.background]="avatarBg(c.fullName)" [style.color]="avatarFg(c.fullName)">{{ c.fullName.charAt(0) }}</span>
+                      <button
+                        type="button"
+                        class="client-card"
+                        (click)="selectExistingClient(c.id)"
+                      >
+                        <span
+                          class="client-avatar"
+                          [style.background]="avatarBg(c.fullName)"
+                          [style.color]="avatarFg(c.fullName)"
+                          >{{ c.fullName.charAt(0) }}</span
+                        >
                         <span class="client-body">
                           <span class="client-name">{{ c.fullName }}</span>
-                          <span class="client-meta">{{ c.phone }} · {{ c.email || 'No email' }}</span>
+                          <span class="client-meta"
+                            >{{ c.phone }} · {{ c.email || 'No email' }}</span
+                          >
                         </span>
                       </button>
                     }
                   </div>
                 </div>
               } @else {
-                <p class="client-no-results">No matching clients. Use + New client to add someone new.</p>
+                <p class="client-no-results">
+                  No matching clients. Use + New client to add someone new.
+                </p>
               }
             }
           }
@@ -59,10 +78,17 @@
           @if (setupClient(); as selected) {
             <div class="client-confirm-card">
               <div class="client-confirm-top">
-                <span class="chip-avatar" [style.background]="avatarBg(selected.fullName)" [style.color]="avatarFg(selected.fullName)">{{ selected.fullName.charAt(0) }}</span>
+                <span
+                  class="chip-avatar"
+                  [style.background]="avatarBg(selected.fullName)"
+                  [style.color]="avatarFg(selected.fullName)"
+                  >{{ selected.fullName.charAt(0) }}</span
+                >
                 <div class="client-confirm-copy">
                   <span class="chip-name">{{ selected.fullName }}</span>
-                  <span class="chip-meta">Returning client · last visit {{ returningConsentDate(selected) }}</span>
+                  <span class="chip-meta"
+                    >Returning client · last visit {{ returningConsentDate(selected) }}</span
+                  >
                 </div>
                 <button type="button" class="chip-clear" (click)="startNewClient()">Change</button>
               </div>
@@ -78,7 +104,9 @@
                     <dd>{{ selected.email || '—' }}</dd>
                   </div>
                 </dl>
-                <button type="button" class="text-btn" (click)="enableEditClientDetails()">Edit contact details</button>
+                <button type="button" class="text-btn" (click)="enableEditClientDetails()">
+                  Edit contact details
+                </button>
               }
             </div>
           }
@@ -87,14 +115,18 @@
             @if (editingClientDetails() && selectedClientId()) {
               <div class="edit-mode-bar">
                 <span>Editing contact details</span>
-                <button type="button" class="text-btn" (click)="cancelEditClientDetails()">Cancel</button>
+                <button type="button" class="text-btn" (click)="cancelEditClientDetails()">
+                  Cancel
+                </button>
               </div>
             }
 
             <div class="client-fields">
               <div class="field-row">
                 <div class="field-wrap">
-                  <label class="field-label" for="setup-first-name">Name <span class="req">*</span></label>
+                  <label class="field-label" for="setup-first-name"
+                    >Name <span class="req">*</span></label
+                  >
                   <input
                     id="setup-first-name"
                     class="field"
@@ -110,7 +142,9 @@
                   }
                 </div>
                 <div class="field-wrap">
-                  <label class="field-label" for="setup-last-name">Surname <span class="req">*</span></label>
+                  <label class="field-label" for="setup-last-name"
+                    >Surname <span class="req">*</span></label
+                  >
                   <input
                     id="setup-last-name"
                     class="field"
@@ -128,7 +162,9 @@
               </div>
               <div class="field-row">
                 <div class="field-wrap">
-                  <label class="field-label" for="setup-phone">Phone <span class="req">*</span></label>
+                  <label class="field-label" for="setup-phone"
+                    >Phone <span class="req">*</span></label
+                  >
                   <input
                     id="setup-phone"
                     class="field"
@@ -143,13 +179,24 @@
                     <p class="sf-field-error">{{ error }}</p>
                   } @else if (matchingExistingClient(); as match) {
                     <div class="existing-client-hint">
-                      <span>This number belongs to <strong>{{ match.fullName }}</strong>.</span>
-                      <button type="button" class="hint-action" (click)="selectExistingClient(match.id)">Use existing client</button>
+                      <span
+                        >This number belongs to <strong>{{ match.fullName }}</strong
+                        >.</span
+                      >
+                      <button
+                        type="button"
+                        class="hint-action"
+                        (click)="selectExistingClient(match.id)"
+                      >
+                        Use existing client
+                      </button>
                     </div>
                   }
                 </div>
                 <div class="field-wrap">
-                  <label class="field-label" for="setup-email">Email <span class="req">*</span></label>
+                  <label class="field-label" for="setup-email"
+                    >Email <span class="req">*</span></label
+                  >
                   <input
                     id="setup-email"
                     class="field"
@@ -164,8 +211,17 @@
                     <p class="sf-field-error">{{ error }}</p>
                   } @else if (!setupFieldErrors().phone && matchingExistingClient(); as match) {
                     <div class="existing-client-hint">
-                      <span>This email belongs to <strong>{{ match.fullName }}</strong>.</span>
-                      <button type="button" class="hint-action" (click)="selectExistingClient(match.id)">Use existing client</button>
+                      <span
+                        >This email belongs to <strong>{{ match.fullName }}</strong
+                        >.</span
+                      >
+                      <button
+                        type="button"
+                        class="hint-action"
+                        (click)="selectExistingClient(match.id)"
+                      >
+                        Use existing client
+                      </button>
                     </div>
                   }
                 </div>
@@ -176,9 +232,15 @@
           @if (setupClient(); as selected) {
             @if (!editingClientDetails()) {
               <div class="returning-banner">
-                <p>The client will confirm whether anything has changed since their last visit. Previous answers are not reused automatically.</p>
+                <p>
+                  The client will confirm whether anything has changed since their last visit.
+                  Previous answers are not reused automatically.
+                </p>
                 @if (lastSignedConsentVersion(); as signedVersion) {
-                  <span class="returning-tag sage">Consent form v{{ signedVersion }} signed {{ returningConsentDate(selected) }}</span>
+                  <span class="returning-tag sage"
+                    >Consent form v{{ signedVersion }} signed
+                    {{ returningConsentDate(selected) }}</span
+                  >
                 }
               </div>
             }
@@ -195,7 +257,10 @@
           </div>
           <label class="select-field">
             <span class="select-label">Who will perform the treatment?</span>
-            <select [ngModel]="intendedTherapistId()" (ngModelChange)="intendedTherapistId.set($event || null)">
+            <select
+              [ngModel]="intendedTherapistId()"
+              (ngModelChange)="intendedTherapistId.set($event || null)"
+            >
               <option [ngValue]="null">Not sure yet</option>
               @for (t of therapists(); track t.id) {
                 <option [ngValue]="t.id">{{ t.name }} · {{ t.role }}</option>
@@ -209,14 +274,32 @@
         <div class="setup-alert" role="alert">
           {{ setupError() }}
           @if (isReturningClientLocked() && activeClientDuplicate(); as duplicate) {
-            <a class="setup-alert-link" [routerLink]="['/therapist/clients', selectedClientId()!]">Fix client profile</a>
+            <a class="setup-alert-link" [routerLink]="['/therapist/clients', selectedClientId()!]"
+              >Fix client profile</a
+            >
           }
         </div>
       }
 
       <footer class="setup-footer">
-        <div class="setup-summary">{{ canBegin() ? setupSummary() : (editingClientDetails() ? setupBlockedReason() : 'Select a client to continue') }}</div>
-        <button type="button" class="cta" [class.disabled]="!canBegin()" [disabled]="!canBegin()" (click)="beginConsentForm()">Hand to client →</button>
+        <div class="setup-summary">
+          {{
+            canBegin()
+              ? setupSummary()
+              : editingClientDetails()
+                ? setupBlockedReason()
+                : 'Select a client to continue'
+          }}
+        </div>
+        <button
+          type="button"
+          class="cta"
+          [class.disabled]="!canBegin()"
+          [disabled]="!canBegin() || starting()"
+          (click)="beginConsentForm()"
+        >
+          {{ starting() ? 'Preparing form…' : 'Hand to client →' }}
+        </button>
       </footer>
     </div>
   }
@@ -233,7 +316,15 @@
         <aside class="wizard-side">
           <div class="side-label">Progress</div>
           @for (step of steps(); track step.key; let i = $index) {
-            <button type="button" class="side-step" [disabled]="i > stepIndex()" [attr.aria-current]="i === stepIndex() ? 'step' : null" [class.active]="i === stepIndex()" [class.done]="i < stepIndex()" (click)="goToStep(i)">
+            <button
+              type="button"
+              class="side-step"
+              [disabled]="i > stepIndex()"
+              [attr.aria-current]="i === stepIndex() ? 'step' : null"
+              [class.active]="i === stepIndex()"
+              [class.done]="i < stepIndex()"
+              (click)="goToStep(i)"
+            >
               <span class="side-mark">{{ i < stepIndex() ? '✓' : i + 1 }}</span>
               <span class="side-text">{{ stepLabel(step) }}</span>
             </button>
@@ -242,7 +333,10 @@
             <div class="form-meta">
               <div class="side-label">Form</div>
               <div class="form-name">Salon consent form</div>
-              <div class="form-version">v{{ version.versionNumber }} · published {{ version.publishedAt | date: 'dd MMM y' }}</div>
+              <div class="form-version">
+                v{{ version.versionNumber }} · published
+                {{ version.publishedAt | date: 'dd MMM y' }}
+              </div>
             </div>
           }
         </aside>
@@ -251,10 +345,17 @@
           <div class="mobile-progress">
             <div class="mobile-bars">
               @for (step of steps(); track step.key; let i = $index) {
-                <div class="mobile-bar" [class.filled]="i <= stepIndex()" [class.current]="i === stepIndex()"></div>
+                <div
+                  class="mobile-bar"
+                  [class.filled]="i <= stepIndex()"
+                  [class.current]="i === stepIndex()"
+                ></div>
               }
             </div>
-            <div class="mobile-step-label">Step {{ stepIndex() + 1 }} of {{ steps().length }} · {{ currentStep() ? stepLabel(currentStep()!) : '' }}</div>
+            <div class="mobile-step-label">
+              Step {{ stepIndex() + 1 }} of {{ steps().length }} ·
+              {{ currentStep() ? stepLabel(currentStep()!) : '' }}
+            </div>
           </div>
 
           <div class="step-content" [@wizardStep]="stepIndex()">
@@ -274,7 +375,11 @@
                       </div>
                       <div class="section-card">
                         @for (field of section.fields; track field.key) {
-                          <sf-dynamic-field [field]="field" [value]="fieldValue(field.key)" (valueChange)="setFieldValue(field.key, $event)" />
+                          <sf-dynamic-field
+                            [field]="field"
+                            [value]="fieldValue(field.key)"
+                            (valueChange)="setFieldValue(field.key, $event)"
+                          />
                         }
                       </div>
                     </section>
@@ -286,14 +391,18 @@
                       <h2 class="section-title">Signature</h2>
                     </div>
                     <div class="section-card signature-card">
-                      <p class="signature-note">Sign below to confirm the answers and consent you have given today.</p>
+                      <p class="signature-note">
+                        Sign below to confirm the answers and consent you have given today.
+                      </p>
                       <div class="signature-wrap">
                         <sf-signature-pad
                           [initialSignature]="signatureDataUrl()"
                           (signatureChange)="onSignature($event)"
                         />
                       </div>
-                      @if (saveError()) { <p class="error">{{ saveError() }}</p> }
+                      @if (saveError()) {
+                        <p class="error">{{ saveError() }}</p>
+                      }
                     </div>
                   </section>
                 </div>
@@ -303,7 +412,9 @@
                 <div class="review-panel">
                   <header class="consent-hero">
                     <h1>Review</h1>
-                    <p class="step-subtitle">Check your answers. Tap Edit to change anything before submitting.</p>
+                    <p class="step-subtitle">
+                      Check your answers. Tap Edit to change anything before submitting.
+                    </p>
                   </header>
                   <div class="review-list">
                     @for (group of reviewGroups(); track group.key) {
@@ -312,12 +423,20 @@
                           <div class="review-group-head">
                             <h2>{{ group.name }}</h2>
                             <div class="review-divider"></div>
-                            <button type="button" class="edit-btn" (click)="editReviewGroup(group.key)">Edit</button>
+                            <button
+                              type="button"
+                              class="edit-btn"
+                              (click)="editReviewGroup(group.key)"
+                            >
+                              Edit
+                            </button>
                           </div>
                           @for (row of group.rows; track row.label) {
                             <div class="review-row">
                               <span class="review-label">{{ row.label }}</span>
-                              <span class="review-value" [class.flagged]="row.flagged">{{ row.value }}</span>
+                              <span class="review-value" [class.flagged]="row.flagged">{{
+                                row.value
+                              }}</span>
                             </div>
                           }
                         </div>
@@ -328,32 +447,42 @@
                     <div class="review-alert review-alert-info">
                       <div class="review-alert-head">
                         <span class="review-diamond"></span>
-                        <span>{{ flaggedReviewCount() }} answer{{ flaggedReviewCount() === 1 ? '' : 's' }} flagged for therapist review</span>
+                        <span
+                          >{{ flaggedReviewCount() }} answer{{
+                            flaggedReviewCount() === 1 ? '' : 's'
+                          }}
+                          flagged for therapist review</span
+                        >
                       </div>
                       <p>Your therapist will review these flagged answers before treatment.</p>
                     </div>
                   }
                   <div class="comment-block">
-                  <div class="comment-head">
-                    <label class="comment-label" for="consent-comments">Extra information</label>
-                    <span class="comment-optional">Optional</span>
-                  </div>
-                  <p class="comment-help">Add anything your therapist should know before treatment.</p>
-                  <textarea
-                    id="consent-comments"
-                    class="comment-field"
-                    rows="4"
-                    placeholder="e.g. pregnancy, allergies, recent treatments, or other health information…"
-                    [ngModel]="consentComments()"
-                    (ngModelChange)="setConsentComments($event)"
-                  ></textarea>
+                    <div class="comment-head">
+                      <label class="comment-label" for="consent-comments">Extra information</label>
+                      <span class="comment-optional">Optional</span>
+                    </div>
+                    <p class="comment-help">
+                      Add anything your therapist should know before treatment.
+                    </p>
+                    <textarea
+                      id="consent-comments"
+                      class="comment-field"
+                      rows="4"
+                      placeholder="e.g. pregnancy, allergies, recent treatments, or other health information…"
+                      [ngModel]="consentComments()"
+                      (ngModelChange)="setConsentComments($event)"
+                    ></textarea>
                   </div>
                 </div>
               }
 
               @if (step.key === 'therapist_review') {
                 <h1>Therapist review</h1>
-                <p class="step-subtitle">The client has signed. Review any flagged answers before submitting this consent form.</p>
+                <p class="step-subtitle">
+                  The client has signed. Review any flagged answers before submitting this consent
+                  form.
+                </p>
                 <div class="review-list">
                   @for (group of flaggedReviewGroups(); track group.key) {
                     <div class="review-group">
@@ -373,10 +502,20 @@
                 <div class="review-alert">
                   <div class="review-alert-head">
                     <span class="review-diamond"></span>
-                    <span>{{ flaggedReviewCount() }} flagged answer{{ flaggedReviewCount() === 1 ? '' : 's' }} to review</span>
+                    <span
+                      >{{ flaggedReviewCount() }} flagged answer{{
+                        flaggedReviewCount() === 1 ? '' : 's'
+                      }}
+                      to review</span
+                    >
                   </div>
                   <p>Confirm you have reviewed the flagged answers and approve treatment.</p>
-                  <button type="button" class="review-approve" [class.approved]="therapistReviewed()" (click)="toggleTherapistReviewed()">
+                  <button
+                    type="button"
+                    class="review-approve"
+                    [class.approved]="therapistReviewed()"
+                    (click)="toggleTherapistReviewed()"
+                  >
                     <span class="review-check">{{ therapistReviewed() ? '✓' : '' }}</span>
                     <span>Therapist has reviewed and approves treatment</span>
                   </button>
@@ -387,14 +526,34 @@
 
           <footer class="wizard-footer">
             <button type="button" class="ghost" (click)="back()">Back</button>
-            <span class="step-note" aria-live="polite">{{ currentStep().key === 'consent_form' ? completionHint() : 'Your draft is saved on this device' }}</span>
+            <span class="step-note" aria-live="polite">{{
+              currentStep().key === 'consent_form'
+                ? completionHint()
+                : 'Your draft is saved on this device'
+            }}</span>
             @if (currentStep(); as step) {
               @if (step.key === 'review' && flaggedReviewCount() === 0) {
-                <button type="button" class="cta" [disabled]="!canContinue()" (click)="openSubmitConfirm()">Submit consent form</button>
+                <button
+                  type="button"
+                  class="cta"
+                  [disabled]="!canContinue()"
+                  (click)="openSubmitConfirm()"
+                >
+                  Submit consent form
+                </button>
               } @else if (step.key === 'therapist_review') {
-                <button type="button" class="cta" [disabled]="!canContinue()" (click)="openSubmitConfirm()">Submit consent form</button>
+                <button
+                  type="button"
+                  class="cta"
+                  [disabled]="!canContinue()"
+                  (click)="openSubmitConfirm()"
+                >
+                  Submit consent form
+                </button>
               } @else {
-                <button type="button" class="cta" [disabled]="!canContinue()" (click)="next()">Continue</button>
+                <button type="button" class="cta" [disabled]="!canContinue()" (click)="next()">
+                  Continue
+                </button>
               }
             }
           </footer>
@@ -403,18 +562,31 @@
     </div>
 
     @if (submitConfirmOpen()) {
-      <div class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="submit-confirm-title">
-        <div class="confirm-panel" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown.escape)="dismissSubmitConfirm()">
+      <div
+        class="confirm-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="submit-confirm-title"
+      >
+        <div
+          class="confirm-panel"
+          cdkTrapFocus
+          [cdkTrapFocusAutoCapture]="true"
+          (keydown.escape)="dismissSubmitConfirm()"
+        >
           <h2 id="submit-confirm-title">Submit consent form?</h2>
           <p class="confirm-lead">
             @if (client(); as c) {
-              This will submit {{ c.fullName }}'s signed consent form and add it to the pending list.
+              This will submit {{ c.fullName }}'s signed consent form and add it to the pending
+              list.
             } @else {
               This will submit the signed consent form and add it to the pending list.
             }
           </p>
           @if (flaggedReviewCount() > 0) {
-            <p class="confirm-note">Flagged answers have been reviewed and approved for treatment.</p>
+            <p class="confirm-note">
+              Flagged answers have been reviewed and approved for treatment.
+            </p>
           } @else {
             <p class="confirm-note">You won't be able to change answers after submitting.</p>
           }
@@ -443,8 +615,14 @@
         <sf-icon name="check" [size]="34" />
       </div>
       <h1>Consent form submitted</h1>
-      <p class="complete-lead">{{ client()?.fullName }} signed the consent form at {{ completeTime() | date: 'HH:mm' }} on {{ completeTime() | date: 'd MMMM y' }}.</p>
-      <p class="complete-sub">This record is pending therapist review. Complete it once the signed answers have been reviewed.</p>
+      <p class="complete-lead">
+        {{ client()?.fullName }} signed the consent form at {{ completeTime() | date: 'HH:mm' }} on
+        {{ completeTime() | date: 'd MMMM y' }}.
+      </p>
+      <p class="complete-sub">
+        This record is pending therapist review. Complete it once the signed answers have been
+        reviewed.
+      </p>
       <div class="complete-actions">
         <a routerLink="/therapist/consent-forms" class="cta">View pending consent forms</a>
         <a routerLink="/therapist" class="ghost-link">Back to dashboard</a>
@@ -454,5 +632,23 @@
 }
 
 @if (exitConfirmOpen()) {
-  <div class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-title"><div class="confirm-panel" cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (keydown.escape)="exitConfirmOpen.set(false)"><h2 id="exit-title">Save and leave this form?</h2><p class="confirm-lead">Your answers will stay in this browser tab. Open a consent form again to pick up where you left off.</p><div class="confirm-actions"><button type="button" class="ghost" (click)="exitConfirmOpen.set(false)">Keep working</button><button type="button" class="cta" (click)="exitConsentForm()">Save & leave</button></div></div></div>
+  <div class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-title">
+    <div
+      class="confirm-panel"
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+      (keydown.escape)="exitConfirmOpen.set(false)"
+    >
+      <h2 id="exit-title">Save and leave this form?</h2>
+      <p class="confirm-lead">
+        Your answers will stay in this browser tab. Open a consent form again to pick up where you
+        left off.
+      </p>
+      <div class="confirm-actions">
+        <button type="button" class="ghost" (click)="exitConfirmOpen.set(false)">
+          Keep working</button
+        ><button type="button" class="cta" (click)="exitConsentForm()">Save & leave</button>
+      </div>
+    </div>
+  </div>
 }

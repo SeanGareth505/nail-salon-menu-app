@@ -8,7 +8,9 @@
   </div>
   <nav aria-label="Admin navigation">
     @for (item of items; track item.path) {
-      @if(item.group) { <p class="nav-group-label">{{ item.group }}</p> }
+      @if (item.group) {
+        <p class="nav-group-label">{{ item.group }}</p>
+      }
       <a
         [routerLink]="item.path"
         routerLinkActive="active"
@@ -22,14 +24,22 @@
       </a>
     }
   </nav>
-  <a class="workspace-link" routerLink="/" (click)="onNav()"><sf-icon name="arrow-right" [size]="16" /> View customer menu</a>
+  <a class="workspace-link" routerLink="/" (click)="onNav()"
+    ><sf-icon name="arrow-right" [size]="16" /> View customer menu</a
+  >
   <div class="footer">
     <span class="avatar">{{ initials() }}</span>
     <span class="footer-body">
       <strong>{{ displayName() }}</strong>
       <small>Owner</small>
     </span>
-    <button type="button" class="sign-out" (click)="signOut()" title="Sign out" aria-label="Sign out">
+    <button
+      type="button"
+      class="sign-out"
+      (click)="signOut()"
+      title="Sign out"
+      aria-label="Sign out"
+    >
       <sf-icon name="logout" [size]="16" />
     </button>
   </div>

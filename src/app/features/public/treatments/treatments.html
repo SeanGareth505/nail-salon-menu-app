@@ -1,11 +1,174 @@
 <div class="treatment-page">
-  <header class="menu-heading"><div><p class="sf-eyebrow">MAKE TIME FOR YOU</p><h1>The treatment menu</h1><p>Find something that feels like you. All prices include VAT.</p></div><a routerLink="/contact" class="menu-help">Need a recommendation? <sf-icon name="arrow-right" [size]="16" /></a></header>
-  <div class="menu-search-row"><label class="search-box"><sf-icon name="search" [size]="20" /><input type="search" aria-label="Search treatments" placeholder="Search treatments, e.g. gel manicure" [(ngModel)]="search" (ngModelChange)="onFilterChange()" />@if(search()) { <button type="button" aria-label="Clear search" (click)="search.set(''); onFilterChange()">×</button> }</label><label class="sort-control"><span>Sort by</span><select aria-label="Sort treatments" [(ngModel)]="sortOrder" (ngModelChange)="onFilterChange()"><option value="recommended">Recommended</option><option value="price-low">Price: low to high</option><option value="duration">Shortest first</option><option value="name">Name: A–Z</option></select></label></div>
+  <header class="menu-heading">
+    <div>
+      <p class="sf-eyebrow">MAKE TIME FOR YOU</p>
+      <h1>The treatment menu</h1>
+      <p>Find your favourite treatment, at your own pace.</p>
+    </div>
+    <a routerLink="/contact" class="menu-help"
+      >Need a recommendation? <sf-icon name="arrow-right" [size]="16"
+    /></a>
+  </header>
+  <div class="menu-search-row">
+    <label class="search-box"
+      ><sf-icon name="search" [size]="20" /><input
+        type="search"
+        aria-label="Search treatments"
+        placeholder="Search treatments, e.g. gel manicure"
+        [(ngModel)]="search"
+        (ngModelChange)="onFilterChange()"
+      />
+      @if (search()) {
+        <button type="button" aria-label="Clear search" (click)="search.set(''); onFilterChange()">
+          ×
+        </button>
+      }</label
+    ><label class="sort-control"
+      ><span>Sort by</span
+      ><select
+        aria-label="Sort treatments"
+        [(ngModel)]="sortOrder"
+        (ngModelChange)="onFilterChange()"
+      >
+        <option value="recommended">Recommended</option>
+        <option value="price-low">Price: low to high</option>
+        <option value="duration">Shortest first</option>
+        <option value="name">Name: A–Z</option>
+      </select></label
+    >
+  </div>
   <div class="menu-layout">
-    <aside class="filters" aria-label="Filter treatments"><div class="filters-card"><p class="filter-label">CATEGORIES</p><div class="category-chips"><button type="button" class="category-filter" [class.active]="activeCategorySlug() === 'all'" [attr.aria-pressed]="activeCategorySlug() === 'all'" (click)="selectCategory('all')">All treatments <span>{{ treatments().length }}</span></button>@for(c of categories(); track c.id) { <button type="button" class="category-filter" [class.active]="activeCategorySlug() === c.slug" [attr.aria-pressed]="activeCategorySlug() === c.slug" (click)="selectCategory(c.slug)">{{ c.name }} <span>{{ categoryCount(c.id) }}</span></button> }</div><div class="refine"><p class="filter-label">MAKE IT YOURS</p><label><input type="checkbox" [checked]="durationFilter() === 'under45'" (change)="durationFilter.set(durationFilter() === 'any' ? 'under45' : 'any'); onFilterChange()" />Under 45 minutes</label><label><input type="checkbox" [(ngModel)]="priceFilter" (ngModelChange)="onFilterChange()" />Under R500</label><label><input type="checkbox" [(ngModel)]="specialFilter" (ngModelChange)="onFilterChange()" />On special</label></div></div></aside>
-    <div class="menu-results"><div class="results-toolbar"><p aria-live="polite">{{ filtered().length }} {{ filtered().length === 1 ? 'treatment' : 'treatments' }}<span> to discover</span></p>@if (hasAnyFilter()) { <button type="button" class="reset-filters" (click)="clearSearch()">Clear all filters ×</button> }</div>
-      @if (loading()) { <sf-skeleton variant="treatment-card" [count]="4" /> } @else if (loadError()) { <sf-empty-state-animation motif="generic" title="The menu couldn’t load" message="Please check your connection and try again."><button type="button" class="reset-filters" (click)="retry()">Try again</button></sf-empty-state-animation> } @else {
-        @for(group of grouped(); track group.key) { <section class="treatment-group"><header class="group-header"><h2>{{ group.name }}</h2><span>{{ group.count }} {{ group.count === 1 ? 'treatment' : 'treatments' }}</span></header><div class="treatment-grid">@for(t of group.items; track t.id) { <sf-treatment-card [treatment]="t" layout="menu" [tint]="cardTint(t)" [icon]="cardIcon(t)" [specialView]="specialViewFor(t.id)" /> }</div></section> } @empty { <sf-empty-state-animation motif="search" [title]="hasAnyFilter() ? 'No treatments found' : 'Our menu is on its way'" [message]="hasAnyFilter() ? 'Try another search or clear your filters to see the full menu.' : 'Please contact the salon for the current treatment menu.'">@if(hasAnyFilter()) { <button type="button" class="reset-filters" (click)="clearSearch()">Show all treatments</button> } @else { <a routerLink="/contact">Contact the salon</a> }</sf-empty-state-animation> }
+    <aside class="filters" aria-label="Filter treatments">
+      <div class="filters-card">
+        <p class="filter-label">CATEGORIES</p>
+        <div class="category-chips">
+          <button
+            type="button"
+            class="category-filter"
+            [class.active]="activeCategorySlug() === 'all'"
+            [attr.aria-pressed]="activeCategorySlug() === 'all'"
+            (click)="selectCategory('all')"
+          >
+            All treatments <span>{{ treatments().length }}</span>
+          </button>
+          @for (c of categories(); track c.id) {
+            <button
+              type="button"
+              class="category-filter"
+              [class.active]="activeCategorySlug() === c.slug"
+              [attr.aria-pressed]="activeCategorySlug() === c.slug"
+              (click)="selectCategory(c.slug)"
+            >
+              {{ c.name }} <span>{{ categoryCount(c.id) }}</span>
+            </button>
+          }
+        </div>
+        <div class="refine">
+          <button
+            type="button"
+            class="refine-toggle"
+            [class.has-filters]="hasActiveRefine()"
+            [attr.aria-expanded]="showRefine()"
+            aria-controls="refine-options"
+            (click)="toggleRefine()"
+          >
+            <sf-icon name="filter" [size]="18" />
+            <span>Filters</span>
+            @if (activeRefineCount()) {
+              <span class="filter-count">{{ activeRefineCount() }}</span>
+            }
+            <span class="filter-toggle-label">{{ showRefine() ? 'Hide' : 'Show' }}</span>
+          </button>
+          <div id="refine-options" class="refine-options" [class.is-open]="showRefine()">
+            <p class="filter-label">REFINE YOUR MENU</p>
+            <label class="refine-option" [class.selected]="durationFilter() === 'under45'">
+              <sf-icon name="clock" [size]="18" /><span>Under 45 minutes</span>
+              <input
+                type="checkbox"
+                [checked]="durationFilter() === 'under45'"
+                (change)="
+                  durationFilter.set(durationFilter() === 'any' ? 'under45' : 'any');
+                  onFilterChange()
+                "
+              />
+            </label>
+            <label class="refine-option" [class.selected]="priceFilter()">
+              <sf-icon name="specials" [size]="18" /><span>Under R500</span>
+              <input type="checkbox" [(ngModel)]="priceFilter" (ngModelChange)="onFilterChange()" />
+            </label>
+            <label class="refine-option" [class.selected]="specialFilter()">
+              <sf-icon name="sparkle" [size]="18" /><span>On special</span>
+              <input
+                type="checkbox"
+                [(ngModel)]="specialFilter"
+                (ngModelChange)="onFilterChange()"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="menu-results">
+      <div class="results-toolbar">
+        <p aria-live="polite">
+          {{ filtered().length }} {{ filtered().length === 1 ? 'treatment' : 'treatments'
+          }}<span> to discover</span>
+        </p>
+        @if (hasAnyFilter()) {
+          <button type="button" class="reset-filters" (click)="clearSearch()">
+            Clear all filters ×
+          </button>
+        }
+      </div>
+      @if (loading()) {
+        <sf-skeleton variant="treatment-card" [count]="4" />
+      } @else if (loadError()) {
+        <sf-empty-state-animation
+          motif="generic"
+          title="The menu couldn’t load"
+          message="Please check your connection and try again."
+          ><button type="button" class="reset-filters" (click)="retry()">
+            Try again
+          </button></sf-empty-state-animation
+        >
+      } @else {
+        @for (group of grouped(); track group.key) {
+          <section class="treatment-group">
+            <header class="group-header">
+              <h2>{{ group.name }}</h2>
+              <span>{{ group.count }} {{ group.count === 1 ? 'treatment' : 'treatments' }}</span>
+            </header>
+            <div class="treatment-grid">
+              @for (t of group.items; track t.id) {
+                <sf-treatment-card
+                  [treatment]="t"
+                  layout="menu"
+                  [tint]="cardTint(t)"
+                  [icon]="cardIcon(t)"
+                  [specialView]="specialViewFor(t.id)"
+                />
+              }
+            </div>
+          </section>
+        } @empty {
+          <sf-empty-state-animation
+            motif="search"
+            [title]="hasAnyFilter() ? 'No treatments found' : 'Our menu is on its way'"
+            [message]="
+              hasAnyFilter()
+                ? 'Try another search or clear your filters to see the full menu.'
+                : 'Please contact the salon for the current treatment menu.'
+            "
+          >
+            @if (hasAnyFilter()) {
+              <button type="button" class="reset-filters" (click)="clearSearch()">
+                Show all treatments
+              </button>
+            } @else {
+              <a routerLink="/contact">Contact the salon</a>
+            }
+          </sf-empty-state-animation>
+        }
       }
     </div>
   </div>

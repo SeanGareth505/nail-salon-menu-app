@@ -12,9 +12,9 @@
 .sub {
   margin: 0 0 22px;
   font-size: 0.84rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
 }
 
 .filters {
@@ -27,9 +27,9 @@
 .filter {
   height: 44px;
   padding: 0 18px;
-  border: 1px solid rgba(74, 107, 87, 0.28);
+  border: 1px solid var(--sf-border-strong);
   background: transparent;
-  color: rgba(51, 51, 51, 0.7);
+  color: var(--sf-ink-muted);
   font-family: var(--sf-font-body);
   font-size: 0.84rem;
   font-weight: 400;
@@ -38,9 +38,9 @@
 }
 
 .filter.active {
-  border-color: var(--sf-forest);
-  background: var(--sf-forest);
-  color: var(--sf-ivory);
+  border-color: var(--sf-border-strong);
+  background: var(--sf-blush);
+  color: var(--sf-forest-dark);
 }
 
 .form-banner {
@@ -65,7 +65,7 @@
   align-items: center;
   gap: 18px;
   padding: 16px 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.12);
+  border-bottom: 1px solid var(--sf-border);
 }
 
 .body {
@@ -82,9 +82,9 @@
 
 .meta {
   font-size: 0.78rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
   margin-top: 4px;
 }
 
@@ -101,7 +101,7 @@
   align-items: center;
   height: 44px;
   padding: 0 18px;
-  border: 1px solid rgba(74, 107, 87, 0.35);
+  border: 1px solid var(--sf-border-strong);
   background: transparent;
   border-radius: var(--sf-radius-pill);
   color: var(--sf-forest);

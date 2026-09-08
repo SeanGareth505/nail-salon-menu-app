@@ -9,7 +9,7 @@
 }
 
 .therapist-card {
-  border: 1px solid rgba(74, 107, 87, 0.15);
+  border: 1px solid var(--sf-border);
   padding: 22px;
   background: var(--sf-surface);
 }
@@ -29,24 +29,24 @@
   justify-content: center;
   font-family: var(--sf-font-display);
   font-size: 1.31rem;
-  color: var(--sf-forest);
+  color: var(--sf-lilac-fg);
   flex: none;
 }
 
 .avatar.tint-blush {
-  background: var(--sf-blush);
+  background: var(--sf-lilac);
 }
 
 .avatar.tint-sage {
-  background: var(--sf-sage-light);
+  background: var(--sf-lilac);
 }
 
 .avatar.tint-sky {
-  background: var(--sf-sky);
+  background: var(--sf-lilac);
 }
 
 .avatar.tint-sand {
-  background: var(--sf-sand);
+  background: var(--sf-lilac);
 }
 
 .identity {
@@ -64,8 +64,8 @@
 
 .role {
   margin: 4px 0 0;
-  font: 300 0.78rem/1.4 var(--sf-font-body);
-  color: rgba(51, 51, 51, 0.55);
+  font: 400 0.78rem/1.4 var(--sf-font-body);
+  color: var(--sf-ink-muted);
 }
 
 .status-pill {
@@ -74,8 +74,8 @@
   text-transform: uppercase;
   padding: 6px 8px;
   flex: none;
-  background: rgba(51, 51, 51, 0.07);
-  color: rgba(51, 51, 51, 0.5);
+  background: var(--sf-neutral);
+  color: var(--sf-ink-muted);
 }
 
 .status-pill.active {
@@ -92,8 +92,8 @@
 
 .skill {
   font: 400 0.72rem/1 var(--sf-font-body);
-  color: var(--sf-forest);
-  background: var(--sf-sage-light);
+  color: var(--sf-lilac-fg);
+  background: var(--sf-lilac);
   padding: 8px 11px;
   border-radius: var(--sf-radius-pill);
 }
@@ -104,7 +104,7 @@
   gap: 14px;
   margin-top: 18px;
   padding-top: 15px;
-  border-top: 1px solid rgba(74, 107, 87, 0.11);
+  border-top: 1px solid var(--sf-border);
 }
 
 .meta-label {
@@ -112,7 +112,7 @@
   font: 400 0.59rem/1 var(--sf-font-body);
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: rgba(51, 51, 51, 0.45);
+  color: var(--sf-ink-muted);
 }
 
 .meta-value {
@@ -127,7 +127,7 @@
 }
 
 .meta-value:not(.on) {
-  color: rgba(51, 51, 51, 0.45);
+  color: var(--sf-ink-muted);
 }
 
 .card-actions {
@@ -147,18 +147,18 @@
 }
 
 .pill-btn.outline {
-  border: 1px solid rgba(74, 107, 87, 0.35);
+  border: 1px solid var(--sf-border-strong);
   color: var(--sf-forest);
 }
 
 .pill-btn.gold {
-  border: 1px solid rgba(201, 169, 110, 0.55);
+  border: 1px solid color-mix(in srgb, var(--sf-peach-fg) 55%, transparent);
   color: var(--sf-champagne-ink);
 }
 
 .new-card {
   min-height: 200px;
-  border: 1px dashed rgba(74, 107, 87, 0.35);
+  border: 1px dashed var(--sf-border-strong);
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -174,12 +174,12 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(74, 107, 87, 0.35);
+  border: 1px solid var(--sf-border-strong);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .pin-block {
@@ -258,5 +258,95 @@
 @media (max-width: 767px) {
   .therapists-page {
     padding: 22px 20px 32px;
+  }
+}
+
+.admin-form {
+  min-width: 0;
+  margin: 0 0 28px;
+}
+.photo-editor {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 20px;
+  background: var(--sf-canvas);
+  border: 1px solid var(--sf-border);
+  border-radius: 12px;
+}
+.photo-preview {
+  width: 100px;
+  height: 120px;
+  flex: none;
+  border-radius: 10px;
+  background: var(--sf-lilac);
+  color: var(--sf-lilac-fg);
+  font: 32px var(--sf-font-display);
+}
+.photo-copy {
+  min-width: 0;
+  flex: 1;
+}
+.photo-copy h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.photo-copy p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--sf-ink-muted);
+}
+.photo-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.photo-upload {
+  cursor: pointer;
+}
+.photo-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.photo-actions:focus-within .photo-upload {
+  outline: 2px solid var(--sf-forest);
+  outline-offset: 3px;
+}
+.remove-photo {
+  border: 0;
+  background: transparent;
+  color: var(--sf-forest);
+  min-height: 44px;
+  padding: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.photo-error {
+  color: #a3453a !important;
+  font-size: 13px;
+}
+.photo-copy .photo-hint {
+  margin: 10px 0 0;
+  color: var(--sf-forest);
+}
+.therapist-card,
+.new-card {
+  border-radius: 12px;
+}
+@media (max-width: 600px) {
+  .photo-editor {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  .photo-preview {
+    width: 90px;
+    height: 100px;
   }
 }

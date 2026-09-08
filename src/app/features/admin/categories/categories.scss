@@ -4,8 +4,8 @@
 
 .intro {
   margin: 0 0 22px;
-  font: 300 0.84rem/1.6 var(--sf-font-body);
-  color: rgba(51, 51, 51, 0.58);
+  font: 400 0.84rem/1.6 var(--sf-font-body);
+  color: var(--sf-ink-muted);
   max-width: 620px;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .cat-card {
-  border: 1px solid rgba(74, 107, 87, 0.15);
+  border: 1px solid var(--sf-border);
   background: var(--sf-surface);
 }
 
@@ -36,30 +36,30 @@
 
 .cat-banner.tint-blush {
   background: var(--sf-blush);
-  color: var(--sf-champagne);
+  color: var(--sf-peach-fg);
 }
 
 .cat-banner.tint-sage {
   background: var(--sf-sage-light);
-  color: var(--sf-sage);
+  color: var(--sf-forest);
 }
 
 .cat-banner.tint-sky {
   background: var(--sf-sky);
-  color: #8fb4ce;
+  color: var(--sf-sky-fg);
 }
 
 .cat-banner.tint-sand {
   background: var(--sf-sand);
-  color: var(--sf-champagne);
+  color: var(--sf-peach-fg);
 }
 
 .order {
   position: absolute;
   top: 10px;
   left: 12px;
-  font: 300 0.69rem/1 var(--sf-font-body);
-  color: rgba(51, 51, 51, 0.5);
+  font: 400 0.69rem/1 var(--sf-font-body);
+  color: var(--sf-ink-muted);
   z-index: 1;
 }
 
@@ -90,8 +90,8 @@
 
 .slug {
   margin: 6px 0 0;
-  font: 300 0.75rem/1 var(--sf-font-body);
-  color: rgba(51, 51, 51, 0.5);
+  font: 400 0.75rem/1 var(--sf-font-body);
+  color: var(--sf-ink-muted);
 }
 
 .cat-footer {
@@ -100,7 +100,7 @@
   gap: 10px;
   margin-top: 14px;
   padding-top: 13px;
-  border-top: 1px solid rgba(74, 107, 87, 0.11);
+  border-top: 1px solid var(--sf-border);
 }
 
 .status-pill {
@@ -109,7 +109,7 @@
   text-transform: uppercase;
   padding: 6px 8px;
   background: var(--sf-sand);
-  color: rgba(51, 51, 51, 0.6);
+  color: var(--sf-ink-muted);
 }
 
 .status-pill.active {
@@ -128,7 +128,7 @@
 
 .new-card {
   min-height: 160px;
-  border: 1px dashed rgba(74, 107, 87, 0.35);
+  border: 1px dashed var(--sf-border-strong);
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -144,12 +144,12 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(74, 107, 87, 0.35);
+  border: 1px solid var(--sf-border-strong);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
 }
 

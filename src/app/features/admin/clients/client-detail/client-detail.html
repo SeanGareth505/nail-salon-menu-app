@@ -5,27 +5,44 @@
         <span class="avatar">{{ c.fullName.charAt(0) }}</span>
         <div>
           <h1>{{ c.fullName }}</h1>
-          <p>{{ c.phone || '—' }} @if (c.email) { · {{ c.email }} } @if (c.dateOfBirth) { · DOB {{ c.dateOfBirth }} }</p>
+          <p>
+            {{ c.phone || '—' }}
+            @if (c.email) {
+              · {{ c.email }}
+            }
+            @if (c.dateOfBirth) {
+              · DOB {{ c.dateOfBirth }}
+            }
+          </p>
         </div>
       </div>
       <a routerLink="/admin/clients" class="admin-btn ghost">Back to clients</a>
     </header>
 
     @if (c.notes) {
-      <div class="admin-form notes-card"><p class="sf-eyebrow">Notes</p><p>{{ c.notes }}</p></div>
+      <div class="admin-form notes-card">
+        <p class="sf-eyebrow">Notes</p>
+        <p>{{ c.notes }}</p>
+      </div>
     }
 
     <section class="history">
-      <h2>Card history <span class="count">({{ consultations().length }})</span></h2>
+      <h2>
+        Card history <span class="count">({{ consultations().length }})</span>
+      </h2>
 
       @for (con of consultations(); track con.id) {
         <div class="history-item">
           <button type="button" class="history-row" (click)="toggleCard(con.id)">
             <span class="body">
               <span class="name">{{ treatmentLabel(con) }}</span>
-              <span class="sub">{{ con.startedAt | date: 'MMM d, y · HH:mm' }} · {{ con.therapistName }}</span>
+              <span class="sub"
+                >{{ con.startedAt | date: 'MMM d, y · HH:mm' }} · {{ con.therapistName }}</span
+              >
             </span>
-            <sf-state-pill [tone]="pillTone(con.status)">{{ con.status.replace('_',' ') }}</sf-state-pill>
+            <sf-state-pill [tone]="pillTone(con.status)">{{
+              con.status.replace('_', ' ')
+            }}</sf-state-pill>
             @if (con.consentSubmissionId) {
               <span class="toggle">{{ isExpanded(con.id) ? 'Hide card' : 'View card' }}</span>
             }
@@ -38,7 +55,11 @@
           }
         </div>
       } @empty {
-        <sf-empty-state icon="records" title="No consultations yet" message="This client hasn't had a consultation card recorded yet." />
+        <sf-empty-state
+          icon="records"
+          title="No consultations yet"
+          message="This client hasn't had a consultation card recorded yet."
+        />
       }
     </section>
   </div>

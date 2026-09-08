@@ -1,20 +1,30 @@
 @if (profileState().loading) {
-  <div class="profile-empty"><sf-salon-loader size="overlay" /><p role="status">Loading profile…</p></div>
+  <div class="profile-empty">
+    <sf-salon-loader size="overlay" />
+    <p role="status">Loading profile…</p>
+  </div>
 } @else if (therapist(); as t) {
   <div class="profile">
-    <div class="hero" [class]="'tint-' + t.tint">
-      
+    <div class="hero" [class]="'tint-' + t.tint" [class.has-photo]="!!t.imageUrl">
       <a class="back" routerLink="/therapists" aria-label="All therapists">
         <sf-icon name="chevron-left" [size]="20" />
       </a>
-      <span class="initial">{{ t.initial }}</span>
+      <sf-portrait
+        class="profile-portrait"
+        [src]="t.imageUrl"
+        [alt]="t.name"
+        [initial]="t.initial"
+        [eager]="true"
+      />
     </div>
     <div class="body">
       <div class="head">
         <h1>{{ t.name }}</h1>
         <span class="role">{{ t.role }}</span>
       </div>
-      <a class="enquire-button" routerLink="/contact" [queryParams]="{ therapist: t.name }">Arrange a visit with {{ t.name.split(' ')[0] }} →</a>
+      <a class="enquire-button" routerLink="/contact" [queryParams]="{ therapist: t.name }"
+        >Arrange a visit with {{ t.name.split(' ')[0] }} →</a
+      >
       <p class="bio">{{ t.bio }}</p>
       <div class="facts">
         <div>
@@ -34,6 +44,17 @@
       </div>
     </div>
   </div>
-}
 
-@else { <div class="profile-empty"><h1>Profile unavailable</h1><p>{{ profileState().error ? 'We couldn’t load this profile. Please try again shortly.' : 'This therapist’s profile is no longer available.' }}</p><a routerLink="/therapists">Back to the team →</a></div> }
+} @else {
+  <div class="profile-empty">
+    <h1>Profile unavailable</h1>
+    <p>
+      {{
+        profileState().error
+          ? 'We couldn’t load this profile. Please try again shortly.'
+          : 'This therapist’s profile is no longer available.'
+      }}
+    </p>
+    <a routerLink="/therapists">Back to the team →</a>
+  </div>
+}

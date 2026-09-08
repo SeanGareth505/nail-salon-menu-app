@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  ElementRef,
+  viewChild,
   inject,
   signal,
 } from '@angular/core';
@@ -25,6 +27,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PublicShell {
+  readonly mainContent = viewChild<ElementRef<HTMLElement>>('mainContent');
+
+  skipToContent(event: Event): void {
+    event.preventDefault();
+    this.mainContent()?.nativeElement.focus();
+    this.mainContent()?.nativeElement.scrollIntoView({ block: 'start' });
+  }
+
   protected readonly year = new Date().getFullYear();
   readonly identity = inject(SalonIdentityService);
   readonly auth = inject(AuthService);

@@ -1,17 +1,191 @@
-.contact-page { padding: 44px 40px; }
-.contact-heading { margin-bottom: 32px; } .contact-heading .sf-eyebrow { font-size: 11px; color: var(--sf-forest); margin-bottom: 13px; }
-h1 { font-size: 44px; letter-spacing: -1.1px; margin-bottom: 12px; } .contact-heading p:last-child { font-size: 14px; color: var(--sf-ink-muted); }
-.contact-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
-.contact-actions { display: flex; flex-direction: column; gap: 12px; }
-.contact-action { display: flex; align-items: center; gap: 18px; padding: 22px; text-decoration: none; border: 1px solid var(--sf-border); border-radius: 12px; color: var(--sf-ink); background: white; }
-.contact-action > span:last-child { margin-left: auto; } .contact-action strong { display: block; font-size: 15px; font-weight: 500; } .contact-action small { display: block; font-size: 12px; color: var(--sf-ink-muted); margin-top: 6px; overflow-wrap: anywhere; }
-.contact-action.primary { background: var(--sf-forest-dark); border-color: var(--sf-forest-dark); color: white; } .contact-action.primary small { color: #d6c9d2; }
-.contact-action:hover { border-color: var(--sf-forest); transform: translateY(-2px); }
-.location-card { margin-top: 24px; padding: 24px; background: #f7f4f6; border-radius: 12px; } .location-card > div { display: flex; align-items: center; gap: 12px; } .location-card h2 { font-size: 24px; margin: 0; } .location-card p { margin: 14px 0; font-size: 14px; color: var(--sf-ink-muted); line-height: 1.7; } .location-card a { font-size: 13px; font-weight: 500; display: flex; gap: 12px; text-decoration: none; }
-.hours { padding: 28px; border: 1px solid var(--sf-border); border-radius: 14px; }
-.hours-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; } .hours-head h2 { font-size: 26px; margin: 0; } .hours-head > span { font-size: 11px; color: var(--sf-ink-muted); }
-.hours-row { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-top: 1px solid var(--sf-border); font-size: 13px; color: var(--sf-ink-muted); } .hours-row.today { color: var(--sf-forest); font-weight: 600; } .hours-row small { font-size: 10px; background: var(--sf-sage-light); padding: 3px 5px; border-radius: 4px; margin-left: 4px; }
-.hours-note { font-size: 12px; line-height: 1.7; color: var(--sf-ink-muted); margin: 18px 0 0; }
-.map-block { margin-top: 32px; overflow: hidden; border-radius: 14px; border: 1px solid var(--sf-border); }
-.enquiry-note { display: flex; align-items: center; gap: 14px; padding: 18px 20px; margin-bottom: 24px; border: 1px solid #e2d2db; background: var(--sf-sage-light); border-radius: 10px; font-size: 14px; } .enquiry-note small { display: block; font-size: 12px; color: var(--sf-ink-muted); margin-top: 5px; }
-@media(max-width:767px) { .contact-page { padding: 30px 20px; } h1 { font-size: 35px; } .contact-layout { grid-template-columns: 1fr; gap: 24px; } .contact-action { padding: 20px; gap: 14px; } .hours { padding: 22px; } .contact-heading { margin-bottom: 25px; } .map-block { margin-top: 24px; } }
+.contact-page {
+  padding: 44px 40px;
+}
+.contact-heading {
+  margin-bottom: 32px;
+}
+.contact-heading .sf-eyebrow {
+  font-size: 11px;
+  color: var(--sf-forest);
+  margin-bottom: 13px;
+}
+h1 {
+  font-size: 44px;
+  letter-spacing: -1.1px;
+  margin-bottom: 12px;
+}
+.contact-heading p:last-child {
+  font-size: 14px;
+  color: var(--sf-ink-muted);
+}
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-action {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  text-decoration: none;
+  border: 1px solid var(--sf-border);
+  border-radius: 12px;
+  color: var(--sf-ink);
+  background: white;
+}
+.contact-action > span:last-child {
+  margin-left: auto;
+}
+.contact-action strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+}
+.contact-action small {
+  display: block;
+  font-size: 12px;
+  color: var(--sf-ink-muted);
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+.contact-action.primary {
+  background: var(--sf-forest);
+  border-color: var(--sf-forest-dark);
+  color: white;
+}
+.contact-action.primary small {
+  color: var(--sf-on-forest);
+}
+.contact-action:hover {
+  border-color: var(--sf-forest);
+  transform: translateY(-2px);
+}
+.location-card {
+  margin-top: 24px;
+  padding: 24px;
+  background: var(--sf-neutral);
+  border-radius: 12px;
+}
+.location-card > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.location-card h2 {
+  font-size: 24px;
+  margin: 0;
+}
+.location-card p {
+  margin: 14px 0;
+  font-size: 14px;
+  color: var(--sf-ink-muted);
+  line-height: 1.7;
+}
+.location-card a {
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  gap: 12px;
+  text-decoration: none;
+}
+.hours {
+  padding: 28px;
+  border: 1px solid var(--sf-border);
+  border-radius: 14px;
+}
+.hours-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.hours-head h2 {
+  font-size: 26px;
+  margin: 0;
+}
+.hours-head > span {
+  font-size: 11px;
+  color: var(--sf-ink-muted);
+}
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--sf-border);
+  font-size: 13px;
+  color: var(--sf-ink-muted);
+}
+.hours-row.today {
+  color: var(--sf-forest);
+  font-weight: 600;
+}
+.hours-row small {
+  font-size: 10px;
+  background: var(--sf-sage-light);
+  padding: 3px 5px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.hours-note {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--sf-ink-muted);
+  margin: 18px 0 0;
+}
+.map-block {
+  margin-top: 32px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--sf-border);
+}
+.enquiry-note {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--sf-border);
+  background: var(--sf-sage-light);
+  border-radius: 10px;
+  font-size: 14px;
+}
+.enquiry-note small {
+  display: block;
+  font-size: 12px;
+  color: var(--sf-ink-muted);
+  margin-top: 5px;
+}
+@media (max-width: 767px) {
+  .contact-page {
+    padding: 30px 20px;
+  }
+  h1 {
+    font-size: 35px;
+  }
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .contact-action {
+    padding: 20px;
+    gap: 14px;
+  }
+  .hours {
+    padding: 22px;
+  }
+  .contact-heading {
+    margin-bottom: 25px;
+  }
+  .map-block {
+    margin-top: 24px;
+  }
+}

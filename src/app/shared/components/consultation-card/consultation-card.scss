@@ -44,7 +44,7 @@
   justify-content: space-between;
   gap: var(--sf-space-2);
   padding: var(--sf-space-2) 0;
-  border-bottom: 1px solid rgba(230, 224, 211, 0.6);
+  border-bottom: 1px solid var(--sf-border);
 }
 .row:last-child { border-bottom: none; }
 .row.flagged { background: var(--sf-status-flagged-bg); border-radius: var(--sf-radius-sm); padding: var(--sf-space-2) var(--sf-space-3); border-bottom: none; }
@@ -63,7 +63,7 @@
 .signature-block img {
   max-width: 260px;
   max-height: 120px;
-  background: #fff;
+  background: var(--sf-surface);
   border: 1px solid var(--sf-border);
   border-radius: var(--sf-radius-sm);
   padding: var(--sf-space-2);

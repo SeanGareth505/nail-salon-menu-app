@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Special, SpecialState } from '../../../core/models';
 import {
   displayStateLabel,
@@ -11,7 +12,7 @@ import { FormatRandPipe } from '../../pipes/format-rand.pipe';
 @Component({
   selector: 'sf-special-row',
   standalone: true,
-  imports: [FormatRandPipe],
+  imports: [FormatRandPipe, RouterLink],
   templateUrl: './special-row.html',
   styleUrl: './special-row.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,13 +32,13 @@ export class SfSpecialRow {
 
   readonly stateLabel = computed(() => displayStateLabel(this.displayState()));
 
-  readonly dateMetaLine = computed(() =>
-    specialDateMetaLine(this.special(), this.displayState()),
-  );
+  readonly dateMetaLine = computed(() => specialDateMetaLine(this.special(), this.displayState()));
 
   readonly savingsAmount = computed(() => this.special().originalPrice - this.special().price);
 
-  readonly showPricing = computed(() => this.special().kind !== 'promo' && this.special().price > 0);
+  readonly showPricing = computed(
+    () => this.special().kind !== 'promo' && this.special().price > 0,
+  );
 
   readonly showSavings = computed(() => this.showPricing() && this.savingsAmount() > 0);
 

@@ -1,7 +1,75 @@
-:host { display: block; }
-.page-intro { padding: 40px 40px 0; margin: 0; max-width: none; }
-.page-eyebrow { font-size: 11px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--sf-forest); margin-bottom: 12px; }
-.page-intro h1 { font-size: 44px; letter-spacing: -1px; margin-bottom: 12px; }
-.page-intro .sub { font-size: 14px; color: var(--sf-ink-muted); margin-bottom: 30px; }
-.page { padding: 0 40px 40px; }.group { margin-bottom: 32px; }.group-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }.group-label { margin: 0; font: 25px var(--sf-font-display); letter-spacing: -.4px; }.group-line { flex: 1; height: 1px; background: var(--sf-border); }.list-plain { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }.section-empty { padding: 22px; border: 1px solid var(--sf-border); border-radius: 10px; font-size: 13px; color: var(--sf-ink-muted); background: #fcfafb; }
-@media(max-width:767px) { .page-intro { padding: 30px 20px 0; }.page-intro h1 { font-size: 35px; }.page { padding: 0 20px 30px; }.list-plain { grid-template-columns: 1fr; gap: 15px; } }
+:host {
+  display: block;
+}
+.page-intro {
+  padding: 40px 40px 0;
+  margin: 0;
+  max-width: none;
+}
+.page-eyebrow {
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--sf-forest);
+  margin-bottom: 12px;
+}
+.page-intro h1 {
+  font-size: 44px;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+.page-intro .sub {
+  font-size: 14px;
+  color: var(--sf-ink-muted);
+  margin-bottom: 30px;
+}
+.page {
+  padding: 0 40px 40px;
+}
+.group {
+  margin-bottom: 32px;
+}
+.group-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.group-label {
+  margin: 0;
+  font: 25px var(--sf-font-display);
+  letter-spacing: -0.4px;
+}
+.group-line {
+  flex: 1;
+  height: 1px;
+  background: var(--sf-border);
+}
+.list-plain {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.section-empty {
+  padding: 22px;
+  border: 1px solid var(--sf-border);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--sf-ink-muted);
+  background: var(--sf-canvas);
+}
+@media (max-width: 767px) {
+  .page-intro {
+    padding: 30px 20px 0;
+  }
+  .page-intro h1 {
+    font-size: 35px;
+  }
+  .page {
+    padding: 0 20px 30px;
+  }
+  .list-plain {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}

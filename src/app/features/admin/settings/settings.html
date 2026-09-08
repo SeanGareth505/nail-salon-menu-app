@@ -1,21 +1,40 @@
 <div class="admin-page" [sfPageAction]="pageAction">
-  <header class="admin-head"><div><h1>Salon details</h1><p>Shown across the public site and consultation flows</p></div></header>
+  <header class="admin-head">
+    <div>
+      <h2>Your salon details</h2>
+      <p>Shown across the public site and consultation flows</p>
+    </div>
+  </header>
 
-  <p class="page-intro">Your salon identity, contact details and opening hours appear on the public site and in consultation flows.</p>
+  <p class="page-intro">
+    Your salon identity, contact details and opening hours appear on the public site and in
+    consultation flows.
+  </p>
 
   @if (isDemoCatalogue()) {
     <section class="demo-banner">
       <div>
         <p class="demo-label">Demo catalogue active</p>
-        <p class="demo-copy">Sample treatments, therapists, and specials are loaded so you can explore SalonFlow. When you are ready, start from scratch and add your own menu.</p>
+        <p class="demo-copy">
+          Sample treatments, therapists, and specials are loaded so you can explore SalonFlow. When
+          you are ready, start from scratch and add your own menu.
+        </p>
       </div>
-      <button type="button" class="admin-btn danger" [disabled]="resetting()" (click)="startFromScratch()">
+      <button
+        type="button"
+        class="admin-btn danger"
+        [disabled]="resetting()"
+        (click)="startFromScratch()"
+      >
         {{ resetting() ? 'Clearing…' : 'Start from scratch' }}
       </button>
     </section>
   } @else {
     <section class="demo-banner custom">
-      <p class="demo-copy">Your catalogue is yours to build. Add categories, treatments, therapists, and specials from the admin menu.</p>
+      <p class="demo-copy">
+        Your catalogue is yours to build. Add categories, treatments, therapists, and specials from
+        the admin menu.
+      </p>
     </section>
   }
 
@@ -26,25 +45,92 @@
   <div class="admin-form">
     <h2>Identity</h2>
     <div class="admin-row-2">
-      <div class="admin-field"><label for="field-settings-1">Salon name</label><input id="field-settings-1" [ngModel]="form().name" (ngModelChange)="setField('name', $event)" /></div>
-      <div class="admin-field"><label for="field-settings-2">City</label><input id="field-settings-2" [ngModel]="form().city" (ngModelChange)="setField('city', $event)" /></div>
+      <div class="admin-field">
+        <label for="field-settings-1">Salon name</label
+        ><input
+          id="field-settings-1"
+          [ngModel]="form().name"
+          (ngModelChange)="setField('name', $event)"
+        />
+      </div>
+      <div class="admin-field">
+        <label for="field-settings-2">City</label
+        ><input
+          id="field-settings-2"
+          [ngModel]="form().city"
+          (ngModelChange)="setField('city', $event)"
+        />
+      </div>
     </div>
-    <div class="admin-field"><label for="field-settings-3">Tagline (script font)</label><input id="field-settings-3" [ngModel]="form().tagline" (ngModelChange)="setField('tagline', $event)" placeholder="Your Escape, Our Passion." /></div>
-    <div class="admin-field"><label for="field-settings-4">Subtext</label><input id="field-settings-4" [ngModel]="form().subtext" (ngModelChange)="setField('subtext', $event)" placeholder="Beauty · Wellness · Confidence" /></div>
+    <div class="admin-field">
+      <label for="field-settings-3">Tagline (script font)</label
+      ><input
+        id="field-settings-3"
+        [ngModel]="form().tagline"
+        (ngModelChange)="setField('tagline', $event)"
+        placeholder="Your Escape, Our Passion."
+      />
+    </div>
+    <div class="admin-field">
+      <label for="field-settings-4">Subtext</label
+      ><input
+        id="field-settings-4"
+        [ngModel]="form().subtext"
+        (ngModelChange)="setField('subtext', $event)"
+        placeholder="Beauty · Wellness · Confidence"
+      />
+    </div>
 
     <h2>Contact</h2>
     <div class="admin-row-3">
-      <div class="admin-field"><label for="field-settings-5">Phone</label><input id="field-settings-5" [ngModel]="form().phone" (ngModelChange)="setField('phone', $event)" /></div>
-      <div class="admin-field"><label for="field-settings-6">WhatsApp (intl format)</label><input id="field-settings-6" [ngModel]="form().whatsapp" (ngModelChange)="setField('whatsapp', $event)" placeholder="27821234567" /></div>
-      <div class="admin-field"><label for="field-settings-7">Email</label><input id="field-settings-7" [ngModel]="form().email" (ngModelChange)="setField('email', $event)" /></div>
+      <div class="admin-field">
+        <label for="field-settings-5">Phone</label
+        ><input
+          id="field-settings-5"
+          [ngModel]="form().phone"
+          (ngModelChange)="setField('phone', $event)"
+        />
+      </div>
+      <div class="admin-field">
+        <label for="field-settings-6">WhatsApp (intl format)</label
+        ><input
+          id="field-settings-6"
+          [ngModel]="form().whatsapp"
+          (ngModelChange)="setField('whatsapp', $event)"
+          placeholder="27821234567"
+        />
+      </div>
+      <div class="admin-field">
+        <label for="field-settings-7">Email</label
+        ><input
+          id="field-settings-7"
+          [ngModel]="form().email"
+          (ngModelChange)="setField('email', $event)"
+        />
+      </div>
     </div>
     <div class="admin-row-2">
-      <div class="admin-field"><label for="field-settings-8">Address line 1</label><input id="field-settings-8" [ngModel]="form().addressLine1" (ngModelChange)="setField('addressLine1', $event)" /></div>
-      <div class="admin-field"><label for="field-settings-9">Address line 2</label><input id="field-settings-9" [ngModel]="form().addressLine2" (ngModelChange)="setField('addressLine2', $event)" /></div>
+      <div class="admin-field">
+        <label for="field-settings-8">Address line 1</label
+        ><input
+          id="field-settings-8"
+          [ngModel]="form().addressLine1"
+          (ngModelChange)="setField('addressLine1', $event)"
+        />
+      </div>
+      <div class="admin-field">
+        <label for="field-settings-9">Address line 2</label
+        ><input
+          id="field-settings-9"
+          [ngModel]="form().addressLine2"
+          (ngModelChange)="setField('addressLine2', $event)"
+        />
+      </div>
     </div>
     <div class="admin-field">
       <label for="field-settings-10">Directions note</label>
-      <input id="field-settings-10"
+      <input
+        id="field-settings-10"
         [ngModel]="form().locationNote"
         (ngModelChange)="setField('locationNote', $event)"
         placeholder="Parking on level P2, lift access to the first floor"
@@ -53,7 +139,8 @@
     <div class="admin-row-2">
       <div class="admin-field">
         <label for="field-settings-11">Map latitude</label>
-        <input id="field-settings-11"
+        <input
+          id="field-settings-11"
           type="number"
           step="any"
           [ngModel]="form().mapLat"
@@ -63,7 +150,8 @@
       </div>
       <div class="admin-field">
         <label for="field-settings-12">Map longitude</label>
-        <input id="field-settings-12"
+        <input
+          id="field-settings-12"
           type="number"
           step="any"
           [ngModel]="form().mapLng"
@@ -72,7 +160,10 @@
         />
       </div>
     </div>
-    <p class="map-hint">Right-click your salon on Google Maps and copy the coordinates for a precise pin. Leave blank to use the address above.</p>
+    <p class="map-hint">
+      Right-click your salon on Google Maps and copy the coordinates for a precise pin. Leave blank
+      to use the address above.
+    </p>
     <div class="map-preview">
       <sf-salon-map [settings]="form()" title="Salon location preview" />
     </div>
@@ -81,15 +172,34 @@
     @for (h of form().hours; track h.day) {
       <div class="hours-row">
         <span class="day-label">{{ h.label }}</span>
-        <input type="time" [ngModel]="h.open" (ngModelChange)="updateHour(h.day, { open: $event })" [disabled]="!!h.byAppointmentOnly" />
+        <input
+          type="time"
+          [ngModel]="h.open"
+          (ngModelChange)="updateHour(h.day, { open: $event })"
+          [disabled]="!!h.byAppointmentOnly"
+        />
         <span>–</span>
-        <input type="time" [ngModel]="h.close" (ngModelChange)="updateHour(h.day, { close: $event })" [disabled]="!!h.byAppointmentOnly" />
-        <label class="admin-toggle-row"><input type="checkbox" [ngModel]="h.byAppointmentOnly" (ngModelChange)="updateHour(h.day, { byAppointmentOnly: $event })" /> By appointment only</label>
+        <input
+          type="time"
+          [ngModel]="h.close"
+          (ngModelChange)="updateHour(h.day, { close: $event })"
+          [disabled]="!!h.byAppointmentOnly"
+        />
+        <label class="admin-toggle-row"
+          ><input
+            type="checkbox"
+            [ngModel]="h.byAppointmentOnly"
+            (ngModelChange)="updateHour(h.day, { byAppointmentOnly: $event })"
+          />
+          By appointment only</label
+        >
       </div>
     }
 
     <div class="admin-form-actions">
-      @if (saved()) { <span class="saved-msg">Saved</span> }
+      @if (saved()) {
+        <span class="saved-msg">Saved</span>
+      }
       <button type="button" class="admin-btn" (click)="save()">Save changes</button>
     </div>
   </div>

@@ -1,13 +1,87 @@
 <div class="contact-page">
-  <header class="contact-heading"><p class="sf-eyebrow">COME SAY HELLO</p><h1>Let’s make time for you.</h1><p>Call or message the salon to arrange your visit.</p></header>
+  <header class="contact-heading">
+    <p class="sf-eyebrow">COME SAY HELLO</p>
+    <h1>Let’s make time for you.</h1>
+    <p>Call or message the salon to arrange your visit.</p>
+  </header>
   @if (settings(); as s) {
-    @if (enquiry()) { <div class="enquiry-note"><sf-icon name="leaf" [size]="19" /><span>Your enquiry: <strong>{{ enquiry() }}</strong><small>We’ll include this in your message.</small></span></div> }
-    <div class="contact-layout"><section class="contact-main"><div class="contact-actions">
-      @if(s.whatsapp) { <a class="contact-action primary" [href]="whatsappUrl(s)" target="_blank" rel="noopener noreferrer"><sf-icon name="whatsapp" [size]="24" /><span><strong>Message on WhatsApp</strong><small>Ask a question or arrange a visit</small></span><span>↗</span></a> }
-      @if(s.phone) { <a class="contact-action" [href]="'tel:' + s.phone"><sf-icon name="phone" [size]="23" /><span><strong>Call the salon</strong><small>{{ s.phone }}</small></span><span>↗</span></a> }
-      @if(s.email) { <a class="contact-action" [href]="emailUrl(s)"><sf-icon name="mail" [size]="23" /><span><strong>Send an email</strong><small>{{ s.email }}</small></span><span>↗</span></a> }
-    </div><section class="location-card"><div><sf-icon name="map-pin" [size]="21" /><h2>Find us</h2></div><p>{{ addressText(s) }}</p><a [href]="mapsUrl(s)" target="_blank" rel="noopener noreferrer">Get directions <span>↗</span></a></section></section>
-    <section class="hours"><div class="hours-head"><h2>Opening hours</h2><span>Local time</span></div>@for(h of s.hours; track h.day) { <div class="hours-row" [class.today]="isTodayRow(h)"><span>{{ h.label }} @if(isTodayRow(h)) { <small>Today</small> }</span><span>{{ hoursLabel(h) }}</span></div> }<p class="hours-note">Please contact the salon to confirm availability.</p></section></div>
-    @if(s.addressLine1 || s.city) { <section class="map-block"><sf-salon-map [settings]="s" title="Salon location map" /></section> }
-  } @else { <sf-empty-state-animation motif="generic" title="Contact details coming soon" message="Salon contact information will appear here once it's added." /> }
+    @if (enquiry()) {
+      <div class="enquiry-note">
+        <sf-icon name="leaf" [size]="19" /><span
+          >Your enquiry: <strong>{{ enquiry() }}</strong
+          ><small>We’ll include this in your message.</small></span
+        >
+      </div>
+    }
+    <div class="contact-layout">
+      <section class="contact-main">
+        <div class="contact-actions">
+          @if (s.whatsapp) {
+            <a
+              class="contact-action primary"
+              [href]="whatsappUrl(s)"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><sf-icon name="whatsapp" [size]="24" /><span
+                ><strong>Message on WhatsApp</strong
+                ><small>Ask a question or arrange a visit</small></span
+              ><span>↗</span></a
+            >
+          }
+          @if (s.phone) {
+            <a class="contact-action" [href]="'tel:' + s.phone"
+              ><sf-icon name="phone" [size]="23" /><span
+                ><strong>Call the salon</strong><small>{{ s.phone }}</small></span
+              ><span>↗</span></a
+            >
+          }
+          @if (s.email) {
+            <a class="contact-action" [href]="emailUrl(s)"
+              ><sf-icon name="mail" [size]="23" /><span
+                ><strong>Send an email</strong><small>{{ s.email }}</small></span
+              ><span>↗</span></a
+            >
+          }
+        </div>
+        <section class="location-card">
+          <div>
+            <sf-icon name="map-pin" [size]="21" />
+            <h2>Find us</h2>
+          </div>
+          <p>{{ addressText(s) }}</p>
+          <a [href]="mapsUrl(s)" target="_blank" rel="noopener noreferrer"
+            >Get directions <span>↗</span></a
+          >
+        </section>
+      </section>
+      <section class="hours">
+        <div class="hours-head">
+          <h2>Opening hours</h2>
+          <span>Local time</span>
+        </div>
+        @for (h of s.hours; track h.day) {
+          <div class="hours-row" [class.today]="isTodayRow(h)">
+            <span
+              >{{ h.label }}
+              @if (isTodayRow(h)) {
+                <small>Today</small>
+              }</span
+            ><span>{{ hoursLabel(h) }}</span>
+          </div>
+        }
+        <p class="hours-note">Please contact the salon to confirm availability.</p>
+      </section>
+    </div>
+    @if (s.addressLine1 || s.city) {
+      <section class="map-block">
+        <sf-salon-map [settings]="s" title="Salon location map" />
+      </section>
+    }
+  } @else {
+    <sf-empty-state-animation
+      motif="generic"
+      title="Contact details coming soon"
+      message="Salon contact information will appear here once it's added."
+    />
+  }
 </div>

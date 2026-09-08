@@ -1,7 +1,14 @@
 <div class="admin-page analytics-page" [sfPageAction]="pageAction">
-  <header class="admin-head"><div><h1>Analytics</h1><p>Consent form volume and completion, at a glance</p></div></header>
+  <header class="admin-head">
+    <div>
+      <h2>Salon activity</h2>
+      <p>Consent form volume and completion, at a glance</p>
+    </div>
+  </header>
 
-  <p class="page-intro">Track consent form volume, completion rate and treatment popularity across your salon.</p>
+  <p class="page-intro">
+    Track consent form volume, completion rate and treatment popularity across your salon.
+  </p>
 
   <div class="stats-grid">
     <sf-stat-tile label="Total consent forms" [value]="consultations().length" />

@@ -1,19 +1,44 @@
 <div class="page" [sfPageAction]="pageAction">
-  <header class="overview-heading"><div><p class="sf-eyebrow">YOUR SALON AT A GLANCE</p><h2>A little clarity for your day.</h2><p>Keep track of your team, clients, and the details that need attention.</p></div><a routerLink="/therapist" class="admin-btn">Open staff workspace →</a></header>
+  <header class="overview-heading">
+    <div>
+      <p class="sf-eyebrow">YOUR SALON AT A GLANCE</p>
+      <h2>A little clarity for your day.</h2>
+      <p>Keep track of your team, clients, and the details that need attention.</p>
+    </div>
+    <a routerLink="/therapist" class="admin-btn">Open staff workspace →</a>
+  </header>
   <div class="stats-grid">
-    <sf-stat-tile label="Consent forms today" [value]="todayCount()" hint="Across {{ activeTherapists() }} therapists" />
+    <sf-stat-tile
+      label="Consent forms today"
+      [value]="todayCount()"
+      hint="Across {{ activeTherapists() }} therapists"
+    />
     <sf-stat-tile label="This week" [value]="weekCount()" [hint]="weekOverWeekHint()" />
     <sf-stat-tile label="This month" [value]="monthCount()" [hint]="monthTrendHint()" />
-    <sf-stat-tile label="Active therapists" [value]="activeTherapists()" [hint]="inactiveTherapists() ? inactiveTherapists() + ' inactive' : 'All active'" />
-    <sf-stat-tile label="Pending completion" [value]="pendingCount()" hint="Signed, awaiting review" accent="var(--sf-champagne-ink)" />
-    <sf-stat-tile label="Consent expiring" [value]="consentExpiring()" hint="Clients over 12 months" accent="#37627E" />
+    <sf-stat-tile
+      label="Active therapists"
+      [value]="activeTherapists()"
+      [hint]="inactiveTherapists() ? inactiveTherapists() + ' inactive' : 'All active'"
+    />
+    <sf-stat-tile
+      label="Pending completion"
+      [value]="pendingCount()"
+      hint="Signed, awaiting review"
+      accent="var(--sf-champagne-ink)"
+    />
+    <sf-stat-tile
+      label="Consent expiring"
+      [value]="consentExpiring()"
+      hint="Signed over 9 months ago"
+      accent="#37627E"
+    />
   </div>
 
   <div class="split">
     <section class="panel chart-panel">
       <div class="panel-head">
         <h2>Consent forms, last 8 weeks</h2>
-        <span class="meta">{{ monthCount() }} total · {{ weekOverWeekHint() }}</span>
+        <span class="meta">{{ eightWeekCount() }} total · {{ weekOverWeekHint() }}</span>
       </div>
       <div class="chart">
         @for (b of weeklyBuckets(); track b.label) {
@@ -27,7 +52,10 @@
     </section>
 
     <section class="panel review-panel">
-      <div class="panel-head"><h2>Needs attention</h2><a routerLink="/admin/consultations">View forms →</a></div>
+      <div class="panel-head">
+        <h2>Needs attention</h2>
+        <a routerLink="/admin/consultations">View forms →</a>
+      </div>
       @if (!pendingItems().length) {
         <p class="empty">No pending consent forms right now.</p>
       } @else {
@@ -50,18 +78,24 @@
       <h2>Therapist activity</h2>
       <span class="meta">{{ monthLabel() }}</span>
     </div>
-    <div class="activity-labels"><span>Therapist</span><span>Forms this month · recent activity · pending</span></div>
+    <div class="activity-labels">
+      <span>Therapist</span><span>Forms this month · recent activity · pending</span>
+    </div>
     @for (row of therapistActivity(); track row.therapist.id) {
       <div class="activity-row">
         <div class="therapist-cell">
-          <span class="avatar" [class]="'tint-' + row.therapist.tint">{{ row.therapist.initial }}</span>
+          <span class="avatar" [class]="'tint-' + row.therapist.tint">{{
+            row.therapist.initial
+          }}</span>
           <div>
             <div class="name">{{ row.therapist.name }}</div>
             <div class="role">{{ row.therapist.role }}</div>
           </div>
         </div>
         <div class="num-cell hide-sm" aria-label="Forms this month">{{ row.thisMonth }}</div>
-        <div class="num-cell hide-wide">{{ row.last ? (row.last | date: 'd MMM, HH:mm') : '—' }}</div>
+        <div class="num-cell hide-wide">
+          {{ row.last ? (row.last | date: 'd MMM, HH:mm') : '—' }}
+        </div>
         <div class="num-cell hide-wide">{{ row.avgPerWeek }}</div>
         <div class="num-cell flagged" [class.warn]="row.pending > 0">{{ row.pending }}</div>
       </div>

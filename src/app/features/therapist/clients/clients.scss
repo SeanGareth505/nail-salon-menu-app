@@ -21,9 +21,9 @@
 .sub {
   margin: 0;
   font-size: 0.84rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
 }
 
 .search-box {
@@ -35,7 +35,7 @@
   background: var(--sf-sand);
   border-radius: var(--sf-radius-pill);
   min-width: 260px;
-  color: rgba(51, 51, 51, 0.45);
+  color: var(--sf-ink-muted);
 }
 
 .search-box input {
@@ -62,7 +62,7 @@
   text-align: left;
   padding: 17px 0;
   border: 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.12);
+  border-bottom: 1px solid var(--sf-border);
   background: transparent;
   text-decoration: none;
   color: inherit;
@@ -98,9 +98,9 @@
 
 .meta {
   font-size: 0.78rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.58);
+  color: var(--sf-ink-muted);
   margin-top: 5px;
 }
 

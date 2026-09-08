@@ -16,5 +16,5 @@
 .mini-logo { max-width: 80px; max-height: 40px; object-fit: contain; }
 .mini-card { padding: var(--sf-space-4); border-radius: 0 0 var(--sf-radius-md) var(--sf-radius-md); display: flex; flex-direction: column; gap: var(--sf-space-2); text-align: center; }
 .mini-title { font-family: var(--sf-font-display); font-weight: 700; }
-.mini-btn { border: none; padding: 10px; border-radius: var(--sf-radius-pill); color: #fff; font-weight: 600; cursor: default; }
+.mini-btn { border: none; padding: 10px; border-radius: var(--sf-radius-pill); color: var(--sf-on-forest); font-weight: 600; cursor: default; }
 .mini-btn.outline { background: transparent; border: 1.5px solid; }

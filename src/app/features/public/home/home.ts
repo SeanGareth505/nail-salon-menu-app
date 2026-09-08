@@ -13,6 +13,7 @@ import { salonMapsUrl } from '../../../shared/utils/salon-maps.util';
 import { resolveEffectiveState } from '../../../core/specials/special-pricing.util';
 import { getSalonOpenStatus } from '../../../core/utils/salon-hours.util';
 import { categorySfIcon } from '../../../shared/utils/category-icon.util';
+import { SfPortrait } from '../../../shared/components/portrait/portrait';
 import { SfIcon } from '../../../shared/components/icon/icon';
 import { SfSpecialCard } from '../../../shared/components/special-card/special-card';
 import { SfTreatmentCard } from '../../../shared/components/treatment-card/treatment-card';
@@ -26,21 +27,40 @@ interface HomeNavItem {
 }
 
 const HOME_NAV_ITEMS: HomeNavItem[] = [
-  { path: '/treatments', label: 'Treatments', description: 'Browse our menu', icon: 'treatments', tint: 'sage' },
-  { path: '/specials', label: 'Specials', description: 'Offers worth a look', icon: 'specials', tint: 'sand' },
-  { path: '/therapists', label: 'Our team', description: 'Meet your therapists', icon: 'team', tint: 'blush' },
-  { path: '/contact', label: 'Visit us', description: 'Hours & contact details', icon: 'contact', tint: 'sky' },
+  {
+    path: '/treatments',
+    label: 'Treatments',
+    description: 'Browse our menu',
+    icon: 'treatments',
+    tint: 'sage',
+  },
+  {
+    path: '/specials',
+    label: 'Specials',
+    description: 'Offers worth a look',
+    icon: 'specials',
+    tint: 'sand',
+  },
+  {
+    path: '/therapists',
+    label: 'Our team',
+    description: 'Meet your therapists',
+    icon: 'team',
+    tint: 'blush',
+  },
+  {
+    path: '/contact',
+    label: 'Visit us',
+    description: 'Hours & contact details',
+    icon: 'contact',
+    tint: 'sky',
+  },
 ];
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    RouterLink,
-    SfIcon,
-    SfSpecialCard,
-    SfTreatmentCard,
-  ],
+  imports: [RouterLink, SfIcon, SfPortrait, SfSpecialCard, SfTreatmentCard],
   templateUrl: './home.html',
   styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,10 +76,16 @@ export class Home {
 
   readonly navItems = HOME_NAV_ITEMS;
 
-  readonly categories = toSignal(this.categoriesSvc.listActive(), { initialValue: [] as Category[] });
-  readonly treatments = toSignal(this.treatmentsSvc.listActive(), { initialValue: [] as Treatment[] });
+  readonly categories = toSignal(this.categoriesSvc.listActive(), {
+    initialValue: [] as Category[],
+  });
+  readonly treatments = toSignal(this.treatmentsSvc.listActive(), {
+    initialValue: [] as Treatment[],
+  });
   readonly therapists = toSignal(this.therapistsSvc.listActive(), { initialValue: [] });
-  readonly settings = toSignal(this.settingsSvc.get(), { initialValue: undefined as SalonSettings | undefined });
+  readonly settings = toSignal(this.settingsSvc.get(), {
+    initialValue: undefined as SalonSettings | undefined,
+  });
   readonly openStatusLabel = computed(() => getSalonOpenStatus(this.settings()?.hours));
 
   readonly categoriesWithCount = computed(() => {

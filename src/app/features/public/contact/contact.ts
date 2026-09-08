@@ -21,11 +21,20 @@ export class Contact {
   readonly settings = toSignal(this.settingsSvc.get(), { initialValue: undefined });
 
   private readonly params = toSignal(inject(ActivatedRoute).queryParamMap);
-  readonly enquiry = computed(() => (this.params()?.get('treatment') || this.params()?.get('therapist') || '').slice(0, 160));
+  readonly enquiry = computed(() =>
+    (
+      this.params()?.get('treatment') ||
+      this.params()?.get('therapist') ||
+      this.params()?.get('special') ||
+      ''
+    ).slice(0, 160),
+  );
 
   whatsappUrl(s: SalonSettings): string {
     const phone = s.whatsapp.replace(/[^0-9]/g, '');
-    const message = this.enquiry() ? `Hello, I'd like to enquire about ${this.enquiry()}. Please let me know your availability.` : `Hello, I'd like to arrange a visit. Please let me know your availability.`;
+    const message = this.enquiry()
+      ? `Hello, I'd like to enquire about ${this.enquiry()}. Please let me know your availability.`
+      : `Hello, I'd like to arrange a visit. Please let me know your availability.`;
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }
 
@@ -59,7 +68,11 @@ export class Contact {
   isTodayRow(h: SalonHours): boolean {
     const dayIndex = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const today = dayIndex[new Date().getDay()];
-    if (h.label.toLowerCase().includes('–') && h.label.toLowerCase().includes('fri') && ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].includes(today)) {
+    if (
+      h.label.toLowerCase().includes('–') &&
+      h.label.toLowerCase().includes('fri') &&
+      ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].includes(today)
+    ) {
       return true;
     }
     return h.day === today;

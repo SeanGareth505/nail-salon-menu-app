@@ -14,7 +14,15 @@ export class StorageUploadService {
   }
 
   async uploadTreatmentImage(file: File, treatmentId: string): Promise<string> {
-    return this.uploadFile(file, `treatments/${treatmentId}`, 'Uploading image…');
+    return this.uploadFile(file, `catalogue/treatments/${treatmentId}`, 'Uploading image…');
+  }
+
+  async uploadTherapistImage(file: File, therapistId: string): Promise<string> {
+    return this.uploadFile(
+      file,
+      `catalogue/therapists/${therapistId}`,
+      'Uploading therapist photo…',
+    );
   }
 
   private async uploadFile(file: File, folder: string, message: string): Promise<string> {

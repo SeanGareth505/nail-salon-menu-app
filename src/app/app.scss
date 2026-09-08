@@ -12,7 +12,45 @@
   width: min(92vw, 520px);
 }
 
-.route-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 1000; overflow: hidden; pointer-events: none; animation: route-reveal 1ms 150ms both; }
-.route-progress span { display: block; width: 35%; height: 100%; background: var(--sf-forest); animation: route-travel 1.1s ease-in-out infinite; }
-@keyframes route-travel { from { transform: translateX(-100%); } to { transform: translateX(400%); } }
-@keyframes route-reveal { from { opacity: 0; } to { opacity: 1; } }
+.route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 1000;
+  overflow: hidden;
+  pointer-events: none;
+  animation: route-reveal 1ms 150ms both;
+}
+.route-progress span {
+  display: block;
+  width: 35%;
+  height: 100%;
+  background: var(--sf-forest);
+  animation: route-travel 1.1s ease-in-out infinite;
+}
+@keyframes route-travel {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+@keyframes route-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-progress span {
+    width: 100%;
+    animation: none;
+    opacity: 0.65;
+  }
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Treatment } from '../../../core/models';
 import { TreatmentSpecialView } from '../../../core/specials/special-pricing.util';
@@ -14,7 +14,17 @@ import { SfIcon } from '../icon/icon';
     @if (layout() === 'menu') {
       <a class="row menu sf-motion-card" [routerLink]="['/treatments', treatment().id]">
         <span class="icon-header" [class]="'tint-' + tint()">
-          <sf-icon [name]="icon()" [size]="34" />
+          @if (treatment().imageUrl && failedImage() !== treatment().imageUrl) {
+            <img
+              [src]="treatment().imageUrl"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              (error)="failedImage.set(treatment().imageUrl)"
+            />
+          } @else {
+            <sf-icon [name]="icon()" [size]="34" />
+          }
           @if (specialView()?.badge === 'special') {
             <span class="header-badge">Special</span>
           }
@@ -22,8 +32,12 @@ import { SfIcon } from '../icon/icon';
         <span class="body">
           <span class="name">
             {{ treatment().name }}
-            @if (specialView()?.badge === 'special') { <span class="special-pill mobile-only">Special</span> }
-            @if (specialView()?.badge === 'bundle') { <span class="bundle-pill">Bundle</span> }
+            @if (specialView()?.badge === 'special') {
+              <span class="special-pill mobile-only">Special</span>
+            }
+            @if (specialView()?.badge === 'bundle') {
+              <span class="bundle-pill">Bundle</span>
+            }
           </span>
           @if (treatment().shortDescription || treatment().description) {
             <span class="blurb">{{ treatment().shortDescription || treatment().description }}</span>
@@ -53,15 +67,34 @@ import { SfIcon } from '../icon/icon';
     } @else {
       <a class="row featured sf-motion-card" [routerLink]="['/treatments', treatment().id]">
         <span class="icon-tile" [class]="'tint-' + tint()">
-          <sf-icon [name]="icon()" [size]="24" />
+          @if (treatment().imageUrl && failedImage() !== treatment().imageUrl) {
+            <img
+              [src]="treatment().imageUrl"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              (error)="failedImage.set(treatment().imageUrl)"
+            />
+          } @else {
+            <sf-icon [name]="icon()" [size]="24" />
+          }
         </span>
         <span class="body">
           <span class="name">
             {{ treatment().name }}
-            @if (specialView()?.badge === 'special') { <span class="special-pill">Special</span> }
-            @if (specialView()?.badge === 'bundle') { <span class="bundle-pill">Bundle</span> }
+            @if (specialView()?.badge === 'special') {
+              <span class="special-pill">Special</span>
+            }
+            @if (specialView()?.badge === 'bundle') {
+              <span class="bundle-pill">Bundle</span>
+            }
           </span>
-          <span class="meta"><span class="meta-duration">{{ treatment().durationMinutes }} min</span>@if (treatment().categoryName) {<span class="meta-category"> · {{ treatment().categoryName }}</span>}</span>
+          <span class="meta"
+            ><span class="meta-duration">{{ treatment().durationMinutes }} min</span>
+            @if (treatment().categoryName) {
+              <span class="meta-category"> · {{ treatment().categoryName }}</span>
+            }
+          </span>
         </span>
         @if (specialView()?.badge === 'special' && specialView()?.displayPrice != null) {
           <span class="price-col featured-price">
@@ -77,6 +110,7 @@ import { SfIcon } from '../icon/icon';
   styleUrl: './treatment-card.scss',
 })
 export class SfTreatmentCard {
+  readonly failedImage = signal<string | null | undefined>(undefined);
   readonly treatment = input.required<Treatment>();
   readonly layout = input<'featured' | 'menu'>('featured');
   readonly tint = input<'blush' | 'sage' | 'sky' | 'sand'>('blush');

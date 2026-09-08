@@ -3,7 +3,10 @@
     <div class="admin-form editor-modal">
       <h2>{{ isNew() ? 'New category' : 'Edit category' }}</h2>
       <div class="admin-row-3">
-        <div class="admin-field"><label for="field-categories-1">Name</label><input id="field-categories-1" [(ngModel)]="d.name" /></div>
+        <div class="admin-field">
+          <label for="field-categories-1">Name</label
+          ><input id="field-categories-1" [(ngModel)]="d.name" />
+        </div>
         <div class="admin-field">
           <label for="field-categories-2">Icon</label>
           <select id="field-categories-2" [(ngModel)]="d.icon">
@@ -21,7 +24,9 @@
           </select>
         </div>
       </div>
-      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.active" /> Active</label>
+      <label class="admin-toggle-row"
+        ><input type="checkbox" [(ngModel)]="d.active" /> Active</label
+      >
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
         <button type="button" class="admin-btn" (click)="save()">Save</button>
@@ -30,7 +35,8 @@
   }
 
   <p class="intro">
-    Categories drive the client home screen tiles and the menu grouping. Order, tint and mark are all editable; the slug is used in QR links.
+    Categories drive the client home screen tiles and the menu grouping. Order, tint and mark are
+    all editable; the slug is used in QR links.
   </p>
 
   <div class="card-grid">
@@ -45,7 +51,9 @@
           <h3>{{ c.name }}</h3>
           <p class="slug">/{{ c.slug }} · {{ treatmentCount(c.id) }} treatments</p>
           <div class="cat-footer">
-            <span class="status-pill" [class.active]="c.active">{{ c.active ? 'Active' : 'Draft' }}</span>
+            <span class="status-pill" [class.active]="c.active">{{
+              c.active ? 'Active' : 'Draft'
+            }}</span>
             <button type="button" class="edit-link" (click)="edit(c)">Edit</button>
           </div>
         </div>

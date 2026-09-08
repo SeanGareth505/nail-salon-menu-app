@@ -51,7 +51,7 @@
   font-size: 0.84rem;
   font-weight: 300;
   line-height: 1.6;
-  color: rgba(51, 51, 51, 0.62);
+  color: var(--sf-ink-muted);
 }
 
 .cta {
@@ -70,7 +70,7 @@
 }
 
 .review-banner {
-  background: var(--sf-sky);
+  background: var(--sf-blush);
   padding: 20px 22px;
   margin-bottom: 26px;
 }
@@ -80,7 +80,7 @@
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--sf-sky-fg);
+  color: var(--sf-forest-dark);
   margin-bottom: 9px;
 }
 
@@ -89,7 +89,7 @@
   font-size: 0.88rem;
   font-weight: 300;
   line-height: 1.7;
-  color: #2f566e;
+  color: var(--sf-forest-dark);
 }
 
 .columns {
@@ -116,7 +116,7 @@ section h2 {
   align-items: center;
   gap: 16px;
   padding: 16px 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.12);
+  border-bottom: 1px solid var(--sf-border);
 }
 
 .date-col {
@@ -124,7 +124,7 @@ section h2 {
   flex: none;
   font-size: 0.75rem;
   line-height: 1.4;
-  color: rgba(51, 51, 51, 0.5);
+  color: var(--sf-ink-muted);
 }
 
 .body {
@@ -144,7 +144,7 @@ section h2 {
   font-size: 0.78rem;
   font-weight: 300;
   line-height: 1.4;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
   margin-top: 3px;
 }
 
@@ -152,7 +152,7 @@ section h2 {
   flex: none;
   height: 40px;
   padding: 0 16px;
-  border: 1px solid rgba(74, 107, 87, 0.35);
+  border: 1px solid var(--sf-border-strong);
   background: transparent;
   border-radius: var(--sf-radius-pill);
   color: var(--sf-forest);
@@ -197,7 +197,7 @@ section h2 {
   font-size: 0.75rem;
   font-weight: 300;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
   margin-top: 4px;
 }
 
@@ -206,7 +206,7 @@ section h2 {
   font-size: 0.78rem;
   font-weight: 300;
   line-height: 1.7;
-  color: rgba(51, 51, 51, 0.5);
+  color: var(--sf-ink-muted);
 }
 
 .notes {

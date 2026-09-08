@@ -19,11 +19,11 @@
   --sf-dur-normal: 220ms;
   --sf-dur-slow: 280ms;
   --sf-dur-brand: 900ms;
-  --sf-stagger-delay: 52ms;
-  --sf-reveal-dur: 580ms;
-  --sf-reveal-blur: 3px;
+  --sf-stagger-delay: 35ms;
+  --sf-reveal-dur: 320ms;
+  --sf-reveal-blur: 0px;
 
-  --sf-lift: 12px;
+  --sf-lift: 6px;
 }
 
 // Respect the user's OS-level motion preference everywhere. This collapses
@@ -44,18 +44,32 @@
 }
 
 @keyframes sf-shimmer {
-  0% { background-position: -140% 0; }
-  100% { background-position: 140% 0; }
+  0% {
+    background-position: -140% 0;
+  }
+  100% {
+    background-position: 140% 0;
+  }
 }
 
 @keyframes sf-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes sf-rise-in {
-  from { opacity: 0; transform: translateY(var(--sf-lift)); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(var(--sf-lift));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes sf-reveal-in {
@@ -72,16 +86,26 @@
 }
 
 @keyframes sf-scale-in {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes sf-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes sf-draw {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 // Utility classes -- used from component templates where a full Angular
@@ -97,14 +121,16 @@
 }
 
 .sf-motion-card {
-  transition: transform var(--sf-dur-fast) var(--sf-ease-standard), box-shadow var(--sf-dur-fast) var(--sf-ease-standard);
+  transition:
+    transform var(--sf-dur-fast) var(--sf-ease-standard),
+    box-shadow var(--sf-dur-fast) var(--sf-ease-standard);
 }
 
 .sf-field-error {
   color: #a3453a;
   font-size: 0.82rem;
   margin-top: var(--sf-space-1);
-  animation: sf-motion-rise-in var(--sf-dur-fast) var(--sf-ease-enter) both;
+  animation: sf-rise-in var(--sf-dur-fast) var(--sf-ease-enter) both;
 }
 
 .sf-btn-loading {
@@ -126,7 +152,103 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sf-motion-fade-in, .sf-motion-rise-in, .sf-motion-scale-in {
+  .sf-motion-fade-in,
+  .sf-motion-rise-in,
+  .sf-motion-scale-in {
     animation: none;
+  }
+}
+
+body :is(.quick-tile, .category-card, a.sf-motion-card, .quick-offer, a.btn) {
+  transition:
+    background-color var(--sf-dur-fast) var(--sf-ease-standard),
+    border-color var(--sf-dur-fast) var(--sf-ease-standard),
+    box-shadow var(--sf-dur-fast) var(--sf-ease-standard),
+    color var(--sf-dur-fast) var(--sf-ease-standard),
+    transform var(--sf-dur-fast) var(--sf-ease-standard),
+    scale var(--sf-dur-fast) var(--sf-ease-standard);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body :is(.quick-tile, .category-card, a.sf-motion-card, .quick-offer, a.btn):active {
+    scale: 0.985;
+    transition-duration: 80ms;
+  }
+
+  body button:enabled:not([aria-disabled='true']):active {
+    transform: scale(0.985);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    body :is(.quick-tile, .category-card, .quick-offer):hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+body button:is(:disabled, [aria-disabled='true']):active {
+  transform: none;
+}
+
+sf-mobile-nav .bar {
+  view-transition-name: public-navigation;
+}
+
+sf-therapist-rail .mobile-tabs {
+  view-transition-name: staff-mobile-navigation;
+}
+
+sf-therapist-rail .rail {
+  view-transition-name: staff-desktop-navigation;
+}
+
+:root::view-transition-old(root) {
+  animation: sf-page-leave 140ms var(--sf-ease-exit) both;
+}
+
+:root::view-transition-new(root) {
+  animation: sf-page-arrive 200ms var(--sf-ease-enter) both;
+}
+
+:root::view-transition-group(public-navigation),
+:root::view-transition-group(staff-mobile-navigation),
+:root::view-transition-group(staff-desktop-navigation) {
+  animation-duration: var(--sf-dur-normal);
+  animation-timing-function: var(--sf-ease-standard);
+}
+
+:root::view-transition-old(public-navigation),
+:root::view-transition-old(staff-mobile-navigation),
+:root::view-transition-old(staff-desktop-navigation) {
+  animation: sf-page-leave var(--sf-dur-fast) ease-out both;
+}
+
+:root::view-transition-new(public-navigation),
+:root::view-transition-new(staff-mobile-navigation),
+:root::view-transition-new(staff-desktop-navigation) {
+  animation: sf-fade-in var(--sf-dur-fast) ease-out both;
+}
+
+@keyframes sf-page-leave {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sf-page-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body :is(button, a[role='button'], .admin-btn, .cta, .cta-primary, .cta-secondary):active {
+    transform: none;
+    scale: 1;
   }
 }

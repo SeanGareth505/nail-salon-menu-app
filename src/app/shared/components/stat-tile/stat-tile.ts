@@ -8,41 +8,54 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     <div class="tile">
       <span class="label">{{ label() }}</span>
       <span class="value" [style.color]="accent() || null">{{ value() }}</span>
-      @if (hint()) { <span class="hint">{{ hint() }}</span> }
+      @if (hint()) {
+        <span class="hint">{{ hint() }}</span>
+      }
     </div>
   `,
-  styles: [`
-    .tile { display: flex; flex-direction: column; gap: 0; padding: 18px 20px; }
-    .label {
-      font-size: 0.625rem;
-      font-weight: 400;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: rgba(51, 51, 51, 0.45);
-      min-height: 26px;
-      line-height: 1.3;
-    }
-    .value {
-      font-family: var(--sf-font-display);
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--sf-ink);
-      line-height: 1;
-      margin-top: 10px;
-    }
-    .hint {
-      font-size: 0.72rem;
-      font-weight: 300;
-      color: rgba(51, 51, 51, 0.5);
-      margin-top: 8px;
-    }
-    @media (min-width: 768px) {
-      .value { font-size: 1.875rem; margin-top: 10px; }
-    }
-    @media (min-width: 1100px) {
-      .value { font-size: 2rem; }
-    }
-  `],
+  styles: [
+    `
+      :host {
+        display: block;
+        height: 100%;
+      }
+      .tile {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 22px;
+        border: 1px solid var(--sf-border);
+        border-radius: 12px;
+        background: white;
+      }
+      .label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--sf-ink-muted);
+        line-height: 1.5;
+      }
+      .value {
+        font: 600 32px/1.2 var(--sf-font-body);
+        letter-spacing: -1px;
+        color: var(--sf-ink);
+        margin-top: 12px;
+      }
+      .hint {
+        font-size: 12px;
+        line-height: 1.6;
+        color: var(--sf-ink-muted);
+        margin-top: 10px;
+      }
+      @media (max-width: 767px) {
+        .tile {
+          padding: 18px;
+        }
+        .value {
+          font-size: 29px;
+        }
+      }
+    `,
+  ],
 })
 export class SfStatTile {
   readonly label = input.required<string>();

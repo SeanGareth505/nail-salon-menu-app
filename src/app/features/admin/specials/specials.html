@@ -5,16 +5,32 @@
 
       <div class="type-row">
         @for (kind of kinds; track kind) {
-          <button type="button" class="type-btn" [class.active]="d.kind === kind" (click)="setKind(kind)">{{ kindLabel(kind) }}</button>
+          <button
+            type="button"
+            class="type-btn"
+            [class.active]="d.kind === kind"
+            (click)="setKind(kind)"
+          >
+            {{ kindLabel(kind) }}
+          </button>
         }
       </div>
 
       <div class="admin-row-2">
-        <div class="admin-field"><label for="field-specials-1">Title</label><input id="field-specials-1" [(ngModel)]="d.title" /></div>
-        <div class="admin-field"><label for="field-specials-2">Script title (shown on card)</label><input id="field-specials-2" [(ngModel)]="d.scriptTitle" /></div>
+        <div class="admin-field">
+          <label for="field-specials-1">Title</label
+          ><input id="field-specials-1" [(ngModel)]="d.title" />
+        </div>
+        <div class="admin-field">
+          <label for="field-specials-2">Script title (shown on card)</label
+          ><input id="field-specials-2" [(ngModel)]="d.scriptTitle" />
+        </div>
       </div>
 
-      <div class="admin-field"><label for="field-specials-3">Description</label><textarea id="field-specials-3" rows="2" [(ngModel)]="d.description"></textarea></div>
+      <div class="admin-field">
+        <label for="field-specials-3">Description</label
+        ><textarea id="field-specials-3" rows="2" [(ngModel)]="d.description"></textarea>
+      </div>
 
       @if (d.kind !== 'promo') {
         <div class="admin-field">
@@ -22,7 +38,11 @@
           <div class="check-grid">
             @for (t of treatments(); track t.id) {
               <label class="check-item">
-                <input type="checkbox" [checked]="isTreatmentSelected(t.id)" (change)="toggleTreatment(t.id)" />
+                <input
+                  type="checkbox"
+                  [checked]="isTreatmentSelected(t.id)"
+                  (change)="toggleTreatment(t.id)"
+                />
                 <span>{{ t.name }} · {{ t.price | formatRand }}</span>
               </label>
             }
@@ -35,54 +55,103 @@
           <label>Discount type</label>
           <div class="type-row">
             @for (dt of discountTypes; track dt) {
-              <button type="button" class="type-btn small" [class.active]="d.discountType === dt" (click)="d.discountType = dt">
-                {{ dt === 'fixed' ? 'Fixed price' : dt === 'percent' ? 'Percent off' : 'Amount off' }}
+              <button
+                type="button"
+                class="type-btn small"
+                [class.active]="d.discountType === dt"
+                (click)="d.discountType = dt"
+              >
+                {{
+                  dt === 'fixed' ? 'Fixed price' : dt === 'percent' ? 'Percent off' : 'Amount off'
+                }}
               </button>
             }
           </div>
         </div>
         @if (d.discountType === 'fixed') {
           <div class="admin-row-2">
-            <div class="admin-field"><label for="field-specials-4">Special price (R)</label><input id="field-specials-4" type="number" [(ngModel)]="d.price" /></div>
-            <div class="admin-field"><label for="field-specials-5">Original price (R)</label><input id="field-specials-5" type="number" [ngModel]="computedOriginal()" disabled /></div>
+            <div class="admin-field">
+              <label for="field-specials-4">Special price (R)</label
+              ><input id="field-specials-4" type="number" [(ngModel)]="d.price" />
+            </div>
+            <div class="admin-field">
+              <label for="field-specials-5">Original price (R)</label
+              ><input id="field-specials-5" type="number" [ngModel]="computedOriginal()" disabled />
+            </div>
           </div>
         } @else if (d.discountType === 'percent') {
           <div class="admin-row-2">
-            <div class="admin-field"><label for="field-specials-6">Percent off</label><input id="field-specials-6" type="number" [(ngModel)]="d.percentOff" /></div>
-            <div class="admin-field"><label for="field-specials-7">Resulting price (R)</label><input id="field-specials-7" type="number" [ngModel]="computedPrice()" disabled /></div>
+            <div class="admin-field">
+              <label for="field-specials-6">Percent off</label
+              ><input id="field-specials-6" type="number" [(ngModel)]="d.percentOff" />
+            </div>
+            <div class="admin-field">
+              <label for="field-specials-7">Resulting price (R)</label
+              ><input id="field-specials-7" type="number" [ngModel]="computedPrice()" disabled />
+            </div>
           </div>
         } @else {
           <div class="admin-row-2">
-            <div class="admin-field"><label for="field-specials-8">Amount off (R)</label><input id="field-specials-8" type="number" [(ngModel)]="d.amountOff" /></div>
-            <div class="admin-field"><label for="field-specials-9">Resulting price (R)</label><input id="field-specials-9" type="number" [ngModel]="computedPrice()" disabled /></div>
+            <div class="admin-field">
+              <label for="field-specials-8">Amount off (R)</label
+              ><input id="field-specials-8" type="number" [(ngModel)]="d.amountOff" />
+            </div>
+            <div class="admin-field">
+              <label for="field-specials-9">Resulting price (R)</label
+              ><input id="field-specials-9" type="number" [ngModel]="computedPrice()" disabled />
+            </div>
           </div>
         }
       }
 
       @if (d.kind === 'bundle') {
         <div class="admin-row-2">
-          <div class="admin-field"><label for="field-specials-10">Bundle price (R)</label><input id="field-specials-10" type="number" [(ngModel)]="d.price" /></div>
-          <div class="admin-field"><label for="field-specials-11">Combined price (R)</label><input id="field-specials-11" type="number" [ngModel]="computedOriginal()" disabled /></div>
+          <div class="admin-field">
+            <label for="field-specials-10">Bundle price (R)</label
+            ><input id="field-specials-10" type="number" [(ngModel)]="d.price" />
+          </div>
+          <div class="admin-field">
+            <label for="field-specials-11">Combined price (R)</label
+            ><input id="field-specials-11" type="number" [ngModel]="computedOriginal()" disabled />
+          </div>
         </div>
       }
 
       @if (d.kind === 'promo') {
         <div class="admin-row-2">
-          <div class="admin-field"><label for="field-specials-12">Display price (R)</label><input id="field-specials-12" type="number" [(ngModel)]="d.price" /></div>
-          <div class="admin-field"><label for="field-specials-13">Compare-at price (R)</label><input id="field-specials-13" type="number" [(ngModel)]="d.originalPrice" /></div>
+          <div class="admin-field">
+            <label for="field-specials-12">Display price (R)</label
+            ><input id="field-specials-12" type="number" [(ngModel)]="d.price" />
+          </div>
+          <div class="admin-field">
+            <label for="field-specials-13">Compare-at price (R)</label
+            ><input id="field-specials-13" type="number" [(ngModel)]="d.originalPrice" />
+          </div>
         </div>
       }
 
       <div class="schedule-block">
         <p class="sf-eyebrow">Schedule</p>
         <div class="preset-row">
-          <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-week')">This week</button>
-          <button type="button" class="admin-btn ghost small" (click)="applyPreset('next-week')">Next week</button>
-          <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-month')">This month</button>
+          <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-week')">
+            This week
+          </button>
+          <button type="button" class="admin-btn ghost small" (click)="applyPreset('next-week')">
+            Next week
+          </button>
+          <button type="button" class="admin-btn ghost small" (click)="applyPreset('this-month')">
+            This month
+          </button>
         </div>
         <div class="admin-row-2">
-          <div class="admin-field"><label for="field-specials-14">Starts</label><input id="field-specials-14" type="date" [(ngModel)]="d.startsAt" /></div>
-          <div class="admin-field"><label for="field-specials-15">Ends</label><input id="field-specials-15" type="date" [(ngModel)]="d.endsAt" /></div>
+          <div class="admin-field">
+            <label for="field-specials-14">Starts</label
+            ><input id="field-specials-14" type="date" [(ngModel)]="d.startsAt" />
+          </div>
+          <div class="admin-field">
+            <label for="field-specials-15">Ends</label
+            ><input id="field-specials-15" type="date" [(ngModel)]="d.endsAt" />
+          </div>
         </div>
         <p class="schedule-line">{{ scheduleLine() }}</p>
       </div>
@@ -92,7 +161,11 @@
         <div class="check-grid">
           @for (t of therapists(); track t.id) {
             <label class="check-item">
-              <input type="checkbox" [checked]="isTherapistSelected(t.id)" (change)="toggleTherapist(t.id)" />
+              <input
+                type="checkbox"
+                [checked]="isTherapistSelected(t.id)"
+                (change)="toggleTherapist(t.id)"
+              />
               <span>{{ t.name }}</span>
             </label>
           }
@@ -100,36 +173,65 @@
       </div>
 
       <div class="admin-row-2">
-        <div class="admin-field"><label for="field-specials-16">Fine print</label><input id="field-specials-16" [(ngModel)]="d.finePrint" /></div>
-        <div class="admin-field"><label for="field-specials-17">Sort order</label><input id="field-specials-17" type="number" [(ngModel)]="d.sortOrder" /></div>
+        <div class="admin-field">
+          <label for="field-specials-16">Fine print</label
+          ><input id="field-specials-16" [(ngModel)]="d.finePrint" />
+        </div>
+        <div class="admin-field">
+          <label for="field-specials-17">Sort order</label
+          ><input id="field-specials-17" type="number" [(ngModel)]="d.sortOrder" />
+        </div>
       </div>
 
-      <label class="admin-toggle-row"><input type="checkbox" [(ngModel)]="d.featured" /> Featured on home</label>
-      <label class="admin-toggle-row"><input type="checkbox" [ngModel]="saveAsDraft()" (ngModelChange)="saveAsDraft.set($event)" /> Save as draft</label>
+      <label class="admin-toggle-row"
+        ><input type="checkbox" [(ngModel)]="d.featured" /> Featured on home</label
+      >
+      <label class="admin-toggle-row"
+        ><input
+          type="checkbox"
+          [ngModel]="saveAsDraft()"
+          (ngModelChange)="saveAsDraft.set($event)"
+        />
+        Save as draft</label
+      >
 
       @if (formErrors().length) {
         <ul class="form-errors">
-          @for (err of formErrors(); track err) { <li>{{ err }}</li> }
+          @for (err of formErrors(); track err) {
+            <li>{{ err }}</li>
+          }
         </ul>
       }
 
       @if (previewSpecial(); as preview) {
         <div class="preview-block">
           <p class="sf-eyebrow">Preview</p>
-          <sf-special-card [special]="preview" [therapistNames]="therapistNamesFor(d.therapistIds ?? [])" [treatmentNames]="treatmentNamesFor(d.treatmentIds ?? [])" [effectiveState]="effectiveStateFor(preview)" />
+          <sf-special-card
+            [special]="preview"
+            [therapistNames]="therapistNamesFor(d.therapistIds ?? [])"
+            [treatmentNames]="treatmentNamesFor(d.treatmentIds ?? [])"
+            [effectiveState]="effectiveStateFor(preview)"
+          />
         </div>
       }
 
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancel()">Cancel</button>
-        <button type="button" class="admin-btn" (click)="save()">{{ saveAsDraft() ? 'Save draft' : 'Publish' }}</button>
+        <button type="button" class="admin-btn" (click)="save()">
+          {{ saveAsDraft() ? 'Save draft' : 'Publish' }}
+        </button>
       </div>
     </div>
   }
 
   <div class="lifecycle-filters">
     @for (tab of lifecycleFilters(); track tab.id) {
-      <button type="button" class="chip" [class.active]="filter() === tab.id" (click)="filter.set(tab.id)">
+      <button
+        type="button"
+        class="chip"
+        [class.active]="filter() === tab.id"
+        (click)="filter.set(tab.id)"
+      >
         {{ tab.label }} <span class="count">{{ tab.count }}</span>
       </button>
     }
@@ -165,7 +267,13 @@
             </div>
             <div class="row-actions">
               <button type="button" class="pill-btn outline" (click)="edit(s)">Edit</button>
-              <button type="button" class="pill-btn" [class.primary]="rowActionPrimary(s)" [class.gold]="!rowActionPrimary(s)" (click)="rowAction(s)">
+              <button
+                type="button"
+                class="pill-btn"
+                [class.primary]="rowActionPrimary(s)"
+                [class.gold]="!rowActionPrimary(s)"
+                (click)="rowAction(s)"
+              >
                 {{ rowActionLabel(s) }}
               </button>
             </div>
@@ -176,6 +284,7 @@
   </div>
 
   <p class="specials-footnote">
-    Expired specials drop off the client app automatically at midnight on the end date. Scheduled specials appear the moment their start date is reached — no manual publishing needed.
+    Expired specials drop off the client app automatically at midnight on the end date. Scheduled
+    specials appear the moment their start date is reached — no manual publishing needed.
   </p>
 </div>

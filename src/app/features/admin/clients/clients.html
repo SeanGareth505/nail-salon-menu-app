@@ -1,7 +1,7 @@
 <div class="admin-page" [sfPageAction]="pageAction">
   <header class="admin-head">
     <div>
-      <h1>Clients</h1>
+      <h2>Client directory</h2>
       <p>{{ filtered().length }} client record(s)</p>
     </div>
     <label class="search-pill">
@@ -16,25 +16,62 @@
     </label>
   </header>
 
-  <p class="page-intro">Client records are created when therapists run consent forms. You can also add walk-in clients here before their first visit.</p>
+  <p class="page-intro">
+    Client records are created when therapists run consent forms. You can also add walk-in clients
+    here before their first visit.
+  </p>
 
   @if (adding()) {
     <div class="admin-form add-form">
       <h2>Add client</h2>
       <div class="admin-row-3">
-        <div class="admin-field"><label for="field-clients-1">First name *</label><input id="field-clients-1" [ngModel]="newFirstName()" (ngModelChange)="newFirstName.set($event)" /></div>
-        <div class="admin-field"><label for="field-clients-2">Last name *</label><input id="field-clients-2" [ngModel]="newLastName()" (ngModelChange)="newLastName.set($event)" /></div>
-        <div class="admin-field"><label for="field-clients-3">Phone *</label><input id="field-clients-3" type="tel" sfPhoneMask [ngModel]="newPhone()" (ngModelChange)="newPhone.set(formatPhoneInput($event))" /></div>
+        <div class="admin-field">
+          <label for="field-clients-1">First name *</label
+          ><input
+            id="field-clients-1"
+            [ngModel]="newFirstName()"
+            (ngModelChange)="newFirstName.set($event)"
+          />
+        </div>
+        <div class="admin-field">
+          <label for="field-clients-2">Last name *</label
+          ><input
+            id="field-clients-2"
+            [ngModel]="newLastName()"
+            (ngModelChange)="newLastName.set($event)"
+          />
+        </div>
+        <div class="admin-field">
+          <label for="field-clients-3">Phone *</label
+          ><input
+            id="field-clients-3"
+            type="tel"
+            sfPhoneMask
+            [ngModel]="newPhone()"
+            (ngModelChange)="newPhone.set(formatPhoneInput($event))"
+          />
+        </div>
       </div>
       <div class="admin-row-3">
-        <div class="admin-field"><label for="field-clients-4">Email</label><input id="field-clients-4" type="email" sfEmailMask [ngModel]="newEmail()" (ngModelChange)="newEmail.set(formatEmailInput($event))" /></div>
+        <div class="admin-field">
+          <label for="field-clients-4">Email</label
+          ><input
+            id="field-clients-4"
+            type="email"
+            sfEmailMask
+            [ngModel]="newEmail()"
+            (ngModelChange)="newEmail.set(formatEmailInput($event))"
+          />
+        </div>
       </div>
       @if (validationError()) {
         <p class="form-error" role="alert">{{ validationError() }}</p>
       }
       <div class="admin-form-actions">
         <button type="button" class="admin-btn ghost" (click)="cancelAdd()">Cancel</button>
-        <button type="button" class="admin-btn" [disabled]="saving()" (click)="saveClient()">{{ saving() ? 'Saving…' : 'Save client' }}</button>
+        <button type="button" class="admin-btn" [disabled]="saving()" (click)="saveClient()">
+          {{ saving() ? 'Saving…' : 'Save client' }}
+        </button>
       </div>
     </div>
   }
@@ -42,20 +79,35 @@
   <div class="admin-table-wrap">
     <table class="admin-table">
       <thead>
-        <tr><th>Name</th><th>Phone</th><th>Email</th><th>Last visit</th><th>Total</th><th></th></tr>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Last visit</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
         @for (c of filtered(); track c.id) {
           <tr>
-            <td><a [routerLink]="['/admin/clients', c.id]">{{ c.fullName }}</a></td>
+            <td>
+              <a [routerLink]="['/admin/clients', c.id]">{{ c.fullName }}</a>
+            </td>
             <td>{{ c.phone }}</td>
             <td>{{ c.email || '—' }}</td>
             <td>{{ lastVisit(c.id) ? (lastVisit(c.id)! | date: 'MMM d, y') : '—' }}</td>
             <td>{{ c.totalConsultations }}</td>
-            <td><a [routerLink]="['/admin/clients', c.id]" class="admin-btn ghost">View history</a></td>
+            <td>
+              <a [routerLink]="['/admin/clients', c.id]" class="admin-btn ghost">View history</a>
+            </td>
           </tr>
         } @empty {
-          <tr><td colspan="6">No clients yet — they are created when therapists run consent forms.</td></tr>
+          <tr>
+            <td colspan="6">
+              No clients yet — they are created when therapists run consent forms.
+            </td>
+          </tr>
         }
       </tbody>
     </table>

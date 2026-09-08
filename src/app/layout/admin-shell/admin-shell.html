@@ -1,21 +1,40 @@
-<div class="shell" [class.menu-open]="menuOpen()" [class.layout-sm]="isNarrow()">
+<div
+  (keydown.escape)="closeMenu()"
+  class="shell"
+  [class.menu-open]="menuOpen()"
+  [class.layout-sm]="isNarrow()"
+>
   <sf-admin-sidebar (navigated)="closeMenu()" />
 
   <div class="main">
     <header class="topbar">
       @if (isNarrow()) {
-        <button type="button" class="menu-btn" [attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'" [attr.aria-expanded]="menuOpen()" aria-controls="admin-mobile-nav" (click)="toggleMenu()">
+        <button
+          type="button"
+          class="menu-btn"
+          [attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'"
+          [attr.aria-expanded]="menuOpen()"
+          aria-controls="admin-mobile-nav"
+          (click)="toggleMenu()"
+        >
           <span></span>
           <span></span>
           <span class="short"></span>
         </button>
       }
-      <div><span class="workspace-label">SALON WORKSPACE</span><h1>{{ pageTitle() }}</h1></div>
+      <div>
+        <span class="workspace-label">SALON WORKSPACE</span>
+        <h1>{{ pageTitle() }}</h1>
+      </div>
       <div class="topbar-actions">
-        <a class="preview-link" routerLink="/">View salon menu <sf-icon name="arrow-right" [size]="14" /></a>
+        <a class="preview-link" routerLink="/"
+          >View salon menu <sf-icon name="arrow-right" [size]="14"
+        /></a>
         <sf-notification-bell />
         @if (showPageAction()) {
-          <button type="button" class="page-action" (click)="onPageAction()">{{ pageAction() }}</button>
+          <button type="button" class="page-action" (click)="onPageAction()">
+            {{ pageAction() }}
+          </button>
         }
       </div>
     </header>
@@ -26,7 +45,8 @@
           @for (item of navItems; track item.path) {
             <a
               [routerLink]="item.path"
-              routerLinkActive="active" ariaCurrentWhenActive="page"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
               [routerLinkActiveOptions]="{ exact: item.exact }"
               (click)="closeMenu()"
             >
@@ -36,7 +56,9 @@
           }
         </nav>
       }
-      <main class="content"><router-outlet /></main>
+      <main class="content" [attr.inert]="menuOpen() && isNarrow() ? '' : null">
+        <router-outlet />
+      </main>
     </div>
   </div>
 </div>

@@ -1,7 +1,14 @@
 <div class="admin-page" [sfPageAction]="pageAction">
-  <header class="admin-head"><div><h1>Branding</h1><p>Changes apply live across the whole app — public site, therapist and admin views</p></div></header>
+  <header class="admin-head">
+    <div>
+      <h2>Brand identity</h2>
+      <p>Changes apply live across the whole app — public site, therapist and admin views</p>
+    </div>
+  </header>
 
-  <p class="page-intro">Set your salon colours, logo and mark initials. The live preview updates as you edit.</p>
+  <p class="page-intro">
+    Set your salon colours, logo and mark initials. The live preview updates as you edit.
+  </p>
 
   <div class="layout">
     <div class="admin-form swatches">
@@ -10,7 +17,12 @@
         <div class="swatch-row">
           <label>{{ s.label }}</label>
           <input type="color" [ngModel]="form()[s.key]" (ngModelChange)="set(s.key, $event)" />
-          <input type="text" class="hex" [ngModel]="form()[s.key]" (ngModelChange)="set(s.key, $event)" />
+          <input
+            type="text"
+            class="hex"
+            [ngModel]="form()[s.key]"
+            (ngModelChange)="set(s.key, $event)"
+          />
         </div>
       }
       <div class="admin-field">
@@ -18,19 +30,43 @@
         @if (form().logoUrl) {
           <img class="logo-preview" [src]="form().logoUrl!" alt="Salon logo preview" />
         }
-        <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" (change)="onLogoSelected($event)" />
-        <input [ngModel]="form().logoUrl" (ngModelChange)="set('logoUrl', $event)" placeholder="https://… or upload above" />
-        @if (uploading()) { <p class="upload-msg">Uploading…</p> }
-        @if (uploadError()) { <p class="upload-error">{{ uploadError() }}</p> }
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/svg+xml"
+          (change)="onLogoSelected($event)"
+        />
+        <input
+          [ngModel]="form().logoUrl"
+          (ngModelChange)="set('logoUrl', $event)"
+          placeholder="https://… or upload above"
+        />
+        @if (uploading()) {
+          <p class="upload-msg">Uploading…</p>
+        }
+        @if (uploadError()) {
+          <p class="upload-error">{{ uploadError() }}</p>
+        }
       </div>
       <div class="admin-field">
         <label for="field-branding-1">Mark initials</label>
-        <input id="field-branding-1" [ngModel]="form().markInitial" (ngModelChange)="set('markInitial', $event)" maxlength="2" placeholder="SF" />
-        <p class="field-hint">Shown when no logo is uploaded — header, splash screen and sign-in pages.</p>
+        <input
+          id="field-branding-1"
+          [ngModel]="form().markInitial"
+          (ngModelChange)="set('markInitial', $event)"
+          maxlength="2"
+          placeholder="SF"
+        />
+        <p class="field-hint">
+          Shown when no logo is uploaded — header, splash screen and sign-in pages.
+        </p>
       </div>
       <div class="admin-form-actions">
-        <button type="button" class="admin-btn ghost" (click)="resetToDefault()">Reset to default</button>
-        @if (saved()) { <span class="saved-msg">Saved</span> }
+        <button type="button" class="admin-btn ghost" (click)="resetToDefault()">
+          Reset to default
+        </button>
+        @if (saved()) {
+          <span class="saved-msg">Saved</span>
+        }
         <button type="button" class="admin-btn" (click)="save()">Save & apply</button>
       </div>
     </div>
@@ -41,13 +77,24 @@
         @if (form().logoUrl) {
           <img class="mini-logo" [src]="form().logoUrl!" alt="" />
         } @else {
-          <span class="mini-mark" [style.border-color]="form().accent" [style.color]="form().accent">{{ form().markInitial }}</span>
+          <span
+            class="mini-mark"
+            [style.border-color]="form().accent"
+            [style.color]="form().accent"
+            >{{ form().markInitial }}</span
+          >
         }
       </div>
       <div class="mini-card" [style.background]="form().surface">
         <p class="mini-title" [style.color]="form().text">{{ identity.name() }}</p>
         <button class="mini-btn" [style.background]="form().primary">Explore Treatments</button>
-        <button class="mini-btn outline" [style.border-color]="form().accent" [style.color]="form().accent">View Specials</button>
+        <button
+          class="mini-btn outline"
+          [style.border-color]="form().accent"
+          [style.color]="form().accent"
+        >
+          View Specials
+        </button>
       </div>
     </aside>
   </div>

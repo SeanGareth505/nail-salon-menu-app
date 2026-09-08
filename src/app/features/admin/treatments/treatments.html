@@ -37,7 +37,7 @@
             [class.selected]="editing()?.id === t.id || (isNew() && editing()?.name === t.name)"
             (click)="edit(t)"
           >
-            <span class="col-order drag-handle" cdkDragHandle>{{ t.sortOrder }}</span>
+            <span class="col-order drag-handle" cdkDragHandle>{{ $index + 1 }}</span>
             <span class="col-name">
               <span class="name-line">
                 <span class="name">{{ t.name }}</span>
@@ -55,29 +55,41 @@
               {{ specialPriceLabel(t.id) ?? formatPrice(t.price) }}
             </span>
             <span class="col-status">
-              <span class="status-pill" [class.active]="t.active">{{ t.active ? 'Active' : 'Inactive' }}</span>
+              <span class="status-pill" [class.active]="t.active">{{
+                t.active ? 'Active' : 'Inactive'
+              }}</span>
             </span>
           </button>
         }
       </div>
 
-      <p class="list-hint">Drag rows to change display order. Inactive treatments stay hidden from clients.</p>
+      <p class="list-hint">
+        Drag rows to change display order. Inactive treatments stay hidden from clients.
+      </p>
     </div>
 
     @if (editing(); as d) {
       <aside class="editor-pane">
+        <button type="button" class="editor-back" (click)="cancel()">← Treatment list</button>
         <div class="editor-eyebrow">Editing</div>
         <h2>{{ isNew() ? 'New treatment' : d.name }}</h2>
-        <div class="admin-field"><label for="field-treatments-1">Treatment name</label><input id="field-treatments-1" [(ngModel)]="d.name" /></div>
+        <div class="admin-field">
+          <label for="field-treatments-1">Treatment name</label
+          ><input id="field-treatments-1" [(ngModel)]="d.name" />
+        </div>
         <div class="admin-field">
           <label for="field-treatments-2">Description</label>
           <textarea id="field-treatments-2" rows="3" [(ngModel)]="d.description"></textarea>
         </div>
         <div class="admin-row-2">
-          <div class="admin-field"><label for="field-treatments-3">Price</label><input id="field-treatments-3" type="number" [(ngModel)]="d.price" /></div>
+          <div class="admin-field">
+            <label for="field-treatments-3">Price</label
+            ><input id="field-treatments-3" type="number" [(ngModel)]="d.price" />
+          </div>
           <div class="admin-field">
             <label for="field-treatments-4">Special price</label>
-            <input id="field-treatments-4"
+            <input
+              id="field-treatments-4"
               type="text"
               [value]="d.id ? (specialPriceLabel(d.id) ?? '—') : '—'"
               readonly
@@ -86,12 +98,22 @@
           </div>
         </div>
         <div class="admin-row-2">
-          <div class="admin-field"><label for="field-treatments-5">Duration (min)</label><input id="field-treatments-5" type="number" [(ngModel)]="d.durationMinutes" /></div>
-          <div class="admin-field"><label for="field-treatments-6">Display order</label><input id="field-treatments-6" type="number" [(ngModel)]="d.sortOrder" /></div>
+          <div class="admin-field">
+            <label for="field-treatments-5">Duration (min)</label
+            ><input id="field-treatments-5" type="number" [(ngModel)]="d.durationMinutes" />
+          </div>
+          <div class="admin-field">
+            <label for="field-treatments-6">Display order</label
+            ><input id="field-treatments-6" type="number" [(ngModel)]="d.sortOrder" />
+          </div>
         </div>
         <div class="admin-field">
           <label for="field-treatments-7">Category</label>
-          <select id="field-treatments-7" [ngModel]="d.categoryId" (ngModelChange)="onCategoryChange($event)">
+          <select
+            id="field-treatments-7"
+            [ngModel]="d.categoryId"
+            (ngModelChange)="onCategoryChange($event)"
+          >
             <option value="" disabled>Select…</option>
             @for (c of categories(); track c.id) {
               <option [value]="c.id">{{ c.name }}</option>
@@ -100,7 +122,11 @@
         </div>
         <div class="admin-field">
           <label for="field-treatments-8">Consent form</label>
-          <select id="field-treatments-8" [ngModel]="d.consentTemplateId" (ngModelChange)="d.consentTemplateId = $event">
+          <select
+            id="field-treatments-8"
+            [ngModel]="d.consentTemplateId"
+            (ngModelChange)="d.consentTemplateId = $event"
+          >
             <option [ngValue]="null">None</option>
             @for (tpl of consentTemplates(); track tpl.id) {
               <option [ngValue]="tpl.id">{{ tpl.name }}</option>
@@ -129,7 +155,11 @@
               <img class="image-preview" [src]="d.imageUrl" alt="" />
             } @else {
               <div class="image-placeholder" [style.background]="categoryTintBg()">
-                <sf-icon [name]="categoryIconName()" [size]="21" [style.color]="categoryMarkColor()" />
+                <sf-icon
+                  [name]="categoryIconName()"
+                  [size]="21"
+                  [style.color]="categoryMarkColor()"
+                />
               </div>
             }
             <div class="image-copy">
@@ -142,7 +172,13 @@
             @if (d.id) {
               <label class="upload-btn">
                 {{ uploadingImage() ? 'Uploading…' : 'Upload' }}
-                <input type="file" accept="image/png,image/jpeg,image/webp" [disabled]="uploadingImage()" (change)="onImageSelected($event)" hidden />
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  [disabled]="uploadingImage()"
+                  (change)="onImageSelected($event)"
+                  hidden
+                />
               </label>
             } @else {
               <span class="upload-hint">Save first to upload</span>

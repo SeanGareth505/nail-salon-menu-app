@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1px;
-  background: rgba(74, 107, 87, 0.15);
-  border: 1px solid rgba(74, 107, 87, 0.15);
+  background: var(--sf-border);
+  border: 1px solid var(--sf-border);
   margin-bottom: 28px;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .breakdown {
-  border: 1px solid rgba(74, 107, 87, 0.15);
+  border: 1px solid var(--sf-border);
   background: var(--sf-surface);
   padding: 22px 24px;
 }
@@ -30,7 +30,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.1);
+  border-bottom: 1px solid var(--sf-border);
 }
 
 .bar-row:last-child {
@@ -65,7 +65,7 @@
 .empty {
   margin: 0;
   font-size: 0.84rem;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
 }
 
 @media (min-width: 768px) {

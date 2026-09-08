@@ -37,7 +37,7 @@
   max-width: 38rem;
   font-size: 0.9rem;
   line-height: 1.55;
-  color: rgba(51, 51, 51, 0.58);
+  color: var(--sf-ink-muted);
 }
 
 .layout {
@@ -62,10 +62,10 @@
 .review-card,
 .signature-card,
 .complete-card {
-  border: 1px solid rgba(74, 107, 87, 0.12);
+  border: 1px solid var(--sf-border);
   border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(62, 90, 74, 0.05);
+  background: var(--sf-surface);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--sf-forest) 5%, transparent);
 }
 
 .client-card {
@@ -97,7 +97,7 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(51, 51, 51, 0.48);
+  color: var(--sf-ink-muted);
 }
 
 .client-name {
@@ -115,7 +115,7 @@
   gap: 8px 14px;
   font-size: 0.86rem;
   line-height: 1.45;
-  color: rgba(51, 51, 51, 0.62);
+  color: var(--sf-ink-muted);
 }
 
 .client-link {
@@ -124,7 +124,7 @@
   justify-content: center;
   min-height: 44px;
   padding: 0 18px;
-  border: 1px solid rgba(74, 107, 87, 0.28);
+  border: 1px solid var(--sf-border-strong);
   border-radius: var(--sf-radius-pill);
   color: var(--sf-forest);
   font-size: 0.84rem;
@@ -150,7 +150,7 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(51, 51, 51, 0.48);
+  color: var(--sf-ink-muted);
 }
 
 .meta-value {
@@ -166,7 +166,7 @@
   margin-top: 4px;
   font-size: 0.8rem;
   line-height: 1.45;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
 }
 
 .notes-card {
@@ -177,13 +177,13 @@
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.6;
-  color: rgba(51, 51, 51, 0.72);
+  color: var(--sf-ink-muted);
 }
 
 .alert-card {
   padding: 14px 16px;
-  background: #fdf3e7;
-  border-color: rgba(201, 169, 110, 0.28);
+  background: var(--sf-status-flagged-bg);
+  border-color: color-mix(in srgb, var(--sf-status-flagged-fg) 28%, transparent);
 }
 
 .alert-head {
@@ -195,7 +195,7 @@
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #8a6a2e;
+  color: var(--sf-status-flagged-fg);
 }
 
 .alert-diamond {
@@ -210,7 +210,7 @@
   margin: 0;
   font-size: 0.84rem;
   line-height: 1.55;
-  color: #6b542a;
+  color: var(--sf-status-flagged-fg);
 }
 
 .answers-section,
@@ -232,7 +232,7 @@
   margin: 0;
   font-size: 0.84rem;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
 }
 
 .review-list {
@@ -259,7 +259,7 @@
   display: flex;
   gap: 16px;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.08);
+  border-bottom: 1px solid var(--sf-border);
 }
 
 .review-row:last-child {
@@ -271,7 +271,7 @@
   flex: 1;
   font-size: 0.88rem;
   line-height: 1.45;
-  color: rgba(51, 51, 51, 0.68);
+  color: var(--sf-ink-muted);
 }
 
 .review-value {
@@ -284,7 +284,7 @@
 }
 
 .review-value.flagged {
-  color: #a8874c;
+  color: var(--sf-status-flagged-fg);
 }
 
 .signature-card {
@@ -294,7 +294,7 @@
 .signature-frame {
   margin-top: 12px;
   padding: 12px;
-  border: 1px solid rgba(74, 107, 87, 0.12);
+  border: 1px solid var(--sf-border);
   border-radius: 12px;
   background: var(--sf-ivory);
 }
@@ -326,7 +326,7 @@
   margin: 0;
   font-size: 0.84rem;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.58);
+  color: var(--sf-ink-muted);
 }
 
 .field-block {
@@ -338,7 +338,7 @@
 
 .field-label {
   font-size: 0.84rem;
-  color: rgba(51, 51, 51, 0.72);
+  color: var(--sf-ink-muted);
 }
 
 .field-hint {
@@ -351,8 +351,8 @@
 .text-input {
   height: 52px;
   padding: 0 16px;
-  border: 1px solid rgba(74, 107, 87, 0.28);
-  background: #fff;
+  border: 1px solid var(--sf-border-strong);
+  background: var(--sf-surface);
   font-family: var(--sf-font-body);
   font-size: 0.94rem;
   border-radius: 10px;
@@ -362,7 +362,7 @@
 .field-block select:focus {
   outline: none;
   border-color: var(--sf-forest);
-  box-shadow: 0 0 0 2px rgba(74, 107, 87, 0.12);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sf-forest) 12%, transparent);
 }
 
 .summary-preview {
@@ -370,7 +370,7 @@
   padding: 12px 14px;
   border-radius: 10px;
   background: var(--sf-sage-light);
-  border: 1px solid rgba(74, 107, 87, 0.14);
+  border: 1px solid var(--sf-border);
 }
 
 .preview-label {
@@ -379,7 +379,7 @@
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(51, 51, 51, 0.48);
+  color: var(--sf-ink-muted);
 }
 
 .preview-value {
@@ -410,11 +410,12 @@
   font-size: 0.97rem;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(74, 107, 87, 0.18);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--sf-forest) 18%, transparent);
 }
 
 .cta:disabled {
-  background: rgba(74, 107, 87, 0.35);
+  background: var(--sf-blush);
+  color: var(--sf-ink-muted);
   box-shadow: none;
   cursor: not-allowed;
 }

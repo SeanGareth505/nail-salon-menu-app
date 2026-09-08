@@ -22,9 +22,9 @@ import { consultationTreatmentLabel } from '../../../core/utils/consultation-tre
 import { expandCollapse } from '../../../shared/animations/motion.animations';
 
 const AVATAR_PALETTES = [
-  { bg: '#F7E9E3', fg: '#8A5A5A' },
-  { bg: '#FDF3E7', fg: '#8A6A2E' },
-  { bg: '#F0F4F0', fg: '#4A6B57' },
+  { bg: 'var(--sf-blush)', fg: 'var(--sf-blush-fg)' },
+  { bg: 'var(--sf-champagne-light)', fg: 'var(--sf-champagne-ink)' },
+  { bg: 'var(--sf-canvas)', fg: 'var(--sf-forest-dark)' },
 ];
 
 const FILTERS = ['Pending', 'History'] as const;

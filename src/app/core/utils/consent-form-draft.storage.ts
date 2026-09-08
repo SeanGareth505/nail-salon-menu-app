@@ -14,6 +14,7 @@ export interface ConsentFormDraft {
   savedAt: string;
   phase: ConsentFormDraftPhase;
   selectedClientId: string | null;
+  editingClientDetails?: boolean;
   intendedTreatmentId: string | null;
   clientFirstName: string;
   clientLastName: string;

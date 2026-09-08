@@ -1,10 +1,26 @@
 <div class="admin-page qr-page" [sfPageAction]="pageAction">
-  <header class="admin-head"><div><h1>QR codes</h1><p>Print these at reception, on treatment cards, or in the window</p></div></header>
+  <header class="admin-head">
+    <div>
+      <h2>Share your menu</h2>
+      <p>Print these at reception, on treatment cards, or in the window</p>
+    </div>
+  </header>
 
-  <p class="page-intro">Each code links directly to a page on your public site. Download PNGs for print or display at reception.</p>
+  <p class="page-intro">
+    Each code links directly to a page on your public site. Download PNGs for print or display at
+    reception.
+  </p>
 
   <div class="admin-form url-form">
-    <div class="admin-field"><label for="field-qr-codes-1">Site URL</label><input id="field-qr-codes-1" [ngModel]="baseUrl()" (ngModelChange)="baseUrl.set($event)" (blur)="regenerateAll()" /></div>
+    <div class="admin-field">
+      <label for="field-qr-codes-1">Site URL</label
+      ><input
+        id="field-qr-codes-1"
+        [ngModel]="baseUrl()"
+        (ngModelChange)="baseUrl.set($event)"
+        (blur)="regenerateAll()"
+      />
+    </div>
   </div>
 
   <div class="grid">
@@ -16,7 +32,9 @@
         <p class="label">{{ p.label }}</p>
         <p class="url">{{ fullUrl(p.path) }}</p>
         @if (imageFor(p.path); as img) {
-          <button type="button" class="admin-btn ghost" (click)="downloadPreset(img, p.label)">Download PNG</button>
+          <button type="button" class="admin-btn ghost" (click)="downloadPreset(img, p.label)">
+            Download PNG
+          </button>
         }
       </div>
     }
@@ -26,8 +44,23 @@
     <section class="custom-block">
       <h2>Custom QR code</h2>
       <div class="admin-row-2">
-        <div class="admin-field"><label for="field-qr-codes-2">Label</label><input id="field-qr-codes-2" [ngModel]="customLabel()" (ngModelChange)="customLabel.set($event)" /></div>
-        <div class="admin-field"><label for="field-qr-codes-3">Path</label><input id="field-qr-codes-3" [ngModel]="customPath()" (ngModelChange)="customPath.set($event)" (blur)="generateCustom()" /></div>
+        <div class="admin-field">
+          <label for="field-qr-codes-2">Label</label
+          ><input
+            id="field-qr-codes-2"
+            [ngModel]="customLabel()"
+            (ngModelChange)="customLabel.set($event)"
+          />
+        </div>
+        <div class="admin-field">
+          <label for="field-qr-codes-3">Path</label
+          ><input
+            id="field-qr-codes-3"
+            [ngModel]="customPath()"
+            (ngModelChange)="customPath.set($event)"
+            (blur)="generateCustom()"
+          />
+        </div>
       </div>
       <div class="qr-card custom-card">
         @if (customImage(); as img) {
@@ -36,7 +69,9 @@
         <p class="label">{{ customLabel() }}</p>
         <p class="url">{{ fullUrl(customPath()) }}</p>
         @if (customImage(); as img) {
-          <button type="button" class="admin-btn ghost" (click)="download(img, 'custom-qr.png')">Download PNG</button>
+          <button type="button" class="admin-btn ghost" (click)="download(img, 'custom-qr.png')">
+            Download PNG
+          </button>
         }
       </div>
     </section>

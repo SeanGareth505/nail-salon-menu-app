@@ -2,22 +2,41 @@
   <header class="page-head">
     <div>
       <p class="date">{{ today | date: 'EEEE, d MMMM y' }}</p>
-      <h1>{{ greeting() }}.</h1><p class="welcome-note">Let’s take care of today.</p>
+      <h1>{{ greeting() }}.</h1>
+      <p class="welcome-note">Let’s take care of today.</p>
     </div>
     <a routerLink="/therapist/consent-forms/new" class="cta">Start consent form →</a>
   </header>
 
-  <nav class="workspace-shortcuts" aria-label="Staff quick actions"><a routerLink="/therapist/clients"><span>Client directory</span><small>Find a client or view their history</small><span class="shortcut-arrow">↗</span></a><a routerLink="/therapist/menu"><span>Treatment menu</span><small>Browse treatments with your client</small><span class="shortcut-arrow">↗</span></a></nav>
+  <nav class="workspace-shortcuts" aria-label="Staff quick actions">
+    <a routerLink="/therapist/clients"
+      ><span>Client directory</span><small>Find a client or view their history</small
+      ><span class="shortcut-arrow">↗</span></a
+    ><a routerLink="/therapist/menu"
+      ><span>Treatment menu</span><small>Browse treatments with your client</small
+      ><span class="shortcut-arrow">↗</span></a
+    >
+  </nav>
   <section class="main-col">
     <div class="section-head">
       <h2>Ready for review</h2>
-      <a routerLink="/therapist/consent-forms" [queryParams]="{ view: 'history' }" class="history-link">View history</a>
+      <a
+        routerLink="/therapist/consent-forms"
+        [queryParams]="{ view: 'history' }"
+        class="history-link"
+        >View history</a
+      >
     </div>
     <div class="list">
       @for (c of pending(); track c.id) {
         <article class="pending-card">
           <a class="client-link" [routerLink]="['/therapist/clients', c.clientId]">
-            <span class="avatar" [style.background]="avatarBg(c.clientName)" [style.color]="avatarFg(c.clientName)">{{ c.clientName.charAt(0) }}</span>
+            <span
+              class="avatar"
+              [style.background]="avatarBg(c.clientName)"
+              [style.color]="avatarFg(c.clientName)"
+              >{{ c.clientName.charAt(0) }}</span
+            >
             <span class="body">
               <span class="name">{{ c.clientName }}</span>
               <span class="meta">Signed {{ whenLabel(c.signedAt) }}</span>
@@ -25,14 +44,22 @@
           </a>
           <div class="card-end">
             <sf-state-pill [tone]="pillTone(c.status)">{{ statusLabel(c.status) }}</sf-state-pill>
-            <a class="action-btn" [routerLink]="['/therapist/consent-forms']" [queryParams]="{ highlight: c.id, complete: '1' }">
+            <a
+              class="action-btn"
+              [routerLink]="['/therapist/consent-forms']"
+              [queryParams]="{ highlight: c.id, complete: '1' }"
+            >
               Complete
               <span class="action-arrow" aria-hidden="true">→</span>
             </a>
           </div>
         </article>
       } @empty {
-        <sf-empty-state icon="records" title="No pending consent forms" message="Start a new consent form when a client arrives." />
+        <sf-empty-state
+          icon="records"
+          title="No pending consent forms"
+          message="Start a new consent form when a client arrives."
+        />
       }
     </div>
   </section>

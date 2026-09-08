@@ -30,6 +30,9 @@
         <p class="meta">{{ appliesLine() }}</p>
       }
 
+      <a class="offer-enquiry" routerLink="/contact" [queryParams]="{ special: special().title }"
+        >Enquire about this offer <span>→</span></a
+      >
       @if (special().finePrint) {
         <p class="fine-print">{{ special().finePrint }}</p>
       }
@@ -62,6 +65,9 @@
       <p class="meta">{{ appliesLine() }}</p>
     }
 
+    <a class="offer-enquiry" routerLink="/contact" [queryParams]="{ special: special().title }"
+      >Enquire about this offer <span>→</span></a
+    >
     @if (special().finePrint) {
       <p class="fine-print">{{ special().finePrint }}</p>
     }

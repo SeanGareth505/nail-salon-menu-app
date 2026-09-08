@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnDestroy, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { map, of, switchMap } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnDestroy,
+  signal,
+} from '@angular/core';
+import { toObservable, toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { firstValueFrom, map, of, switchMap } from 'rxjs';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -27,11 +35,24 @@ import {
   DEFAULT_CONSENT_TEMPLATE_ID,
   DEFAULT_CONSENT_VERSION_ID,
 } from '../../../core/consent/default-consent-template';
-import { Client, ConsentField, ConsentStepDefinition, ConsentTemplateVersion } from '../../../core/models';
-import { clientFullName, normalizeClientNames, splitClientName } from '../../../core/utils/client-name.util';
+import {
+  Client,
+  ConsentField,
+  ConsentStepDefinition,
+  ConsentTemplateVersion,
+} from '../../../core/models';
+import {
+  clientFullName,
+  normalizeClientNames,
+  splitClientName,
+} from '../../../core/utils/client-name.util';
 import { isValidEmail, formatEmailInput } from '../../../core/utils/email.util';
 import { formatPhoneInput, isValidPhone, normalizePhoneKey } from '../../../core/utils/phone.util';
-import { duplicateClientMessage, findClientDuplicate, ClientDuplicateError } from '../../../core/utils/client-validation.util';
+import {
+  duplicateClientMessage,
+  findClientDuplicate,
+  ClientDuplicateError,
+} from '../../../core/utils/client-validation.util';
 import {
   clearConsentFormDraft,
   loadConsentFormDraft,
@@ -60,9 +81,9 @@ interface ReviewGroup {
 }
 
 const AVATAR_PALETTES = [
-  { bg: '#F7E9E3', fg: '#8A5A5A' },
-  { bg: '#FDF3E7', fg: '#8A6A2E' },
-  { bg: '#F0F4F0', fg: '#4A6B57' },
+  { bg: 'var(--sf-blush)', fg: 'var(--sf-blush-fg)' },
+  { bg: 'var(--sf-champagne-light)', fg: 'var(--sf-champagne-ink)' },
+  { bg: 'var(--sf-canvas)', fg: 'var(--sf-forest-dark)' },
 ];
 
 interface SetupTouched {
@@ -94,7 +115,17 @@ interface ConsentFormSection {
 @Component({
   selector: 'app-consultation-wizard',
   standalone: true,
-  imports: [A11yModule, FormsModule, RouterLink, DatePipe, SfIcon, SfDynamicField, SfSignaturePad, SfPhoneMaskDirective, SfEmailMaskDirective],
+  imports: [
+    A11yModule,
+    FormsModule,
+    RouterLink,
+    DatePipe,
+    SfIcon,
+    SfDynamicField,
+    SfSignaturePad,
+    SfPhoneMaskDirective,
+    SfEmailMaskDirective,
+  ],
   providers: [DatePipe],
   templateUrl: './consultation-wizard.html',
   styleUrl: './consultation-wizard.scss',
@@ -134,6 +165,7 @@ export class ConsultationWizard implements OnDestroy {
   readonly clientEmail = signal('');
   readonly intendedTherapistId = signal<string | null>(null);
   readonly setupError = signal('');
+  readonly starting = signal(false);
   readonly setupTouched = signal<SetupTouched>({ ...SETUP_TOUCHED_INITIAL });
   readonly editingClientDetails = signal(false);
 
@@ -148,7 +180,8 @@ export class ConsultationWizard implements OnDestroy {
 
   readonly lastSignedConsentVersion = computed(() => {
     const match = this.clientSubmissions().find(
-      (submission) => submission.templateId === DEFAULT_CONSENT_TEMPLATE_ID && submission.status === 'complete',
+      (submission) =>
+        submission.templateId === DEFAULT_CONSENT_TEMPLATE_ID && submission.status === 'complete',
     );
     return match?.templateVersionNumber ?? null;
   });
@@ -187,7 +220,10 @@ export class ConsultationWizard implements OnDestroy {
 
   readonly setupSummary = computed(() => {
     const selected = this.setupClient();
-    const client = selected?.fullName || clientFullName(this.clientFirstName(), this.clientLastName()) || 'no client selected';
+    const client =
+      selected?.fullName ||
+      clientFullName(this.clientFirstName(), this.clientLastName()) ||
+      'no client selected';
     const therapist = this.intendedTherapist()?.name ?? 'therapist not selected yet';
     return `${client} · ${therapist}`;
   });
@@ -196,13 +232,14 @@ export class ConsultationWizard implements OnDestroy {
     () => !!this.selectedClientId() && !this.editingClientDetails(),
   );
 
-  readonly canBegin = computed(() =>
-    !!(this.selectedClientId() || this.editingClientDetails()) && this.isClientFormValid(),
+  readonly canBegin = computed(
+    () => !!(this.selectedClientId() || this.editingClientDetails()) && this.isClientFormValid(),
   );
 
   readonly setupBlockedReason = computed(() => {
     if (this.canBegin()) return '';
-    if (!this.selectedClientId() && !this.editingClientDetails()) return 'Choose a client or add a new client to continue.';
+    if (!this.selectedClientId() && !this.editingClientDetails())
+      return 'Choose a client or add a new client to continue.';
 
     const duplicate = this.activeClientDuplicate();
     if (duplicate) {
@@ -294,7 +331,10 @@ export class ConsultationWizard implements OnDestroy {
       errors.phone = 'Enter a valid phone number (e.g. 082 123 4567).';
     } else if (touched.phone && isValidPhone(this.clientPhone())) {
       const duplicate = this.clientDuplicate();
-      if (duplicate?.field === 'phone' && (this.selectedClientId() || !this.matchingExistingClient())) {
+      if (
+        duplicate?.field === 'phone' &&
+        (this.selectedClientId() || !this.matchingExistingClient())
+      ) {
         errors.phone = duplicateClientMessage(duplicate);
       }
     }
@@ -302,7 +342,10 @@ export class ConsultationWizard implements OnDestroy {
       errors.email = 'Enter a valid email address.';
     } else if (touched.email && isValidEmail(this.clientEmail())) {
       const duplicate = this.clientDuplicate();
-      if (duplicate?.field === 'email' && (this.selectedClientId() || !this.matchingExistingClient())) {
+      if (
+        duplicate?.field === 'email' &&
+        (this.selectedClientId() || !this.matchingExistingClient())
+      ) {
         errors.email = duplicateClientMessage(duplicate);
       }
     }
@@ -321,13 +364,19 @@ export class ConsultationWizard implements OnDestroy {
   readonly missingRequiredFields = computed(() => {
     const answers = this.answers();
     return (this.templateVersion()?.fields ?? [])
-      .filter(f => f.step && !SETUP_SKIPPED_STEP_KEYS.has(f.step) && f.key !== CONSENT_COMMENTS_KEY)
-      .filter(f => !['information', 'warning'].includes(f.type) && f.required && isFieldVisible(f, answers))
-      .filter(f => !this.isFieldValid(f, answers[f.key]));
+      .filter(
+        (f) => f.step && !SETUP_SKIPPED_STEP_KEYS.has(f.step) && f.key !== CONSENT_COMMENTS_KEY,
+      )
+      .filter(
+        (f) =>
+          !['information', 'warning'].includes(f.type) && f.required && isFieldVisible(f, answers),
+      )
+      .filter((f) => !this.isFieldValid(f, answers[f.key]));
   });
   readonly completionHint = computed(() => {
     const missing = this.missingRequiredFields().length;
-    if (missing) return `${missing} required ${missing === 1 ? 'answer' : 'answers'} remaining${this.signatureDataUrl() ? '' : ' · signature needed'}`;
+    if (missing)
+      return `${missing} required ${missing === 1 ? 'answer' : 'answers'} remaining${this.signatureDataUrl() ? '' : ' · signature needed'}`;
     if (!this.signatureDataUrl()) return 'Add your signature to continue';
     return 'All set. Review your answers next.';
   });
@@ -380,7 +429,11 @@ export class ConsultationWizard implements OnDestroy {
         key: step.key,
         name: step.title,
         rows: v.fields
-          .filter((f) => f.step === step.key && !['information', 'warning', 'signature', 'image'].includes(f.type))
+          .filter(
+            (f) =>
+              f.step === step.key &&
+              !['information', 'warning', 'signature', 'image'].includes(f.type),
+          )
           .filter((f) => f.key !== CONSENT_COMMENTS_KEY)
           .filter((f) => isFieldVisible(f, answers))
           .filter((f) => this.hasValue(answers[f.key]))
@@ -428,6 +481,7 @@ export class ConsultationWizard implements OnDestroy {
   readonly completeFormLabel = computed(() => this.templateVersion()?.templateId ?? 'consent form');
 
   private restoredFromDraft = false;
+  private resumeDraftAfterTemplateLoad = false;
 
   constructor() {
     this.restoredFromDraft = this.tryRestoreDraft();
@@ -445,7 +499,7 @@ export class ConsultationWizard implements OnDestroy {
       this.selectExistingClient(clientId);
     });
 
-    this.route.queryParamMap.subscribe((params) => {
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
       if (this.restoredFromDraft) return;
       const treatmentId = params.get('treatment');
       if (treatmentId) {
@@ -499,7 +553,9 @@ export class ConsultationWizard implements OnDestroy {
     if (!this.isSelectedClientReady(client)) {
       this.editingClientDetails.set(true);
       this.markAllSetupTouched();
-      this.setupError.set(this.clientBlockedReason(client) || 'Complete the required client details to continue.');
+      this.setupError.set(
+        this.clientBlockedReason(client) || 'Complete the required client details to continue.',
+      );
     }
   }
 
@@ -601,7 +657,9 @@ export class ConsultationWizard implements OnDestroy {
     this.therapistReviewed.update((value) => !value);
   }
 
-  requestExit(): void { this.exitConfirmOpen.set(true); }
+  requestExit(): void {
+    this.exitConfirmOpen.set(true);
+  }
 
   async exitConsentForm(): Promise<void> {
     this.persistDraft();
@@ -614,6 +672,7 @@ export class ConsultationWizard implements OnDestroy {
   }
 
   async beginConsentForm(): Promise<void> {
+    if (this.starting()) return;
     this.setupError.set('');
     if (!this.isReturningClientLocked()) {
       this.markAllSetupTouched();
@@ -623,6 +682,7 @@ export class ConsultationWizard implements OnDestroy {
       return;
     }
 
+    this.starting.set(true);
     try {
       let resolved: Client;
       if (this.isReturningClientLocked()) {
@@ -639,19 +699,30 @@ export class ConsultationWizard implements OnDestroy {
         });
 
         if (!this.selectedClientId()) {
-          void this.dispatcher.notifyAdmins({
-            type: 'client_created',
-            title: 'New client added',
-            body: `${resolved.fullName} was added during a consent form.`,
-            link: `/admin/clients/${resolved.id}`,
-            entityType: 'client',
-            entityId: resolved.id,
-          }).catch(() => undefined);
+          void this.dispatcher
+            .notifyAdmins({
+              type: 'client_created',
+              title: 'New client added',
+              body: `${resolved.fullName} was added during a consent form.`,
+              link: `/admin/clients/${resolved.id}`,
+              entityType: 'client',
+              entityId: resolved.id,
+            })
+            .catch(() => undefined);
         }
       }
 
+      this.selectedClientId.set(resolved.id);
       this.client.set({ ...resolved, active: true } as Client);
       await this.loadDefaultTemplate();
+
+      if (this.resumeDraftAfterTemplateLoad) {
+        this.stepIndex.set(Math.min(this.stepIndex(), Math.max(0, this.steps().length - 1)));
+        this.resumeDraftAfterTemplateLoad = false;
+        this.setPhase('wizard');
+        this.pwa.setConsultationActive(true);
+        return;
+      }
 
       const prefill: Record<string, unknown> = {};
       const identity = normalizeClientNames({
@@ -674,24 +745,20 @@ export class ConsultationWizard implements OnDestroy {
         this.setupError.set(err.message);
         return;
       }
-      this.setupError.set('Could not save client details. Please try again.');
+      this.setupError.set(
+        'Could not prepare the form. Your details are still here; please try again.',
+      );
+    } finally {
+      this.starting.set(false);
     }
   }
 
   private async loadDefaultTemplate(): Promise<void> {
-    const template = await new Promise<any>((resolve) => {
-      const sub = this.templatesSvc.get(DEFAULT_CONSENT_TEMPLATE_ID).subscribe((t) => {
-        resolve(t);
-        sub.unsubscribe();
-      });
-    });
+    const template = await firstValueFrom(this.templatesSvc.get(DEFAULT_CONSENT_TEMPLATE_ID));
     if (template?.currentPublishedVersionId) {
-      const version = await new Promise<any>((resolve) => {
-        const sub = this.versionsSvc.get(template.currentPublishedVersionId).subscribe((v) => {
-          resolve(v);
-          sub.unsubscribe();
-        });
-      });
+      const version = await firstValueFrom(
+        this.versionsSvc.get(template.currentPublishedVersionId),
+      );
       this.templateVersion.set(version ?? this.fallbackVersion());
       return;
     }
@@ -824,14 +891,16 @@ export class ConsultationWizard implements OnDestroy {
         `Consent form signed for ${resolved.fullName}`,
       );
 
-      void this.dispatcher.notifyAdmins({
-        type: 'consultation_started',
-        title: 'Consent form signed',
-        body: `${resolved.fullName} signed a consent form (pending review).`,
-        link: '/admin/consultations',
-        entityType: 'consultation',
-        entityId: consultationId,
-      }).catch(() => undefined);
+      void this.dispatcher
+        .notifyAdmins({
+          type: 'consultation_started',
+          title: 'Consent form signed',
+          body: `${resolved.fullName} signed a consent form (pending review).`,
+          link: '/admin/consultations',
+          entityType: 'consultation',
+          entityId: consultationId,
+        })
+        .catch(() => undefined);
 
       clearConsentFormDraft();
       this.pwa.setConsultationActive(false);
@@ -926,14 +995,29 @@ export class ConsultationWizard implements OnDestroy {
       this.therapistReviewed.set(draft.therapistReviewed);
       this.setPhase('wizard');
       this.pwa.setConsultationActive(true);
-      void this.loadDefaultTemplate().then(() => {
-        const maxStep = Math.max(0, this.steps().length - 1);
-        this.stepIndex.set(Math.min(draft.stepIndex, maxStep));
-      });
+      void this.loadDefaultTemplate()
+        .then(() => {
+          const maxStep = Math.max(0, this.steps().length - 1);
+          this.stepIndex.set(Math.min(draft.stepIndex, maxStep));
+        })
+        .catch(() => {
+          this.resumeDraftAfterTemplateLoad = true;
+          this.selectedClientId.set(draft.client!.id);
+          this.editingClientDetails.set(true);
+          this.setPhase('setup');
+          this.pwa.setConsultationActive(false);
+          this.setupError.set(
+            'Could not reopen the saved form. Your answers are safe; please try again.',
+          );
+        });
       return true;
     }
 
-    this.editingClientDetails.set(!draft.selectedClientId && !!(draft.clientFirstName || draft.clientPhone || draft.clientEmail));
+    this.editingClientDetails.set(
+      draft.editingClientDetails ??
+        (!draft.selectedClientId &&
+          !!(draft.clientFirstName || draft.clientLastName || draft.clientPhone || draft.clientEmail)),
+    );
     this.setPhase('setup');
     this.pwa.setConsultationActive(false);
     return true;
@@ -947,7 +1031,8 @@ export class ConsultationWizard implements OnDestroy {
     saveConsentFormDraft({
       version: 1,
       savedAt: new Date().toISOString(),
-      phase: phase === 'wizard' ? 'wizard' : 'setup',
+      phase: phase === 'wizard' || this.resumeDraftAfterTemplateLoad ? 'wizard' : 'setup',
+      editingClientDetails: this.editingClientDetails(),
       selectedClientId: this.selectedClientId(),
       intendedTreatmentId: this.intendedTreatmentId(),
       clientFirstName: this.clientFirstName(),
@@ -1022,7 +1107,8 @@ export class ConsultationWizard implements OnDestroy {
 
   private paletteIndex(name: string): number {
     let hash = 0;
-    for (let i = 0; i < name.length; i++) hash = (hash + name.charCodeAt(i)) % AVATAR_PALETTES.length;
+    for (let i = 0; i < name.length; i++)
+      hash = (hash + name.charCodeAt(i)) % AVATAR_PALETTES.length;
     return hash;
   }
 }

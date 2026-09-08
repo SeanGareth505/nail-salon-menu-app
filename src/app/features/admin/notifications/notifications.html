@@ -1,12 +1,15 @@
 <div class="admin-page" [sfPageAction]="pageAction">
   <header class="admin-head">
     <div>
-      <h1>Notifications</h1>
+      <h2>Notification preferences</h2>
       <p>Choose when SalonFlow alerts you in the app and via browser push</p>
     </div>
   </header>
 
-  <p class="page-intro">In-app alerts appear in the bell menu across admin pages. Enable browser push to get notified when SalonFlow is in the background.</p>
+  <p class="page-intro">
+    In-app alerts appear in the bell menu across admin pages. Enable browser push to get notified
+    when SalonFlow is in the background.
+  </p>
 
   @if (error()) {
     <p class="error-msg">{{ error() }}</p>
@@ -20,7 +23,10 @@
     </label>
     <p class="hint">In-app alerts appear in the bell menu across admin pages.</p>
 
-    <label class="admin-toggle-row main-toggle" [class.disabled]="!form().enabled || !pushSupported">
+    <label
+      class="admin-toggle-row main-toggle"
+      [class.disabled]="!form().enabled || !pushSupported"
+    >
       <input
         type="checkbox"
         [disabled]="!form().enabled || !pushSupported"
@@ -53,7 +59,9 @@
     </div>
 
     <div class="admin-form-actions">
-      @if (saved()) { <span class="saved-msg">Saved</span> }
+      @if (saved()) {
+        <span class="saved-msg">Saved</span>
+      }
       <button type="button" class="admin-btn" [disabled]="saving()" (click)="save()">
         {{ saving() ? 'Saving…' : 'Save changes' }}
       </button>

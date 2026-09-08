@@ -4,9 +4,12 @@ import { SalonIdentityService } from '../../../core/services/salon-identity.serv
 export type SalonLoaderSize = 'splash' | 'overlay';
 
 @Component({
-  selector: 'sf-salon-loader', standalone: true, imports: [],
+  selector: 'sf-salon-loader',
+  standalone: true,
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './salon-loader.html', styleUrl: './salon-loader.scss',
+  templateUrl: './salon-loader.html',
+  styleUrl: './salon-loader.scss',
 })
 export class SfSalonLoader {
   readonly identity = inject(SalonIdentityService);

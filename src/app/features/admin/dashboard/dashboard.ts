@@ -31,12 +31,20 @@ export class Dashboard {
   readonly activeTherapists = computed(() => this.therapists().filter((t) => t.active).length);
   readonly inactiveTherapists = computed(() => this.therapists().filter((t) => !t.active).length);
 
-  readonly todayCount = computed(() => this.consultations().filter((c) => this.isToday(c.startedAt)).length);
-  readonly weekCount = computed(() => this.consultations().filter((c) => this.withinDays(c.startedAt, 7)).length);
-  readonly monthCount = computed(() => this.consultations().filter((c) => this.withinDays(c.startedAt, 30)).length);
+  readonly todayCount = computed(
+    () => this.consultations().filter((c) => this.isToday(c.startedAt)).length,
+  );
+  readonly weekCount = computed(
+    () => this.consultations().filter((c) => this.withinDays(c.startedAt, 7)).length,
+  );
+  readonly monthCount = computed(
+    () => this.consultations().filter((c) => this.withinDays(c.startedAt, 30)).length,
+  );
   readonly weekOverWeekHint = computed(() => this.formatWeekOverWeek());
   readonly monthTrendHint = computed(() => `${this.monthCount()} in the last 30 days`);
-  readonly pendingCount = computed(() => this.consultations().filter((c) => c.status === 'pending').length);
+  readonly pendingCount = computed(
+    () => this.consultations().filter((c) => c.status === 'pending').length,
+  );
   readonly consentExpiring = computed(() => {
     const nineMonthsMs = 9 * 30 * 86400000;
     const cutoff = Date.now() - nineMonthsMs;
@@ -47,7 +55,8 @@ export class Dashboard {
       const existing = latestByClient.get(submission.clientId);
       if (!existing || signedAt > existing) latestByClient.set(submission.clientId, signedAt);
     }
-    return [...latestByClient.values()].filter((signedAt) => new Date(signedAt).getTime() <= cutoff).length;
+    return [...latestByClient.values()].filter((signedAt) => new Date(signedAt).getTime() <= cutoff)
+      .length;
   });
 
   readonly weeklyBuckets = computed(() => {
@@ -72,6 +81,10 @@ export class Dashboard {
     }));
   });
 
+  readonly eightWeekCount = computed(() =>
+    this.weeklyBuckets().reduce((total, week) => total + week.count, 0),
+  );
+
   readonly monthLabel = computed(() =>
     new Date().toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' }),
   );
@@ -79,12 +92,21 @@ export class Dashboard {
   readonly therapistActivity = computed(() =>
     this.therapists().map((t) => {
       const own = this.consultations().filter(
-        (c) => c.performingTherapistId === t.id || c.intendedTherapistId === t.id || c.therapistId === t.id,
+        (c) =>
+          c.performingTherapistId === t.id ||
+          c.intendedTherapistId === t.id ||
+          c.therapistId === t.id,
       );
       const thisMonth = own.filter((c) => this.withinDays(c.startedAt, 30)).length;
       const last = own[0]?.startedAt ?? null;
       const pending = own.filter((c) => c.status === 'pending').length;
-      return { therapist: t, thisMonth, last, avgPerWeek: Math.round((thisMonth / 4.3) * 10) / 10, pending };
+      return {
+        therapist: t,
+        thisMonth,
+        last,
+        avgPerWeek: Math.round((thisMonth / 4.3) * 10) / 10,
+        pending,
+      };
     }),
   );
 

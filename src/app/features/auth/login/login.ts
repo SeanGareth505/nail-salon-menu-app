@@ -37,7 +37,13 @@ export class Login {
       await this.router.navigate(['/admin']);
     } catch (error: unknown) {
       const code = (error as { code?: string })?.code;
-      this.error.set(code === 'auth/network-request-failed' ? 'Check your internet connection and try again.' : code === 'auth/too-many-requests' ? 'Too many sign-in attempts. Please wait a moment and try again.' : 'The email or password is incorrect. Please try again.');
+      this.error.set(
+        code === 'auth/network-request-failed'
+          ? 'Check your internet connection and try again.'
+          : code === 'auth/too-many-requests'
+            ? 'Too many sign-in attempts. Please wait a moment and try again.'
+            : 'The email or password is incorrect. Please try again.',
+      );
     } finally {
       this.loading.set(false);
     }

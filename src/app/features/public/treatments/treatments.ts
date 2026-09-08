@@ -32,17 +32,50 @@ export class Treatments {
 
   private readonly router = inject(Router);
   readonly refresh = signal(0);
-  readonly catalog = toSignal(toObservable(this.refresh).pipe(switchMap(() => combineLatest([this.categoriesSvc.listActive(), this.treatmentsSvc.listActive()]).pipe(
-    map(([categories, treatments]) => ({ categories, treatments, loading: false, error: false })),
-    startWith({ categories: [] as Category[], treatments: [] as Treatment[], loading: true, error: false }),
-    catchError(() => of({ categories: [] as Category[], treatments: [] as Treatment[], loading: false, error: true })),
-  ))), { initialValue: { categories: [] as Category[], treatments: [] as Treatment[], loading: true, error: false } });
+  readonly catalog = toSignal(
+    toObservable(this.refresh).pipe(
+      switchMap(() =>
+        combineLatest([this.categoriesSvc.listActive(), this.treatmentsSvc.listActive()]).pipe(
+          map(([categories, treatments]) => ({
+            categories,
+            treatments,
+            loading: false,
+            error: false,
+          })),
+          startWith({
+            categories: [] as Category[],
+            treatments: [] as Treatment[],
+            loading: true,
+            error: false,
+          }),
+          catchError(() =>
+            of({
+              categories: [] as Category[],
+              treatments: [] as Treatment[],
+              loading: false,
+              error: true,
+            }),
+          ),
+        ),
+      ),
+    ),
+    {
+      initialValue: {
+        categories: [] as Category[],
+        treatments: [] as Treatment[],
+        loading: true,
+        error: false,
+      },
+    },
+  );
   readonly categories = computed(() => this.catalog().categories);
   readonly treatments = computed(() => this.catalog().treatments);
   readonly loading = computed(() => this.catalog().loading);
   readonly loadError = computed(() => this.catalog().error);
   readonly sortOrder = signal('recommended');
-  readonly hasAnyFilter = computed(() => !!this.search().trim() || this.activeCategorySlug() !== 'all' || this.hasActiveRefine());
+  readonly hasAnyFilter = computed(
+    () => !!this.search().trim() || this.activeCategorySlug() !== 'all' || this.hasActiveRefine(),
+  );
 
   readonly search = signal('');
   readonly activeCategorySlug = signal<string>('all');
@@ -51,6 +84,13 @@ export class Treatments {
   readonly priceFilter = signal(false);
   readonly specialFilter = signal(false);
   readonly listKey = signal(0);
+
+  readonly activeRefineCount = computed(
+    () =>
+      Number(this.durationFilter() !== 'any') +
+      Number(this.priceFilter()) +
+      Number(this.specialFilter()),
+  );
 
   readonly hasActiveRefine = computed(
     () => this.durationFilter() !== 'any' || this.priceFilter() || this.specialFilter(),
@@ -70,22 +110,33 @@ export class Treatments {
     const underPrice = this.priceFilter();
     const onSpecial = this.specialFilter();
 
-    return this.treatments().filter((t) => {
-      if (catSlug !== 'all') {
-        const cat = cats.find((c) => c.slug === catSlug);
-        if (cat && t.categoryId !== cat.id) return false;
-      }
-      if (term && !t.name.toLowerCase().includes(term) && !t.shortDescription.toLowerCase().includes(term)) return false;
-      if (duration === 'under45' && t.durationMinutes >= 45) return false;
-      if (underPrice && (this.specialViewFor(t.id)?.displayPrice ?? t.price) >= 500) return false;
-      if (onSpecial && !this.pricingSvc.isOnSpecialFilter(t.id)) return false;
-      return true;
-    }).sort((a, b) => {
-      if (this.sortOrder() === 'price-low') return (this.specialViewFor(a.id)?.displayPrice ?? a.price) - (this.specialViewFor(b.id)?.displayPrice ?? b.price);
-      if (this.sortOrder() === 'duration') return a.durationMinutes - b.durationMinutes;
-      if (this.sortOrder() === 'name') return a.name.localeCompare(b.name);
-      return a.sortOrder - b.sortOrder;
-    });
+    return this.treatments()
+      .filter((t) => {
+        if (catSlug !== 'all') {
+          const cat = cats.find((c) => c.slug === catSlug);
+          if (cat && t.categoryId !== cat.id) return false;
+        }
+        if (
+          term &&
+          !t.name.toLowerCase().includes(term) &&
+          !t.shortDescription.toLowerCase().includes(term)
+        )
+          return false;
+        if (duration === 'under45' && t.durationMinutes >= 45) return false;
+        if (underPrice && (this.specialViewFor(t.id)?.displayPrice ?? t.price) >= 500) return false;
+        if (onSpecial && !this.pricingSvc.isOnSpecialFilter(t.id)) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        if (this.sortOrder() === 'price-low')
+          return (
+            (this.specialViewFor(a.id)?.displayPrice ?? a.price) -
+            (this.specialViewFor(b.id)?.displayPrice ?? b.price)
+          );
+        if (this.sortOrder() === 'duration') return a.durationMinutes - b.durationMinutes;
+        if (this.sortOrder() === 'name') return a.name.localeCompare(b.name);
+        return a.sortOrder - b.sortOrder;
+      });
   });
 
   readonly grouped = computed(() => {
@@ -117,13 +168,22 @@ export class Treatments {
 
   selectCategory(slug: string): void {
     this.activeCategorySlug.set(slug);
-    void this.router.navigate([], { relativeTo: this.route, queryParams: { category: slug === 'all' ? null : slug }, queryParamsHandling: 'merge', replaceUrl: true });
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { category: slug === 'all' ? null : slug },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
     this.listKey.update((k) => k + 1);
   }
 
-  categoryCount(id: string): number { return this.treatments().filter(t => t.categoryId === id).length; }
+  categoryCount(id: string): number {
+    return this.treatments().filter((t) => t.categoryId === id).length;
+  }
 
-  retry(): void { this.refresh.update(value => value + 1); }
+  retry(): void {
+    this.refresh.update((value) => value + 1);
+  }
 
   toggleRefine(): void {
     this.showRefine.update((v) => !v);

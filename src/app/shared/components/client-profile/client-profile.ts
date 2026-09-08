@@ -14,9 +14,9 @@ import { SfSkeleton } from '../skeleton-loader/skeleton-loader';
 export type ClientProfileArea = 'admin' | 'therapist';
 
 const AVATAR_PALETTES = [
-  { bg: '#F7E9E3', fg: '#8A5A5A' },
-  { bg: '#FDF3E7', fg: '#8A6A2E' },
-  { bg: '#F0F4F0', fg: '#4A6B57' },
+  { bg: 'var(--sf-blush)', fg: 'var(--sf-blush-fg)' },
+  { bg: 'var(--sf-champagne-light)', fg: 'var(--sf-champagne-ink)' },
+  { bg: 'var(--sf-canvas)', fg: 'var(--sf-forest-dark)' },
 ];
 
 interface DeclaredItem {
@@ -130,19 +130,19 @@ export class SfClientProfile {
     const items: DeclaredItem[] = [];
     const answers = client.lastKnownAnswers ?? {};
     if (answers['meds'] === 'Yes') {
-      items.push({ what: 'Taking medication', when: `Declared ${this.lastDeclared(client)}`, bg: '#FDF3E7', dot: '#C9A96E' });
+      items.push({ what: 'Taking medication', when: `Declared ${this.lastDeclared(client)}`, bg: 'var(--sf-status-flagged-bg)', dot: 'var(--sf-status-flagged-fg)' });
     }
     if (answers['retinol'] === 'Yes') {
-      items.push({ what: 'Retinoid use', when: `Declared ${this.lastDeclared(client)} — reviewed`, bg: '#FDF3E7', dot: '#C9A96E' });
+      items.push({ what: 'Retinoid use', when: `Declared ${this.lastDeclared(client)} — reviewed`, bg: 'var(--sf-status-flagged-bg)', dot: 'var(--sf-status-flagged-fg)' });
     }
     if (answers['allergies'] === 'No') {
-      items.push({ what: 'No known allergies', when: `Confirmed ${this.lastDeclared(client)}`, bg: '#F0F4F0', dot: '#8BAA8E' });
+      items.push({ what: 'No known allergies', when: `Confirmed ${this.lastDeclared(client)}`, bg: 'var(--sf-status-complete-bg)', dot: 'var(--sf-status-complete-fg)' });
     }
     if (answers['pregnant'] === 'No') {
-      items.push({ what: 'Not pregnant or breastfeeding', when: `Confirmed ${this.lastDeclared(client)}`, bg: '#F0F4F0', dot: '#8BAA8E' });
+      items.push({ what: 'Not pregnant or breastfeeding', when: `Confirmed ${this.lastDeclared(client)}`, bg: 'var(--sf-status-complete-bg)', dot: 'var(--sf-status-complete-fg)' });
     }
     if (!items.length && client.lastConsultationAt) {
-      items.push({ what: 'Health details on file', when: `Updated ${this.lastDeclared(client)}`, bg: '#F0F4F0', dot: '#8BAA8E' });
+      items.push({ what: 'Health details on file', when: `Updated ${this.lastDeclared(client)}`, bg: 'var(--sf-status-complete-bg)', dot: 'var(--sf-status-complete-fg)' });
     }
     return items;
   }

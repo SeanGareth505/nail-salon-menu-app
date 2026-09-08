@@ -7,7 +7,6 @@ interface MobileNavItem {
   label: string;
   icon: string;
   exact: boolean;
-  center?: boolean;
 }
 
 const NAV_ITEMS: MobileNavItem[] = [

@@ -6,7 +6,12 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withViewTransitions,
+} from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideLottieOptions, provideCacheableAnimationLoader } from 'ngx-lottie';
 import lottie from 'lottie-web';
@@ -24,11 +29,7 @@ import { persistentLocalCache } from 'firebase/firestore';
 import { getStorage, provideStorage, connectStorageEmulator } from '@angular/fire/storage';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { connectFunctionsEmulator, getFunctions, provideFunctions } from '@angular/fire/functions';
-import {
-  provideAppCheck,
-  initializeAppCheck,
-  ReCaptchaV3Provider,
-} from '@angular/fire/app-check';
+import { provideAppCheck, initializeAppCheck, ReCaptchaV3Provider } from '@angular/fire/app-check';
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
@@ -50,9 +51,7 @@ function appCheckProviders() {
           debugToken;
       }
       return initializeAppCheck(undefined, {
-        provider: new ReCaptchaV3Provider(
-          siteKey || '6LeIxAcTAAAAAGG-vFI1SlNbL8KxTUx0MTTtXzQf',
-        ),
+        provider: new ReCaptchaV3Provider(siteKey || '6LeIxAcTAAAAAGG-vFI1SlNbL8KxTUx0MTTtXzQf'),
         isTokenAutoRefreshEnabled: true,
       });
     }),
@@ -64,7 +63,12 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withFetch()),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withViewTransitions(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+    ),
     provideAnimationsAsync(),
     provideLottieOptions({
       player: () => lottie,

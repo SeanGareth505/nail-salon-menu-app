@@ -3,10 +3,10 @@
   width: min(100%, 680px);
   max-height: min(88dvh, 820px);
   overflow: hidden;
-  background: #fff;
+  background: var(--sf-surface);
   border-radius: 16px;
-  border: 1px solid rgba(74, 107, 87, 0.12);
-  box-shadow: 0 20px 48px rgba(38, 38, 32, 0.16);
+  border: 1px solid var(--sf-border);
+  box-shadow: 0 20px 48px color-mix(in srgb, var(--sf-ink) 16%, transparent);
 }
 
 .dialog-panel {
@@ -22,7 +22,7 @@
   gap: 16px;
   flex: none;
   padding: 24px 28px 20px;
-  border-bottom: 1px solid rgba(74, 107, 87, 0.08);
+  border-bottom: 1px solid var(--sf-border);
 }
 
 .header-copy {
@@ -33,13 +33,13 @@
 
 .close {
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   margin: -4px -4px 0 0;
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: rgba(51, 51, 51, 0.45);
+  color: var(--sf-ink-muted);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -49,16 +49,16 @@
 
 @media (hover: hover) {
   .close:hover {
-    background: rgba(74, 107, 87, 0.08);
+    background: var(--sf-blush);
     color: var(--sf-ink);
   }
 }
 
 h2 {
   margin: 0 0 6px;
-  font-family: var(--sf-font-display);
+  font-family: var(--sf-font-body);
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
   color: var(--sf-ink);
 }
@@ -67,7 +67,7 @@ h2 {
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.45;
-  color: rgba(51, 51, 51, 0.55);
+  color: var(--sf-ink-muted);
 }
 
 .panel-content {
@@ -92,5 +92,17 @@ sf-consent-form-complete-panel {
 
   .panel-content {
     padding: 16px 16px max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 767px) {
+  .panel-header {
+    padding: 20px;
+  }
+  .panel-content {
+    padding: 20px;
+  }
+  h2 {
+    font-size: 21px;
   }
 }

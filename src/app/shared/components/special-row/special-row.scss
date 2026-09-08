@@ -9,12 +9,12 @@
 .layout-card {
   display: block;
   overflow: visible;
-  border: 1px solid rgba(201, 169, 110, 0.32);
+  border: 1px solid var(--sf-peach-border);
   background: var(--sf-surface);
 }
 
 .is-upcoming .layout-card {
-  border-color: rgba(55, 98, 126, 0.2);
+  border-color: var(--sf-lilac-border);
 }
 
 .card-header {
@@ -30,12 +30,12 @@
 .header-frame {
   position: absolute;
   inset: 10px;
-  border: 1px solid rgba(201, 169, 110, 0.3);
+  border: 1px solid var(--sf-peach-border);
   pointer-events: none;
 }
 
 .tint-live {
-  background: var(--sf-sage-light);
+  background: var(--sf-peach);
 }
 
 .tint-ending {
@@ -43,7 +43,7 @@
 }
 
 .tint-upcoming {
-  background: var(--sf-sky);
+  background: var(--sf-lilac);
 }
 
 .tint-neutral {
@@ -51,7 +51,7 @@
 }
 
 .is-upcoming .header-frame {
-  border-color: rgba(55, 98, 126, 0.22);
+  border-color: var(--sf-lilac-border);
 }
 
 .status {
@@ -96,8 +96,8 @@
   right: 10px;
   z-index: 2;
   padding: 6px 10px;
-  background: var(--sf-champagne);
-  color: #fff;
+  background: var(--sf-peach);
+  color: var(--sf-peach-fg);
   font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -114,17 +114,17 @@
   font-size: 1.75rem;
   line-height: 1.1;
   text-align: center;
-  color: rgba(74, 107, 87, 0.5);
+  color: var(--sf-peach-fg);
   text-wrap: balance;
 }
 
 .is-upcoming .script {
-  color: rgba(55, 98, 126, 0.45);
+  color: var(--sf-lilac-fg);
 }
 
 .card-body {
   padding: 22px 18px 18px;
-  border-top: 1px solid rgba(74, 107, 87, 0.08);
+  border-top: 1px solid var(--sf-border);
 }
 
 .date-card {
@@ -134,28 +134,28 @@
   z-index: 3;
   transform: translate(-50%, 50%);
   background: var(--sf-surface);
-  border: 1px solid rgba(74, 107, 87, 0.14);
-  box-shadow: 0 2px 10px rgba(51, 51, 51, 0.08);
+  border: 1px solid var(--sf-border);
+  box-shadow: 0 2px 10px var(--sf-ink-muted);
 }
 
 .date-card.tone-live {
-  border-color: rgba(74, 107, 87, 0.2);
+  border-color: var(--sf-border);
   border-top: 2px solid var(--sf-forest);
 }
 
 .date-card.tone-ending {
-  border-color: rgba(201, 169, 110, 0.35);
+  border-color: var(--sf-peach-border);
   border-top: 2px solid var(--sf-champagne);
 }
 
 .date-card.tone-upcoming {
-  border-color: rgba(55, 98, 126, 0.2);
-  border-top: 2px solid var(--sf-sky-fg);
+  border-color: var(--sf-lilac-border);
+  border-top: 2px solid var(--sf-lilac-fg);
 }
 
 .date-card.tone-neutral {
-  border-color: rgba(74, 107, 87, 0.14);
-  border-top: 2px solid rgba(51, 51, 51, 0.25);
+  border-color: var(--sf-border);
+  border-top: 2px solid var(--sf-ink-muted);
 }
 
 .layout-card .date-meta {
@@ -178,7 +178,7 @@
 }
 
 .date-card.tone-upcoming .date-meta {
-  color: var(--sf-sky-fg);
+  color: var(--sf-lilac-fg);
 }
 
 .date-card.tone-neutral .date-meta {
@@ -195,7 +195,7 @@ h3 {
 }
 
 .is-upcoming h3 {
-  color: var(--sf-sky-fg);
+  color: var(--sf-lilac-fg);
 }
 
 .desc {
@@ -203,7 +203,7 @@ h3 {
   font-size: 0.8125rem;
   font-weight: 300;
   line-height: 1.55;
-  color: rgba(51, 51, 51, 0.62);
+  color: var(--sf-ink-muted);
   text-wrap: pretty;
 }
 
@@ -214,13 +214,13 @@ h3 {
   gap: 8px 10px;
   padding: 12px 14px;
   margin-bottom: 12px;
-  background: rgba(240, 244, 240, 0.65);
-  border: 1px solid rgba(74, 107, 87, 0.1);
+  background: var(--sf-peach);
+  border: 1px solid var(--sf-border);
 }
 
 .is-upcoming .price-block {
-  background: rgba(227, 240, 249, 0.45);
-  border-color: rgba(55, 98, 126, 0.12);
+  background: var(--sf-lilac);
+  border-color: var(--sf-lilac-border);
 }
 
 .price {
@@ -234,7 +234,7 @@ h3 {
 .was {
   font-size: 0.875rem;
   font-weight: 300;
-  color: rgba(51, 51, 51, 0.4);
+  color: var(--sf-ink-muted);
   text-decoration: line-through;
 }
 
@@ -242,17 +242,17 @@ h3 {
   margin: 0;
   font-size: 0.75rem;
   font-weight: 400;
-  color: rgba(51, 51, 51, 0.5);
+  color: var(--sf-ink-muted);
 }
 
 .fine-print {
   margin: 10px 0 0;
   padding-top: 10px;
-  border-top: 1px solid rgba(74, 107, 87, 0.08);
+  border-top: 1px solid var(--sf-border);
   font-size: 0.719rem;
   font-weight: 300;
   line-height: 1.5;
-  color: rgba(51, 51, 51, 0.42);
+  color: var(--sf-ink-muted);
 }
 
 @media (min-width: 834px) {
@@ -263,13 +263,13 @@ h3 {
   .layout-row {
     display: block;
     padding: 20px 22px;
-    border: 1px solid rgba(74, 107, 87, 0.12);
+    border: 1px solid var(--sf-border);
     background: var(--sf-surface);
   }
 
   .is-upcoming .layout-row {
-    border-color: rgba(55, 98, 126, 0.14);
-    background: rgba(227, 240, 249, 0.22);
+    border-color: var(--sf-lilac-border);
+    background: var(--sf-lilac);
   }
 
   .row-top {
@@ -346,4 +346,73 @@ h3 {
   h3 {
     font-size: 1.125rem;
   }
+}
+
+.layout-card,
+.layout-row {
+  border: 1px solid var(--sf-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.header-frame {
+  display: none;
+}
+.card-header {
+  min-height: 115px;
+  padding: 42px 18px 34px;
+}
+.script {
+  font: 400 22px/1.2 var(--sf-font-display);
+  color: var(--sf-forest);
+}
+.status,
+.save-chip {
+  border-radius: 5px;
+  font-size: 10px;
+  letter-spacing: 0.4px;
+}
+.date-card {
+  box-shadow: none;
+  border-radius: 5px;
+}
+h3 {
+  font-size: 25px;
+}
+.desc {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--sf-ink-muted);
+  line-height: 1.7;
+}
+.price-block {
+  border-radius: 8px;
+  background: var(--sf-peach);
+}
+.meta,
+.fine-print,
+.was {
+  color: var(--sf-ink-muted);
+  font-weight: 400;
+}
+.fine-print {
+  font-size: 12px;
+}
+
+.offer-enquiry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--sf-border-strong);
+  color: var(--sf-forest);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.offer-enquiry:hover {
+  background: var(--sf-peach);
 }
