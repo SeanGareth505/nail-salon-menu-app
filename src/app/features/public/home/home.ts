@@ -22,7 +22,7 @@ interface HomeNavItem {
   path: string;
   label: string;
   description: string;
-  icon: 'treatments' | 'specials' | 'team' | 'contact';
+  icon: 'nail-polish' | 'specials' | 'team' | 'contact';
   tint: 'sage' | 'blush' | 'sky' | 'sand';
 }
 
@@ -31,7 +31,7 @@ const HOME_NAV_ITEMS: HomeNavItem[] = [
     path: '/treatments',
     label: 'Treatments',
     description: 'Browse our menu',
-    icon: 'treatments',
+    icon: 'nail-polish',
     tint: 'sage',
   },
   {
